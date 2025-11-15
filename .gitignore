@@ -1,0 +1,54 @@
+# =====================
+# Gradle / Build files
+# =====================
+.gradle/
+build/
+bin/
+out/
+*.iml
+*.ipr
+*.iws
+
+# =====================
+# IntelliJ / JetBrains
+# =====================
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# =====================
+# OS-specific
+# =====================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =====================
+# Temporary / Cache
+# =====================
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# =====================
+# LibGDX specific
+# =====================
+# compiled assets, libraries
+bin/
+libs/
+out/
+
+# =====================
+# Optional: user settings
+# =====================
+local.properties
