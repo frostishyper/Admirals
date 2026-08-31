@@ -1,4 +1,6 @@
-<h1 align="center">⚓ Admirals ⚓</h1>
+<img width="2172" height="724" alt="Admirals_Logo" src="https://github.com/user-attachments/assets/10095b92-23a5-4511-a3fd-ffcf57839bf6" />
+<br>
+
 
 <p align="center">
  <img src="https://media1.tenor.com/m/TJrrVE_5n5kAAAAd/battleshipmjc.gif" width="1100px"> 
