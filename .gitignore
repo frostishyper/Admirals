@@ -15,6 +15,22 @@
 sysinfo.txt
 mono_crash.*
 
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temp Art Backups
+*~
+*.bak
+
+# Unity Version Control (Prevents clashes with Git)
+/.plastic/
+
 # IDE and Project Files
 .vs/
 .gradle/
