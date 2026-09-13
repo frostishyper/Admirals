@@ -20,21 +20,43 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 
 ## 🧱 Stack
 
-<h3>⚙️ Engine</h3>
-<img src="https://skillicons.dev/icons?i=unity&theme=light&size=60"/>
-
-<h3>🧰 IDEs</h3> 
-<img src="https://skillicons.dev/icons?i=vscode&theme=light&size=60"/>
-
-<h3>💻 Languages</h3>
-<img src="https://skillicons.dev/icons?i=cs&theme=light&size=60"/>
+<table align="center">
+  <tr>
+    <td align="center">
+      <h3>🎮 Game Engine</h3>
+      <a href="https://skillicons.dev">
+        <img src="https://go-skill-icons.vercel.app/api/icons?i=unity"/>
+      </a>
+    </td>
+    <td align="center">
+      <h3>🎨 Assets</h3>
+      <a href="https://skillicons.dev">
+        <img src="https://go-skill-icons.vercel.app/api/icons?i=aseprite" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <h3>💻 Language(s)</h3>
+      <a href="https://skillicons.dev">
+        <img src="https://go-skill-icons.vercel.app/api/icons?i=cs"/>
+      </a>
+    </td>
+    <td align="center">
+      <h3>🧰 IDEs</h3>
+      <a href="https://skillicons.dev">
+       <img src="https://go-skill-icons.vercel.app/api/icons?i=vscode"/>
+      </a>
+    </td>
+  </tr>
+</table>
 
 
 ## 🛠️ Setup & Running
 
 ### **Prerequisites**
 
--   Unity Hub & Unity Editor 6000.3.14f1 (6.3 LTS)
+-   Unity Hub & Unity Editor 6000.3.24f1 (6.3 LTS)
 -   Windows Build Support (IL2CPP) module
 -   Vscode (recommended) or preferred C# IDE
 -   Git
@@ -42,14 +64,107 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 
 ## 🧭 Roadmap
 
--   [ ] Home Page
--   [ ] Ui Menu
--   [ ] Manual
--   [ ] Play Board
--   [ ] Core Gameplay Loop System
--   [ ] Single Player AI
--   [ ] LAN P2P Multiplayer
--   [ ] Online Server Multiplayer
+# ⚓ Admirals — Development Roadmap
+
+> Development roadmap for **Admirals**.
+> Features are organized into incremental development milestones.
+
+---
+
+## 🔵 VER 0.1 — Foundation 🏛️
+
+### [UI]
+
+* [ ] Title Screen
+* [ ] Main Menu
+* [ ] Settings
+
+### [Script(s) / Code]
+
+* [ ] Menu Screen Navigation(s)
+* [ ] Menu Button Function(s)
+
+---
+
+## 🟢 VER 0.2 — Multiplayer Lobby 🤝
+
+### [UI]
+
+* [ ] Multiplayer
+* [ ] Multiplayer Lobby
+
+### [Script(s) / Code]
+
+* [ ] Input & Save Player Username
+
+---
+
+## 🟡 VER 0.3 — Core Gameplay 🎮
+
+### [UI]
+
+* [ ] Single Player
+* [ ] Game Board
+* [ ] Battle Screen
+
+### [Script(s) / Code]
+
+* [ ] Map & Grid
+* [ ] Deployment Phase
+* [ ] Movement Phase
+* [ ] Pre-Battle Phase
+* [ ] Search Phase
+* [ ] Battle Phase
+* [ ] Combat
+* [ ] End Phase
+* [ ] Battle Manager
+* [ ] Complete Gameplay Loop
+
+---
+
+## 🟠 VER 0.4 — AI Opponent 🤖
+
+### [Script(s) / Code]
+
+* [ ] AI Opponent 🤖
+
+---
+
+## 🔴 VER 0.5 — Multiplayer Gameplay 🌐
+
+### [UI]
+
+* [ ] Multiplayer Game Board
+
+### [Script(s) / Code] 
+
+* [ ] Game Hosting & Authority
+* [ ] Network Code
+* [ ] Player Synchronization
+* [ ] Multiplayer Gameplay & Turn Loop
+
+---
+
+
+# 📌 Milestone Overview
+
+| Version | Milestone          | Primary Goal         |
+| :-----: | ------------------ | -------------------- |
+| **0.1** | Foundation         | UI & Menu Systems    |
+| **0.2** | Multiplayer Lobby  | Player Setup & Lobby |
+| **0.3** | Core Gameplay      | Complete Battle Loop |
+| **0.4** | AI Opponent        | Single-Player AI     |
+| **0.5** | Online Multiplayer | Networked Gameplay   |
+
+---
+
+### 🚧 Current Development
+
+**Version:** `0.1 — Foundation & Main Menu`
+
+**Status:** `In Development`
+
+> This roadmap is subject to change as development progresses.
 
 
         
