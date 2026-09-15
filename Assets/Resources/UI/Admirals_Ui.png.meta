@@ -1,0 +1,3211 @@
+fileFormatVersion: 2
+guid: 311328d4affd1f5478583f9b225240ba
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -378764409298521049
+    second: Admirals_Ui_0
+  - first:
+      213: 1495945999698319735
+    second: Admirals_Ui_1
+  - first:
+      213: -7454928716387426217
+    second: Admirals_Ui_2
+  - first:
+      213: -2009886437033911591
+    second: Admirals_Ui_3
+  - first:
+      213: 7144213556808722652
+    second: Admirals_Ui_4
+  - first:
+      213: -4765469772815693077
+    second: Admirals_Ui_5
+  - first:
+      213: -7704711352689885842
+    second: Admirals_Ui_6
+  - first:
+      213: -4686096692966259335
+    second: Admirals_Ui_7
+  - first:
+      213: -5297100240562457604
+    second: Admirals_Ui_8
+  - first:
+      213: -8820794449939233926
+    second: Admirals_Ui_9
+  - first:
+      213: 6791793251207781850
+    second: Admirals_Ui_10
+  - first:
+      213: -3245263642901920569
+    second: Admirals_Ui_11
+  - first:
+      213: 3388852762912283961
+    second: Admirals_Ui_12
+  - first:
+      213: 8355875988395077751
+    second: Admirals_Ui_13
+  - first:
+      213: -2575100322414103533
+    second: Admirals_Ui_14
+  - first:
+      213: 7719102417639516716
+    second: Admirals_Ui_15
+  - first:
+      213: -9049619301976607067
+    second: Admirals_Ui_16
+  - first:
+      213: -2515119740174178271
+    second: Admirals_Ui_17
+  - first:
+      213: 2207641619023171790
+    second: Admirals_Ui_18
+  - first:
+      213: 3496290174472246484
+    second: Admirals_Ui_19
+  - first:
+      213: -7720839820421397216
+    second: Admirals_Ui_20
+  - first:
+      213: -689805448155252826
+    second: Admirals_Ui_21
+  - first:
+      213: -7426876598141232443
+    second: Admirals_Ui_22
+  - first:
+      213: 1983358606698704123
+    second: Admirals_Ui_23
+  - first:
+      213: 1803070154996331983
+    second: Admirals_Ui_24
+  - first:
+      213: -4782308226370365750
+    second: Admirals_Ui_25
+  - first:
+      213: 308204419143391559
+    second: Admirals_Ui_26
+  - first:
+      213: -3176867117573928171
+    second: Admirals_Ui_27
+  - first:
+      213: 45246821638138131
+    second: Admirals_Ui_28
+  - first:
+      213: 5115172853713898267
+    second: Admirals_Ui_29
+  - first:
+      213: -1634795095092098714
+    second: Admirals_Ui_30
+  - first:
+      213: 3622909277551687948
+    second: Admirals_Ui_31
+  - first:
+      213: -3224836410092516032
+    second: Admirals_Ui_32
+  - first:
+      213: 2333452903083542085
+    second: Admirals_Ui_33
+  - first:
+      213: -5907059593990639139
+    second: Admirals_Ui_34
+  - first:
+      213: -7623013531239857102
+    second: Admirals_Ui_35
+  - first:
+      213: -5057615110229733722
+    second: Admirals_Ui_36
+  - first:
+      213: 3731499675157883416
+    second: Admirals_Ui_37
+  - first:
+      213: -3520203618349932480
+    second: Admirals_Ui_38
+  - first:
+      213: -3346423474702854045
+    second: Admirals_Ui_39
+  - first:
+      213: 6176191365550480414
+    second: Admirals_Ui_40
+  - first:
+      213: 6296783230096141400
+    second: Admirals_Ui_41
+  - first:
+      213: 3668580931349634538
+    second: Admirals_Ui_42
+  - first:
+      213: 3314051045900230592
+    second: Admirals_Ui_43
+  - first:
+      213: -8170009905140472284
+    second: Admirals_Ui_44
+  - first:
+      213: -5807107637808711814
+    second: Admirals_Ui_45
+  - first:
+      213: 6797427537757453789
+    second: Admirals_Ui_46
+  - first:
+      213: 435255082361659618
+    second: Admirals_Ui_47
+  - first:
+      213: -1515960361975702075
+    second: Admirals_Ui_48
+  - first:
+      213: -6485143699545741168
+    second: Admirals_Ui_49
+  - first:
+      213: -1088207951556003492
+    second: Admirals_Ui_50
+  - first:
+      213: 1575175548107302749
+    second: Admirals_Ui_51
+  - first:
+      213: -1440631958319679174
+    second: Admirals_Ui_52
+  - first:
+      213: 7067063613775754088
+    second: Admirals_Ui_53
+  - first:
+      213: -6814171777541833713
+    second: Admirals_Ui_54
+  - first:
+      213: 8427285724973202577
+    second: Admirals_Ui_55
+  - first:
+      213: 1247722137862976078
+    second: Admirals_Ui_56
+  - first:
+      213: 1485950545428787703
+    second: Admirals_Ui_57
+  - first:
+      213: -3938232391240535311
+    second: Admirals_Ui_58
+  - first:
+      213: -2421097023326232380
+    second: Admirals_Ui_59
+  - first:
+      213: -6819925060228995108
+    second: Admirals_Ui_60
+  - first:
+      213: 4830846120800565373
+    second: Admirals_Ui_61
+  - first:
+      213: -5030934901979453995
+    second: Admirals_Ui_62
+  - first:
+      213: 3757902474332220524
+    second: Admirals_Ui_63
+  - first:
+      213: -1677024061982835311
+    second: Admirals_Ui_64
+  - first:
+      213: -6059357440880070376
+    second: Admirals_Ui_65
+  - first:
+      213: 1524494318418255198
+    second: Admirals_Ui_66
+  - first:
+      213: 3470272676743608792
+    second: Admirals_Ui_67
+  - first:
+      213: 2421953437011533754
+    second: Admirals_Ui_68
+  - first:
+      213: 7869926609406975850
+    second: Admirals_Ui_69
+  - first:
+      213: -6713955398357139781
+    second: Admirals_Ui_70
+  - first:
+      213: 6369735883931826546
+    second: Admirals_Ui_71
+  - first:
+      213: -8072776176248556622
+    second: Admirals_Ui_72
+  - first:
+      213: 2810556044354284709
+    second: Admirals_Ui_73
+  - first:
+      213: 6923887654031400356
+    second: Admirals_Ui_74
+  - first:
+      213: -2926602864561310276
+    second: Admirals_Ui_75
+  - first:
+      213: 8548704447351839873
+    second: Admirals_Ui_76
+  - first:
+      213: 8721532142104538885
+    second: Admirals_Ui_77
+  - first:
+      213: -4188696736557281005
+    second: Admirals_Ui_78
+  - first:
+      213: -7660915519403979053
+    second: Admirals_Ui_79
+  - first:
+      213: -4994970713580567987
+    second: Admirals_Ui_80
+  - first:
+      213: -5081371355272648908
+    second: Admirals_Ui_81
+  - first:
+      213: -6195304413893173289
+    second: Admirals_Ui_82
+  - first:
+      213: -4753364811137099873
+    second: Admirals_Ui_83
+  - first:
+      213: 8714835906611242263
+    second: Admirals_Ui_84
+  - first:
+      213: 5979485680702034455
+    second: Admirals_Ui_85
+  - first:
+      213: 406123858495779274
+    second: Admirals_Ui_86
+  - first:
+      213: 7921521055263393538
+    second: Admirals_Ui_87
+  - first:
+      213: 2883698699479786515
+    second: Admirals_Ui_88
+  - first:
+      213: -8275639223913549226
+    second: Admirals_Ui_89
+  - first:
+      213: 8905703987913126700
+    second: Admirals_Ui_90
+  - first:
+      213: -1636189644325552859
+    second: Admirals_Ui_91
+  - first:
+      213: 2380505791843332473
+    second: Admirals_Ui_92
+  - first:
+      213: -2915491114807511417
+    second: Admirals_Ui_93
+  - first:
+      213: 9215194593801871415
+    second: Admirals_Ui_94
+  - first:
+      213: -4539906938176183598
+    second: Admirals_Ui_95
+  - first:
+      213: -5344562070592805549
+    second: Admirals_Ui_96
+  - first:
+      213: -1964475849466172403
+    second: Admirals_Ui_97
+  - first:
+      213: 8716354182380762659
+    second: Admirals_Ui_98
+  - first:
+      213: -805510101294583875
+    second: Admirals_Ui_99
+  - first:
+      213: 7291436708994001598
+    second: Admirals_Ui_100
+  - first:
+      213: 6347689644738320467
+    second: Admirals_Ui_101
+  - first:
+      213: 4907498960706979796
+    second: Admirals_Ui_102
+  - first:
+      213: -2686243591320622226
+    second: Admirals_Ui_103
+  - first:
+      213: -1716117182020902151
+    second: Admirals_Ui_104
+  - first:
+      213: -7098682295833018593
+    second: Admirals_Ui_105
+  - first:
+      213: -8143914772408169446
+    second: Admirals_Ui_106
+  - first:
+      213: 7347047785311526904
+    second: Admirals_Ui_107
+  - first:
+      213: -6496403946150854337
+    second: Admirals_Ui_108
+  - first:
+      213: 7947063129755738285
+    second: Admirals_Ui_109
+  - first:
+      213: -8920760620220214517
+    second: Admirals_Ui_110
+  - first:
+      213: -324204165700206872
+    second: Admirals_Ui_111
+  - first:
+      213: 5031708706154706278
+    second: Admirals_Ui_112
+  - first:
+      213: 7528478573918102568
+    second: Admirals_Ui_113
+  - first:
+      213: -3058992002568842222
+    second: Admirals_Ui_114
+  - first:
+      213: 2152994198560296651
+    second: Admirals_Ui_115
+  - first:
+      213: -3715618434544426231
+    second: Admirals_Ui_116
+  - first:
+      213: 249378159768765493
+    second: Admirals_Ui_117
+  - first:
+      213: -9090622058142653258
+    second: Admirals_Ui_118
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Admirals_Ui_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 816
+        width: 320
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 724733ac6cb5ebaf0800000000000000
+      internalID: -378764409298521049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_1
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 816
+        width: 320
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7795f2bf5faa2c410800000000000000
+      internalID: 1495945999698319735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_2
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 1009
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7506ed194d5ca8890800000000000000
+      internalID: -7454928716387426217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_3
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 1009
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dad7b13fe27b14e0800000000000000
+      internalID: -2009886437033911591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_4
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 1009
+        width: 6
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd82d15d068552360800000000000000
+      internalID: 7144213556808722652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_5
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 1009
+        width: 6
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bea857b7d76adddb0800000000000000
+      internalID: -4765469772815693077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_6
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 1009
+        width: 6
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6dfff598dd531590800000000000000
+      internalID: -7704711352689885842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_7
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 1010
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9750d90c2e3a7feb0800000000000000
+      internalID: -4686096692966259335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_8
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 1006
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf373ad756bec76b0800000000000000
+      internalID: -5297100240562457604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_9
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 1006
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7382aeae2e369580800000000000000
+      internalID: -8820794449939233926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_10
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 1006
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: add922e3afb414e50800000000000000
+      internalID: 6791793251207781850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_11
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 1008
+        width: 34
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c4475239e186f2d0800000000000000
+      internalID: -3245263642901920569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_12
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 1008
+        width: 34
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93ddc7902af970f20800000000000000
+      internalID: 3388852762912283961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_13
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 1008
+        width: 34
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 770318ba0f806f370800000000000000
+      internalID: 8355875988395077751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_14
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 1008
+        width: 34
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 314738576e7634cd0800000000000000
+      internalID: -2575100322414103533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_15
+      rect:
+        serializedVersion: 2
+        x: 928
+        y: 928
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2a234450c2cf1b60800000000000000
+      internalID: 7719102417639516716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_16
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 1000
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a67a29113b496280800000000000000
+      internalID: -9049619301976607067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_17
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 993
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12868570cef781dd0800000000000000
+      internalID: -2515119740174178271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_18
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 1000
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec09e3d1b5e13ae10800000000000000
+      internalID: 2207641619023171790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_19
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 993
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d45b19b361558030800000000000000
+      internalID: 3496290174472246484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_20
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 995
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 025871017111ad490800000000000000
+      internalID: -7720839820421397216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_21
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 993
+        width: 6
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a7b39289915d66f0800000000000000
+      internalID: -689805448155252826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_22
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 998
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ca5121551f6ee890800000000000000
+      internalID: -7426876598141232443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_23
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 993
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfc6d7ef42e468b10800000000000000
+      internalID: 1983358606698704123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_24
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 988
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc53aadb0cac50910800000000000000
+      internalID: 1803070154996331983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_25
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 988
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac614c08104d1adb0800000000000000
+      internalID: -4782308226370365750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_26
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 988
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7495f394946f64400800000000000000
+      internalID: 308204419143391559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_27
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 992
+        width: 34
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51b0366303089e3d0800000000000000
+      internalID: -3176867117573928171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_28
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 992
+        width: 34
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 319e4fa9ebfb0a000800000000000000
+      internalID: 45246821638138131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_29
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 992
+        width: 34
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1b865eeb9ebcf640800000000000000
+      internalID: 5115172853713898267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_30
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 992
+        width: 34
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6690c74c58a0059e0800000000000000
+      internalID: -1634795095092098714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_31
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 984
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c097fedfac8274230800000000000000
+      internalID: 3622909277551687948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_32
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 975
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04d80b5fe541f33d0800000000000000
+      internalID: -3224836410092516032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_33
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 984
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 546066c5d07126020800000000000000
+      internalID: 2333452903083542085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_34
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 975
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd1ff11a898e50ea0800000000000000
+      internalID: -5907059593990639139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_35
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 984
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 234c370f49d953690800000000000000
+      internalID: -7623013531239857102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_36
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 975
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6aecb188addbfc9b0800000000000000
+      internalID: -5057615110229733722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_37
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 985
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81a65492f23f8c330800000000000000
+      internalID: 3731499675157883416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_38
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 978
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 040253fb579b52fc0800000000000000
+      internalID: -3520203618349932480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_39
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 985
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 368de42749d1f81d0800000000000000
+      internalID: -3346423474702854045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_40
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 978
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1c9878f25d36b550800000000000000
+      internalID: 6176191365550480414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_41
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 985
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85c64896cfaa26750800000000000000
+      internalID: 6296783230096141400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_42
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 978
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aedddda8bea69e230800000000000000
+      internalID: 3668580931349634538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_43
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 985
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cf156e1edfddfd20800000000000000
+      internalID: 3314051045900230592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_44
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 978
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 426eda0274b4e9e80800000000000000
+      internalID: -8170009905140472284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_45
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 977
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7734fbee52096fa0800000000000000
+      internalID: -5807107637808711814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_46
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 961
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dddbd7ec450555e50800000000000000
+      internalID: 6797427537757453789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_47
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 964
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e0a9daf0365a0600800000000000000
+      internalID: 435255082361659618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_48
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 961
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cd9dda251a36fae0800000000000000
+      internalID: -1515960361975702075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_49
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 961
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 098a63f3a242006a0800000000000000
+      internalID: -6485143699545741168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_50
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 961
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c59bfb532a8e5e0f0800000000000000
+      internalID: -1088207951556003492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_51
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 961
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5721dbb0d52cd510800000000000000
+      internalID: 1575175548107302749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_52
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 961
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a39b740edd8d10ce0800000000000000
+      internalID: -1440631958319679174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_53
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 961
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8633130f9e0431260800000000000000
+      internalID: 7067063613775754088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_54
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 945
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0c70211fd23f61a0800000000000000
+      internalID: -6814171777541833713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_55
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 946
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19c7fb997bbb3f470800000000000000
+      internalID: 8427285724973202577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_56
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 931
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e42b6b57cacc05110800000000000000
+      internalID: 1247722137862976078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_57
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 946
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f1b41ee5282f9410800000000000000
+      internalID: 1485950545428787703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_58
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 931
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f2bb2d71869859c0800000000000000
+      internalID: -3938232391240535311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_59
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 946
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c062e5b519866ed0800000000000000
+      internalID: -2421097023326232380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_60
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 931
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd7244e8a42ca51a0800000000000000
+      internalID: -6819925060228995108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_61
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 946
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7834e2b3fc9a0340800000000000000
+      internalID: 4830846120800565373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_62
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 931
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d566679c578e2ab0800000000000000
+      internalID: -5030934901979453995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_63
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 916
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6c2223e360c62430800000000000000
+      internalID: 3757902474332220524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_64
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 901
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19dfab930830ab8e0800000000000000
+      internalID: -1677024061982835311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_65
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 916
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8113939e286d8eba0800000000000000
+      internalID: -6059357440880070376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_66
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 901
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5ddb676187182510800000000000000
+      internalID: 1524494318418255198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_67
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 916
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d9fb0bfc92e82030800000000000000
+      internalID: 3470272676743608792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_68
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 880
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abfdb93a1d18c9120800000000000000
+      internalID: 2421953437011533754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_69
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 882
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6fd81afd88973d60800000000000000
+      internalID: 7869926609406975850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_70
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 867
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbe3b13232d33d2a0800000000000000
+      internalID: -6713955398357139781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_71
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 882
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 279b0d2c909d56850800000000000000
+      internalID: 6369735883931826546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_72
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 867
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b3f77fc6dcb7ff80800000000000000
+      internalID: -8072776176248556622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_73
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 882
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ac6015d4d9110720800000000000000
+      internalID: 2810556044354284709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_74
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 867
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ad11431327961060800000000000000
+      internalID: 6923887654031400356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_75
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 880
+        width: 60
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb5be23533e9267d0800000000000000
+      internalID: -2926602864561310276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_76
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 880
+        width: 60
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18c5532e66913a670800000000000000
+      internalID: 8548704447351839873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_77
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 852
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50fea4b464b190970800000000000000
+      internalID: 8721532142104538885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_78
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 852
+        width: 45
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3115aa1c282ced5c0800000000000000
+      internalID: -4188696736557281005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_79
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 863
+        width: 60
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3de06a3ace5fea590800000000000000
+      internalID: -7660915519403979053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_80
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 846
+        width: 60
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d420d89b99c4eaab0800000000000000
+      internalID: -4994970713580567987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_81
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 863
+        width: 60
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 437e025bca75b79b0800000000000000
+      internalID: -5081371355272648908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_82
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 846
+        width: 60
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dfdc7ea57bd50aa0800000000000000
+      internalID: -6195304413893173289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_83
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 832
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f97d45083e7a80eb0800000000000000
+      internalID: -4753364811137099873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_84
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 829
+        width: 60
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 715e169751151f870800000000000000
+      internalID: 8714835906611242263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_85
+      rect:
+        serializedVersion: 2
+        x: 911
+        y: 829
+        width: 60
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71297c1cb866bf250800000000000000
+      internalID: 5979485680702034455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_86
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 784
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac1b3706f77d2a500800000000000000
+      internalID: 406123858495779274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_87
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 608
+        width: 320
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20780c30e65eeed60800000000000000
+      internalID: 7921521055263393538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_88
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 608
+        width: 320
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 314afbd40b4f40820800000000000000
+      internalID: 2883698699479786515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_89
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 736
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 652f759d8f5072d80800000000000000
+      internalID: -8275639223913549226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_90
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 688
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c237752b79a679b70800000000000000
+      internalID: 8905703987913126700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_91
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 640
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52d7dc8ff261b49e0800000000000000
+      internalID: -1636189644325552859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_92
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 400
+        width: 320
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 971f49cb761490120800000000000000
+      internalID: 2380505791843332473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_93
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 400
+        width: 320
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 786371c27481a87d0800000000000000
+      internalID: -2915491114807511417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_94
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 608
+        width: 122
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73029aba8a2f2ef70800000000000000
+      internalID: 9215194593801871415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_95
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 582
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d26da471b20ff0c0800000000000000
+      internalID: -4539906938176183598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_96
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 587
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3552a4e0d1d44d5b0800000000000000
+      internalID: -5344562070592805549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_97
+      rect:
+        serializedVersion: 2
+        x: 712
+        y: 587
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0c2cb68f97ccb4e0800000000000000
+      internalID: -1964475849466172403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_98
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 581
+        width: 24
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 326bb4992f5b6f870800000000000000
+      internalID: 8716354182380762659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_99
+      rect:
+        serializedVersion: 2
+        x: 775
+        y: 581
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbfe855a4d042d4f0800000000000000
+      internalID: -805510101294583875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_100
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 590
+        width: 24
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebaa4dd1e03603560800000000000000
+      internalID: 7291436708994001598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_101
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 582
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3589d03b916871850800000000000000
+      internalID: 6347689644738320467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_102
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 585
+        width: 24
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d7c980cd40fa1440800000000000000
+      internalID: 4907498960706979796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_103
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 581
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6b2a2f9fab88bad0800000000000000
+      internalID: -2686243591320622226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_104
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 581
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f223bce3802f28e0800000000000000
+      internalID: -1716117182020902151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_105
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 549
+        width: 10
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1fb487ff0a6c7d90800000000000000
+      internalID: -7098682295833018593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_106
+      rect:
+        serializedVersion: 2
+        x: 676
+        y: 549
+        width: 24
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1c0e8da9a00bfe80800000000000000
+      internalID: -8143914772408169446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_107
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 559
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ff505fc805f5f560800000000000000
+      internalID: 7347047785311526904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_108
+      rect:
+        serializedVersion: 2
+        x: 710
+        y: 551
+        width: 19
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f318b38c70328d5a0800000000000000
+      internalID: -6496403946150854337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_109
+      rect:
+        serializedVersion: 2
+        x: 718
+        y: 549
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da0e1b8afc3a94e60800000000000000
+      internalID: 7947063129755738285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_110
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 549
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b031b79ea77133480800000000000000
+      internalID: -8920760620220214517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_111
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 549
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8eebcbc6702308bf0800000000000000
+      internalID: -324204165700206872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_112
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 550
+        width: 24
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 665779bb86834d540800000000000000
+      internalID: 5031708706154706278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_113
+      rect:
+        serializedVersion: 2
+        x: 838
+        y: 549
+        width: 20
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 824278910678a7860800000000000000
+      internalID: 7528478573918102568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_114
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 517
+        width: 24
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2149f1c1bf64c85d0800000000000000
+      internalID: -3058992002568842222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_115
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 518
+        width: 23
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcec9a801d8f0ed10800000000000000
+      internalID: 2152994198560296651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_116
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 517
+        width: 24
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 903261058b87f6cc0800000000000000
+      internalID: -3715618434544426231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_117
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 517
+        width: 24
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53402c37d18f57300800000000000000
+      internalID: 249378159768765493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Admirals_Ui_118
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 320
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b4a31df66f97d180800000000000000
+      internalID: -9090622058142653258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Admirals_Ui_0: -378764409298521049
+      Admirals_Ui_1: 1495945999698319735
+      Admirals_Ui_10: 6791793251207781850
+      Admirals_Ui_100: 7291436708994001598
+      Admirals_Ui_101: 6347689644738320467
+      Admirals_Ui_102: 4907498960706979796
+      Admirals_Ui_103: -2686243591320622226
+      Admirals_Ui_104: -1716117182020902151
+      Admirals_Ui_105: -7098682295833018593
+      Admirals_Ui_106: -8143914772408169446
+      Admirals_Ui_107: 7347047785311526904
+      Admirals_Ui_108: -6496403946150854337
+      Admirals_Ui_109: 7947063129755738285
+      Admirals_Ui_11: -3245263642901920569
+      Admirals_Ui_110: -8920760620220214517
+      Admirals_Ui_111: -324204165700206872
+      Admirals_Ui_112: 5031708706154706278
+      Admirals_Ui_113: 7528478573918102568
+      Admirals_Ui_114: -3058992002568842222
+      Admirals_Ui_115: 2152994198560296651
+      Admirals_Ui_116: -3715618434544426231
+      Admirals_Ui_117: 249378159768765493
+      Admirals_Ui_118: -9090622058142653258
+      Admirals_Ui_12: 3388852762912283961
+      Admirals_Ui_13: 8355875988395077751
+      Admirals_Ui_14: -2575100322414103533
+      Admirals_Ui_15: 7719102417639516716
+      Admirals_Ui_16: -9049619301976607067
+      Admirals_Ui_17: -2515119740174178271
+      Admirals_Ui_18: 2207641619023171790
+      Admirals_Ui_19: 3496290174472246484
+      Admirals_Ui_2: -7454928716387426217
+      Admirals_Ui_20: -7720839820421397216
+      Admirals_Ui_21: -689805448155252826
+      Admirals_Ui_22: -7426876598141232443
+      Admirals_Ui_23: 1983358606698704123
+      Admirals_Ui_24: 1803070154996331983
+      Admirals_Ui_25: -4782308226370365750
+      Admirals_Ui_26: 308204419143391559
+      Admirals_Ui_27: -3176867117573928171
+      Admirals_Ui_28: 45246821638138131
+      Admirals_Ui_29: 5115172853713898267
+      Admirals_Ui_3: -2009886437033911591
+      Admirals_Ui_30: -1634795095092098714
+      Admirals_Ui_31: 3622909277551687948
+      Admirals_Ui_32: -3224836410092516032
+      Admirals_Ui_33: 2333452903083542085
+      Admirals_Ui_34: -5907059593990639139
+      Admirals_Ui_35: -7623013531239857102
+      Admirals_Ui_36: -5057615110229733722
+      Admirals_Ui_37: 3731499675157883416
+      Admirals_Ui_38: -3520203618349932480
+      Admirals_Ui_39: -3346423474702854045
+      Admirals_Ui_4: 7144213556808722652
+      Admirals_Ui_40: 6176191365550480414
+      Admirals_Ui_41: 6296783230096141400
+      Admirals_Ui_42: 3668580931349634538
+      Admirals_Ui_43: 3314051045900230592
+      Admirals_Ui_44: -8170009905140472284
+      Admirals_Ui_45: -5807107637808711814
+      Admirals_Ui_46: 6797427537757453789
+      Admirals_Ui_47: 435255082361659618
+      Admirals_Ui_48: -1515960361975702075
+      Admirals_Ui_49: -6485143699545741168
+      Admirals_Ui_5: -4765469772815693077
+      Admirals_Ui_50: -1088207951556003492
+      Admirals_Ui_51: 1575175548107302749
+      Admirals_Ui_52: -1440631958319679174
+      Admirals_Ui_53: 7067063613775754088
+      Admirals_Ui_54: -6814171777541833713
+      Admirals_Ui_55: 8427285724973202577
+      Admirals_Ui_56: 1247722137862976078
+      Admirals_Ui_57: 1485950545428787703
+      Admirals_Ui_58: -3938232391240535311
+      Admirals_Ui_59: -2421097023326232380
+      Admirals_Ui_6: -7704711352689885842
+      Admirals_Ui_60: -6819925060228995108
+      Admirals_Ui_61: 4830846120800565373
+      Admirals_Ui_62: -5030934901979453995
+      Admirals_Ui_63: 3757902474332220524
+      Admirals_Ui_64: -1677024061982835311
+      Admirals_Ui_65: -6059357440880070376
+      Admirals_Ui_66: 1524494318418255198
+      Admirals_Ui_67: 3470272676743608792
+      Admirals_Ui_68: 2421953437011533754
+      Admirals_Ui_69: 7869926609406975850
+      Admirals_Ui_7: -4686096692966259335
+      Admirals_Ui_70: -6713955398357139781
+      Admirals_Ui_71: 6369735883931826546
+      Admirals_Ui_72: -8072776176248556622
+      Admirals_Ui_73: 2810556044354284709
+      Admirals_Ui_74: 6923887654031400356
+      Admirals_Ui_75: -2926602864561310276
+      Admirals_Ui_76: 8548704447351839873
+      Admirals_Ui_77: 8721532142104538885
+      Admirals_Ui_78: -4188696736557281005
+      Admirals_Ui_79: -7660915519403979053
+      Admirals_Ui_8: -5297100240562457604
+      Admirals_Ui_80: -4994970713580567987
+      Admirals_Ui_81: -5081371355272648908
+      Admirals_Ui_82: -6195304413893173289
+      Admirals_Ui_83: -4753364811137099873
+      Admirals_Ui_84: 8714835906611242263
+      Admirals_Ui_85: 5979485680702034455
+      Admirals_Ui_86: 406123858495779274
+      Admirals_Ui_87: 7921521055263393538
+      Admirals_Ui_88: 2883698699479786515
+      Admirals_Ui_89: -8275639223913549226
+      Admirals_Ui_9: -8820794449939233926
+      Admirals_Ui_90: 8905703987913126700
+      Admirals_Ui_91: -1636189644325552859
+      Admirals_Ui_92: 2380505791843332473
+      Admirals_Ui_93: -2915491114807511417
+      Admirals_Ui_94: 9215194593801871415
+      Admirals_Ui_95: -4539906938176183598
+      Admirals_Ui_96: -5344562070592805549
+      Admirals_Ui_97: -1964475849466172403
+      Admirals_Ui_98: 8716354182380762659
+      Admirals_Ui_99: -805510101294583875
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
