@@ -60,6 +60,7 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 -   Windows Build Support (IL2CPP) module
 -   Vscode (recommended) or preferred C# IDE
 -   Git
+-   Git LFS
 
 
 ## 🧭 Roadmap
@@ -75,7 +76,7 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 
 ### [UI]
 
-* [ ] Title Screen
+* ✅ Title Screen
 * [ ] Main Menu
 * [ ] Settings
 
