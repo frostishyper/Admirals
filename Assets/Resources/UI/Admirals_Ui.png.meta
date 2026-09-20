@@ -454,7 +454,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Admirals_Ui_0
+      name: SP_Portrait_On
       rect:
         serializedVersion: 2
         x: 0
@@ -462,7 +462,7 @@ TextureImporter:
         width: 320
         height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -476,7 +476,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_1
+      name: SP_Portrait_Off
       rect:
         serializedVersion: 2
         x: 320
@@ -484,7 +484,7 @@ TextureImporter:
         width: 320
         height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -498,7 +498,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_2
+      name: UI_Icon_Check
       rect:
         serializedVersion: 2
         x: 641
@@ -506,7 +506,7 @@ TextureImporter:
         width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -520,7 +520,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_3
+      name: UI_Icon_Marker
       rect:
         serializedVersion: 2
         x: 657
@@ -528,7 +528,7 @@ TextureImporter:
         width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -542,15 +542,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_4
+      name: UI_Icon_Sliders
       rect:
         serializedVersion: 2
         x: 673
         y: 1009
-        width: 6
+        width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -564,51 +564,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_5
-      rect:
-        serializedVersion: 2
-        x: 677
-        y: 1009
-        width: 6
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bea857b7d76adddb0800000000000000
-      internalID: -4765469772815693077
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_6
-      rect:
-        serializedVersion: 2
-        x: 681
-        y: 1009
-        width: 6
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e6dfff598dd531590800000000000000
-      internalID: -7704711352689885842
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_7
+      name: Cursor_Icon
       rect:
         serializedVersion: 2
         x: 722
@@ -616,7 +572,7 @@ TextureImporter:
         width: 12
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -630,7 +586,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_8
+      name: TGL_Red_Off
       rect:
         serializedVersion: 2
         x: 741
@@ -638,7 +594,7 @@ TextureImporter:
         width: 18
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -652,7 +608,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_9
+      name: TGL_Grn_Off
       rect:
         serializedVersion: 2
         x: 759
@@ -660,7 +616,7 @@ TextureImporter:
         width: 18
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -674,7 +630,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_10
+      name: TGL_Gray_Off
       rect:
         serializedVersion: 2
         x: 777
@@ -682,7 +638,7 @@ TextureImporter:
         width: 18
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -696,15 +652,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_11
+      name: HP_Seg_Tail_Full
       rect:
         serializedVersion: 2
         x: 795
         y: 1008
-        width: 34
+        width: 33
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -718,15 +674,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_12
+      name: HP_Seg_Mid_Full
       rect:
         serializedVersion: 2
-        x: 828
+        x: 829
         y: 1008
-        width: 34
+        width: 32
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -740,15 +696,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_13
+      name: HP_Seg_Head_Full
       rect:
         serializedVersion: 2
-        x: 861
+        x: 862
         y: 1008
-        width: 34
+        width: 33
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -762,15 +718,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_14
+      name: HP_Single_Full
       rect:
         serializedVersion: 2
-        x: 894
+        x: 895
         y: 1008
-        width: 34
+        width: 33
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -784,7 +740,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_15
+      name: Main_Pannel
       rect:
         serializedVersion: 2
         x: 928
@@ -792,8 +748,8 @@ TextureImporter:
         width: 96
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 32, y: 32, z: 32, w: 32}
       customData: 
       outline: []
       physicsShape: []
@@ -806,15 +762,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_16
+      name: UI_Icon_4pc
       rect:
         serializedVersion: 2
         x: 641
-        y: 1000
-        width: 7
-        height: 7
+        y: 993
+        width: 14
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -828,103 +784,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_17
-      rect:
-        serializedVersion: 2
-        x: 641
-        y: 993
-        width: 7
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 12868570cef781dd0800000000000000
-      internalID: -2515119740174178271
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_18
-      rect:
-        serializedVersion: 2
-        x: 648
-        y: 1000
-        width: 7
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ec09e3d1b5e13ae10800000000000000
-      internalID: 2207641619023171790
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_19
-      rect:
-        serializedVersion: 2
-        x: 648
-        y: 993
-        width: 7
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4d45b19b361558030800000000000000
-      internalID: 3496290174472246484
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_20
+      name: UI_Icon_Volume
       rect:
         serializedVersion: 2
         x: 657
-        y: 995
-        width: 10
-        height: 10
+        y: 994
+        width: 14
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 025871017111ad490800000000000000
-      internalID: -7720839820421397216
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_21
-      rect:
-        serializedVersion: 2
-        x: 665
-        y: 993
-        width: 6
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -938,15 +806,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_22
+      name: UI_Icon_Up
       rect:
         serializedVersion: 2
         x: 673
-        y: 998
+        y: 993
         width: 14
-        height: 9
+        height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -960,29 +828,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_23
-      rect:
-        serializedVersion: 2
-        x: 675
-        y: 993
-        width: 10
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bfc6d7ef42e468b10800000000000000
-      internalID: 1983358606698704123
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_24
+      name: TGL_Red_On
       rect:
         serializedVersion: 2
         x: 741
@@ -990,7 +836,7 @@ TextureImporter:
         width: 18
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1004,7 +850,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_25
+      name: TGL_Grn_On
       rect:
         serializedVersion: 2
         x: 759
@@ -1012,7 +858,7 @@ TextureImporter:
         width: 18
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1026,7 +872,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_26
+      name: TGL_Gray_On
       rect:
         serializedVersion: 2
         x: 777
@@ -1034,7 +880,7 @@ TextureImporter:
         width: 18
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1048,15 +894,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_27
+      name: HP_Seg_Tail_Empty
       rect:
         serializedVersion: 2
         x: 795
         y: 992
-        width: 34
+        width: 33
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1070,15 +916,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_28
+      name: HP_Seg_Mid_Empty
       rect:
         serializedVersion: 2
-        x: 828
+        x: 829
         y: 992
-        width: 34
+        width: 32
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1092,15 +938,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_29
+      name: HP_Seg_Head_Empty
       rect:
         serializedVersion: 2
-        x: 861
+        x: 862
         y: 992
-        width: 34
+        width: 33
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1114,7 +960,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_30
+      name: HP_Single_Empty
       rect:
         serializedVersion: 2
         x: 894
@@ -1122,7 +968,7 @@ TextureImporter:
         width: 34
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1136,15 +982,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_31
+      name: Ping_Bad
       rect:
         serializedVersion: 2
-        x: 641
-        y: 984
-        width: 14
-        height: 7
+        x: 642
+        y: 976
+        width: 12
+        height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1158,37 +1004,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_32
+      name: Ping_Mid
       rect:
         serializedVersion: 2
-        x: 643
-        y: 975
-        width: 10
-        height: 10
+        x: 658
+        y: 976
+        width: 12
+        height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 04d80b5fe541f33d0800000000000000
-      internalID: -3224836410092516032
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_33
-      rect:
-        serializedVersion: 2
-        x: 657
-        y: 984
-        width: 14
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1202,37 +1026,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_34
+      name: Ping_Good
       rect:
         serializedVersion: 2
-        x: 659
-        y: 975
-        width: 10
-        height: 10
+        x: 674
+        y: 976
+        width: 12
+        height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dd1ff11a898e50ea0800000000000000
-      internalID: -5907059593990639139
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_35
-      rect:
-        serializedVersion: 2
-        x: 673
-        y: 984
-        width: 14
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1246,37 +1048,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_36
-      rect:
-        serializedVersion: 2
-        x: 675
-        y: 975
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6aecb188addbfc9b0800000000000000
-      internalID: -5057615110229733722
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_37
+      name: Charge_Seg_Tail_Full
       rect:
         serializedVersion: 2
         x: 795
         y: 985
-        width: 18
+        width: 17
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1290,15 +1070,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_38
+      name: Charge_Seg_Tail_Empty
       rect:
         serializedVersion: 2
         x: 795
         y: 978
-        width: 18
+        width: 17
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1312,15 +1092,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_39
+      name: Charge_Seg_Mid_Full
       rect:
         serializedVersion: 2
-        x: 813
+        x: 814
         y: 985
-        width: 18
+        width: 16
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1334,15 +1114,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_40
+      name: Charge_Seg_Mid_Empty
       rect:
         serializedVersion: 2
-        x: 813
+        x: 814
         y: 978
-        width: 18
+        width: 16
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1356,15 +1136,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_41
+      name: Charge_Seg_Head_Full
       rect:
         serializedVersion: 2
-        x: 831
+        x: 832
         y: 985
-        width: 18
+        width: 17
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1378,15 +1158,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_42
+      name: Charge_Seg_Head_Empty
       rect:
         serializedVersion: 2
-        x: 831
+        x: 832
         y: 978
-        width: 18
+        width: 17
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1400,7 +1180,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_43
+      name: Charge_Single_Full
       rect:
         serializedVersion: 2
         x: 849
@@ -1408,7 +1188,7 @@ TextureImporter:
         width: 18
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1422,7 +1202,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_44
+      name: Charge_Single_Empty
       rect:
         serializedVersion: 2
         x: 849
@@ -1430,7 +1210,7 @@ TextureImporter:
         width: 18
         height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1444,7 +1224,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_45
+      name: BDG_Empty
       rect:
         serializedVersion: 2
         x: 883
@@ -1452,7 +1232,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1466,7 +1246,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_46
+      name: UI_Icon_Play
       rect:
         serializedVersion: 2
         x: 643
@@ -1474,7 +1254,7 @@ TextureImporter:
         width: 10
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1488,37 +1268,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_47
+      name: UI_Icon_Exit
       rect:
         serializedVersion: 2
-        x: 657
-        y: 964
-        width: 9
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2e0a9daf0365a0600800000000000000
-      internalID: 435255082361659618
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_48
-      rect:
-        serializedVersion: 2
-        x: 661
+        x: 656
         y: 961
-        width: 10
+        width: 15
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1532,7 +1290,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_49
+      name: UI_Icon_Settings
       rect:
         serializedVersion: 2
         x: 673
@@ -1540,7 +1298,7 @@ TextureImporter:
         width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1554,7 +1312,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_50
+      name: BDG_Heli
       rect:
         serializedVersion: 2
         x: 749
@@ -1562,7 +1320,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1576,7 +1334,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_51
+      name: BDG_Maneuver
       rect:
         serializedVersion: 2
         x: 794
@@ -1584,7 +1342,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1598,7 +1356,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_52
+      name: BDG_CIWS
       rect:
         serializedVersion: 2
         x: 839
@@ -1606,7 +1364,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1620,7 +1378,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_53
+      name: BDG_Missile
       rect:
         serializedVersion: 2
         x: 883
@@ -1628,7 +1386,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1642,7 +1400,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_54
+      name: UI_Icon_Star
       rect:
         serializedVersion: 2
         x: 641
@@ -1650,7 +1408,7 @@ TextureImporter:
         width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1664,7 +1422,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_55
+      name: BDG_Jet
       rect:
         serializedVersion: 2
         x: 749
@@ -1672,7 +1430,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1686,7 +1444,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_56
+      name: BDG_UAV
       rect:
         serializedVersion: 2
         x: 749
@@ -1694,7 +1452,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1708,7 +1466,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_57
+      name: BDG_Radar
       rect:
         serializedVersion: 2
         x: 794
@@ -1716,7 +1474,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1730,7 +1488,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_58
+      name: BDG_Sonar
       rect:
         serializedVersion: 2
         x: 794
@@ -1738,7 +1496,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1752,7 +1510,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_59
+      name: BDG_CounterMeasure
       rect:
         serializedVersion: 2
         x: 839
@@ -1760,7 +1518,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1774,7 +1532,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_60
+      name: BDG_ElectronicWF
       rect:
         serializedVersion: 2
         x: 839
@@ -1782,7 +1540,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1796,7 +1554,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_61
+      name: BDG_Torpedo
       rect:
         serializedVersion: 2
         x: 883
@@ -1804,7 +1562,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1818,7 +1576,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_62
+      name: BDG_Gun
       rect:
         serializedVersion: 2
         x: 884
@@ -1826,7 +1584,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1840,7 +1598,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_63
+      name: BDG_Repair
       rect:
         serializedVersion: 2
         x: 794
@@ -1848,7 +1606,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1862,7 +1620,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_64
+      name: BDG_Supply
       rect:
         serializedVersion: 2
         x: 794
@@ -1870,7 +1628,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1884,7 +1642,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_65
+      name: BDG_AntiAirMSL
       rect:
         serializedVersion: 2
         x: 839
@@ -1892,7 +1650,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1906,7 +1664,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_66
+      name: BDG_Mine
       rect:
         serializedVersion: 2
         x: 839
@@ -1914,7 +1672,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1928,7 +1686,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_67
+      name: BDG_DepthCharge
       rect:
         serializedVersion: 2
         x: 884
@@ -1936,7 +1694,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1950,7 +1708,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_68
+      name: Plate_Neutral
       rect:
         serializedVersion: 2
         x: 976
@@ -1958,8 +1716,8 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 16, y: 16, z: 16, w: 16}
       customData: 
       outline: []
       physicsShape: []
@@ -1972,7 +1730,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_69
+      name: BDG_SurfaceDomain
       rect:
         serializedVersion: 2
         x: 716
@@ -1980,7 +1738,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1994,7 +1752,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_70
+      name: BDG_SubSurfaceDomain
       rect:
         serializedVersion: 2
         x: 716
@@ -2002,7 +1760,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2016,7 +1774,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_71
+      name: BDG_Deffense
       rect:
         serializedVersion: 2
         x: 761
@@ -2024,7 +1782,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2038,7 +1796,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_72
+      name: BDG_Offense
       rect:
         serializedVersion: 2
         x: 761
@@ -2046,7 +1804,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2060,7 +1818,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_73
+      name: BDG_T1
       rect:
         serializedVersion: 2
         x: 806
@@ -2068,7 +1826,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2082,7 +1840,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_74
+      name: BDG_T2
       rect:
         serializedVersion: 2
         x: 806
@@ -2090,7 +1848,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2104,7 +1862,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_75
+      name: BDG_Cruiser
       rect:
         serializedVersion: 2
         x: 851
@@ -2112,7 +1870,7 @@ TextureImporter:
         width: 60
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2126,7 +1884,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_76
+      name: BDG_Carrier
       rect:
         serializedVersion: 2
         x: 911
@@ -2134,7 +1892,7 @@ TextureImporter:
         width: 60
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2148,7 +1906,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_77
+      name: BDG_AirDomain
       rect:
         serializedVersion: 2
         x: 716
@@ -2156,7 +1914,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2170,7 +1928,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_78
+      name: BDG_T3
       rect:
         serializedVersion: 2
         x: 806
@@ -2178,7 +1936,7 @@ TextureImporter:
         width: 45
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2192,7 +1950,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_79
+      name: BDG_Destroyer
       rect:
         serializedVersion: 2
         x: 851
@@ -2200,7 +1958,7 @@ TextureImporter:
         width: 60
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2214,7 +1972,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_80
+      name: BDG_Friggate
       rect:
         serializedVersion: 2
         x: 851
@@ -2222,7 +1980,7 @@ TextureImporter:
         width: 60
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2236,7 +1994,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_81
+      name: BDG_Submarine
       rect:
         serializedVersion: 2
         x: 911
@@ -2244,7 +2002,7 @@ TextureImporter:
         width: 60
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2258,7 +2016,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_82
+      name: BDG_Auxillary
       rect:
         serializedVersion: 2
         x: 911
@@ -2266,7 +2024,7 @@ TextureImporter:
         width: 60
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2280,7 +2038,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_83
+      name: Plate_Blu
       rect:
         serializedVersion: 2
         x: 976
@@ -2288,8 +2046,8 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 16, y: 16, z: 16, w: 16}
       customData: 
       outline: []
       physicsShape: []
@@ -2302,7 +2060,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_84
+      name: BDG_Corvette
       rect:
         serializedVersion: 2
         x: 851
@@ -2310,7 +2068,7 @@ TextureImporter:
         width: 60
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2324,7 +2082,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_85
+      name: BDG_USV
       rect:
         serializedVersion: 2
         x: 911
@@ -2332,7 +2090,7 @@ TextureImporter:
         width: 60
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2346,7 +2104,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_86
+      name: Plate_Grn
       rect:
         serializedVersion: 2
         x: 976
@@ -2354,8 +2112,8 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 16, y: 16, z: 16, w: 16}
       customData: 
       outline: []
       physicsShape: []
@@ -2368,7 +2126,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_87
+      name: MP_Portrait_On
       rect:
         serializedVersion: 2
         x: 0
@@ -2376,7 +2134,7 @@ TextureImporter:
         width: 320
         height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2390,7 +2148,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_88
+      name: MP_Portrait_Off
       rect:
         serializedVersion: 2
         x: 320
@@ -2398,7 +2156,7 @@ TextureImporter:
         width: 320
         height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2412,7 +2170,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_89
+      name: Plate_Red
       rect:
         serializedVersion: 2
         x: 976
@@ -2420,8 +2178,8 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 16, y: 16, z: 16, w: 16}
       customData: 
       outline: []
       physicsShape: []
@@ -2434,7 +2192,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_90
+      name: Label_Metal
       rect:
         serializedVersion: 2
         x: 976
@@ -2442,8 +2200,8 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 16, y: 16, z: 16, w: 16}
       customData: 
       outline: []
       physicsShape: []
@@ -2456,7 +2214,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_91
+      name: Sub_Pannel
       rect:
         serializedVersion: 2
         x: 976
@@ -2464,8 +2222,8 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 16, y: 16, z: 16, w: 16}
       customData: 
       outline: []
       physicsShape: []
@@ -2478,7 +2236,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_92
+      name: MNL_Portrait_On
       rect:
         serializedVersion: 2
         x: 0
@@ -2486,7 +2244,7 @@ TextureImporter:
         width: 320
         height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2500,7 +2258,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_93
+      name: MNL_Portrait_Off
       rect:
         serializedVersion: 2
         x: 320
@@ -2508,7 +2266,7 @@ TextureImporter:
         width: 320
         height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2522,7 +2280,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_94
+      name: BTN_Action
       rect:
         serializedVersion: 2
         x: 902
@@ -2530,7 +2288,7 @@ TextureImporter:
         width: 122
         height: 31
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2544,7 +2302,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_95
+      name: Game_Icon_Cross
       rect:
         serializedVersion: 2
         x: 645
@@ -2552,7 +2310,7 @@ TextureImporter:
         width: 22
         height: 20
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2566,15 +2324,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_96
+      name: Game_Icon_Alert
       rect:
         serializedVersion: 2
         x: 683
-        y: 587
+        y: 582
         width: 10
-        height: 16
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2588,15 +2346,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_97
+      name: Game_Icon_Sus
       rect:
         serializedVersion: 2
         x: 712
-        y: 587
+        y: 582
         width: 16
-        height: 16
+        height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2610,7 +2368,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_98
+      name: Game_Icon_Mark
       rect:
         serializedVersion: 2
         x: 740
@@ -2618,7 +2376,7 @@ TextureImporter:
         width: 24
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2632,7 +2390,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_99
+      name: Game_Icon_Time
       rect:
         serializedVersion: 2
         x: 775
@@ -2640,7 +2398,7 @@ TextureImporter:
         width: 18
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2654,15 +2412,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_100
+      name: Game_Icon_Nuclear
       rect:
         serializedVersion: 2
         x: 804
-        y: 590
+        y: 582
         width: 24
-        height: 12
+        height: 20
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2676,29 +2434,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_101
-      rect:
-        serializedVersion: 2
-        x: 809
-        y: 582
-        width: 14
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3589d03b916871850800000000000000
-      internalID: 6347689644738320467
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_102
+      name: Game_Icon_Vision
       rect:
         serializedVersion: 2
         x: 836
@@ -2706,7 +2442,7 @@ TextureImporter:
         width: 24
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2720,51 +2456,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_103
-      rect:
-        serializedVersion: 2
-        x: 684
-        y: 581
-        width: 8
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e6b2a2f9fab88bad0800000000000000
-      internalID: -2686243591320622226
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_104
-      rect:
-        serializedVersion: 2
-        x: 716
-        y: 581
-        width: 8
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9f223bce3802f28e0800000000000000
-      internalID: -1716117182020902151
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_105
+      name: Game_Icon_Bullet
       rect:
         serializedVersion: 2
         x: 651
@@ -2772,7 +2464,7 @@ TextureImporter:
         width: 10
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2786,7 +2478,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_106
+      name: Game_Icon_Target
       rect:
         serializedVersion: 2
         x: 676
@@ -2794,7 +2486,7 @@ TextureImporter:
         width: 24
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2808,37 +2500,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_107
+      name: Game_Icon_Barrage
       rect:
         serializedVersion: 2
         x: 708
-        y: 559
-        width: 14
-        height: 12
+        y: 549
+        width: 24
+        height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8ff505fc805f5f560800000000000000
-      internalID: 7347047785311526904
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_108
-      rect:
-        serializedVersion: 2
-        x: 710
-        y: 551
-        width: 19
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2852,29 +2522,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_109
-      rect:
-        serializedVersion: 2
-        x: 718
-        y: 549
-        width: 14
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: da0e1b8afc3a94e60800000000000000
-      internalID: 7947063129755738285
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Admirals_Ui_110
+      name: Game_Icon_Skull
       rect:
         serializedVersion: 2
         x: 741
@@ -2882,7 +2530,7 @@ TextureImporter:
         width: 22
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2896,7 +2544,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_111
+      name: Game_Icon_Shield
       rect:
         serializedVersion: 2
         x: 773
@@ -2904,7 +2552,7 @@ TextureImporter:
         width: 22
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2918,7 +2566,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_112
+      name: Game_Icon_Heart
       rect:
         serializedVersion: 2
         x: 804
@@ -2926,7 +2574,7 @@ TextureImporter:
         width: 24
         height: 20
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2940,15 +2588,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_113
+      name: Game_Icon_Up
       rect:
         serializedVersion: 2
-        x: 838
+        x: 839
         y: 549
         width: 20
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2962,7 +2610,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_114
+      name: Game_Icon_Connect
       rect:
         serializedVersion: 2
         x: 740
@@ -2970,7 +2618,7 @@ TextureImporter:
         width: 24
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2984,7 +2632,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_115
+      name: Game_Icon_Link
       rect:
         serializedVersion: 2
         x: 772
@@ -2992,7 +2640,7 @@ TextureImporter:
         width: 23
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3006,7 +2654,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_116
+      name: Game_Icon_Under
       rect:
         serializedVersion: 2
         x: 804
@@ -3014,7 +2662,7 @@ TextureImporter:
         width: 24
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3028,7 +2676,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_117
+      name: Game_Icon_Scan
       rect:
         serializedVersion: 2
         x: 835
@@ -3036,7 +2684,7 @@ TextureImporter:
         width: 24
         height: 22
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3050,7 +2698,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Admirals_Ui_118
+      name: Empty_Frame
       rect:
         serializedVersion: 2
         x: 0
@@ -3058,7 +2706,7 @@ TextureImporter:
         width: 320
         height: 208
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3075,7 +2723,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1025fb7732d199d45a2a87762c0d5802
     internalID: 0
     vertices: []
     indices: 
@@ -3085,125 +2733,126 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Admirals_Ui_0: -378764409298521049
-      Admirals_Ui_1: 1495945999698319735
-      Admirals_Ui_10: 6791793251207781850
-      Admirals_Ui_100: 7291436708994001598
       Admirals_Ui_101: 6347689644738320467
-      Admirals_Ui_102: 4907498960706979796
       Admirals_Ui_103: -2686243591320622226
       Admirals_Ui_104: -1716117182020902151
-      Admirals_Ui_105: -7098682295833018593
-      Admirals_Ui_106: -8143914772408169446
       Admirals_Ui_107: 7347047785311526904
-      Admirals_Ui_108: -6496403946150854337
       Admirals_Ui_109: 7947063129755738285
-      Admirals_Ui_11: -3245263642901920569
-      Admirals_Ui_110: -8920760620220214517
-      Admirals_Ui_111: -324204165700206872
-      Admirals_Ui_112: 5031708706154706278
-      Admirals_Ui_113: 7528478573918102568
-      Admirals_Ui_114: -3058992002568842222
-      Admirals_Ui_115: 2152994198560296651
-      Admirals_Ui_116: -3715618434544426231
-      Admirals_Ui_117: 249378159768765493
-      Admirals_Ui_118: -9090622058142653258
-      Admirals_Ui_12: 3388852762912283961
-      Admirals_Ui_13: 8355875988395077751
-      Admirals_Ui_14: -2575100322414103533
-      Admirals_Ui_15: 7719102417639516716
-      Admirals_Ui_16: -9049619301976607067
       Admirals_Ui_17: -2515119740174178271
       Admirals_Ui_18: 2207641619023171790
       Admirals_Ui_19: 3496290174472246484
-      Admirals_Ui_2: -7454928716387426217
       Admirals_Ui_20: -7720839820421397216
-      Admirals_Ui_21: -689805448155252826
-      Admirals_Ui_22: -7426876598141232443
       Admirals_Ui_23: 1983358606698704123
-      Admirals_Ui_24: 1803070154996331983
-      Admirals_Ui_25: -4782308226370365750
-      Admirals_Ui_26: 308204419143391559
-      Admirals_Ui_27: -3176867117573928171
-      Admirals_Ui_28: 45246821638138131
-      Admirals_Ui_29: 5115172853713898267
-      Admirals_Ui_3: -2009886437033911591
-      Admirals_Ui_30: -1634795095092098714
-      Admirals_Ui_31: 3622909277551687948
       Admirals_Ui_32: -3224836410092516032
-      Admirals_Ui_33: 2333452903083542085
       Admirals_Ui_34: -5907059593990639139
-      Admirals_Ui_35: -7623013531239857102
       Admirals_Ui_36: -5057615110229733722
-      Admirals_Ui_37: 3731499675157883416
-      Admirals_Ui_38: -3520203618349932480
-      Admirals_Ui_39: -3346423474702854045
-      Admirals_Ui_4: 7144213556808722652
-      Admirals_Ui_40: 6176191365550480414
-      Admirals_Ui_41: 6296783230096141400
-      Admirals_Ui_42: 3668580931349634538
-      Admirals_Ui_43: 3314051045900230592
-      Admirals_Ui_44: -8170009905140472284
-      Admirals_Ui_45: -5807107637808711814
-      Admirals_Ui_46: 6797427537757453789
       Admirals_Ui_47: 435255082361659618
-      Admirals_Ui_48: -1515960361975702075
-      Admirals_Ui_49: -6485143699545741168
       Admirals_Ui_5: -4765469772815693077
-      Admirals_Ui_50: -1088207951556003492
-      Admirals_Ui_51: 1575175548107302749
-      Admirals_Ui_52: -1440631958319679174
-      Admirals_Ui_53: 7067063613775754088
-      Admirals_Ui_54: -6814171777541833713
-      Admirals_Ui_55: 8427285724973202577
-      Admirals_Ui_56: 1247722137862976078
-      Admirals_Ui_57: 1485950545428787703
-      Admirals_Ui_58: -3938232391240535311
-      Admirals_Ui_59: -2421097023326232380
       Admirals_Ui_6: -7704711352689885842
-      Admirals_Ui_60: -6819925060228995108
-      Admirals_Ui_61: 4830846120800565373
-      Admirals_Ui_62: -5030934901979453995
-      Admirals_Ui_63: 3757902474332220524
-      Admirals_Ui_64: -1677024061982835311
-      Admirals_Ui_65: -6059357440880070376
-      Admirals_Ui_66: 1524494318418255198
-      Admirals_Ui_67: 3470272676743608792
-      Admirals_Ui_68: 2421953437011533754
-      Admirals_Ui_69: 7869926609406975850
-      Admirals_Ui_7: -4686096692966259335
-      Admirals_Ui_70: -6713955398357139781
-      Admirals_Ui_71: 6369735883931826546
-      Admirals_Ui_72: -8072776176248556622
-      Admirals_Ui_73: 2810556044354284709
-      Admirals_Ui_74: 6923887654031400356
-      Admirals_Ui_75: -2926602864561310276
-      Admirals_Ui_76: 8548704447351839873
-      Admirals_Ui_77: 8721532142104538885
-      Admirals_Ui_78: -4188696736557281005
-      Admirals_Ui_79: -7660915519403979053
-      Admirals_Ui_8: -5297100240562457604
-      Admirals_Ui_80: -4994970713580567987
-      Admirals_Ui_81: -5081371355272648908
-      Admirals_Ui_82: -6195304413893173289
-      Admirals_Ui_83: -4753364811137099873
-      Admirals_Ui_84: 8714835906611242263
-      Admirals_Ui_85: 5979485680702034455
-      Admirals_Ui_86: 406123858495779274
-      Admirals_Ui_87: 7921521055263393538
-      Admirals_Ui_88: 2883698699479786515
-      Admirals_Ui_89: -8275639223913549226
-      Admirals_Ui_9: -8820794449939233926
-      Admirals_Ui_90: 8905703987913126700
-      Admirals_Ui_91: -1636189644325552859
-      Admirals_Ui_92: 2380505791843332473
-      Admirals_Ui_93: -2915491114807511417
-      Admirals_Ui_94: 9215194593801871415
-      Admirals_Ui_95: -4539906938176183598
-      Admirals_Ui_96: -5344562070592805549
-      Admirals_Ui_97: -1964475849466172403
-      Admirals_Ui_98: 8716354182380762659
-      Admirals_Ui_99: -805510101294583875
+      BDG_AirDomain: 8721532142104538885
+      BDG_AntiAirMSL: -6059357440880070376
+      BDG_Auxillary: -6195304413893173289
+      BDG_CIWS: -1440631958319679174
+      BDG_Carrier: 8548704447351839873
+      BDG_Corvette: 8714835906611242263
+      BDG_CounterMeasure: -2421097023326232380
+      BDG_Cruiser: -2926602864561310276
+      BDG_Deffense: 6369735883931826546
+      BDG_DepthCharge: 3470272676743608792
+      BDG_Destroyer: -7660915519403979053
+      BDG_ElectronicWF: -6819925060228995108
+      BDG_Empty: -5807107637808711814
+      BDG_Friggate: -4994970713580567987
+      BDG_Gun: -5030934901979453995
+      BDG_Heli: -1088207951556003492
+      BDG_Jet: 8427285724973202577
+      BDG_Maneuver: 1575175548107302749
+      BDG_Mine: 1524494318418255198
+      BDG_Missile: 7067063613775754088
+      BDG_Offense: -8072776176248556622
+      BDG_Radar: 1485950545428787703
+      BDG_Repair: 3757902474332220524
+      BDG_Sonar: -3938232391240535311
+      BDG_SubSurfaceDomain: -6713955398357139781
+      BDG_Submarine: -5081371355272648908
+      BDG_Supply: -1677024061982835311
+      BDG_SurfaceDomain: 7869926609406975850
+      BDG_T1: 2810556044354284709
+      BDG_T2: 6923887654031400356
+      BDG_T3: -4188696736557281005
+      BDG_Torpedo: 4830846120800565373
+      BDG_UAV: 1247722137862976078
+      BDG_USV: 5979485680702034455
+      BTN_Action: 9215194593801871415
+      Charge_Seg_Head_Empty: 3668580931349634538
+      Charge_Seg_Head_Full: 6296783230096141400
+      Charge_Seg_Mid_Empty: 6176191365550480414
+      Charge_Seg_Mid_Full: -3346423474702854045
+      Charge_Seg_Tail_Empty: -3520203618349932480
+      Charge_Seg_Tail_Full: 3731499675157883416
+      Charge_Single_Empty: -8170009905140472284
+      Charge_Single_Full: 3314051045900230592
+      Cursor_Icon: -4686096692966259335
+      Empty_Frame: -9090622058142653258
+      Game_Icon_Alert: -5344562070592805549
+      Game_Icon_Barrage: -6496403946150854337
+      Game_Icon_Bullet: -7098682295833018593
+      Game_Icon_Connect: -3058992002568842222
+      Game_Icon_Cross: -4539906938176183598
+      Game_Icon_Heart: 5031708706154706278
+      Game_Icon_Link: 2152994198560296651
+      Game_Icon_Mark: 8716354182380762659
+      Game_Icon_Nuclear: 7291436708994001598
+      Game_Icon_Scan: 249378159768765493
+      Game_Icon_Shield: -324204165700206872
+      Game_Icon_Skull: -8920760620220214517
+      Game_Icon_Sus: -1964475849466172403
+      Game_Icon_Target: -8143914772408169446
+      Game_Icon_Time: -805510101294583875
+      Game_Icon_Under: -3715618434544426231
+      Game_Icon_Up: 7528478573918102568
+      Game_Icon_Vision: 4907498960706979796
+      HP_Seg_Head_Empty: 5115172853713898267
+      HP_Seg_Head_Full: 8355875988395077751
+      HP_Seg_Mid_Empty: 45246821638138131
+      HP_Seg_Mid_Full: 3388852762912283961
+      HP_Seg_Tail_Empty: -3176867117573928171
+      HP_Seg_Tail_Full: -3245263642901920569
+      HP_Single_Empty: -1634795095092098714
+      HP_Single_Full: -2575100322414103533
+      Label_Metal: 8905703987913126700
+      MNL_Portrait_Off: -2915491114807511417
+      MNL_Portrait_On: 2380505791843332473
+      MP_Portrait_Off: 2883698699479786515
+      MP_Portrait_On: 7921521055263393538
+      Main_Pannel: 7719102417639516716
+      Ping_Bad: 3622909277551687948
+      Ping_Good: -7623013531239857102
+      Ping_Mid: 2333452903083542085
+      Plate_Blu: -4753364811137099873
+      Plate_Grn: 406123858495779274
+      Plate_Neutral: 2421953437011533754
+      Plate_Red: -8275639223913549226
+      SP_Portrait_Off: 1495945999698319735
+      SP_Portrait_On: -378764409298521049
+      Sub_Pannel: -1636189644325552859
+      TGL_Gray_Off: 6791793251207781850
+      TGL_Gray_On: 308204419143391559
+      TGL_Grn_Off: -8820794449939233926
+      TGL_Grn_On: -4782308226370365750
+      TGL_Red_Off: -5297100240562457604
+      TGL_Red_On: 1803070154996331983
+      UI_Icon_4pc: -9049619301976607067
+      UI_Icon_Check: -7454928716387426217
+      UI_Icon_Exit: -1515960361975702075
+      UI_Icon_Marker: -2009886437033911591
+      UI_Icon_Play: 6797427537757453789
+      UI_Icon_Settings: -6485143699545741168
+      UI_Icon_Sliders: 7144213556808722652
+      UI_Icon_Star: -6814171777541833713
+      UI_Icon_Up: -7426876598141232443
+      UI_Icon_Volume: -689805448155252826
+      _Full: 3388852762912283961
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
