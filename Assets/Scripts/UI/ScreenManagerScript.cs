@@ -10,6 +10,9 @@ public class ScreenManagerScript : MonoBehaviour
     public GameObject TitleScreen; 
     public GameObject MainMenu;
 
+    // Navigation References
+
+
     void Start()
     {   
         // Set Default States
@@ -35,5 +38,40 @@ public class ScreenManagerScript : MonoBehaviour
             TitleScreen.SetActive(false);
             MainMenu.SetActive(true);
         }
+    }
+
+    // Show Screen Methods
+    public void ShowSinglePlayer()
+    {
+        
+    }
+
+    public void ShowMultiPlayer()
+    {
+        
+    }
+
+    public void ShowManual()
+    {
+        
+    }
+
+    public void ShowSettings()
+    {
+        
+    }
+
+    public void ShowCredits()
+    {
+        
+    }
+
+    public void ShowGithub()
+    {
+        Application.OpenURL("https://github.com/frostishyper/Admirals");
+    }
+    public void ShowQuit()
+    {
+        Application.Quit();
     }
 }

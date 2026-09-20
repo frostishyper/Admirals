@@ -77,12 +77,12 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 ### [UI]
 
 * ✅ Title Screen
-* [ ] Main Menu
+* ✅ Main Menu
 * [ ] Settings
 
 ### [Script(s) / Code]
 
-* [ ] Menu Screen Navigation(s)
+* ✅ Menu Screen Navigation(s)
 * [ ] Menu Button Function(s)
 
 ---
@@ -189,5 +189,6 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 ## 👥 Credits
 
 - 💻 Lead Programmer - [![GitHub](https://img.shields.io/badge/GitHub-frostishyper-181717?style=flat&logo=github)](https://github.com/frostishyper) 
+- 💻 Junior Devs - [![GitHub](https://img.shields.io/badge/GitHub-Ezickle-181717?style=flat&logo=github)](https://github.com/Ezickle)  [![GitHub](https://img.shields.io/badge/GitHub-Hallow--Gl-181717?style=flat&logo=github)](https://github.com/Hallow-Gl)
 - 🎨 Pixelart Assets - [![GitHub](https://img.shields.io/badge/GitHub-yeeard-181717?style=flat&logo=github)](https://github.com/yeeard) [![GitHub](https://img.shields.io/badge/GitHub-frostishyper-181717?style=flat&logo=github)](https://github.com/frostishyper)
-- 🔊 SFX - [![GitHub](https://img.shields.io/badge/GitHub-yeeard-181717?style=flat&logo=github)](https://github.com/yeeard)
+- 🔊 SFX - [![GitHub](https://img.shields.io/badge/GitHub-yeeard-181717?style=flat&logo=github)](https://github.com/yeeard) [![GitHub](https://img.shields.io/badge/GitHub-frostishyper-181717?style=flat&logo=github)](https://github.com/frostishyper) 

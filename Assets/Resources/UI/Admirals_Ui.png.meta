@@ -2042,7 +2042,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 976
-        y: 833
+        y: 832
         width: 48
         height: 48
       alignment: 0
@@ -2151,7 +2151,7 @@ TextureImporter:
       name: MP_Portrait_Off
       rect:
         serializedVersion: 2
-        x: 318
+        x: 320
         y: 608
         width: 320
         height: 208
