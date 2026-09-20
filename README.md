@@ -183,7 +183,9 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 
 ## 🖼️ Screenshots
 
-*(Coming soon)*
+<img width="1100" height="600" alt="Admirals_TitleScreen" src="https://github.com/user-attachments/assets/cb9ba809-0a49-441b-b5d6-0ae9a1f7c615" />
+<img width="1100" height="600" alt="Admirals_MainMenu" src="https://github.com/user-attachments/assets/61b30fed-599a-49fe-8c32-971e17bc681a" />
+
 
 
 ## 👥 Credits
