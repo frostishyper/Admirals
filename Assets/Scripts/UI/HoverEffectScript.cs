@@ -4,6 +4,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // -- SCRIPT --
+// Basic Hover Effect(s) Script for Image/Sprite based UI Elements -Frostishyper
+// Needs to be attached to the UI Element with an Image Component and a child TextMeshPro Text Component -Frostishyper
+// Else it this isnt for you -Frostishyper
 public class HoverEffectScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Image Img;
@@ -20,10 +23,6 @@ public class HoverEffectScript : MonoBehaviour, IPointerEnterHandler, IPointerEx
         Labeltext = GetComponentInChildren<TMPro.TMP_Text>();
     }
 
-    void Update()
-    {
-        
-    }
 
     // When Hoevered Over
     public void OnPointerEnter(PointerEventData pointerEventData)

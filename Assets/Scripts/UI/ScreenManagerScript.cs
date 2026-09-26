@@ -1,13 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 // -- SCRIPT --
 public class ScreenManagerScript : MonoBehaviour
 {   
-    // Static Title Screen Flag (For Now)
+    // Static Title Screen Flag (For Now) -Frostishyper
     private static bool TitlePassed = false;
-    public static ScreenManagerScript Instance;
+    public static ScreenManagerScript Instance; // Singleton Instance Reference, allows for easy access to the instance from anywhere in the project -Frostishyper
 
-    // Screen(s) Game Object References
+    // Screen(s) Game Object References -Frostishyper
     public GameObject TitleScreen; 
     public GameObject MainMenu;
     public GameObject SinglePlayerScreen;
@@ -15,10 +16,11 @@ public class ScreenManagerScript : MonoBehaviour
     public GameObject ManualScreen;
     public GameObject SettingsScreen;
     public GameObject CreditsScreen;
-
+    public GameObject LoginScreen;
+    
     void Awake()
     {
-        Instance = this;
+        Instance = this; // Set Singleton Instance Reference to the existing instance -Frostishyper
     }
     void Start()
     {   
@@ -52,7 +54,9 @@ public class ScreenManagerScript : MonoBehaviour
         }
     }
 
-    // Show Screen Methods
+    // SHOW SCREEN METHODS -Frostishyper
+
+    // Default to Main Menu, called when the game starts or when returning from other screens -Frostishyper
     public void ShowMainMenu()
     {
         MainMenu.SetActive(true);
@@ -62,40 +66,74 @@ public class ScreenManagerScript : MonoBehaviour
         SettingsScreen.SetActive(false);
         CreditsScreen.SetActive(false);
     }
+
+    // When Single Player is clicked (Main Menu) -Frostishyper
     public void ShowSinglePlayer()
     {
         MainMenu.SetActive(false);
         SinglePlayerScreen.SetActive(true);
     }
 
-    public void ShowMultiPlayer()
+    //  When Multi Player is clicked (Main Menu) -Frostishyper
+    public void ShowLogin()
     {
         MainMenu.SetActive(false);
-        MultiPlayerScreen.SetActive(true);
+        LoginScreen.SetActive(true);
     }
 
+    // When Login is succesful or already logged in (Login) -Frostishyper
+    public void ShowMultiPlayerScreen() {
+        if (LoginScript.Username != null)
+        {
+            LoginScreen.SetActive(false);
+            MultiPlayerScreen.SetActive(true);
+        }
+        else
+        {
+            MainMenu.SetActive(false);
+            LoginScreen.SetActive(true);
+        }
+    }
+
+    public void ShowLocalMP()
+    {
+        
+    }
+
+    public void ShowOnlineMP()
+    {
+        
+    }
+
+    // When Manual is clicked (Main Menu) -Frostishyper
     public void ShowManual()
     {
         MainMenu.SetActive(false);
         ManualScreen.SetActive(true);
     }
 
+
+    // When Settings is clicked (Bottom Nav) -Frostishyper
     public void ShowSettings()
     {
         MainMenu.SetActive(false);
         SettingsScreen.SetActive(true);
     }
 
+    // When Credits is clicked (Bottom Nav) -Frostishyper
     public void ShowCredits()
     {
         MainMenu.SetActive(false);
         CreditsScreen.SetActive(true);
     }
 
+    // When Back is clicked (Bottom Nav) -Frostishyper
     public void ShowGithub()
     {
         Application.OpenURL("https://github.com/frostishyper/Admirals");
     }
+
+    // When Quit is clicked (Anywhere) -Frostishyper
     public void ShowQuit()
     {
         Application.Quit();

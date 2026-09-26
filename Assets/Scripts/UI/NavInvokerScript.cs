@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+
+// -- SCRIPT --
+// Navigation Invoker Script for Handling Button Clicks for the BottomNav prefab & variants -Frostishyper
 public class NavInvokerScript : MonoBehaviour
 {
-    // Obtain Grandchild Button Components
+    // Obtain game object references for the buttons in the BottomNav prefab & variants -Frostishyper
     [SerializeField] private Button Exit_BTN;
     [SerializeField] private Button Back_BTN;
     [SerializeField] private Button Github_BTN;
@@ -11,6 +14,7 @@ public class NavInvokerScript : MonoBehaviour
     [SerializeField] private Button Settings_BTN;
     void Start()
     {
+        // if statements makes sure that the script doesn't throw errors if the buttons are not present in the prefab variant -Frostishyper
         if (Exit_BTN != null)
         {
             Exit_BTN.onClick.AddListener(() => ScreenManagerScript.Instance.ShowQuit());
@@ -33,8 +37,4 @@ public class NavInvokerScript : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        
-    }
 }
