@@ -1,0 +1,2546 @@
+fileFormatVersion: 2
+guid: 577535d1da57742479c1ecd0d64d7919
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6595912519673918917
+    second: Carrier_0
+  - first:
+      213: 7090827973474302527
+    second: Carrier_1
+  - first:
+      213: -7493161069862285901
+    second: Carrier_2
+  - first:
+      213: -6928545259333680452
+    second: Carrier_3
+  - first:
+      213: 1011982811557111062
+    second: Carrier_4
+  - first:
+      213: -3403146275998450478
+    second: Carrier_5
+  - first:
+      213: -1790094682705440267
+    second: Carrier_6
+  - first:
+      213: -4027643509235946676
+    second: Carrier_7
+  - first:
+      213: 525353349353505112
+    second: Carrier_8
+  - first:
+      213: 2088334228742271255
+    second: Carrier_9
+  - first:
+      213: 4765150293326128262
+    second: Carrier_10
+  - first:
+      213: 4066302516898531389
+    second: Carrier_11
+  - first:
+      213: 4944005252193501955
+    second: Carrier_12
+  - first:
+      213: 1295940209876441207
+    second: Carrier_13
+  - first:
+      213: -5707259348108749075
+    second: Carrier_14
+  - first:
+      213: -6374291637446588395
+    second: Carrier_15
+  - first:
+      213: 112933554453303538
+    second: Carrier_16
+  - first:
+      213: 1254337825743425373
+    second: Carrier_17
+  - first:
+      213: -8771741135034062785
+    second: Carrier_18
+  - first:
+      213: 7128036098508051269
+    second: Carrier_19
+  - first:
+      213: -1907830251118456040
+    second: Carrier_20
+  - first:
+      213: 1287460350057217427
+    second: Carrier_21
+  - first:
+      213: 3232019937547495398
+    second: Carrier_22
+  - first:
+      213: 3398133047484081948
+    second: Carrier_23
+  - first:
+      213: 260006248518160615
+    second: Carrier_24
+  - first:
+      213: -8747771658004009612
+    second: Carrier_25
+  - first:
+      213: 2294355483898304560
+    second: Carrier_26
+  - first:
+      213: 4570925281748518074
+    second: Carrier_27
+  - first:
+      213: -3724548313898704232
+    second: Carrier_28
+  - first:
+      213: 8061023436264521459
+    second: Carrier_29
+  - first:
+      213: -6038437715694676067
+    second: Carrier_30
+  - first:
+      213: 5019233819367619852
+    second: Carrier_31
+  - first:
+      213: -5974842506083248308
+    second: Carrier_32
+  - first:
+      213: 2654797075572483266
+    second: Carrier_33
+  - first:
+      213: -6573778714462326541
+    second: Carrier_34
+  - first:
+      213: -6266134773783733466
+    second: Carrier_35
+  - first:
+      213: -8401200657149114086
+    second: Carrier_36
+  - first:
+      213: 7114020017587474264
+    second: Carrier_37
+  - first:
+      213: -5016270722873373032
+    second: Carrier_38
+  - first:
+      213: -874988636463340442
+    second: Carrier_39
+  - first:
+      213: -208216103314657249
+    second: Carrier_40
+  - first:
+      213: 7795320406129086772
+    second: Carrier_41
+  - first:
+      213: -251668528118607275
+    second: Carrier_42
+  - first:
+      213: 6616265517423836752
+    second: Carrier_43
+  - first:
+      213: 5921727362855759917
+    second: Carrier_44
+  - first:
+      213: -8908502658182662967
+    second: Carrier_45
+  - first:
+      213: 6893063834746088701
+    second: Carrier_46
+  - first:
+      213: -250081832990666070
+    second: Carrier_47
+  - first:
+      213: -3712869340310044417
+    second: Carrier_48
+  - first:
+      213: 2084831729954541569
+    second: Carrier_49
+  - first:
+      213: -1505896117786262634
+    second: Carrier_50
+  - first:
+      213: 3031665534713406362
+    second: Carrier_51
+  - first:
+      213: -12182671101158954
+    second: Carrier_52
+  - first:
+      213: -1637393064766511250
+    second: Carrier_53
+  - first:
+      213: 170593435024964338
+    second: Carrier_54
+  - first:
+      213: 8556351771747552596
+    second: Carrier_55
+  - first:
+      213: -6985569496018540799
+    second: Carrier_56
+  - first:
+      213: 4649642714691778773
+    second: Carrier_57
+  - first:
+      213: -6848486147105349559
+    second: Carrier_58
+  - first:
+      213: 5254511688236665260
+    second: Carrier_59
+  - first:
+      213: 2113215904464030166
+    second: Carrier_60
+  - first:
+      213: -401256542544082117
+    second: Carrier_61
+  - first:
+      213: 3474304494543487919
+    second: Carrier_62
+  - first:
+      213: -6556215127041522067
+    second: Carrier_63
+  - first:
+      213: 4955948358077784209
+    second: Carrier_64
+  - first:
+      213: 1278254998736688948
+    second: Carrier_65
+  - first:
+      213: 2926226817972234188
+    second: Carrier_66
+  - first:
+      213: -3145222413491471398
+    second: Carrier_67
+  - first:
+      213: 3962297176150942488
+    second: Carrier_68
+  - first:
+      213: -2895395103007874342
+    second: Carrier_69
+  - first:
+      213: -2078535937282542701
+    second: Carrier_70
+  - first:
+      213: 7293932152384169042
+    second: Carrier_71
+  - first:
+      213: -5498463949756121239
+    second: Carrier_72
+  - first:
+      213: -3852565542079646174
+    second: Carrier_73
+  - first:
+      213: -6798288856166025886
+    second: Carrier_74
+  - first:
+      213: 7418627243812624211
+    second: Carrier_75
+  - first:
+      213: -5283180808596352545
+    second: Carrier_76
+  - first:
+      213: -4820518447340630648
+    second: Carrier_77
+  - first:
+      213: 3171458966835085323
+    second: Carrier_78
+  - first:
+      213: 7049322076036281173
+    second: Carrier_79
+  - first:
+      213: 4228776298156403547
+    second: Carrier_80
+  - first:
+      213: 5024991316397383829
+    second: Carrier_81
+  - first:
+      213: -3029174251659556012
+    second: Carrier_82
+  - first:
+      213: -8770435391655354183
+    second: Carrier_83
+  - first:
+      213: -5821922754249811073
+    second: Carrier_84
+  - first:
+      213: 2621768640410712112
+    second: Carrier_85
+  - first:
+      213: -8858348231538966081
+    second: Carrier_86
+  - first:
+      213: -3280452244122628271
+    second: Carrier_87
+  - first:
+      213: 829887684467175581
+    second: Carrier_88
+  - first:
+      213: -7676471210270165215
+    second: Carrier_89
+  - first:
+      213: -7730532137866721815
+    second: Carrier_90
+  - first:
+      213: -6128972451229365356
+    second: Carrier_91
+  - first:
+      213: 7201968336882850365
+    second: Carrier_92
+  - first:
+      213: 7916651609591314187
+    second: Carrier_93
+  - first:
+      213: -8998982467976354819
+    second: Carrier_94
+  - first:
+      213: -3539843237464047192
+    second: Carrier_95
+  - first:
+      213: 4175427535644577305
+    second: Carrier_96
+  - first:
+      213: 6318287827866249031
+    second: Carrier_97
+  - first:
+      213: -7670318607745759898
+    second: Carrier_98
+  - first:
+      213: 7862766149445820826
+    second: Carrier_99
+  - first:
+      213: -2261175782099190985
+    second: Carrier_100
+  - first:
+      213: -7996289362669613952
+    second: Carrier_101
+  - first:
+      213: 7323018838689874198
+    second: Carrier_102
+  - first:
+      213: 8208144775067627822
+    second: Carrier_103
+  - first:
+      213: -2114788902825647609
+    second: Carrier_104
+  - first:
+      213: -4927434580478018165
+    second: Carrier_105
+  - first:
+      213: 1454376268379350695
+    second: Carrier_106
+  - first:
+      213: 8026730771492561579
+    second: Carrier_107
+  - first:
+      213: 4830369086698668485
+    second: Carrier_108
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Carrier_Deck0_Side_06
+      rect:
+        serializedVersion: 2
+        x: 1596
+        y: 4021
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73adff8e4a48458438d5ad4b2eea4e69
+      internalID: -2060932286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Side_01
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 4021
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61256711ea5b88442a4f72b8ceef8e34
+      internalID: -1945488698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Side_02
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 4021
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f34855f17ea83a14a9d22802650ac01d
+      internalID: -1001484272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Side_03
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 4021
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23a4424352335a74d91962603b93e0db
+      internalID: 884191829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Side_04
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 4021
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc64099840516f440a8f5280b9e3cdf6
+      internalID: 751184739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Side_05
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 4021
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 405995ffd50359549824598f854b82c5
+      internalID: 1949718004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Side_07
+      rect:
+        serializedVersion: 2
+        x: 1917
+        y: 4021
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3a5b737f342dae46ba81825fd51b7cb
+      internalID: 181627005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Side_01
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 3941
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf8b900fa11ca0c469b010019a64fd84
+      internalID: -1068497407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Side_02
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 3941
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89eb54bdc69ff194eb62d1ac788755e2
+      internalID: 941589429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Side_05
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 3941
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96bd9795006b1ce4dbd1e39ac951be7e
+      internalID: 1333002336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Side_03
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 3941
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c958d44075479d4b86861375affcbd5
+      internalID: 1862483826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Side_04
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 3941
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9203ea925d1898a43a66d9f38aac440f
+      internalID: -1326646865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Side_06
+      rect:
+        serializedVersion: 2
+        x: 1596
+        y: 3941
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8eba1ebe141d794d8e7f0b05032ec34
+      internalID: 666708804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Side_07
+      rect:
+        serializedVersion: 2
+        x: 1917
+        y: 3941
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee0b9a88acd068f4db6fe55c508f070d
+      internalID: 876389336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Side_01
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 3861
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3c92c72e4780164aaf02337dbb15df9
+      internalID: 138562247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Side_01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3781
+        width: 320
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c724254105d405345883acbfcd2699f2
+      internalID: -782770807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Side_02
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 3862
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b49b96b51d00d7c4482b215595d7792a
+      internalID: 1617824963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Side_03
+      rect:
+        serializedVersion: 2
+        x: 641
+        y: 3861
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b18c11e2b38bb9949bcf48638d965fd2
+      internalID: -1859883503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Side_04
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 3861
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6089cb4c20874f4c91b571dab96bdb6
+      internalID: 988122790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Side_05
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 3861
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38b7469876429f4428984aa5fc0aceaf
+      internalID: -394609643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Side_06
+      rect:
+        serializedVersion: 2
+        x: 1596
+        y: 3861
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6b21a39a9a342d4db6a53b97bcae615
+      internalID: -1632436785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Side_07
+      rect:
+        serializedVersion: 2
+        x: 1917
+        y: 3861
+        width: 315
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f4ae9edd7eee4d4f954be02c83d0739
+      internalID: -311929889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Side_02
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 3781
+        width: 320
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d32fb95b17d2604aa32d2852e8a2041
+      internalID: -770539426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Side_03
+      rect:
+        serializedVersion: 2
+        x: 646
+        y: 3781
+        width: 320
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b2db0aea29954040bd33cb8fce4e254
+      internalID: 735904245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Side_04
+      rect:
+        serializedVersion: 2
+        x: 969
+        y: 3781
+        width: 320
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9425524dc30ab0741be3ccbf6c6dc1c6
+      internalID: 125740466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Side_05
+      rect:
+        serializedVersion: 2
+        x: 1292
+        y: 3781
+        width: 320
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05935a2a8de0bc144b3ad1489c116acd
+      internalID: 1400386085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Side_06
+      rect:
+        serializedVersion: 2
+        x: 1615
+        y: 3781
+        width: 320
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ccd42d5ee2188e4c843d8cc0168854f
+      internalID: -1614393369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Side_07
+      rect:
+        serializedVersion: 2
+        x: 1938
+        y: 3782
+        width: 320
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16d69d66ec0fa314fbb054eb9d09e7df
+      internalID: 1157443265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Down_07
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 3474
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e7fc07fea2978a439d8c62fab089a48
+      internalID: -913195660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Down_06
+      rect:
+        serializedVersion: 2
+        x: 1596
+        y: 3476
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8623bb3716e3f174d803998be6fea2dc
+      internalID: -1934071210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Down_05
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 3475
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36a58a0c26aa851419ab195e1d385b77
+      internalID: 594268449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Down_04
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 3476
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d5f7875b17bfd44da1a5bb6e000272c
+      internalID: -492531923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Down_03
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 3477
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8924bfb3df31fd747893bb443360602e
+      internalID: -11011587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Down_02
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 3476
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9a5b71d63c1e0c41ba36c8ec38431de
+      internalID: -280998616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Down_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 3476
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06e7e38309ad1594699ec27b4591d335
+      internalID: -665741382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Up_07
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 3155
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 851fb2ac2a05a4944868616df37910b3
+      internalID: 533077665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Up_06
+      rect:
+        serializedVersion: 2
+        x: 1596
+        y: 3155
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d97d8bf157aafb44a8f0c9fd9eb554eb
+      internalID: 902274295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Up_05
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 3155
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4e358ccf0b1e0f46880d8e90001e405
+      internalID: -1595576622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Up_04
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 3155
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2014551503a422047928f980445ff0d8
+      internalID: -1062403851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Up_03
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 3157
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 775cd52f82278b0469033b7c18b81fa9
+      internalID: 119781148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Up_02
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 3155
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01c5d08be14e22b448486bfe7399ae2f
+      internalID: -678097027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck0_Up_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 3154
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d535f7ce32374ea4dba71a7a450c0e47
+      internalID: -1018662665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Down_01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2851
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9b69a3ac9de1dc4c8f1481cab842477
+      internalID: 1279769075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Down_02
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 2851
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3cbc80de416821459c0cf46f187d1cd
+      internalID: 1294623225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Down_03
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 2851
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d23a1f6c6fa61ef499698ddb0ec47a4c
+      internalID: 1299139266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Down_04
+      rect:
+        serializedVersion: 2
+        x: 961
+        y: 2848
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f90372153b401e4d9c15d42099a97c5
+      internalID: -2114656519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Down_05
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 2848
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b520ee36b5a43c343848b22733a07d72
+      internalID: -1886554312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Down_06
+      rect:
+        serializedVersion: 2
+        x: 1595
+        y: 2849
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b31164bd216d4446b9a6d43a32998f5
+      internalID: -2043728521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Down_07
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 2848
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17cf8dadeb2bdb747a8b7af88fee38f9
+      internalID: -2037682056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Up_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2528
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1998a0a6562c5ec41b377a4d034f414f
+      internalID: 1636965477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Up_02
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 2528
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e576f29d8e24ff4fb27aa08df97eca0
+      internalID: -362732955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Up_03
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 2529
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0d2ea4a0b51f0f449aa85c01ad3cb98
+      internalID: -638373286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_3
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 2529
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8f78dbb7256d854dab3d15739fc481c
+      internalID: 1222662969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Up_04
+      rect:
+        serializedVersion: 2
+        x: 961
+        y: 2528
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f75db67bbd7479c4f93ce47ab858bba2
+      internalID: -882664288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Up_05
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 2527
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2277a26f18a43504597f9786f696f9d5
+      internalID: 697565325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Up_06
+      rect:
+        serializedVersion: 2
+        x: 1595
+        y: 2525
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 607398045a38cc84599cb97f9830d707
+      internalID: -1468659141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck1_Up_07
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 2526
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a301f76a45527b247909fdc34f299c12
+      internalID: -449365551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Down_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2226
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecfd5654344e9134f9b9b1bdb3d53062
+      internalID: -88800787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Down_02
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 2226
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d61c2021ba4ca7441afa21de851a153b
+      internalID: -1041714425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Down_03
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 2227
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff43430756efab44fbf764e40fea6812
+      internalID: 1578407773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Down_04
+      rect:
+        serializedVersion: 2
+        x: 961
+        y: 2224
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 901264d428d778c4f8c90d9a99c75989
+      internalID: -467405395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Down_05
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 2224
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1aa56912bb834cd4990a39c3ad6f84d3
+      internalID: 1530355841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Down_06
+      rect:
+        serializedVersion: 2
+        x: 1598
+        y: 2224
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2cac9be7df6643645be9f5a2e22c45e5
+      internalID: 935064408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_7
+      rect:
+        serializedVersion: 2
+        x: 1598
+        y: 2224
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90dfb733147ef33498f2f9585c1e4926
+      internalID: -1595082100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Down_07
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 2224
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 387996e4b1378c24fa8b1e67f44e72e4
+      internalID: 1035210376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Up_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1906
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ad1cb17abf0e794e83d95894a51237d
+      internalID: -1603961848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1906
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bfb3a7f4413aec488aa1a7f54915be8
+      internalID: -229720310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Up_02
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 1906
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1adc802987540c2449c737772195048f
+      internalID: -1738092653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Up_03
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 1906
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cc9aaf7489a7214388eea90dbfcbc21
+      internalID: 1430810026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Up_04
+      rect:
+        serializedVersion: 2
+        x: 961
+        y: 1902
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b29709c03deb934199628bd3e4b3003
+      internalID: -1793732223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Up_05
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 1903
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 397d9a85de26a7f469483cff37e333b7
+      internalID: -106057337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Up_06
+      rect:
+        serializedVersion: 2
+        x: 1598
+        y: 1902
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bf11f3b6b77f7f4e8a73450b459f262
+      internalID: 209629541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck2_Up_07
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 1903
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b2cbaaf75dbce74ca3746afca1d0572
+      internalID: -1898998548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Down_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1602
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b38c4ed21369594e9c348edc7f128bb
+      internalID: -1600146224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Down_02
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 1603
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25e0b7031a633cb4596c66ee6d9933f2
+      internalID: 439163268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Down_03
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 1603
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a40362f90eaae6d449ae69e6b02573fe
+      internalID: -2008787107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Down_04
+      rect:
+        serializedVersion: 2
+        x: 971
+        y: 1600
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc9944c4da8cd6a439e7879a5699e3f5
+      internalID: -612508316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Down_05
+      rect:
+        serializedVersion: 2
+        x: 1294
+        y: 1599
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: beb07c04ffafed648aa46a7219317b85
+      internalID: 693173513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Down_07
+      rect:
+        serializedVersion: 2
+        x: 1940
+        y: 1601
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e32dcb5077a25904a9833027bda81ca5
+      internalID: 1223614720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Down_06
+      rect:
+        serializedVersion: 2
+        x: 1617
+        y: 1600
+        width: 82
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 229710bc86fc28c41bbc296a148fa9a9
+      internalID: 513100190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Up_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1284
+        width: 82
+        height: 316
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc98c174884cff642a4bd593a6d8a5ef
+      internalID: 1425754692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Up_02
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 1281
+        width: 82
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31da917ad1587ab4394dda7b3a2419c9
+      internalID: -150197730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Up_03
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 1282
+        width: 82
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5169ab12658e996428fffa24f19f79f1
+      internalID: 882169562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Up_04
+      rect:
+        serializedVersion: 2
+        x: 970
+        y: 1279
+        width: 82
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40d99ce11c4f3a641b4dc57c7c0face5
+      internalID: -256484985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Up_05
+      rect:
+        serializedVersion: 2
+        x: 1294
+        y: 1278
+        width: 82
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76db53821886202419a2e52a1bf22625
+      internalID: 1615146806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Up_06
+      rect:
+        serializedVersion: 2
+        x: 1616
+        y: 1278
+        width: 82
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78a126d6fef747b46bb0c11c8e6f52f2
+      internalID: 138476674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Carrier_Deck3_Up_07
+      rect:
+        serializedVersion: 2
+        x: 1939
+        y: 1279
+        width: 82
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8cba31fc8a8b8d49ad471ee7a6f8f5a
+      internalID: 1420380216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Carrier_1: -229720310
+      Carrier_10: 4765150293326128262
+      Carrier_100: -2261175782099190985
+      Carrier_101: -7996289362669613952
+      Carrier_102: 7323018838689874198
+      Carrier_103: 8208144775067627822
+      Carrier_104: -2114788902825647609
+      Carrier_105: -4927434580478018165
+      Carrier_106: 1454376268379350695
+      Carrier_107: 8026730771492561579
+      Carrier_108: 4830369086698668485
+      Carrier_11: 4066302516898531389
+      Carrier_12: 4944005252193501955
+      Carrier_13: 1295940209876441207
+      Carrier_14: -5707259348108749075
+      Carrier_15: -6374291637446588395
+      Carrier_16: 112933554453303538
+      Carrier_17: 1254337825743425373
+      Carrier_18: -8771741135034062785
+      Carrier_19: 7128036098508051269
+      Carrier_20: -1907830251118456040
+      Carrier_21: 1287460350057217427
+      Carrier_22: 3232019937547495398
+      Carrier_23: 3398133047484081948
+      Carrier_24: 260006248518160615
+      Carrier_25: -8747771658004009612
+      Carrier_26: 2294355483898304560
+      Carrier_27: 4570925281748518074
+      Carrier_28: -3724548313898704232
+      Carrier_29: 8061023436264521459
+      Carrier_3: 1222662969
+      Carrier_30: -6038437715694676067
+      Carrier_31: 5019233819367619852
+      Carrier_32: -5974842506083248308
+      Carrier_33: 2654797075572483266
+      Carrier_34: -6573778714462326541
+      Carrier_35: -6266134773783733466
+      Carrier_36: -8401200657149114086
+      Carrier_37: 7114020017587474264
+      Carrier_38: -5016270722873373032
+      Carrier_39: -874988636463340442
+      Carrier_40: -208216103314657249
+      Carrier_41: 7795320406129086772
+      Carrier_42: -251668528118607275
+      Carrier_43: 6616265517423836752
+      Carrier_44: 5921727362855759917
+      Carrier_45: -8908502658182662967
+      Carrier_46: 6893063834746088701
+      Carrier_47: -250081832990666070
+      Carrier_48: -3712869340310044417
+      Carrier_49: 2084831729954541569
+      Carrier_50: -1505896117786262634
+      Carrier_51: 3031665534713406362
+      Carrier_52: -12182671101158954
+      Carrier_53: -1637393064766511250
+      Carrier_54: 170593435024964338
+      Carrier_55: 8556351771747552596
+      Carrier_56: -6985569496018540799
+      Carrier_57: 4649642714691778773
+      Carrier_58: -6848486147105349559
+      Carrier_59: 5254511688236665260
+      Carrier_60: 2113215904464030166
+      Carrier_61: -401256542544082117
+      Carrier_62: 3474304494543487919
+      Carrier_63: -6556215127041522067
+      Carrier_64: 4955948358077784209
+      Carrier_65: 1278254998736688948
+      Carrier_66: 2926226817972234188
+      Carrier_67: -3145222413491471398
+      Carrier_68: 3962297176150942488
+      Carrier_69: -2895395103007874342
+      Carrier_7: -1595082100
+      Carrier_70: -2078535937282542701
+      Carrier_71: 7293932152384169042
+      Carrier_72: -5498463949756121239
+      Carrier_73: -3852565542079646174
+      Carrier_74: -6798288856166025886
+      Carrier_75: 7418627243812624211
+      Carrier_76: -5283180808596352545
+      Carrier_77: -4820518447340630648
+      Carrier_78: 3171458966835085323
+      Carrier_79: 7049322076036281173
+      Carrier_80: 4228776298156403547
+      Carrier_81: 5024991316397383829
+      Carrier_82: -3029174251659556012
+      Carrier_83: -8770435391655354183
+      Carrier_84: -5821922754249811073
+      Carrier_85: 2621768640410712112
+      Carrier_86: -8858348231538966081
+      Carrier_87: -3280452244122628271
+      Carrier_88: 829887684467175581
+      Carrier_89: -7676471210270165215
+      Carrier_90: -7730532137866721815
+      Carrier_91: -6128972451229365356
+      Carrier_92: 7201968336882850365
+      Carrier_93: 7916651609591314187
+      Carrier_94: -8998982467976354819
+      Carrier_95: -3539843237464047192
+      Carrier_96: 4175427535644577305
+      Carrier_97: 6318287827866249031
+      Carrier_98: -7670318607745759898
+      Carrier_99: 7862766149445820826
+      Carrier_Dec0_Bot_0: -1790094682705440267
+      Carrier_Deck0_Bt_0: -1790094682705440267
+      Carrier_Deck0_Down_01: -1790094682705440267
+      Carrier_Deck0_Down_02: -280998616
+      Carrier_Deck0_Down_03: -11011587
+      Carrier_Deck0_Down_04: -492531923
+      Carrier_Deck0_Down_05: 594268449
+      Carrier_Deck0_Down_06: -1934071210
+      Carrier_Deck0_Down_07: -913195660
+      Carrier_Deck0_Side_01: -1945488698
+      Carrier_Deck0_Side_02: -1001484272
+      Carrier_Deck0_Side_03: 884191829
+      Carrier_Deck0_Side_04: 751184739
+      Carrier_Deck0_Side_05: 1949718004
+      Carrier_Deck0_Side_06: 6595912519673918917
+      Carrier_Deck0_Side_07: 181627005
+      Carrier_Deck0_Up_01: -1018662665
+      Carrier_Deck0_Up_02: -678097027
+      Carrier_Deck0_Up_03: 119781148
+      Carrier_Deck0_Up_04: -1062403851
+      Carrier_Deck0_Up_05: -1595576622
+      Carrier_Deck0_Up_06: 902274295
+      Carrier_Deck0_Up_07: 533077665
+      Carrier_Deck1_Down_01: 1279769075
+      Carrier_Deck1_Down_02: 1294623225
+      Carrier_Deck1_Down_03: 1299139266
+      Carrier_Deck1_Down_04: -2114656519
+      Carrier_Deck1_Down_05: -1886554312
+      Carrier_Deck1_Down_06: -2043728521
+      Carrier_Deck1_Down_07: -2037682056
+      Carrier_Deck1_Side_01: -1068497407
+      Carrier_Deck1_Side_02: 941589429
+      Carrier_Deck1_Side_03: -7493161069862285901
+      Carrier_Deck1_Side_04: -6928545259333680452
+      Carrier_Deck1_Side_05: 7090827973474302527
+      Carrier_Deck1_Side_06: 1011982811557111062
+      Carrier_Deck1_Side_07: -3403146275998450478
+      Carrier_Deck1_Up_01: 1636965477
+      Carrier_Deck1_Up_02: -362732955
+      Carrier_Deck1_Up_03: -638373286
+      Carrier_Deck1_Up_04: -882664288
+      Carrier_Deck1_Up_05: 697565325
+      Carrier_Deck1_Up_06: -1468659141
+      Carrier_Deck1_Up_07: -4027643509235946676
+      Carrier_Deck2_Down_01: -88800787
+      Carrier_Deck2_Down_02: -1041714425
+      Carrier_Deck2_Down_03: 1578407773
+      Carrier_Deck2_Down_04: -467405395
+      Carrier_Deck2_Down_05: 1530355841
+      Carrier_Deck2_Down_06: 935064408
+      Carrier_Deck2_Down_07: 525353349353505112
+      Carrier_Deck2_Side_01: 138562247
+      Carrier_Deck2_Side_02: 1617824963
+      Carrier_Deck2_Side_03: -1859883503
+      Carrier_Deck2_Side_04: 988122790
+      Carrier_Deck2_Side_05: -394609643
+      Carrier_Deck2_Side_06: -1632436785
+      Carrier_Deck2_Side_07: -311929889
+      Carrier_Deck2_Up_01: -1603961848
+      Carrier_Deck2_Up_02: -1738092653
+      Carrier_Deck2_Up_03: 1430810026
+      Carrier_Deck2_Up_04: -1793732223
+      Carrier_Deck2_Up_05: -106057337
+      Carrier_Deck2_Up_06: 209629541
+      Carrier_Deck2_Up_07: 2088334228742271255
+      Carrier_Deck3_Down_01: -1600146224
+      Carrier_Deck3_Down_02: 439163268
+      Carrier_Deck3_Down_03: -2008787107
+      Carrier_Deck3_Down_04: -612508316
+      Carrier_Deck3_Down_05: 693173513
+      Carrier_Deck3_Down_06: 513100190
+      Carrier_Deck3_Down_07: 1223614720
+      Carrier_Deck3_Side_01: -782770807
+      Carrier_Deck3_Side_02: -770539426
+      Carrier_Deck3_Side_03: 735904245
+      Carrier_Deck3_Side_04: 125740466
+      Carrier_Deck3_Side_05: 1400386085
+      Carrier_Deck3_Side_06: -1614393369
+      Carrier_Deck3_Side_07: 1157443265
+      Carrier_Deck3_Up_01: 1425754692
+      Carrier_Deck3_Up_02: -150197730
+      Carrier_Deck3_Up_03: 882169562
+      Carrier_Deck3_Up_04: -256484985
+      Carrier_Deck3_Up_05: 1615146806
+      Carrier_Deck3_Up_06: 138476674
+      Carrier_Deck3_Up_07: 1420380216
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
