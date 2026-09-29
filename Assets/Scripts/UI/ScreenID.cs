@@ -2,5 +2,11 @@
 public enum ScreenID
 {
     Screen_Title,
-    Screen_MainMenu
+    Screen_MainMenu,
+    Screen_Credits,
+    Screen_Settings,
+    Screen_Fleet,
+    Screen_SP,
+    Screen_MP,
+    Screen_Login
 }

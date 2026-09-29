@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Space To Continue Behaviour For Title Screen
 [RequireComponent(typeof(UIScreen))]
 public class TitleScreen : MonoBehaviour
 {   

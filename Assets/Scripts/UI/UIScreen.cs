@@ -18,7 +18,7 @@ public class UIScreen : MonoBehaviour
     // On & Off Switches
     public void ShowScreen()
     {
-       gameObject.SetActive(true); 
+        gameObject.SetActive(true); 
     }
 
     public void HideScreen()
