@@ -787,10 +787,10 @@ TextureImporter:
       name: UI_Icon_Volume
       rect:
         serializedVersion: 2
-        x: 657
-        y: 994
-        width: 14
-        height: 13
+        x: 656
+        y: 992
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2719,6 +2719,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI_Icon_Mute
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 944
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a6c2c6498ad2b643abbe7b031536d04
+      internalID: -2097713481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icon_X
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 944
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc755199204b0d349bcfaf9956643a9a
+      internalID: 696965563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -2846,12 +2890,14 @@ TextureImporter:
       UI_Icon_Check: -7454928716387426217
       UI_Icon_Exit: -1515960361975702075
       UI_Icon_Marker: -2009886437033911591
+      UI_Icon_Mute: -2097713481
       UI_Icon_Play: 6797427537757453789
       UI_Icon_Settings: -6485143699545741168
       UI_Icon_Sliders: 7144213556808722652
       UI_Icon_Star: -6814171777541833713
       UI_Icon_Up: -7426876598141232443
       UI_Icon_Volume: -689805448155252826
+      UI_Icon_X: 696965563
       _Full: 3388852762912283961
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
