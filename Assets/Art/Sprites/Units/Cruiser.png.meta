@@ -1,0 +1,707 @@
+fileFormatVersion: 2
+guid: 0b727b2a77af60047b3abbee07593c63
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2829204644345116825
+    second: Cruiser_0
+  - first:
+      213: -7701689273341847963
+    second: Cruiser_1
+  - first:
+      213: -1580947995749684199
+    second: Cruiser_2
+  - first:
+      213: -4037271899616743431
+    second: Cruiser_3
+  - first:
+      213: 5203477368375642750
+    second: Cruiser_4
+  - first:
+      213: 3823356324484022045
+    second: Cruiser_5
+  - first:
+      213: 423941046802875000
+    second: Cruiser_6
+  - first:
+      213: -362970173610107816
+    second: Cruiser_7
+  - first:
+      213: -7885560158322044339
+    second: Cruiser_8
+  - first:
+      213: -4690800462085576417
+    second: Cruiser_9
+  - first:
+      213: -613200928067487209
+    second: Cruiser_10
+  - first:
+      213: 1342629979371522663
+    second: Cruiser_11
+  - first:
+      213: -5279280383816724732
+    second: Cruiser_12
+  - first:
+      213: -8803946381180955067
+    second: Cruiser_13
+  - first:
+      213: 3366087164374362954
+    second: Cruiser_14
+  - first:
+      213: 1611997075025705034
+    second: Cruiser_15
+  - first:
+      213: -1378423310501471644
+    second: Cruiser_16
+  - first:
+      213: 8860414366050005323
+    second: Cruiser_17
+  - first:
+      213: -1932149540906069856
+    second: Cruiser_18
+  - first:
+      213: -3977515668364253329
+    second: Cruiser_19
+  - first:
+      213: 276844895283521300
+    second: Cruiser_20
+  - first:
+      213: -641117719774719923
+    second: Cruiser_21
+  - first:
+      213: 3599850436413109718
+    second: Cruiser_22
+  - first:
+      213: 4427987563439148245
+    second: Cruiser_23
+  - first:
+      213: 7021782539024770502
+    second: Cruiser_24
+  - first:
+      213: 9163701124901885682
+    second: Cruiser_25
+  - first:
+      213: -5400680869390341762
+    second: Cruiser_26
+  - first:
+      213: -1627839043782226418
+    second: Cruiser_27
+  - first:
+      213: -4257866207311967350
+    second: Cruiser_28
+  - first:
+      213: -8293404205999795706
+    second: Cruiser_29
+  - first:
+      213: 1338839275411881791
+    second: Cruiser_30
+  - first:
+      213: 5642155227265300346
+    second: Cruiser_31
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cruiser_Side_01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 521
+        width: 259
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 998731f52aa534720800000000000000
+      internalID: 2829204644345116825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Side_02
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 521
+        width: 259
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 566d504496a1e1590800000000000000
+      internalID: -7701689273341847963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Side_03
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 521
+        width: 259
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91c69f09c285f0ae0800000000000000
+      internalID: -1580947995749684199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Side_04
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 521
+        width: 259
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7a80dae817763840800000000000000
+      internalID: 5203477368375642750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Side_05
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 521
+        width: 259
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 872846cc22422e500800000000000000
+      internalID: 423941046802875000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Side_06
+      rect:
+        serializedVersion: 2
+        x: 1295
+        y: 521
+        width: 259
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d42dd34c0dcd09290800000000000000
+      internalID: -7885560158322044339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Side_07
+      rect:
+        serializedVersion: 2
+        x: 1554
+        y: 521
+        width: 259
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f19a62925dde6eeb0800000000000000
+      internalID: -4690800462085576417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Down_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 260
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71af89a31097d77f0800000000000000
+      internalID: -613200928067487209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Down_02
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 260
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76aca394adaf1a210800000000000000
+      internalID: 1342629979371522663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Down_03
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 260
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40f8ae4367a3cb6b0800000000000000
+      internalID: -5279280383816724732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Down_04
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 260
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5469f10696912d580800000000000000
+      internalID: -8803946381180955067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Down_05
+      rect:
+        serializedVersion: 2
+        x: 1038
+        y: 260
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46a11736d4bdedce0800000000000000
+      internalID: -1378423310501471644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Down_06
+      rect:
+        serializedVersion: 2
+        x: 1297
+        y: 260
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b41bd23ebe386fa70800000000000000
+      internalID: 8860414366050005323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Down_07
+      rect:
+        serializedVersion: 2
+        x: 1556
+        y: 260
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a01c51ca30af25e0800000000000000
+      internalID: -1932149540906069856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Up_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d409e95a4da4a17f0800000000000000
+      internalID: -641117719774719923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Up_02
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 1
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d530fa26ec35f130800000000000000
+      internalID: 3599850436413109718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Up_03
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 1
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dc43ac7a3f537d30800000000000000
+      internalID: 4427987563439148245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Up_04
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 1
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c5ac982402627160800000000000000
+      internalID: 7021782539024770502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Up_05
+      rect:
+        serializedVersion: 2
+        x: 1038
+        y: 1
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0e49dba301c869e0800000000000000
+      internalID: -1627839043782226418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Up_06
+      rect:
+        serializedVersion: 2
+        x: 1297
+        y: 1
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8bc70c5e3509e4c0800000000000000
+      internalID: -4257866207311967350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cruiser_Up_07
+      rect:
+        serializedVersion: 2
+        x: 1556
+        y: 1
+        width: 68
+        height: 259
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 602d6a2a0d8e7ec80800000000000000
+      internalID: -8293404205999795706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 670e32821a93f2f49bffb50a5246216e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Cruiser_14: 3366087164374362954
+      Cruiser_15: 1611997075025705034
+      Cruiser_19: -3977515668364253329
+      Cruiser_20: 276844895283521300
+      Cruiser_25: 9163701124901885682
+      Cruiser_26: -5400680869390341762
+      Cruiser_3: -4037271899616743431
+      Cruiser_30: 1338839275411881791
+      Cruiser_31: 5642155227265300346
+      Cruiser_5: 3823356324484022045
+      Cruiser_7: -362970173610107816
+      Cruiser_Down_01: -613200928067487209
+      Cruiser_Down_02: 1342629979371522663
+      Cruiser_Down_03: -5279280383816724732
+      Cruiser_Down_04: -8803946381180955067
+      Cruiser_Down_05: -1378423310501471644
+      Cruiser_Down_06: 8860414366050005323
+      Cruiser_Down_07: -1932149540906069856
+      Cruiser_Side_01: 2829204644345116825
+      Cruiser_Side_02: -7701689273341847963
+      Cruiser_Side_03: -1580947995749684199
+      Cruiser_Side_04: 5203477368375642750
+      Cruiser_Side_05: 423941046802875000
+      Cruiser_Side_06: -7885560158322044339
+      Cruiser_Side_07: -4690800462085576417
+      Cruiser_Up_01: -641117719774719923
+      Cruiser_Up_02: 3599850436413109718
+      Cruiser_Up_03: 4427987563439148245
+      Cruiser_Up_04: 7021782539024770502
+      Cruiser_Up_05: -1627839043782226418
+      Cruiser_Up_06: -4257866207311967350
+      Cruiser_Up_07: -8293404205999795706
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

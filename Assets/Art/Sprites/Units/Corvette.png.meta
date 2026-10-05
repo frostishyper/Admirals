@@ -1,0 +1,687 @@
+fileFormatVersion: 2
+guid: 84b512897aa925748a272874aa73d9d1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4513097040299472331
+    second: Corvette_0
+  - first:
+      213: -3834414430892282018
+    second: Corvette_1
+  - first:
+      213: 6553030392728377596
+    second: Corvette_2
+  - first:
+      213: 3274587788847756013
+    second: Corvette_3
+  - first:
+      213: 1670553788123680668
+    second: Corvette_4
+  - first:
+      213: -6169801462654893790
+    second: Corvette_5
+  - first:
+      213: -4257807109109246255
+    second: Corvette_6
+  - first:
+      213: 7323518285063689361
+    second: Corvette_7
+  - first:
+      213: -915746731887386591
+    second: Corvette_8
+  - first:
+      213: -3226409503500360314
+    second: Corvette_9
+  - first:
+      213: 1699169164428933076
+    second: Corvette_10
+  - first:
+      213: 2148943546447008666
+    second: Corvette_11
+  - first:
+      213: -5957125606864797245
+    second: Corvette_12
+  - first:
+      213: -7480187101525124736
+    second: Corvette_13
+  - first:
+      213: -822601690105558848
+    second: Corvette_14
+  - first:
+      213: 5848066534381658213
+    second: Corvette_15
+  - first:
+      213: 4902256818448675907
+    second: Corvette_16
+  - first:
+      213: 1164486452872248341
+    second: Corvette_17
+  - first:
+      213: 1845743246708227791
+    second: Corvette_18
+  - first:
+      213: -5760934852063532333
+    second: Corvette_19
+  - first:
+      213: -441084860719976544
+    second: Corvette_20
+  - first:
+      213: -8018855474499891478
+    second: Corvette_21
+  - first:
+      213: -8881201264018896948
+    second: Corvette_22
+  - first:
+      213: 7319515336136063294
+    second: Corvette_23
+  - first:
+      213: 8897602187108442492
+    second: Corvette_24
+  - first:
+      213: -3011526790543277256
+    second: Corvette_25
+  - first:
+      213: 191201107181087938
+    second: Corvette_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Corvette_Side_01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 142
+        width: 139
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53a451c37224e51c0800000000000000
+      internalID: -4513097040299472331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Side_02
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 142
+        width: 139
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5fa805046c69cac0800000000000000
+      internalID: -3834414430892282018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Side_03
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 142
+        width: 139
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf8d9e83c6a01fa50800000000000000
+      internalID: 6553030392728377596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Side_04
+      rect:
+        serializedVersion: 2
+        x: 417
+        y: 142
+        width: 139
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de23a149e3ca17d20800000000000000
+      internalID: 3274587788847756013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Side_05
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 142
+        width: 139
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22105cb3246706aa0800000000000000
+      internalID: -6169801462654893790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Side_06
+      rect:
+        serializedVersion: 2
+        x: 695
+        y: 142
+        width: 139
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d6196b3efa39e4c0800000000000000
+      internalID: -4257807109109246255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Side_07
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 142
+        width: 139
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1949c4f141d52a560800000000000000
+      internalID: 7323518285063689361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Down_01
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 120a0adf23d9a43f0800000000000000
+      internalID: -915746731887386591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Up_01
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 685aaeb96ad7933d0800000000000000
+      internalID: -3226409503500360314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Down_02
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d7751b3a59a49710800000000000000
+      internalID: 1699169164428933076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Up_02
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a93975815c492dd10800000000000000
+      internalID: 2148943546447008666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Down_03
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c1c070a2d9045da0800000000000000
+      internalID: -5957125606864797245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Up_03
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 089d2208679013890800000000000000
+      internalID: -7480187101525124736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Down_04
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c84f950f188594f0800000000000000
+      internalID: -822601690105558848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Up_04
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 344be556a90580440800000000000000
+      internalID: 4902256818448675907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Down_05
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51c74395246192010800000000000000
+      internalID: 1164486452872248341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Up_05
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcebe9624b56d9910800000000000000
+      internalID: 1845743246708227791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Down_06
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dae598564c0d00b0800000000000000
+      internalID: -5760934852063532333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Up_06
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0afabf8f7a3f0e9f0800000000000000
+      internalID: -441084860719976544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Down_07
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aeecc318e6d47b090800000000000000
+      internalID: -8018855474499891478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corvette_Up_07
+      rect:
+        serializedVersion: 2
+        x: 904
+        y: 2
+        width: 65
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc747674182afb480800000000000000
+      internalID: -8881201264018896948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e561292aa03dd9a40b1353656bfa16b5
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Corvette_15: 5848066534381658213
+      Corvette_23: 7319515336136063294
+      Corvette_24: 8897602187108442492
+      Corvette_25: -3011526790543277256
+      Corvette_26: 191201107181087938
+      Corvette_4: 1670553788123680668
+      Corvette_Down_01: -915746731887386591
+      Corvette_Down_02: 1699169164428933076
+      Corvette_Down_03: -5957125606864797245
+      Corvette_Down_04: -822601690105558848
+      Corvette_Down_05: 1164486452872248341
+      Corvette_Down_06: -5760934852063532333
+      Corvette_Down_07: -8018855474499891478
+      Corvette_Side_01: -4513097040299472331
+      Corvette_Side_02: -3834414430892282018
+      Corvette_Side_03: 6553030392728377596
+      Corvette_Side_04: 3274587788847756013
+      Corvette_Side_05: -6169801462654893790
+      Corvette_Side_06: -4257807109109246255
+      Corvette_Side_07: 7323518285063689361
+      Corvette_Up_01: -3226409503500360314
+      Corvette_Up_02: 2148943546447008666
+      Corvette_Up_03: -7480187101525124736
+      Corvette_Up_04: 4902256818448675907
+      Corvette_Up_05: 1845743246708227791
+      Corvette_Up_06: -441084860719976544
+      Corvette_Up_07: -8881201264018896948
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,691 @@
+fileFormatVersion: 2
+guid: eac03e9c8ece6a54b8b35b822a9bcb6b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6871892450741501236
+    second: Destroyer_0
+  - first:
+      213: -5717335398714070623
+    second: Destroyer_1
+  - first:
+      213: 7393335764238929087
+    second: Destroyer_2
+  - first:
+      213: 1568569237788930045
+    second: Destroyer_3
+  - first:
+      213: 8051482032124475110
+    second: Destroyer_4
+  - first:
+      213: 2107199527637638170
+    second: Destroyer_5
+  - first:
+      213: -6878836387376231566
+    second: Destroyer_6
+  - first:
+      213: 5487961516071800476
+    second: Destroyer_7
+  - first:
+      213: 7643647072846571948
+    second: Destroyer_8
+  - first:
+      213: 1449795950458847769
+    second: Destroyer_9
+  - first:
+      213: 2021735697380808875
+    second: Destroyer_10
+  - first:
+      213: 6856751382375452902
+    second: Destroyer_11
+  - first:
+      213: 4005996344916473915
+    second: Destroyer_12
+  - first:
+      213: -7382724504868712242
+    second: Destroyer_13
+  - first:
+      213: -240774138598053331
+    second: Destroyer_14
+  - first:
+      213: -1316650839059205430
+    second: Destroyer_15
+  - first:
+      213: 6520939174031620088
+    second: Destroyer_16
+  - first:
+      213: 6997752641905893652
+    second: Destroyer_17
+  - first:
+      213: -3380139556632185148
+    second: Destroyer_18
+  - first:
+      213: 504429978374008723
+    second: Destroyer_19
+  - first:
+      213: -6403589499359077982
+    second: Destroyer_20
+  - first:
+      213: -7103973673424767380
+    second: Destroyer_21
+  - first:
+      213: -3425334514632864118
+    second: Destroyer_22
+  - first:
+      213: 2344716363401229201
+    second: Destroyer_23
+  - first:
+      213: 3303516971786750606
+    second: Destroyer_24
+  - first:
+      213: -2765202023655071414
+    second: Destroyer_25
+  - first:
+      213: 4572201034508677085
+    second: Destroyer_26
+  - first:
+      213: -3606346312593202603
+    second: Destroyer_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Destroyer_Side_01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 401
+        width: 205
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc24dd2993222a0a0800000000000000
+      internalID: -6871892450741501236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Side_02
+      rect:
+        serializedVersion: 2
+        x: 205
+        y: 401
+        width: 205
+        height: 76
+      alignment: 9
+      pivot: {x: 0.5064793, y: 0.36792257}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a9a1e12fb1f7a0b0800000000000000
+      internalID: -5717335398714070623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Side_03
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 401
+        width: 205
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbc07acb4b76a9660800000000000000
+      internalID: 7393335764238929087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Side_04
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 401
+        width: 205
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e63838ef3c9cbf60800000000000000
+      internalID: 8051482032124475110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Side_05
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 401
+        width: 205
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9e49722ce7292c40800000000000000
+      internalID: 5487961516071800476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Side_06
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 401
+        width: 205
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca96975d380b31a60800000000000000
+      internalID: 7643647072846571948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Side_07
+      rect:
+        serializedVersion: 2
+        x: 1230
+        y: 401
+        width: 205
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91246ef4cb5be1410800000000000000
+      internalID: 1449795950458847769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Down_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 202
+        width: 70
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba81c18b7e5ae0c10800000000000000
+      internalID: 2021735697380808875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Down_02
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 202
+        width: 70
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e058abbd03182f50800000000000000
+      internalID: 6856751382375452902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Down_03
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 202
+        width: 70
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3872467378289730800000000000000
+      internalID: 4005996344916473915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Down_04
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 202
+        width: 70
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec09abc9d2b4b8990800000000000000
+      internalID: -7382724504868712242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Down_05
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 202
+        width: 70
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f7751e11a70f7a50800000000000000
+      internalID: 6520939174031620088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Down_06
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 202
+        width: 70
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4112adeb3f20d1160800000000000000
+      internalID: 6997752641905893652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Down_07
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 202
+        width: 70
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c631b36bf45711d0800000000000000
+      internalID: -3380139556632185148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Up_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 70
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39f6a0b8468100700800000000000000
+      internalID: 504429978374008723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Up_02
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 3
+        width: 70
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a9d74b2741e127a0800000000000000
+      internalID: -6403589499359077982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Up_03
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 1
+        width: 70
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c663acd159d996d90800000000000000
+      internalID: -7103973673424767380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Up_04
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 1
+        width: 70
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8e4c6a3864c670d0800000000000000
+      internalID: -3425334514632864118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Up_05
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 1
+        width: 70
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4129dff86700a9d0800000000000000
+      internalID: -2765202023655071414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Up_06
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 1
+        width: 70
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddf2097cd98b37f30800000000000000
+      internalID: 4572201034508677085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Destroyer_Up_07
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 1
+        width: 70
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 552a7dcc22fa3fdc0800000000000000
+      internalID: -3606346312593202603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 34a738f4793058d479868fb2d11ab188
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Destroyer_14: -240774138598053331
+      Destroyer_15: -1316650839059205430
+      Destroyer_23: 2344716363401229201
+      Destroyer_24: 3303516971786750606
+      Destroyer_3: 1568569237788930045
+      Destroyer_5: 2107199527637638170
+      Destroyer_6: -6878836387376231566
+      Destroyer_Down_01: 2021735697380808875
+      Destroyer_Down_02: 6856751382375452902
+      Destroyer_Down_03: 4005996344916473915
+      Destroyer_Down_04: -7382724504868712242
+      Destroyer_Down_05: 6520939174031620088
+      Destroyer_Down_06: 6997752641905893652
+      Destroyer_Down_07: -3380139556632185148
+      Destroyer_Side_01: -6871892450741501236
+      Destroyer_Side_02: -5717335398714070623
+      Destroyer_Side_03: 7393335764238929087
+      Destroyer_Side_04: 8051482032124475110
+      Destroyer_Side_05: 5487961516071800476
+      Destroyer_Side_06: 7643647072846571948
+      Destroyer_Side_07: 1449795950458847769
+      Destroyer_Up_01: 504429978374008723
+      Destroyer_Up_02: -6403589499359077982
+      Destroyer_Up_03: -7103973673424767380
+      Destroyer_Up_04: -3425334514632864118
+      Destroyer_Up_05: -2765202023655071414
+      Destroyer_Up_06: 4572201034508677085
+      Destroyer_Up_07: -3606346312593202603
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

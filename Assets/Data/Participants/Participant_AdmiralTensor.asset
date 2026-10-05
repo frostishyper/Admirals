@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 440c3591d70396a48b209ba28acdd865, type: 3}
+  m_Name: Participant_AdmiralTensor
+  m_EditorClassIdentifier: Assembly-CSharp::ParticipantInfo
+  _ParticipantType: 1
+  _DisplayName: Lt. Tensor
+  _DefaultRank: {fileID: 11400000, guid: 1253978eeb1372949b71df48f7e5405b, type: 2}
+  _PortraitLeft: {fileID: 21300000, guid: 40357c6e66347484291a1de4336faec8, type: 3}
+  _PortraitRight: {fileID: 21300000, guid: 0a40b290594cd4849b16d7685bf6b67a, type: 3}
