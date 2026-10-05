@@ -2763,6 +2763,182 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Rank_01
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 194
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61bdfa81ac1bd5442b35d0c3811bccd3
+      internalID: 1997886694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rank_02
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 179
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e733128656bc9b4439b06fdeab74d2c7
+      internalID: -494865122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rank_03
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 164
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7093e37500f908842bf01bd681461941
+      internalID: -1440086575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rank_04
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 149
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9872ea064383214392e5328c885c987
+      internalID: 2036293307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rank_05
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 134
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccd7cdffb9a887840bf3463d83d2c797
+      internalID: -1082984553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rank_06
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 119
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11ea3c6fafb45da439988295cc21b3b5
+      internalID: -1504666748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rank_07
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 104
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95a333ebc1314894f84e61cb78dafedb
+      internalID: 1098126917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rank_08
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 89
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 552bc1e40aa970641bc2b51d1763c8ac
+      internalID: 369615213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -2877,6 +3053,15 @@ TextureImporter:
       Plate_Grn: 406123858495779274
       Plate_Neutral: 2421953437011533754
       Plate_Red: -8275639223913549226
+      Rank_01: 1997886694
+      Rank_02: -494865122
+      Rank_03: -1440086575
+      Rank_04: 2036293307
+      Rank_05: -1082984553
+      Rank_06: -1504666748
+      Rank_07: 1098126917
+      Rank_08: 369615213
+      Rank_09: -285207097
       SP_Portrait_Off: 1495945999698319735
       SP_Portrait_On: -378764409298521049
       Sub_Pannel: -1636189644325552859
