@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Participant_AdmiralTensor
   m_EditorClassIdentifier: Assembly-CSharp::ParticipantInfo
   _ParticipantType: 1
-  _DisplayName: Lieutenant Tensor
+  _DisplayName: Lt. Tensor
   _DefaultRank: {fileID: 11400000, guid: 1253978eeb1372949b71df48f7e5405b, type: 2}
   _PortraitLeft: {fileID: 21300000, guid: 40357c6e66347484291a1de4336faec8, type: 3}
   _PortraitRight: {fileID: 21300000, guid: 0a40b290594cd4849b16d7685bf6b67a, type: 3}

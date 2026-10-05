@@ -42,7 +42,7 @@ public class ScreenNavigator : MonoBehaviour
         ScreenStack.Push(Target);
     }
 
-    // Removes The Top Screen And DOes Back To The Previous One (BACK)
+    // Removes The Top Screen And Goes Back To The Previous One (BACK)
     public void Pop()
     {
         if (ScreenStack.Count > 1)

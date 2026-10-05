@@ -1,6 +1,7 @@
 using UnityEngine;
 
 // Controls The Current Lobby And Its Runtime State
+// Attach To Screen_Singleplayer GameObject
 public class LobbyController : MonoBehaviour
 {
     // Available Maps & Game Modes

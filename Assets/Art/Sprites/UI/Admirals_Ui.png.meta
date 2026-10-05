@@ -2939,6 +2939,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI_Icon_Left
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 929
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98ec4df45e69aa74284b53aebfefdf0f
+      internalID: -1777105327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_Icon_Right
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 929
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec5a98fcad233a44fbcaef31412ad720
+      internalID: 1191370419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -3074,9 +3118,11 @@ TextureImporter:
       UI_Icon_4pc: -9049619301976607067
       UI_Icon_Check: -7454928716387426217
       UI_Icon_Exit: -1515960361975702075
+      UI_Icon_Left: -1777105327
       UI_Icon_Marker: -2009886437033911591
       UI_Icon_Mute: -2097713481
       UI_Icon_Play: 6797427537757453789
+      UI_Icon_Right: 1191370419
       UI_Icon_Settings: -6485143699545741168
       UI_Icon_Sliders: 7144213556808722652
       UI_Icon_Star: -6814171777541833713

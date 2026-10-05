@@ -2,26 +2,34 @@ using UnityEngine;
 
 // Basic Information Used To Identify A Rule Set
 [CreateAssetMenu(
-    fileName = "RuleSet_New",
-    menuName = "Admirals/Rule Set Info"
+    fileName = "GameMode_New",
+    menuName = "Admirals/GameMode Info"
 )]
 public class GameModeInfo : ScriptableObject
 {
     // Display Name Of The Rule Set
-    [SerializeField] private string _RuleSetName;
+    [SerializeField] private string _GameModeName;
 
     // Unique ID For The Rule Set
-    [SerializeField] private string _RuleSetID;
+    [SerializeField] private string _GameModeID;
+
+    // Reference To The Actual Gamemode / Prefab
+    [SerializeField] private GameObject _GameModeReference;
 
 
     // Read-Only Access For Other Systems
-    public string RuleSetName
+    public string GameModeName
     {
-        get { return _RuleSetName; }
+        get { return _GameModeName; }
     }
 
-    public string RuleSetID
+    public string GameModeID
     {
-        get { return _RuleSetID; }
+        get { return _GameModeID; }
+    }
+
+    public GameObject GameModeReference
+    {
+        get { return _GameModeReference; }
     }
 }
