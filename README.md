@@ -67,125 +67,40 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 
 # ⚓ Admirals — Development Roadmap
 
-> Development roadmap for **Admirals**.
-> Features are organized into incremental development milestones.
-
----
-
-## 🔵 VER 0.1 — Foundation 🏛️
-
-### [UI]
-
-* ✅ Title Screen
-* ✅ Main Menu
-* [ ] Settings
-
-### [Script(s) / Code]
-
-* ✅ Menu Screen Navigation(s)
-* [ ] Menu Button Function(s)
-
----
-
-## 🟢 VER 0.2 — Multiplayer Lobby 🤝
-
-### [UI]
-
-* [ ] Multiplayer
-* [ ] Multiplayer Lobby
-
-### [Script(s) / Code]
-
-* [ ] Input & Save Player Username
-
----
-
-## 🟡 VER 0.3 — Core Gameplay 🎮
-
-### [UI]
-
-* [ ] Single Player
-* [ ] Game Board
-* [ ] Battle Screen
-
-### [Script(s) / Code]
-
-* [ ] Map & Grid
-* [ ] Deployment Phase
-* [ ] Movement Phase
-* [ ] Pre-Battle Phase
-* [ ] Search Phase
-* [ ] Battle Phase
-* [ ] Combat
-* [ ] End Phase
-* [ ] Battle Manager
-* [ ] Complete Gameplay Loop
-
----
-
-## 🟠 VER 0.4 — AI Opponent 🤖
-
-### [Script(s) / Code]
-
-* [ ] AI Opponent 🤖
-
----
-
-## 🔴 VER 0.5 — Multiplayer Gameplay 🌐
-
-### [UI]
-
-* [ ] Multiplayer Game Board
-
-### [Script(s) / Code] 
-
-* [ ] Game Hosting & Authority
-* [ ] Network Code
-* [ ] Player Synchronization
-* [ ] Multiplayer Gameplay & Turn Loop
-
----
-
-
-# 📌 Milestone Overview
-
-| Version | Milestone          | Primary Goal         |
-| :-----: | ------------------ | -------------------- |
-| **0.1** | Foundation         | UI & Menu Systems    |
-| **0.2** | Multiplayer Lobby  | Player Setup & Lobby |
-| **0.3** | Core Gameplay      | Complete Battle Loop |
-| **0.4** | AI Opponent        | Single-Player AI     |
-| **0.5** | Online Multiplayer | Networked Gameplay   |
-
----
-
-### 🚧 Current Development
-
-**Version:** `0.1 — Foundation & Main Menu`
-
-**Status:** `In Development`
-
-> This roadmap is subject to change as development progresses.
-
-
-        
 ## 📁 Project Structure
 
     ~/
+    ├── Assets
+    │   ├── Animations
+    │   ├── Art
+    │   ├── Audio
+    │   ├── Data
+    │   ├── Fonts
+    │   ├── GameData
+    │   ├── Prefabs
+    │   ├── Scenes
+    │   ├── Scripts
+    │   ├── Settings
+    │   └── TextMesh Pro
     │
-    ├── Assets          
-    ├── Packages        
-    ├── Project Settings 
+    ├── Packages
+    │   ├── manifest.json
+    │   └── packages-lock.json
+    │
+    ├── ProjectSettings
+    │
+    ├── .github
+    │   └── pull_request_template.md
+    │
+    ├── .gitattributes
     ├── .gitignore
-    └── README.md         
-
+    └── README.md
 
 
 ## 🖼️ Screenshots
 
 <img width="1100" height="600" alt="Admirals_TitleScreen" src="https://github.com/user-attachments/assets/cb9ba809-0a49-441b-b5d6-0ae9a1f7c615" />
 <img width="1100" height="600" alt="Admirals_MainMenu" src="https://github.com/user-attachments/assets/61b30fed-599a-49fe-8c32-971e17bc681a" />
-
 
 
 ## 👥 Credits
