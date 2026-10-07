@@ -61,6 +61,7 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 -   Vscode (recommended) or preferred C# IDE
 -   Git
 -   Git LFS
+-   MackySoft SerializeReferenceExtensions 1.7.0
 
 
 ## 🧭 Roadmap
