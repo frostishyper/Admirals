@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482677a2191c01f4286a4bcfedfd0422, type: 3}
+  m_Name: SystemType_CMS
+  m_EditorClassIdentifier: Assembly-CSharp::SystemTypeDefinition
+  _SystemTypeName: Counter Measure
+  _SystemTypeID: 7
+  _SystemTypeSprite: {fileID: -2421097023326232380, guid: 311328d4affd1f5478583f9b225240ba, type: 3}

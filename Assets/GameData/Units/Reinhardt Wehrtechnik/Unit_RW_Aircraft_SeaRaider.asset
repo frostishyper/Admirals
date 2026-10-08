@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a2fdc14213a85a4d89c57b68bdf483e, type: 3}
+  m_Name: Unit_RW_Aircraft_SeaRaider
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDefinition
+  _UnitName: RW1-SeaRaider
+  _UnitID: rw_aircraft_searaider
+  _Manufacturer: {fileID: 11400000, guid: 6f718830c76c2794ea49811d315e9403, type: 2}
+  _Tier: {fileID: 11400000, guid: 05e2378974f69db4dbf5aaf39f508aec, type: 2}
+  _UnitType: {fileID: 11400000, guid: 2a9cf64e336a39541b8390e017289af0, type: 2}
+  _Domain: {fileID: 11400000, guid: 3bb39945bce1a6b458e639fb6a07169e, type: 2}
+  _BaseHP: 3
+  _Stealth: 1
+  _MovementPattern: {fileID: 11400000, guid: 29e0edb9ac0fe04429f91894d874f0af, type: 2}
+  _AbsoluteVisionRange: 1
+  _FootprintSize: {x: 1, y: 1}
+  _FootprintOrigin: {x: 0, y: 0}
+  _WeaponSlots:
+  - _Weapon: {fileID: 11400000, guid: 3bec52681047e054bb1b49cdcb4512ff, type: 2}
+    _MaxCharges: 2
+  - _Weapon: {fileID: 11400000, guid: a81fa62e5b7003541a29303898c4cf68, type: 2}
+    _MaxCharges: 2
+  _OnboardSystemSlots:
+  - _System: {fileID: 11400000, guid: 2aa1b2ad606bcfb43bb666baa2f2ff3d, type: 2}
+    _MaxCharges: 0
+    _DeploymentLoadout: []
+  - _System: {fileID: 11400000, guid: 5cf71716b6f1ef742857cd6072f84389, type: 2}
+    _MaxCharges: 2
+    _DeploymentLoadout: []
+  _Abilities: []

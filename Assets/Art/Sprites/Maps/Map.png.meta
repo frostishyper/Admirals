@@ -1,0 +1,2311 @@
+fileFormatVersion: 2
+guid: 798f9a60debf49540a7557fef77d1059
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 645411862609229670
+    second: Map_0
+  - first:
+      213: -3276122099754389042
+    second: Map_1
+  - first:
+      213: -135665275369439952
+    second: Map_2
+  - first:
+      213: 6732742066884364779
+    second: Map_3
+  - first:
+      213: -7324858090283886608
+    second: Map_4
+  - first:
+      213: 4945718543514210754
+    second: Map_5
+  - first:
+      213: -7516791614127822498
+    second: Map_6
+  - first:
+      213: -172109923268554218
+    second: Map_7
+  - first:
+      213: -7902874161665819209
+    second: Map_8
+  - first:
+      213: -1382599404536372767
+    second: Map_9
+  - first:
+      213: -1703855962273834177
+    second: Map_10
+  - first:
+      213: 943897181365695813
+    second: Map_11
+  - first:
+      213: -5247471291593165273
+    second: Map_12
+  - first:
+      213: -5638046861314674359
+    second: Map_13
+  - first:
+      213: -2411617240929303042
+    second: Map_14
+  - first:
+      213: 7254830028836282046
+    second: Map_15
+  - first:
+      213: 2320237665067697772
+    second: Map_16
+  - first:
+      213: -9024062157296624422
+    second: Map_17
+  - first:
+      213: 4850156979965651710
+    second: Map_18
+  - first:
+      213: 8792265869481431602
+    second: Map_19
+  - first:
+      213: -4568697809530194781
+    second: Map_20
+  - first:
+      213: 1593215189244636201
+    second: Map_21
+  - first:
+      213: 8573059855525071730
+    second: Map_22
+  - first:
+      213: 7425192431115120889
+    second: Map_23
+  - first:
+      213: -4172028848623372801
+    second: Map_24
+  - first:
+      213: -1056934510162341840
+    second: Map_25
+  - first:
+      213: -2754663757602625610
+    second: Map_26
+  - first:
+      213: -4869737979032656101
+    second: Map_27
+  - first:
+      213: 2999823878453468979
+    second: Map_28
+  - first:
+      213: 1353535977621239276
+    second: Map_29
+  - first:
+      213: 4421511995710276311
+    second: Map_30
+  - first:
+      213: 846317233186249457
+    second: Map_31
+  - first:
+      213: 7265655196937639400
+    second: Map_32
+  - first:
+      213: -8890249555747506516
+    second: Map_33
+  - first:
+      213: 5194759158461271728
+    second: Map_34
+  - first:
+      213: -8185575708631513129
+    second: Map_35
+  - first:
+      213: 5382854307055235678
+    second: Map_36
+  - first:
+      213: 2826670606928273998
+    second: Map_37
+  - first:
+      213: -4231019182561495619
+    second: Map_38
+  - first:
+      213: 5075881640569961040
+    second: Map_39
+  - first:
+      213: 6079829472161163889
+    second: Map_40
+  - first:
+      213: -3767042265682681753
+    second: Map_41
+  - first:
+      213: -3174627165007773071
+    second: Map_42
+  - first:
+      213: 4125586807256846168
+    second: Map_43
+  - first:
+      213: 3217402613522162070
+    second: Map_44
+  - first:
+      213: 261444279322193459
+    second: Map_45
+  - first:
+      213: 8456520407522681470
+    second: Map_46
+  - first:
+      213: 6293237369934708708
+    second: Map_47
+  - first:
+      213: 6408873623997500287
+    second: Map_48
+  - first:
+      213: -6168126753187012734
+    second: Map_49
+  - first:
+      213: 745895969112653956
+    second: Map_50
+  - first:
+      213: -8159867129159634438
+    second: Map_51
+  - first:
+      213: -5394838584489705047
+    second: Map_52
+  - first:
+      213: -7348929559201483037
+    second: Map_53
+  - first:
+      213: 4425271440581574078
+    second: Map_54
+  - first:
+      213: -2976389553974818648
+    second: Map_55
+  - first:
+      213: -4571088490644842573
+    second: Map_56
+  - first:
+      213: -3461553558224320679
+    second: Map_57
+  - first:
+      213: -8312652586926404187
+    second: Map_58
+  - first:
+      213: 5949799389994394077
+    second: Map_59
+  - first:
+      213: 3409698251670526980
+    second: Map_60
+  - first:
+      213: -7663252956436754325
+    second: Map_61
+  - first:
+      213: -1356788850171221566
+    second: Map_62
+  - first:
+      213: -3186739434785413484
+    second: Map_63
+  - first:
+      213: 3533443336603929511
+    second: Map_64
+  - first:
+      213: 8081522254003099205
+    second: Map_65
+  - first:
+      213: 4916228663796139433
+    second: Map_66
+  - first:
+      213: 7517663647287331310
+    second: Map_67
+  - first:
+      213: -1819880507586842087
+    second: Map_68
+  - first:
+      213: -1465882396744524743
+    second: Map_69
+  - first:
+      213: 6084803303968313873
+    second: Map_70
+  - first:
+      213: -128137628210112120
+    second: Map_71
+  - first:
+      213: -6543322223597282717
+    second: Map_72
+  - first:
+      213: 7918614727497737223
+    second: Map_73
+  - first:
+      213: -4031727519805599458
+    second: Map_74
+  - first:
+      213: 4376495350284326821
+    second: Map_75
+  - first:
+      213: 7506138606296251464
+    second: Map_76
+  - first:
+      213: -8218842243403949229
+    second: Map_77
+  - first:
+      213: -8198917800507979068
+    second: Map_78
+  - first:
+      213: 1207976606598699161
+    second: Map_79
+  - first:
+      213: 6220978418412953475
+    second: Map_80
+  - first:
+      213: -8738826344091915895
+    second: Map_81
+  - first:
+      213: 4443644510646094185
+    second: Map_82
+  - first:
+      213: -4442810238400299890
+    second: Map_83
+  - first:
+      213: -7096466495744463012
+    second: Map_84
+  - first:
+      213: -6247994448557536709
+    second: Map_85
+  - first:
+      213: 75086605101443884
+    second: Map_86
+  - first:
+      213: -7779685174226003946
+    second: Map_87
+  - first:
+      213: -4118602242526861758
+    second: Map_88
+  - first:
+      213: 5442488026863304260
+    second: Map_89
+  - first:
+      213: 982327090046303477
+    second: Map_90
+  - first:
+      213: -4221145854142160819
+    second: Map_91
+  - first:
+      213: -5258174738032798765
+    second: Map_92
+  - first:
+      213: 6047543881801964306
+    second: Map_93
+  - first:
+      213: 7471377435188417092
+    second: Map_94
+  - first:
+      213: 2270514149373739496
+    second: Map_95
+  - first:
+      213: -1417435053052649565
+    second: Map_96
+  - first:
+      213: 2760578305036440176
+    second: Map_97
+  - first:
+      213: -1111556771804828388
+    second: Map_98
+  - first:
+      213: 3547875362824650866
+    second: Map_99
+  - first:
+      213: -2989511354288418995
+    second: Map_100
+  - first:
+      213: 8819144412319633542
+    second: Map_101
+  - first:
+      213: -6455373798715947322
+    second: Map_102
+  - first:
+      213: 1117207685277728668
+    second: Map_103
+  - first:
+      213: 6440888031781640983
+    second: Map_104
+  - first:
+      213: -4206888051458585413
+    second: Map_105
+  - first:
+      213: 3740412327739716895
+    second: Map_106
+  - first:
+      213: 5367484886309559142
+    second: Map_107
+  - first:
+      213: 7816836650367334198
+    second: Map_108
+  - first:
+      213: -6166628676501010366
+    second: Map_109
+  - first:
+      213: 7885799879729514808
+    second: Map_110
+  - first:
+      213: 6934906812025133676
+    second: Map_111
+  - first:
+      213: -3249895472468291409
+    second: Map_112
+  - first:
+      213: 5983977562047412807
+    second: Map_113
+  - first:
+      213: -3488973277829307664
+    second: Map_114
+  - first:
+      213: 4176045162502034773
+    second: Map_115
+  - first:
+      213: 694234993397730145
+    second: Map_116
+  - first:
+      213: 3420079504581375919
+    second: Map_117
+  - first:
+      213: 3641109980218985762
+    second: Map_118
+  - first:
+      213: -2561445218671073038
+    second: Map_119
+  - first:
+      213: -8182887420532286193
+    second: Map_120
+  - first:
+      213: -4397334054332503427
+    second: Map_121
+  - first:
+      213: -787018152684402069
+    second: Map_122
+  - first:
+      213: 7022948748072426527
+    second: Map_123
+  - first:
+      213: -3545440368923857773
+    second: Map_124
+  - first:
+      213: -2661934451380137834
+    second: Map_125
+  - first:
+      213: 8024375682737363370
+    second: Map_126
+  - first:
+      213: 2115836427646945849
+    second: Map_127
+  - first:
+      213: -607943681099942667
+    second: Map_128
+  - first:
+      213: 2925363852831228761
+    second: Map_129
+  - first:
+      213: -5104056087700132464
+    second: Map_130
+  - first:
+      213: -8784998277265398664
+    second: Map_131
+  - first:
+      213: 4126882126320302176
+    second: Map_132
+  - first:
+      213: 4839438020877370628
+    second: Map_133
+  - first:
+      213: 8285271737550172679
+    second: Map_134
+  - first:
+      213: -8441722717403686422
+    second: Map_135
+  - first:
+      213: 5854400672752333274
+    second: Map_136
+  - first:
+      213: 6672992085226440615
+    second: Map_137
+  - first:
+      213: -350888702924065267
+    second: Map_138
+  - first:
+      213: -8445572621957146304
+    second: Map_139
+  - first:
+      213: 1911944016563570945
+    second: Map_140
+  - first:
+      213: 8862486257636439893
+    second: Map_141
+  - first:
+      213: -5407339401271225916
+    second: Map_142
+  - first:
+      213: -1372667186823142524
+    second: Map_143
+  - first:
+      213: 6490987479224562447
+    second: Map_144
+  - first:
+      213: -1406878037461461062
+    second: Map_145
+  - first:
+      213: -5385303719626693410
+    second: Map_146
+  - first:
+      213: -6033793078485597268
+    second: Map_147
+  - first:
+      213: 716403966409306527
+    second: Map_148
+  - first:
+      213: 6923883245506722813
+    second: Map_149
+  - first:
+      213: 3337045268055253518
+    second: Map_150
+  - first:
+      213: 976298902367343340
+    second: Map_151
+  - first:
+      213: -439893795585539676
+    second: Map_152
+  - first:
+      213: -1114352918553184602
+    second: Map_153
+  - first:
+      213: 983002514168870502
+    second: Map_154
+  - first:
+      213: 7134157184793810854
+    second: Map_155
+  - first:
+      213: 1280158706794086091
+    second: Map_156
+  - first:
+      213: -4672071670269918445
+    second: Map_157
+  - first:
+      213: 4519005920420902091
+    second: Map_158
+  - first:
+      213: 1337888108935657329
+    second: Map_159
+  - first:
+      213: 1276309825555861808
+    second: Map_160
+  - first:
+      213: -2521685462903821649
+    second: Map_161
+  - first:
+      213: 6833519486060840134
+    second: Map_162
+  - first:
+      213: -3268325984761744998
+    second: Map_163
+  - first:
+      213: -324414245096620981
+    second: Map_164
+  - first:
+      213: -8151348499678695744
+    second: Map_165
+  - first:
+      213: -3198099703681467388
+    second: Map_166
+  - first:
+      213: 8215398349481087268
+    second: Map_167
+  - first:
+      213: 8616001764162852909
+    second: Map_168
+  - first:
+      213: 4274910310330683620
+    second: Map_169
+  - first:
+      213: -7069139045131111534
+    second: Map_170
+  - first:
+      213: -3172018198117890962
+    second: Map_171
+  - first:
+      213: 8283434096713605060
+    second: Map_172
+  - first:
+      213: -8744690417492796408
+    second: Map_173
+  - first:
+      213: 3963631899965592371
+    second: Map_174
+  - first:
+      213: -3397935831713034918
+    second: Map_175
+  - first:
+      213: 4951279111516722234
+    second: Map_176
+  - first:
+      213: 7711144100560369413
+    second: Map_177
+  - first:
+      213: -8887649457681234139
+    second: Map_178
+  - first:
+      213: -6238977015630733714
+    second: Map_179
+  - first:
+      213: 750493967448013856
+    second: Map_180
+  - first:
+      213: -4971430422318905099
+    second: Map_181
+  - first:
+      213: 5589574221293332264
+    second: Map_182
+  - first:
+      213: 4516898451951208175
+    second: Map_183
+  - first:
+      213: -3118832275991289374
+    second: Map_184
+  - first:
+      213: -6755547641222501534
+    second: Map_185
+  - first:
+      213: 1798861562328847057
+    second: Map_186
+  - first:
+      213: -8118079974896033088
+    second: Map_187
+  - first:
+      213: 3712882884323223755
+    second: Map_188
+  - first:
+      213: 4656979978223012074
+    second: Map_189
+  - first:
+      213: -6325288423180714173
+    second: Map_190
+  - first:
+      213: 1619513509892320983
+    second: Map_191
+  - first:
+      213: -3618165151978930181
+    second: Map_192
+  - first:
+      213: -7351393021724569784
+    second: Map_193
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Tile_Border_TopLeft
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f164f05978c3d454fb763c7ceebcc582
+      internalID: 484202641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Border_TopCenter
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1a46c00bbcd6454fbb2f6dd7e63a5aa
+      internalID: -413039837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Border_TopRight
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55401a9220271c94cbdb0b2cc7ee23fd
+      internalID: 1939908339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Border_MiddleLeft
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd90450cc9b3c8a42805ad7027705dad
+      internalID: -610727937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Ocean
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3420e437b9c4cdc4a93610b5130a9855
+      internalID: -1110888977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Border_MiddleRight
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29fb2a101551ddb489b97a5ef4a35842
+      internalID: 121445492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Border_BottomLeft
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c19b42403ee8f34db80297c12268af9
+      internalID: 776184907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Border_BottomCenter
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c172ef3d2719f1848a65eb4934794e7a
+      internalID: 817741077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Border_BottomRight
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cce25dbff86d9204d9aa1a5380ef76a4
+      internalID: 373136042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Deep
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b51a49a4ba453f942afd48f39802cb74
+      internalID: 167622983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Mine
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 468758fbe0c07d041ac365f299393a82
+      internalID: -813129650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LandCorner_SouthWest
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ea5864aa58c49c4a85759293c093002
+      internalID: 28613874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_East
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c2617c4fb7105a4c99be717def70fd2
+      internalID: 995482675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WaterCorner_NorthEast
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20d3114c6ef8e4a4689555bd0bdc8202
+      internalID: 465046386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_South
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 530e6dd851c676d44abef8a2f8711b4d
+      internalID: -310944705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Diagonal_NorthWest_SouthEast
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86ded1e6b7efaa044abdb37adc0f2555
+      internalID: 429182298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LandCorner_NorthEast
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e08f2b577c4dab349adf33c43020cac5
+      internalID: -306841465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shallow
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b17875033d386fd4595e943ee7322ba0
+      internalID: -1543547253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WaterCorner_NorthWest
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b07b69d7c04b694784b266d6da67541
+      internalID: 1060950025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c8446e85bdbd224ebb65233519aba1d
+      internalID: -1649002354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WaterCorner_SouthEast
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 015e9b3392fdcf746b609779ba0c109b
+      internalID: 1965711708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_North
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fec5e5e904076cf4d8ef67c4fe6d914d
+      internalID: -55580435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WaterCorner_SouthWest
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f013ed8bbdd643542b651265181499ba
+      internalID: 1490770947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_West
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63d10b56ff9b1cf46aadd02797b7d5e1
+      internalID: -1478356074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LandCorner_SouthEast
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23e01a74255f27c4f9099082fc7867ee
+      internalID: -793785228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Diagonal_NorthEast_SouthWest
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 829315b781078794ea06172b2322871f
+      internalID: 1596884052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LandCorner_NorthWest
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa3387a82981ad74b8ad1e32d552e5cb
+      internalID: 976815587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_01
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe07b2bef9f04f24da8226702bd0779a
+      internalID: -277896673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_02
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16aa4d9fdc1348f42b4ed8755e0c02f1
+      internalID: 900536207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_03
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8696f2cf1c0f524c92b2d252ccdecf6
+      internalID: -1091433480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_04
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 756bfa56cae784d438c34299bb893cfd
+      internalID: 1527025411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_05
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1d7973773c8ee54c83510abae46ddc1
+      internalID: -366232674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_06
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d36c9196436a75b46b7c6d7b495a13d9
+      internalID: 1813292519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_07
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 575b9d96b6291cd439c7bccc8f32ad07
+      internalID: -48662347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_08
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d96df402d35bf5440ba2e16bdd065f11
+      internalID: 562854441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_09
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c12f19e820adc7b46a328e9c047f9654
+      internalID: 1646155568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_10
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02addc3149ccc664eafbf4f5d88823c6
+      internalID: -185974001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_11
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09f17ed1e21c3634495228bb160d96da
+      internalID: 399784491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Scan_12
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57b2880b482149040b59adc4167ee5ad
+      internalID: 775260076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hostile_Surface_Contact_1
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 311
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d4653ce2334f51459e5c5bad7ec04f7
+      internalID: 477293334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hostile_Surface_Contact_2
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 311
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25abafd361dfed8479988e361c3355ec
+      internalID: 594121630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hostile_SubSurface_Contact_1
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 243
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cae809ebb06231f46828667d75be94d8
+      internalID: 1431022910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hostile_SubSurface_Contact_2
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 243
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbbd4578f1d3d7e44bee0bfe138a48a3
+      internalID: 78553817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hostile_Air_Contact_1
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 175
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c24a667d89974374697b3542e498d9ad
+      internalID: -1207938668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hostile_Air_Contact_2
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 175
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9e8455d32fb9784b8a9b6fad46eb28c
+      internalID: -1378876497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Target_1
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0a9df09524140f48858201efe26325c
+      internalID: -1888494003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Target_2
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1bf614c710848b49a4335eacba36e43
+      internalID: 1987860165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Target_3
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c79870c7a0fc6fd4bbf7959e8b7c80a0
+      internalID: 65894537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Highlight_Red_1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 312
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90594d7473bf1c540a79c44ec8625668
+      internalID: 322038206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Highlight_Red_2
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 312
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8de2f487a4bc5849bba6847a0f10309
+      internalID: 2046734212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Highlight_Grn_1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 244
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14baef02d28cb4847bc995555d69caaf
+      internalID: -1765249602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Highlight_Grn_2
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 244
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9db524e5c7b38d04db4b62800856da21
+      internalID: -743452616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Highlight_Wht_1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 176
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e5b5ee9e897c9f4db29f30a7be8b8ff
+      internalID: 261939871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Highlight_Wht_2
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 176
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aec5f2c2a170a33419e079c61f1a3552
+      internalID: -1984830204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Corner_SouthWest
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 114a87bbfb36561449836c4d86b8fac5
+      internalID: 895758206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Diagonal_NorthWest_SouthEast
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c55d040452cb4db4bb9404aec395cda2
+      internalID: 778137674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Corner_NorthEast
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e69419a205fdc34fb4586fd391d2e96
+      internalID: 734458058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_None
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8062f62c31b26914c86ae05e7a264ae6
+      internalID: -652260688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Corner_SouthEast
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c10723092d7925e49908413cf8c75ee2
+      internalID: 125863740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Diagonal_NorthEast_SouthWest
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0d48a3a03f46fa42a6144072859bc93
+      internalID: -843555873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Corner_NorthWest
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab2f9a0faea934a4399c854c12985cd1
+      internalID: -770087538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_East
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4dd931cd62d0b749a7f48ea3c6e78e2
+      internalID: 1321520052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_ClearCorner_NorthEast
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 355eff90cdac4b143af0a452e2fc366e
+      internalID: -1565451278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_South
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 639
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f8065d71e0630c47b9958b746f24c16
+      internalID: 1676017845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_ClearCorner_NorthWest
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29c1de0c2ddf5c4439355aa504838da9
+      internalID: -1355395697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fdbf6dfc4852724abdb4923fc034f6a
+      internalID: 1687958725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_ClearCorner_SouthEast
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ff2f8a677ac0914aa91242bb22573f9
+      internalID: -614789313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_North
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8357df5422fae44c9c5ad55899762ab
+      internalID: -995863709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_ClearCorner_SouthWest
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e61720566fc06df41ad768fdc0b20cd4
+      internalID: -1328422463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_West
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4db4593db2436a498f3726137bb0d81
+      internalID: 86772861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: b908cda5b155c9c4a8739b4d62f7bc71
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":768.0,"y":704.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Diagonal_NorthEast_SouthWest: 1596884052
+      Diagonal_NorthWest_SouthEast: 429182298
+      Fog: 1687958725
+      Fog_ClearCorner_NorthEast: -1565451278
+      Fog_ClearCorner_NorthWest: -1355395697
+      Fog_ClearCorner_SouthEast: -614789313
+      Fog_ClearCorner_SouthWest: -1328422463
+      Fog_Corner_NorthEast: 734458058
+      Fog_Corner_NorthWest: -770087538
+      Fog_Corner_SouthEast: 125863740
+      Fog_Corner_SouthWest: 895758206
+      Fog_Diagonal_NorthEast_SouthWest: -843555873
+      Fog_Diagonal_NorthWest_SouthEast: 778137674
+      Fog_East: 1321520052
+      Fog_None: -652260688
+      Fog_North: -995863709
+      Fog_South: 1676017845
+      Fog_West: 86772861
+      Hostile_Air_Contact_1: -1207938668
+      Hostile_Air_Contact_2: -1378876497
+      Hostile_SubSurface_Contact_1: 1431022910
+      Hostile_SubSurface_Contact_2: 78553817
+      Hostile_Surface_Contact_1: 477293334
+      Hostile_Surface_Contact_2: 594121630
+      Land: -1649002354
+      LandCorner_NorthEast: -306841465
+      LandCorner_NorthWest: 976815587
+      LandCorner_SouthEast: -793785228
+      LandCorner_SouthWest: 28613874
+      Land_East: 995482675
+      Land_North: -55580435
+      Land_South: -310944705
+      Land_West: -1478356074
+      Scan_01: -277896673
+      Scan_02: 900536207
+      Scan_03: -1091433480
+      Scan_04: 1527025411
+      Scan_05: -366232674
+      Scan_06: 1813292519
+      Scan_07: -48662347
+      Scan_08: 562854441
+      Scan_09: 1646155568
+      Scan_10: -185974001
+      Scan_11: 399784491
+      Scan_12: 775260076
+      Shallow: -1543547253
+      Target_1: -1888494003
+      Target_2: 1987860165
+      Target_3: 65894537
+      Tile_Border_BottomCenter: 817741077
+      Tile_Border_BottomLeft: 776184907
+      Tile_Border_BottomRight: 373136042
+      Tile_Border_MiddleLeft: -610727937
+      Tile_Border_MiddleRight: 121445492
+      Tile_Border_TopCenter: -413039837
+      Tile_Border_TopLeft: 484202641
+      Tile_Border_TopRight: 1939908339
+      Tile_Deep: 167622983
+      Tile_Highlight_Grn_1: -1765249602
+      Tile_Highlight_Grn_2: -743452616
+      Tile_Highlight_Red_1: 322038206
+      Tile_Highlight_Red_2: 2046734212
+      Tile_Highlight_Wht_1: 261939871
+      Tile_Highlight_Wht_2: -1984830204
+      Tile_Mine: -813129650
+      Tile_Ocean: -1110888977
+      WaterCorner_NorthEast: 465046386
+      WaterCorner_NorthWest: 1060950025
+      WaterCorner_SouthEast: 1965711708
+      WaterCorner_SouthWest: 1490770947
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
