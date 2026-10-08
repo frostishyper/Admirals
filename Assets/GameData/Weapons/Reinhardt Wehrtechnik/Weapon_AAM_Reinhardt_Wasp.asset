@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62ec667d3baf4f43869a7ca533859ea, type: 3}
+  m_Name: Weapon_AAM_Reinhardt_Wasp
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinition
+  _WeaponName: RW-AAM1 Wasp
+  _Manufacturer: {fileID: 11400000, guid: 6f718830c76c2794ea49811d315e9403, type: 2}
+  _Tier: {fileID: 11400000, guid: 60f56afffeb145c4dbc75d439a6337a2, type: 2}
+  _WeaponType: {fileID: 11400000, guid: 797310146753bc0408a4b771b2786ccb, type: 2}
+  _ReplenishSpeed: 3
+  _ReplenishCount: 1
+  _TargetDomains:
+  - {fileID: 11400000, guid: 3bb39945bce1a6b458e639fb6a07169e, type: 2}
+  _RollRanges:
+  - _ResultName: Miss
+    _MinimumRoll: 1
+    _MaximumRoll: 2
+    _Damage: 0
+    _IsMiss: 1
+    _AttackProperties: 
+  - _ResultName: Proximity Hit
+    _MinimumRoll: 3
+    _MaximumRoll: 10
+    _Damage: 2
+    _IsMiss: 0
+    _AttackProperties: 
+  - _ResultName: Direct Hit
+    _MinimumRoll: 11
+    _MaximumRoll: 19
+    _Damage: 3
+    _IsMiss: 0
+    _AttackProperties: 
+  - _ResultName: Critical Hit
+    _MinimumRoll: 20
+    _MaximumRoll: 20
+    _Damage: 3
+    _IsMiss: 0
+    _AttackProperties: 000000000100000002000000
+  _Effects: []

@@ -11,7 +11,8 @@ public class WeaponDefinition : ScriptableObject
     [SerializeField] private string _WeaponName;
 
     // Manufacturer Of The Weapon
-    [SerializeField] private string _Manufacturer;
+    [ScriptableObjectPicker]
+    [SerializeField] private Manufacturers _Manufacturer;
 
     
     // Universal Tier Assigned To This Weapon
@@ -29,7 +30,8 @@ public class WeaponDefinition : ScriptableObject
     [SerializeField] private int _ReplenishCount;
 
     // Domains This Weapon Can Target
-    [SerializeField] private Domain[] _TargetDomains;
+    [ScriptableObjectPicker]
+    [SerializeField] private Domains[] _TargetDomains;
 
     // D20 Roll Ranges Used To Determine Damage
     [SerializeField] private WeaponRollRange[] _RollRanges;
@@ -44,7 +46,7 @@ public class WeaponDefinition : ScriptableObject
         get { return _WeaponName; }
     }
 
-    public string Manufacturer
+    public Manufacturers Manufacturer
     {
         get { return _Manufacturer; }
     }
@@ -69,7 +71,7 @@ public class WeaponDefinition : ScriptableObject
         get { return _ReplenishCount; }
     }
 
-    public Domain[] TargetDomains
+    public Domains[] TargetDomains
     {
         get { return _TargetDomains; }
     }

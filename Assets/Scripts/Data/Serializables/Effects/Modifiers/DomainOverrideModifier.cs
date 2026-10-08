@@ -6,9 +6,11 @@ using UnityEngine;
 [Serializable]
 public class DomainOverrideModifier : EffectModifier
 {
-    [SerializeField] private Domain _Domain;
+    [ScriptableObjectPicker]
+    [SerializeField] private Domains _Domain;
 
-    public Domain Domain
+
+    public Domains Domain
     {
         get { return _Domain; }
     }

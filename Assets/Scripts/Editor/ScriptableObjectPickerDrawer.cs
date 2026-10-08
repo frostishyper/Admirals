@@ -4,8 +4,8 @@ using UnityEditor;
 using UnityEngine;
 
 // Unity Editor Script - Not Attached To A GameObject
-// Provides A Searchable Picker For ScriptableObject References,
-// Arrays, And Lists
+// Provides A Searchable Picker For ScriptableObject References
+// Supports Singular References, Arrays, And Lists
 [CustomPropertyDrawer(typeof(ScriptableObjectPickerAttribute))]
 public class ScriptableObjectPickerDrawer : PropertyDrawer
 {
@@ -25,7 +25,8 @@ public class ScriptableObjectPickerDrawer : PropertyDrawer
         );
 
 
-        Type RequiredType = GetRequiredType();
+        Type RequiredType =
+            GetRequiredType();
 
 
         if (RequiredType == null ||
@@ -42,272 +43,44 @@ public class ScriptableObjectPickerDrawer : PropertyDrawer
         }
 
 
-        if (IsCollection())
-        {
-            DrawCollection(
-                Position,
-                Property,
-                Label,
-                RequiredType
-            );
-        }
-        else
-        {
-            DrawReference(
-                Position,
-                Property,
-                Label,
-                RequiredType
-            );
-        }
-
-
-        EditorGUI.EndProperty();
-    }
-
-
-    public override float GetPropertyHeight(
-        SerializedProperty Property,
-        GUIContent Label)
-    {
-        Type RequiredType = GetRequiredType();
-
-
-        if (RequiredType == null ||
-            !typeof(ScriptableObject).IsAssignableFrom(RequiredType))
-        {
-            return EditorGUIUtility.singleLineHeight * 2f;
-        }
-
-
-        if (!IsCollection())
-        {
-            return EditorGUIUtility.singleLineHeight;
-        }
-
-
-        float Height =
-            EditorGUIUtility.singleLineHeight;
-
-
-        if (!Property.isExpanded)
-        {
-            return Height;
-        }
-
-
-        // Size Row
-        Height +=
-            SPACING +
-            EditorGUIUtility.singleLineHeight;
-
-
-        // Element Rows
-        for (int Index = 0;
-            Index < Property.arraySize;
-            Index++)
-        {
-            Height +=
-                SPACING +
-                EditorGUIUtility.singleLineHeight;
-        }
-
-
-        return Height;
-    }
-
-
-    private void DrawReference(
-        Rect Position,
-        SerializedProperty Property,
-        GUIContent Label,
-        Type RequiredType)
-    {
+        // Unity Handles Array/List Containers Itself.
+        // This Drawer Is Invoked For Each Object Reference Element.
         if (Property.propertyType !=
             SerializedPropertyType.ObjectReference)
         {
             EditorGUI.HelpBox(
                 Position,
-                "ScriptableObjectPicker requires an object reference field.",
+                "ScriptableObjectPicker requires a ScriptableObject reference.",
                 MessageType.Error
             );
 
+            EditorGUI.EndProperty();
             return;
         }
 
 
-        DrawObjectReference(
-            Position,
-            Property,
-            Label,
-            RequiredType
-        );
-    }
-
-
-    private void DrawCollection(
-        Rect Position,
-        SerializedProperty Property,
-        GUIContent Label,
-        Type RequiredType)
-    {
-        if (!Property.isArray)
-        {
-            EditorGUI.HelpBox(
-                Position,
-                "ScriptableObjectPicker collection must be an array or List.",
-                MessageType.Error
-            );
-
-            return;
-        }
-
-
-        float LineHeight =
-            EditorGUIUtility.singleLineHeight;
-
-
-        Rect HeaderRect = new Rect(
-            Position.x,
-            Position.y,
-            Position.width,
-            LineHeight
-        );
-
-
-        Property.isExpanded =
-            EditorGUI.Foldout(
-                HeaderRect,
-                Property.isExpanded,
-                Label,
-                true
-            );
-
-
-        if (!Property.isExpanded)
-        {
-            return;
-        }
-
-
-        int PreviousIndent =
-            EditorGUI.indentLevel;
-
-        EditorGUI.indentLevel++;
-
-
-        float CurrentY =
-            HeaderRect.yMax + SPACING;
-
-
-        // Collection Size
-        Rect SizeRect = new Rect(
-            Position.x,
-            CurrentY,
-            Position.width,
-            LineHeight
-        );
-
-
-        int NewSize =
-            EditorGUI.IntField(
-                SizeRect,
-                "Size",
-                Property.arraySize
-            );
-
-
-        NewSize =
-            Mathf.Max(0, NewSize);
-
-
-        if (NewSize != Property.arraySize)
-        {
-            Property.arraySize = NewSize;
-        }
-
-
-        CurrentY =
-            SizeRect.yMax + SPACING;
-
-
-        // Collection Elements
-        for (int Index = 0;
-            Index < Property.arraySize;
-            Index++)
-        {
-            SerializedProperty Element =
-                Property.GetArrayElementAtIndex(Index);
-
-
-            Rect ElementRect = new Rect(
+        Rect ObjectFieldRect =
+            new Rect(
                 Position.x,
-                CurrentY,
-                Position.width,
-                LineHeight
+                Position.y,
+                Position.width -
+                BUTTON_WIDTH -
+                SPACING,
+                Position.height
             );
 
 
-            DrawObjectReference(
-                ElementRect,
-                Element,
-                new GUIContent(
-                    $"Element {Index}"
-                ),
-                RequiredType
+        Rect ButtonRect =
+            new Rect(
+                ObjectFieldRect.xMax + SPACING,
+                Position.y,
+                BUTTON_WIDTH,
+                Position.height
             );
-
-
-            CurrentY =
-                ElementRect.yMax + SPACING;
-        }
-
-
-        EditorGUI.indentLevel =
-            PreviousIndent;
-    }
-
-
-    private void DrawObjectReference(
-        Rect Position,
-        SerializedProperty Property,
-        GUIContent Label,
-        Type RequiredType)
-    {
-        if (Property.propertyType !=
-            SerializedPropertyType.ObjectReference)
-        {
-            EditorGUI.HelpBox(
-                Position,
-                "Collection element is not an object reference.",
-                MessageType.Error
-            );
-
-            return;
-        }
-
-
-        Rect ObjectFieldRect = new Rect(
-            Position.x,
-            Position.y,
-            Position.width -
-            BUTTON_WIDTH -
-            SPACING,
-            Position.height
-        );
-
-
-        Rect ButtonRect = new Rect(
-            ObjectFieldRect.xMax + SPACING,
-            Position.y,
-            BUTTON_WIDTH,
-            Position.height
-        );
 
 
         bool PreviousMixedValue =
             EditorGUI.showMixedValue;
-
 
         EditorGUI.showMixedValue =
             Property.hasMultipleDifferentValues;
@@ -348,28 +121,22 @@ public class ScriptableObjectPickerDrawer : PropertyDrawer
                 RequiredType
             );
         }
+
+
+        EditorGUI.EndProperty();
     }
 
 
-    private bool IsCollection()
+    public override float GetPropertyHeight(
+        SerializedProperty Property,
+        GUIContent Label)
     {
-        Type FieldType =
-            fieldInfo.FieldType;
-
-
-        if (FieldType.IsArray)
-        {
-            return true;
-        }
-
-
-        return
-            FieldType.IsGenericType &&
-            FieldType.GetGenericTypeDefinition() ==
-            typeof(List<>);
+        return EditorGUIUtility.singleLineHeight;
     }
 
 
+    // Gets The ScriptableObject Type Accepted By This Field.
+    // For Arrays And Lists, This Returns The Element Type.
     private Type GetRequiredType()
     {
         Type FieldType =
@@ -396,7 +163,7 @@ public class ScriptableObjectPickerDrawer : PropertyDrawer
 
 
         // Example:
-        // EffectDefinition
+        // TierDefinition
         return FieldType;
     }
 }
@@ -489,25 +256,11 @@ public class ScriptableObjectPickerWindow : EditorWindow
         EditorGUILayout.Space(6);
 
 
-        GUI.SetNextControlName(
-            "ScriptableObjectPickerSearch"
-        );
-
-
         _SearchText =
             EditorGUILayout.TextField(
                 "Search",
                 _SearchText
             );
-
-
-        if (Event.current.type ==
-            EventType.Repaint)
-        {
-            EditorGUI.FocusTextInControl(
-                "ScriptableObjectPickerSearch"
-            );
-        }
 
 
         EditorGUILayout.Space(4);
@@ -546,7 +299,7 @@ public class ScriptableObjectPickerWindow : EditorWindow
 
 
         foreach (AssetResult Result
-                in _Assets)
+                 in _Assets)
         {
             if (!MatchesSearch(Result))
             {
@@ -587,7 +340,7 @@ public class ScriptableObjectPickerWindow : EditorWindow
 
 
         foreach (string GUID
-                in AssetGUIDs)
+                 in AssetGUIDs)
         {
             string Path =
                 AssetDatabase.GUIDToAssetPath(
@@ -742,7 +495,7 @@ public class ScriptableObjectPickerWindow : EditorWindow
         UnityEngine.Object SelectedAsset)
     {
         foreach (UnityEngine.Object Target
-                in _Targets)
+                 in _Targets)
         {
             if (Target == null)
             {

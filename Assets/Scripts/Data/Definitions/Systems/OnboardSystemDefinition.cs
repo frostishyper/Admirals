@@ -11,7 +11,8 @@ public abstract class OnboardSystemDefinition : ScriptableObject
     [SerializeField] private string _SystemID;
 
     // Manufacturer Of The Onboard System
-    [SerializeField] private string _Manufacturer;
+    [ScriptableObjectPicker]
+    [SerializeField] private Manufacturers _Manufacturer;
 
     // Universal Tier Assigned To The Onboard System
     [ScriptableObjectPicker]
@@ -24,7 +25,8 @@ public abstract class OnboardSystemDefinition : ScriptableObject
 
     // Domains In Which This System Is Allowed To Operate
     // Empty Means The System Has No Domain Restriction
-    [SerializeField] private Domain[] _UsableDomains;
+    [ScriptableObjectPicker]
+    [SerializeField] private Domains[] _UsableDomains;
 
     // Gameplay States That Must Be Present For This System To Operate
     // Empty Means The System Has No Required Tags
@@ -46,7 +48,7 @@ public abstract class OnboardSystemDefinition : ScriptableObject
         get { return _SystemID; }
     }
 
-    public string Manufacturer
+    public Manufacturers Manufacturer
     {
         get { return _Manufacturer; }
     }
@@ -61,7 +63,7 @@ public abstract class OnboardSystemDefinition : ScriptableObject
         get { return _SystemType; }
     }
 
-    public Domain[] UsableDomains
+    public Domains[] UsableDomains
     {
         get { return _UsableDomains; }
     }

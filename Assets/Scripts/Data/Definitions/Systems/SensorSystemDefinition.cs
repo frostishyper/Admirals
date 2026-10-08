@@ -19,7 +19,8 @@ public class SensorSystemDefinition : OnboardSystemDefinition
     [SerializeField] private bool _CanFireControl;
 
     // Domains This Sensor Can Detect When Used For Search
-    [SerializeField] private Domain[] _DetectableDomains;
+    [ScriptableObjectPicker]
+    [SerializeField] private Domains[] _DetectableDomains;
 
 
     // Read-Only Access For Other Systems
@@ -38,7 +39,7 @@ public class SensorSystemDefinition : OnboardSystemDefinition
         get { return _CanFireControl; }
     }
 
-    public Domain[] DetectableDomains
+    public Domains[] DetectableDomains
     {
         get { return _DetectableDomains; }
     }

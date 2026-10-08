@@ -1,32 +1,31 @@
 using System;
 using UnityEngine;
 
-// Defines A Range Of D20 Rolls And The Damage Result It Produces
+// Serializable Roll Range Used By WeaponDefinition
+// Supplies Offensive Result Data To Combat Resolution
 [Serializable]
 public class WeaponRollRange
 {
-    // Descriptive Name For This Result
     [SerializeField] private string _ResultName;
 
-    // Lowest D20 Roll Included In This Range
-    [SerializeField, Range(1, 20)]
+    [SerializeField]
+    [Range(1, 20)]
     private int _MinimumRoll = 1;
 
-    // Highest D20 Roll Included In This Range
-    [SerializeField, Range(1, 20)]
-    private int _MaximumRoll = 1;
+    [SerializeField]
+    [Range(1, 20)]
+    private int _MaximumRoll = 20;
 
-    // Damage Dealt When This Range Is Rolled
-    [SerializeField] private int _Damage;
+    [SerializeField]
+    [Min(0)]
+    private int _Damage;
 
-    // Whether This Range Counts As A Miss
     [SerializeField] private bool _IsMiss;
 
-    // Whether This Range Counts As A Critical Hit
-    [SerializeField] private bool _IsCritical;
+    // Additional Properties Carried By This Attack Result
+    [SerializeField] private AttackProperty[] _AttackProperties;
 
 
-    // Read-Only Access For Other Systems
     public string ResultName
     {
         get { return _ResultName; }
@@ -52,8 +51,8 @@ public class WeaponRollRange
         get { return _IsMiss; }
     }
 
-    public bool IsCritical
+    public AttackProperty[] AttackProperties
     {
-        get { return _IsCritical; }
+        get { return _AttackProperties; }
     }
 }
