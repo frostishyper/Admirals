@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a2fdc14213a85a4d89c57b68bdf483e, type: 3}
+  m_Name: Unit_Destroyer_BSD_Rover
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDefinition
+  _UnitName: Hyouhakusha Class Destroyer
+  _UnitID: unit_destroyer_bsd_rover
+  _Manufacturer: {fileID: 11400000, guid: 9d3aa3fa4f3de5442affb4090b0dac19, type: 2}
+  _Tier: {fileID: 11400000, guid: 05e2378974f69db4dbf5aaf39f508aec, type: 2}
+  _UnitType: {fileID: 11400000, guid: 7bd0378f0693a7f48ba27035673fafd4, type: 2}
+  _Domain: {fileID: 11400000, guid: 4676c118c4826ad479942a3d214569d5, type: 2}
+  _BaseHP: 15
+  _Stealth: 1
+  _MovementPattern: {fileID: 0}
+  _AbsoluteVisionRange: 1
+  _FootprintSize: {x: 3, y: 1}
+  _FootprintOrigin: {x: 0, y: 0}
+  _WeaponSlots: []
+  _OnboardSystemSlots:
+  - _System: {fileID: 11400000, guid: a52450966c98e7b4c8552da783d2a1ed, type: 2}
+    _MaxCharges: 0
+    _DeploymentLoadout: []
+  - _System: {fileID: 11400000, guid: 1d67dfe0ca018524fa31a0d88fe8ae11, type: 2}
+    _MaxCharges: 0
+    _DeploymentLoadout: []
+  - _System: {fileID: 11400000, guid: ddf81cfbb10dd124bb8363b5ad8a2119, type: 2}
+    _MaxCharges: 0
+    _DeploymentLoadout: []
+  _Abilities: []

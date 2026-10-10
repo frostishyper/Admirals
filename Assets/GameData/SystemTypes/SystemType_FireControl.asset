@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SystemTypeDefinition
   _SystemTypeName: Fire Control System
   _SystemTypeID: 1
-  _SystemTypeSprite: {fileID: 1485950545428787703, guid: 311328d4affd1f5478583f9b225240ba, type: 3}
+  _SystemTypeSprite: {fileID: -8072776176248556622, guid: 311328d4affd1f5478583f9b225240ba, type: 3}

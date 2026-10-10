@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f84eee9c97489045a86091275f158ac, type: 3}
+  m_Name: DefensiveSystem_AD_BSD_Camellia
+  m_EditorClassIdentifier: Assembly-CSharp::DefensiveSystemDefinition
+  _SystemName: Camellia Naval Air Defence
+  _SystemID: sys_defense_bsd_camellia
+  _Manufacturer: {fileID: 11400000, guid: 9d3aa3fa4f3de5442affb4090b0dac19, type: 2}
+  _Tier: {fileID: 11400000, guid: 05e2378974f69db4dbf5aaf39f508aec, type: 2}
+  _SystemType: {fileID: 0}
+  _UsableDomains:
+  - {fileID: 11400000, guid: 4676c118c4826ad479942a3d214569d5, type: 2}
+  _RequiredTags: 
+  _BlockedTags: 
+  _DefensePattern: {fileID: 0}
+  _CanDefendSelf: 1
+  _CanDefendAllies: 1
+  _DefendableWeaponTypes:
+  - {fileID: 11400000, guid: 797310146753bc0408a4b771b2786ccb, type: 2}
+  _CanRespondToDefenseBypass: 0
+  _ReplenishSpeed: 3
+  _ReplenishCount: 1
+  _RollRanges:
+  - _ResultName: Miss
+    _MinimumRoll: 0
+    _MaximumRoll: 5
+    _AttackRollPenalty: 0
+    _DamageReduction: 0
+    _NegatesAttack: 0
+    _RemovedAttackProperties: 
+    _EffectApplications: []
+  - _ResultName: Partial Interception
+    _MinimumRoll: 6
+    _MaximumRoll: 15
+    _AttackRollPenalty: 3
+    _DamageReduction: 0
+    _NegatesAttack: 0
+    _RemovedAttackProperties: 
+    _EffectApplications: []
+  - _ResultName: 'Full Interception '
+    _MinimumRoll: 16
+    _MaximumRoll: 20
+    _AttackRollPenalty: 0
+    _DamageReduction: 0
+    _NegatesAttack: 1
+    _RemovedAttackProperties: 
+    _EffectApplications: []

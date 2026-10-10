@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c9f26fa36c42f4f836609c43be1bab, type: 3}
   m_Name: Pattern_RW_FalconEye
   m_EditorClassIdentifier: Assembly-CSharp::PatternDefinition
-  _PatternName: Pattern_RW-MFR1 FalconEye
-  _PatternID: pattern_mfr1_falconeye
+  _PatternName: FalconEye MFR Range
+  _PatternID: pattern_mfr_rw_falconeye
   _Layers:
   - _Intensity: 10
     _Offsets:

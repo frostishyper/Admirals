@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f6ca1b85b8a57f45828769494fad085, type: 3}
-  m_Name: SensorSystem_MFR_Reinhardt_FalconEye
+  m_Name: SensorSystem_CMS_BSD_ShoreKeeper_Radar
   m_EditorClassIdentifier: Assembly-CSharp::SensorSystemDefinition
-  _SystemName: RW-MFR1 FalconEye
-  _SystemID: sensor_mfr1_falconeye
-  _Manufacturer: {fileID: 11400000, guid: 6f718830c76c2794ea49811d315e9403, type: 2}
+  _SystemName: 'ShoreKeeper Radar Module '
+  _SystemID: sys_sensor_bsd_shorekeeper_radar
+  _Manufacturer: {fileID: 11400000, guid: 9d3aa3fa4f3de5442affb4090b0dac19, type: 2}
   _Tier: {fileID: 11400000, guid: 05e2378974f69db4dbf5aaf39f508aec, type: 2}
-  _SystemType: {fileID: 11400000, guid: 147c4b975b8bfd84090af39a83ce5f78, type: 2}
+  _SystemType: {fileID: 11400000, guid: d366776a365fcea4ebfa608969fbdfb0, type: 2}
   _UsableDomains:
-  - {fileID: 11400000, guid: 3bb39945bce1a6b458e639fb6a07169e, type: 2}
+  - {fileID: 11400000, guid: 4676c118c4826ad479942a3d214569d5, type: 2}
   _RequiredTags: 
   _BlockedTags: 
-  _Pattern: {fileID: 11400000, guid: 42c5ae3ea0fbe7347bdd5f90c3b1fedf, type: 2}
+  _Pattern: {fileID: 11400000, guid: 0a2eb7568922f0446a56bcc67d689a77, type: 2}
   _CanSearch: 1
-  _CanFireControl: 1
+  _CanFireControl: 0
   _DetectableDomains:
   - {fileID: 11400000, guid: 3bb39945bce1a6b458e639fb6a07169e, type: 2}
   - {fileID: 11400000, guid: 4676c118c4826ad479942a3d214569d5, type: 2}

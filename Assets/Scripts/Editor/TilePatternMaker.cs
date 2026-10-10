@@ -1,415 +1,636 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 // Unity Editor Script - Not Attached To A GameObject
-// Provides A Visual Grid For Building PatternDefinition Assets
+// Provides A Visual Tile Editor For PatternDefinition Assets
 [CustomEditor(typeof(PatternDefinition))]
 public class TilePatternMaker : Editor
 {
-    // Currently Selected Pattern Layer
-    private int _SelectedLayer = 0;
+    private const float CellSize = 28f;
 
-    // Controls How Much Of The Pattern Grid Is Visible
-    // Radius 5 = 11x11 Grid
-    private int _GridRadius = 5;
+    private SerializedProperty _PatternName;
+    private SerializedProperty _PatternID;
+    private SerializedProperty _Layers;
 
-    // Size Of Each Clickable Grid Cell In The Inspector
-    private const float CELL_SIZE = 28f;
+    private int _SelectedLayerIndex;
+    private int _GridRadius = 10;
+
+    private readonly Dictionary<Vector2Int, int> _CellLayerLookup = new();
+
+    private GUIStyle _CellLabelStyle;
+
+
+    private GUIStyle CellLabelStyle
+    {
+        get
+        {
+            if (_CellLabelStyle == null)
+            {
+                _CellLabelStyle = new GUIStyle(GUI.skin.label)
+                {
+                    alignment = TextAnchor.MiddleCenter,
+                    fontStyle = FontStyle.Bold
+                };
+            }
+
+            return _CellLabelStyle;
+        }
+    }
+
+
+    private void OnEnable()
+    {
+        _PatternName = serializedObject.FindProperty("_PatternName");
+        _PatternID = serializedObject.FindProperty("_PatternID");
+        _Layers = serializedObject.FindProperty("_Layers");
+    }
 
 
     public override void OnInspectorGUI()
     {
-        // Load The Current Serialized Values From The Asset
-        serializedObject.Update();
+        serializedObject.UpdateIfRequiredOrScript();
 
+        EditorGUILayout.PropertyField(_PatternName);
+        EditorGUILayout.PropertyField(_PatternID);
 
-        // Find The Fields Inside PatternDefinition
-        SerializedProperty PatternName =
-            serializedObject.FindProperty("_PatternName");
+        EditorGUILayout.Space();
 
-        SerializedProperty PatternID =
-            serializedObject.FindProperty("_PatternID");
+        DrawLayerControls();
 
-        SerializedProperty Layers =
-            serializedObject.FindProperty("_Layers");
-
-
-        // Basic Pattern Information
-        EditorGUILayout.PropertyField(PatternName);
-        EditorGUILayout.PropertyField(PatternID);
-
-        EditorGUILayout.Space(10);
-
-
-        // Layer Controls
-        DrawLayerControls(Layers);
-
-        EditorGUILayout.Space(10);
-
-
-        // Only Draw The Grid If A Layer Exists
-        if (Layers.arraySize > 0)
+        if (_Layers.arraySize <= 0)
         {
-            DrawPatternGrid(Layers);
+            EditorGUILayout.HelpBox(
+                "Add a Pattern Layer to begin editing the pattern.",
+                MessageType.Info
+            );
+
+            serializedObject.ApplyModifiedProperties();
+            return;
         }
 
+        _SelectedLayerIndex = Mathf.Clamp(
+            _SelectedLayerIndex,
+            0,
+            _Layers.arraySize - 1
+        );
 
-        // Save Any Changes Back Into The PatternDefinition Asset
+        SerializedProperty selectedLayer =
+            _Layers.GetArrayElementAtIndex(_SelectedLayerIndex);
+
+        SerializedProperty intensity =
+            selectedLayer.FindPropertyRelative("_Intensity");
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.PropertyField(intensity);
+
+        _GridRadius = EditorGUILayout.IntSlider(
+            "Grid Radius",
+            _GridRadius,
+            1,
+            12
+        );
+
+        EditorGUILayout.Space();
+
+        BuildCellLookup();
+
+        DrawGrid();
+
         serializedObject.ApplyModifiedProperties();
     }
 
 
-    private void DrawLayerControls(SerializedProperty Layers)
+    private void DrawLayerControls()
     {
         EditorGUILayout.LabelField(
             "Pattern Layers",
             EditorStyles.boldLabel
         );
 
-
-        // Add A New Pattern Layer
-        if (GUILayout.Button("Add Layer"))
+        if (_Layers.arraySize > 0)
         {
-            Layers.InsertArrayElementAtIndex(Layers.arraySize);
+            string[] layerNames =
+                new string[_Layers.arraySize];
 
-            SerializedProperty NewLayer =
-                Layers.GetArrayElementAtIndex(Layers.arraySize - 1);
+            for (int i = 0; i < _Layers.arraySize; i++)
+            {
+                SerializedProperty layer =
+                    _Layers.GetArrayElementAtIndex(i);
 
-            SerializedProperty Intensity =
-                NewLayer.FindPropertyRelative("_Intensity");
+                SerializedProperty intensity =
+                    layer.FindPropertyRelative("_Intensity");
 
-            SerializedProperty Offsets =
-                NewLayer.FindPropertyRelative("_Offsets");
+                layerNames[i] =
+                    $"Layer {i + 1} - Intensity {intensity.intValue}";
+            }
 
-
-            // New Layers Start Clean
-            Intensity.intValue = 0;
-            Offsets.arraySize = 0;
-
-            _SelectedLayer = Layers.arraySize - 1;
+            _SelectedLayerIndex =
+                EditorGUILayout.Popup(
+                    "Selected Layer",
+                    _SelectedLayerIndex,
+                    layerNames
+                );
         }
-
-
-        // Nothing Else To Show If There Are No Layers
-        if (Layers.arraySize == 0)
-        {
-            EditorGUILayout.HelpBox(
-                "Add A Layer To Begin Building The Pattern.",
-                MessageType.Info
-            );
-
-            return;
-        }
-
-
-        // Prevent Selected Layer From Going Out Of Range
-        _SelectedLayer =
-            Mathf.Clamp(
-                _SelectedLayer,
-                0,
-                Layers.arraySize - 1
-            );
-
-
-        EditorGUILayout.Space(5);
-
-
-        // Select Which Layer Is Currently Being Painted
-        string[] LayerNames = new string[Layers.arraySize];
-
-        for (int i = 0; i < Layers.arraySize; i++)
-        {
-            SerializedProperty Layer =
-                Layers.GetArrayElementAtIndex(i);
-
-            SerializedProperty Intensity =
-                Layer.FindPropertyRelative("_Intensity");
-
-            LayerNames[i] =
-                "Layer " + (i + 1) +
-                "  |  Intensity " +
-                Intensity.intValue;
-        }
-
-
-        _SelectedLayer =
-            EditorGUILayout.Popup(
-                "Selected Layer",
-                _SelectedLayer,
-                LayerNames
-            );
-
-
-        SerializedProperty SelectedLayer =
-            Layers.GetArrayElementAtIndex(_SelectedLayer);
-
-        SerializedProperty SelectedIntensity =
-            SelectedLayer.FindPropertyRelative("_Intensity");
-
-
-        // Edit The Shared Intensity For The Entire Selected Layer
-        EditorGUILayout.PropertyField(
-            SelectedIntensity,
-            new GUIContent("Intensity")
-        );
-
 
         EditorGUILayout.BeginHorizontal();
 
-
-        // Remove The Currently Selected Layer
-        if (GUILayout.Button("Remove Layer"))
+        if (GUILayout.Button("Add Layer"))
         {
-            Layers.DeleteArrayElementAtIndex(_SelectedLayer);
-
-            _SelectedLayer =
-                Mathf.Max(0, _SelectedLayer - 1);
-
-            EditorGUILayout.EndHorizontal();
-            return;
+            AddLayer();
         }
 
-
-        // Remove Every Cell From The Selected Layer
-        if (GUILayout.Button("Clear Layer"))
+        using (
+            new EditorGUI.DisabledScope(
+                _Layers.arraySize <= 0
+            )
+        )
         {
-            SerializedProperty Offsets =
-                SelectedLayer.FindPropertyRelative("_Offsets");
+            if (GUILayout.Button("Remove Layer"))
+            {
+                RemoveSelectedLayer();
+            }
 
-            Offsets.arraySize = 0;
+            if (GUILayout.Button("Clear Layer"))
+            {
+                ClearSelectedLayer();
+            }
         }
-
 
         EditorGUILayout.EndHorizontal();
-
-
-        EditorGUILayout.Space(5);
-
-
-        // Changes Only The Visible Authoring Area
-        // It Does Not Change Or Limit The Stored Pattern
-        _GridRadius =
-            EditorGUILayout.IntSlider(
-                "Grid Radius",
-                _GridRadius,
-                2,
-                12
-            );
     }
 
 
-    private void DrawPatternGrid(SerializedProperty Layers)
+    private void AddLayer()
     {
-        EditorGUILayout.LabelField(
-            "Pattern Grid",
-            EditorStyles.boldLabel
-        );
+        int newLayerIndex = _Layers.arraySize;
 
-        EditorGUILayout.HelpBox(
-            "Click An Empty Cell To Add It To The Selected Layer.\n" +
-            "Click A Cell In The Selected Layer To Remove It.\n" +
-            "Click A Cell From Another Layer To Move It To The Selected Layer.\n" +
-            "O Marks The Pattern Origin At (0, 0).",
-            MessageType.None
-        );
+        _Layers.arraySize++;
 
+        SerializedProperty newLayer =
+            _Layers.GetArrayElementAtIndex(
+                newLayerIndex
+            );
 
-        // Draw From Positive Y At The Top
-        // To Negative Y At The Bottom
-        for (int y = _GridRadius; y >= -_GridRadius; y--)
-        {
-            EditorGUILayout.BeginHorizontal();
+        SerializedProperty intensity =
+            newLayer.FindPropertyRelative(
+                "_Intensity"
+            );
 
+        SerializedProperty offsets =
+            newLayer.FindPropertyRelative(
+                "_Offsets"
+            );
 
-            for (int x = -_GridRadius; x <= _GridRadius; x++)
-            {
-                Vector2Int Offset =
-                    new Vector2Int(x, y);
+        intensity.intValue =
+            newLayerIndex + 1;
 
+        offsets.ClearArray();
 
-                // Find Which Layer Currently Owns This Cell
-                int OwningLayer =
-                    FindLayerContainingOffset(
-                        Layers,
-                        Offset
-                    );
-
-
-                string ButtonText = "";
-
-
-                // Clearly Mark The Pattern Origin
-                if (Offset == Vector2Int.zero)
-                {
-                    ButtonText = "O";
-                }
-                else if (OwningLayer >= 0)
-                {
-                    SerializedProperty Layer =
-                        Layers.GetArrayElementAtIndex(OwningLayer);
-
-                    SerializedProperty Intensity =
-                        Layer.FindPropertyRelative("_Intensity");
-
-                    // Show The Layer's Intensity Directly On Painted Cells
-                    ButtonText =
-                        Intensity.intValue.ToString();
-                }
-
-
-                GUIStyle CellStyle =
-                    new GUIStyle(GUI.skin.button);
-
-
-                // Visually Distinguish Cells Belonging
-                // To The Currently Selected Layer
-                if (OwningLayer == _SelectedLayer)
-                {
-                    CellStyle.fontStyle = FontStyle.Bold;
-                }
-
-
-                if (GUILayout.Button(
-                    ButtonText,
-                    CellStyle,
-                    GUILayout.Width(CELL_SIZE),
-                    GUILayout.Height(CELL_SIZE)))
-                {
-                    PaintCell(
-                        Layers,
-                        Offset,
-                        OwningLayer
-                    );
-                }
-            }
-
-
-            EditorGUILayout.EndHorizontal();
-        }
+        _SelectedLayerIndex =
+            newLayerIndex;
     }
 
 
-    private void PaintCell(
-        SerializedProperty Layers,
-        Vector2Int Offset,
-        int OwningLayer)
+    private void RemoveSelectedLayer()
     {
-        // Clicking A Cell Already In The Selected Layer
-        // Removes It From That Layer
-        if (OwningLayer == _SelectedLayer)
+        if (_Layers.arraySize <= 0)
         {
-            RemoveOffsetFromLayer(
-                Layers,
-                _SelectedLayer,
-                Offset
-            );
-
             return;
         }
 
+        _Layers.DeleteArrayElementAtIndex(
+            _SelectedLayerIndex
+        );
 
-        // If Another Layer Already Owns This Cell,
-        // Remove It From That Layer First
-        if (OwningLayer >= 0)
-        {
-            RemoveOffsetFromLayer(
-                Layers,
-                OwningLayer,
-                Offset
-            );
-        }
-
-
-        // Add The Cell To The Currently Selected Layer
-        AddOffsetToLayer(
-            Layers,
-            _SelectedLayer,
-            Offset
+        _SelectedLayerIndex = Mathf.Clamp(
+            _SelectedLayerIndex,
+            0,
+            _Layers.arraySize - 1
         );
     }
 
 
-    private int FindLayerContainingOffset(
-        SerializedProperty Layers,
-        Vector2Int Offset)
+    private void ClearSelectedLayer()
     {
-        // Search Every Layer To See Who Owns This Cell
-        for (int LayerIndex = 0;
-            LayerIndex < Layers.arraySize;
-            LayerIndex++)
+        if (_Layers.arraySize <= 0)
         {
-            SerializedProperty Layer =
-                Layers.GetArrayElementAtIndex(LayerIndex);
-
-            SerializedProperty Offsets =
-                Layer.FindPropertyRelative("_Offsets");
-
-
-            for (int OffsetIndex = 0;
-                OffsetIndex < Offsets.arraySize;
-                OffsetIndex++)
-            {
-                if (Offsets
-                    .GetArrayElementAtIndex(OffsetIndex)
-                    .vector2IntValue == Offset)
-                {
-                    return LayerIndex;
-                }
-            }
+            return;
         }
 
+        SerializedProperty layer =
+            _Layers.GetArrayElementAtIndex(
+                _SelectedLayerIndex
+            );
 
-        // -1 Means Nobody Currently Owns The Cell
-        return -1;
+        SerializedProperty offsets =
+            layer.FindPropertyRelative(
+                "_Offsets"
+            );
+
+        offsets.ClearArray();
+    }
+
+
+    private void BuildCellLookup()
+    {
+        _CellLayerLookup.Clear();
+
+        for (
+            int layerIndex = 0;
+            layerIndex < _Layers.arraySize;
+            layerIndex++
+        )
+        {
+            SerializedProperty layer =
+                _Layers.GetArrayElementAtIndex(
+                    layerIndex
+                );
+
+            SerializedProperty offsets =
+                layer.FindPropertyRelative(
+                    "_Offsets"
+                );
+
+            for (
+                int offsetIndex = 0;
+                offsetIndex < offsets.arraySize;
+                offsetIndex++
+            )
+            {
+                Vector2Int position =
+                    offsets
+                        .GetArrayElementAtIndex(
+                            offsetIndex
+                        )
+                        .vector2IntValue;
+
+                _CellLayerLookup[position] =
+                    layerIndex;
+            }
+        }
+    }
+
+
+    private void DrawGrid()
+    {
+        int diameter =
+            (_GridRadius * 2) + 1;
+
+        Rect availableRect =
+            GUILayoutUtility.GetRect(
+                0f,
+                diameter * CellSize,
+                GUILayout.ExpandWidth(true)
+            );
+
+        float actualCellSize =
+            Mathf.Min(
+                CellSize,
+                availableRect.width / diameter
+            );
+
+        float gridSize =
+            actualCellSize * diameter;
+
+        Rect gridRect = new Rect(
+            availableRect.x +
+            (
+                (availableRect.width - gridSize)
+                * 0.5f
+            ),
+            availableRect.y,
+            gridSize,
+            gridSize
+        );
+
+        HandleGridInput(
+            gridRect,
+            actualCellSize
+        );
+
+        for (
+            int row = 0;
+            row < diameter;
+            row++
+        )
+        {
+            int y =
+                _GridRadius - row;
+
+            for (
+                int column = 0;
+                column < diameter;
+                column++
+            )
+            {
+                int x =
+                    column - _GridRadius;
+
+                Vector2Int position =
+                    new Vector2Int(x, y);
+
+                Rect cellRect =
+                    new Rect(
+                        gridRect.x +
+                        (
+                            column *
+                            actualCellSize
+                        ),
+                        gridRect.y +
+                        (
+                            row *
+                            actualCellSize
+                        ),
+                        actualCellSize,
+                        actualCellSize
+                    );
+
+                DrawCell(
+                    cellRect,
+                    position
+                );
+            }
+        }
+    }
+
+
+    private void DrawCell(
+        Rect cellRect,
+        Vector2Int position
+    )
+    {
+        bool isOrigin =
+            position == Vector2Int.zero;
+
+        bool isOccupied =
+            _CellLayerLookup.TryGetValue(
+                position,
+                out int occupyingLayer
+            );
+
+        bool isSelectedLayer =
+            isOccupied &&
+            occupyingLayer ==
+            _SelectedLayerIndex;
+
+        Color backgroundColor;
+
+        if (isOrigin)
+        {
+            backgroundColor =
+                new Color(
+                    0.35f,
+                    0.35f,
+                    0.35f
+                );
+        }
+        else if (isSelectedLayer)
+        {
+            backgroundColor =
+                new Color(
+                    0.25f,
+                    0.55f,
+                    0.80f
+                );
+        }
+        else if (isOccupied)
+        {
+            backgroundColor =
+                new Color(
+                    0.30f,
+                    0.40f,
+                    0.50f
+                );
+        }
+        else
+        {
+            backgroundColor =
+                new Color(
+                    0.20f,
+                    0.20f,
+                    0.20f
+                );
+        }
+
+        EditorGUI.DrawRect(
+            cellRect,
+            Color.black
+        );
+
+        Rect innerRect =
+            new Rect(
+                cellRect.x + 1f,
+                cellRect.y + 1f,
+                cellRect.width - 2f,
+                cellRect.height - 2f
+            );
+
+        EditorGUI.DrawRect(
+            innerRect,
+            backgroundColor
+        );
+
+        string label = "";
+
+        if (isOrigin)
+        {
+            label = "O";
+        }
+        else if (isOccupied)
+        {
+            SerializedProperty layer =
+                _Layers.GetArrayElementAtIndex(
+                    occupyingLayer
+                );
+
+            SerializedProperty intensity =
+                layer.FindPropertyRelative(
+                    "_Intensity"
+                );
+
+            label =
+                intensity.intValue.ToString();
+        }
+
+        if (!string.IsNullOrEmpty(label))
+        {
+            GUI.Label(
+                innerRect,
+                label,
+                CellLabelStyle
+            );
+        }
+    }
+
+
+    private void HandleGridInput(
+        Rect gridRect,
+        float actualCellSize
+    )
+    {
+        Event currentEvent =
+            Event.current;
+
+        if (
+            currentEvent.type !=
+            EventType.MouseDown ||
+            currentEvent.button != 0 ||
+            !gridRect.Contains(
+                currentEvent.mousePosition
+            )
+        )
+        {
+            return;
+        }
+
+        int column =
+            Mathf.FloorToInt(
+                (
+                    currentEvent.mousePosition.x
+                    - gridRect.x
+                )
+                / actualCellSize
+            );
+
+        int row =
+            Mathf.FloorToInt(
+                (
+                    currentEvent.mousePosition.y
+                    - gridRect.y
+                )
+                / actualCellSize
+            );
+
+        int x =
+            column - _GridRadius;
+
+        int y =
+            _GridRadius - row;
+
+        Vector2Int position =
+            new Vector2Int(x, y);
+
+        // Origin Is Reserved For The Unit / Pattern Source
+        if (
+            position ==
+            Vector2Int.zero
+        )
+        {
+            currentEvent.Use();
+            return;
+        }
+
+        ToggleCell(position);
+
+        serializedObject
+            .ApplyModifiedProperties();
+
+        currentEvent.Use();
+
+        Repaint();
+    }
+
+
+    private void ToggleCell(
+        Vector2Int position
+    )
+    {
+        if (
+            _CellLayerLookup.TryGetValue(
+                position,
+                out int existingLayer
+            )
+        )
+        {
+            // Clicking A Cell Already In The Selected Layer Removes It
+            if (
+                existingLayer ==
+                _SelectedLayerIndex
+            )
+            {
+                RemoveOffsetFromLayer(
+                    _SelectedLayerIndex,
+                    position
+                );
+
+                return;
+            }
+
+            // Clicking A Cell From Another Layer Moves It
+            RemoveOffsetFromLayer(
+                existingLayer,
+                position
+            );
+        }
+
+        AddOffsetToLayer(
+            _SelectedLayerIndex,
+            position
+        );
     }
 
 
     private void AddOffsetToLayer(
-        SerializedProperty Layers,
-        int LayerIndex,
-        Vector2Int Offset)
+        int layerIndex,
+        Vector2Int position
+    )
     {
-        SerializedProperty Layer =
-            Layers.GetArrayElementAtIndex(LayerIndex);
+        SerializedProperty layer =
+            _Layers.GetArrayElementAtIndex(
+                layerIndex
+            );
 
-        SerializedProperty Offsets =
-            Layer.FindPropertyRelative("_Offsets");
+        SerializedProperty offsets =
+            layer.FindPropertyRelative(
+                "_Offsets"
+            );
 
+        int newIndex =
+            offsets.arraySize;
 
-        int NewIndex = Offsets.arraySize;
+        offsets.arraySize++;
 
-        Offsets.InsertArrayElementAtIndex(NewIndex);
-
-        Offsets
-            .GetArrayElementAtIndex(NewIndex)
-            .vector2IntValue = Offset;
+        offsets
+            .GetArrayElementAtIndex(
+                newIndex
+            )
+            .vector2IntValue =
+            position;
     }
 
 
     private void RemoveOffsetFromLayer(
-        SerializedProperty Layers,
-        int LayerIndex,
-        Vector2Int Offset)
+        int layerIndex,
+        Vector2Int position
+    )
     {
-        SerializedProperty Layer =
-            Layers.GetArrayElementAtIndex(LayerIndex);
+        SerializedProperty layer =
+            _Layers.GetArrayElementAtIndex(
+                layerIndex
+            );
 
-        SerializedProperty Offsets =
-            Layer.FindPropertyRelative("_Offsets");
+        SerializedProperty offsets =
+            layer.FindPropertyRelative(
+                "_Offsets"
+            );
 
-
-        for (int i = 0;
-            i < Offsets.arraySize;
-            i++)
+        for (
+            int i = offsets.arraySize - 1;
+            i >= 0;
+            i--
+        )
         {
-            SerializedProperty StoredOffset =
-                Offsets.GetArrayElementAtIndex(i);
-
-
-            if (StoredOffset.vector2IntValue == Offset)
+            if (
+                offsets
+                    .GetArrayElementAtIndex(i)
+                    .vector2IntValue ==
+                position
+            )
             {
-                Offsets.DeleteArrayElementAtIndex(i);
-                return;
+                offsets
+                    .DeleteArrayElementAtIndex(i);
             }
         }
     }

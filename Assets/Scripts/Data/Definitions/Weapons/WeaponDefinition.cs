@@ -10,6 +10,9 @@ public class WeaponDefinition : ScriptableObject
     // Display Name Of The Weapon
     [SerializeField] private string _WeaponName;
 
+    // Unique ID Used To Identify The Weapon
+    [SerializeField] private string _WeaponID;
+
     // Manufacturer Of The Weapon
     [ScriptableObjectPicker]
     [SerializeField] private Manufacturers _Manufacturer;
@@ -44,6 +47,11 @@ public class WeaponDefinition : ScriptableObject
     public string WeaponName
     {
         get { return _WeaponName; }
+    }
+
+        public string WeaponID
+    {
+        get { return _WeaponID; }
     }
 
     public Manufacturers Manufacturer

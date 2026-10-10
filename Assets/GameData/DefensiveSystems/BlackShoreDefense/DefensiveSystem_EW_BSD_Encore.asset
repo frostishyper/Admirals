@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f84eee9c97489045a86091275f158ac, type: 3}
-  m_Name: DefensiveSystem_CM_Reinhardt_Shroud
+  m_Name: DefensiveSystem_EW_BSD_Encore
   m_EditorClassIdentifier: Assembly-CSharp::DefensiveSystemDefinition
-  _SystemName: RW-CMS1 Shroud
-  _SystemID: defense_cms1_shroud
-  _Manufacturer: {fileID: 11400000, guid: 6f718830c76c2794ea49811d315e9403, type: 2}
-  _Tier: {fileID: 11400000, guid: 60f56afffeb145c4dbc75d439a6337a2, type: 2}
-  _SystemType: {fileID: 11400000, guid: e2438b709e50d0b4d98a6160ffbcd743, type: 2}
+  _SystemName: 'Encore Electronic Warfare Suite '
+  _SystemID: sys_defense_bsd_camellia
+  _Manufacturer: {fileID: 11400000, guid: 9d3aa3fa4f3de5442affb4090b0dac19, type: 2}
+  _Tier: {fileID: 11400000, guid: 05e2378974f69db4dbf5aaf39f508aec, type: 2}
+  _SystemType: {fileID: 0}
   _UsableDomains:
-  - {fileID: 11400000, guid: 3bb39945bce1a6b458e639fb6a07169e, type: 2}
+  - {fileID: 11400000, guid: 4676c118c4826ad479942a3d214569d5, type: 2}
   _RequiredTags: 
   _BlockedTags: 
   _DefensePattern: {fileID: 0}
@@ -30,7 +30,7 @@ MonoBehaviour:
   _ReplenishSpeed: 2
   _ReplenishCount: 1
   _RollRanges:
-  - _ResultName: Dispenser Malfunction
+  - _ResultName: Innefective
     _MinimumRoll: 0
     _MaximumRoll: 3
     _AttackRollPenalty: 0
@@ -38,31 +38,31 @@ MonoBehaviour:
     _NegatesAttack: 0
     _RemovedAttackProperties: 
     _EffectApplications: []
-  - _ResultName: 'Ineffective '
+  - _ResultName: Guidance Degraded
     _MinimumRoll: 4
-    _MaximumRoll: 8
-    _AttackRollPenalty: 1
-    _DamageReduction: 0
-    _NegatesAttack: 0
-    _RemovedAttackProperties: 
-    _EffectApplications: []
-  - _ResultName: 'Partial Seduction '
-    _MinimumRoll: 9
-    _MaximumRoll: 14
+    _MaximumRoll: 9
     _AttackRollPenalty: 2
     _DamageReduction: 0
     _NegatesAttack: 0
     _RemovedAttackProperties: 
     _EffectApplications: []
-  - _ResultName: 'Successful Decoy '
-    _MinimumRoll: 15
-    _MaximumRoll: 19
-    _AttackRollPenalty: 4
+  - _ResultName: Seeker Disrupted
+    _MinimumRoll: 11
+    _MaximumRoll: 16
+    _AttackRollPenalty: 3
     _DamageReduction: 0
     _NegatesAttack: 0
     _RemovedAttackProperties: 
     _EffectApplications: []
-  - _ResultName: Seeker Defeated
+  - _ResultName: Seeker Deceived
+    _MinimumRoll: 17
+    _MaximumRoll: 19
+    _AttackRollPenalty: 5
+    _DamageReduction: 0
+    _NegatesAttack: 0
+    _RemovedAttackProperties: 
+    _EffectApplications: []
+  - _ResultName: Threat Seduced
     _MinimumRoll: 20
     _MaximumRoll: 20
     _AttackRollPenalty: 0

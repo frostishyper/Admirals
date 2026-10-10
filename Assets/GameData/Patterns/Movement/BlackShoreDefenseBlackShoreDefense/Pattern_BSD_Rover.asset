@@ -10,22 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2c9f26fa36c42f4f836609c43be1bab, type: 3}
-  m_Name: Pattern_Movement_RW_SeaRaider
+  m_Name: Pattern_BSD_Rover
   m_EditorClassIdentifier: Assembly-CSharp::PatternDefinition
-  _PatternName: Sea Raider Movement
-  _PatternID: movement_searaider
-  _Layers:
-  - _Intensity: 1
-    _Offsets:
-    - {x: 0, y: 1}
-    - {x: 1, y: 1}
-    - {x: 1, y: 0}
-    - {x: 1, y: -1}
-    - {x: 0, y: -1}
-    - {x: -1, y: -1}
-    - {x: -1, y: 0}
-    - {x: -1, y: 1}
-    - {x: 0, y: 2}
-    - {x: 2, y: 0}
-    - {x: -2, y: 0}
-    - {x: 0, y: -2}
+  _PatternName: 
+  _PatternID: 
+  _Layers: []

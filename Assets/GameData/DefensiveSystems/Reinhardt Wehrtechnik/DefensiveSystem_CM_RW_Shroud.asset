@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f84eee9c97489045a86091275f158ac, type: 3}
+  m_Name: DefensiveSystem_CM_RW_Shroud
+  m_EditorClassIdentifier: Assembly-CSharp::DefensiveSystemDefinition
+  _SystemName: Shroud Countermeasure Dispenser
+  _SystemID: sys_defense_rw_shroud
+  _Manufacturer: {fileID: 11400000, guid: 6f718830c76c2794ea49811d315e9403, type: 2}
+  _Tier: {fileID: 11400000, guid: 60f56afffeb145c4dbc75d439a6337a2, type: 2}
+  _SystemType: {fileID: 11400000, guid: e2438b709e50d0b4d98a6160ffbcd743, type: 2}
+  _UsableDomains:
+  - {fileID: 11400000, guid: 3bb39945bce1a6b458e639fb6a07169e, type: 2}
+  _RequiredTags: 
+  _BlockedTags: 
+  _DefensePattern: {fileID: 0}
+  _CanDefendSelf: 1
+  _CanDefendAllies: 0
+  _DefendableWeaponTypes:
+  - {fileID: 11400000, guid: 797310146753bc0408a4b771b2786ccb, type: 2}
+  _CanRespondToDefenseBypass: 0
+  _ReplenishSpeed: 2
+  _ReplenishCount: 1
+  _RollRanges:
+  - _ResultName: Dispenser Malfunction
+    _MinimumRoll: 0
+    _MaximumRoll: 3
+    _AttackRollPenalty: 0
+    _DamageReduction: 0
+    _NegatesAttack: 0
+    _RemovedAttackProperties: 
+    _EffectApplications: []
+  - _ResultName: 'Ineffective '
+    _MinimumRoll: 4
+    _MaximumRoll: 8
+    _AttackRollPenalty: 1
+    _DamageReduction: 0
+    _NegatesAttack: 0
+    _RemovedAttackProperties: 
+    _EffectApplications: []
+  - _ResultName: 'Partial Seduction '
+    _MinimumRoll: 9
+    _MaximumRoll: 14
+    _AttackRollPenalty: 2
+    _DamageReduction: 0
+    _NegatesAttack: 0
+    _RemovedAttackProperties: 
+    _EffectApplications: []
+  - _ResultName: 'Successful Decoy '
+    _MinimumRoll: 15
+    _MaximumRoll: 19
+    _AttackRollPenalty: 4
+    _DamageReduction: 0
+    _NegatesAttack: 0
+    _RemovedAttackProperties: 
+    _EffectApplications: []
+  - _ResultName: Seeker Defeated
+    _MinimumRoll: 20
+    _MaximumRoll: 20
+    _AttackRollPenalty: 0
+    _DamageReduction: 0
+    _NegatesAttack: 1
+    _RemovedAttackProperties: 
+    _EffectApplications: []
