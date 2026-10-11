@@ -82,3 +82,6 @@ crashlytics-build.properties
 /[Aa]ssets/Unity.VisualScripting.Generated/
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# File Types
+*.xsd
