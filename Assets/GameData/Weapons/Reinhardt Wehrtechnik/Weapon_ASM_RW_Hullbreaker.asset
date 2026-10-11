@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62ec667d3baf4f43869a7ca533859ea, type: 3}
   m_Name: Weapon_ASM_RW_Hullbreaker
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinition
-  _WeaponName: RW-ASM1 HullCracker
+  _WeaponName: Hull Breaker Anti-Ship Missile
+  _WeaponID: weapon_asm_rw_hullbreaker
   _Manufacturer: {fileID: 11400000, guid: 6f718830c76c2794ea49811d315e9403, type: 2}
   _Tier: {fileID: 11400000, guid: 05e2378974f69db4dbf5aaf39f508aec, type: 2}
   _WeaponType: {fileID: 11400000, guid: 797310146753bc0408a4b771b2786ccb, type: 2}

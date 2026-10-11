@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62ec667d3baf4f43869a7ca533859ea, type: 3}
   m_Name: Weapon_AAM_RW_Wasp
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDefinition
-  _WeaponName: RW-AAM1 Wasp
+  _WeaponName: Wasp Air To Air Missile
+  _WeaponID: weapon_aam_rw_wasp
   _Manufacturer: {fileID: 11400000, guid: 6f718830c76c2794ea49811d315e9403, type: 2}
   _Tier: {fileID: 11400000, guid: 60f56afffeb145c4dbc75d439a6337a2, type: 2}
   _WeaponType: {fileID: 11400000, guid: 797310146753bc0408a4b771b2786ccb, type: 2}

@@ -12,13 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b86e0a86fbdbed41abe8fd4549ec5b0, type: 3}
   m_Name: DefensiveAbility_EvasiveManeuvers
   m_EditorClassIdentifier: Assembly-CSharp::DefensiveAbilityDefinition
-  _AbilityName: 
-  _AbilityID: 
+  _AbilityName: Evasive Maneuver
+  _AbilityID: ability_defense_evasivemaneuver
   _RequiredTags: 
   _BlockedTags: 
-  _UsablePhases: 
+  _UsablePhases: 04000000
   _CanDefendSelf: 1
   _CanDefendAllies: 0
   _DefensePattern: {fileID: 0}
   _CanRespondToDefenseBypass: 0
-  _RollRanges: []
+  _RollRanges:
+  - _ResultName: Failed Maneuver
+    _MinimumRoll: 0
+    _MaximumRoll: 5
+    _AttackRollPenalty: 0
+    _DamageReduction: 0
+    _NegatesAttack: 0
+    _RemovedAttackProperties: 
+    _EffectApplications: []
+  - _ResultName: Evasive Action
+    _MinimumRoll: 6
+    _MaximumRoll: 19
+    _AttackRollPenalty: 2
+    _DamageReduction: 0
+    _NegatesAttack: 0
+    _RemovedAttackProperties: 
+    _EffectApplications: []
+  - _ResultName: Successful Evasion
+    _MinimumRoll: 20
+    _MaximumRoll: 20
+    _AttackRollPenalty: 0
+    _DamageReduction: 0
+    _NegatesAttack: 1
+    _RemovedAttackProperties: 
+    _EffectApplications: []

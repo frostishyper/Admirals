@@ -105,7 +105,7 @@ MonoBehaviour:
     - {x: 0, y: 5}
     - {x: -1, y: 5}
     - {x: 1, y: 5}
-  - _Intensity: 1
+  - _Intensity: 3
     _Offsets:
     - {x: -6, y: 0}
     - {x: 0, y: -6}
