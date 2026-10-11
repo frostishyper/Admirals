@@ -11,24 +11,33 @@ public class MapRuntimeState
 
     public IReadOnlyDictionary<Vector2Int, MapCellState> Cells
     {
-        get { return _Cells; }
+        get
+        {
+            return _Cells;
+        }
     }
+
 
     public int CellCount
     {
-        get { return _Cells.Count; }
+        get
+        {
+            return _Cells.Count;
+        }
     }
 
 
     internal void AddCell(
         Vector2Int Coordinate,
-        TerrainType TerrainType
+        TerrainType TerrainType,
+        DeploymentZone DeploymentZone
     )
     {
         _Cells[Coordinate] =
             new MapCellState(
                 Coordinate,
-                TerrainType
+                TerrainType,
+                DeploymentZone
             );
     }
 
@@ -57,6 +66,7 @@ public class MapRuntimeState
             return false;
         }
 
+
         return
             Cell.OccupyingUnit != null;
     }
@@ -74,6 +84,7 @@ public class MapRuntimeState
             return false;
         }
 
+
         return
             Cell.HasTag(
                 Tag
@@ -86,7 +97,9 @@ public class MapRuntimeState
         out MineState Mine
     )
     {
-        Mine = null;
+        Mine =
+            null;
+
 
         if (!_Cells.TryGetValue(
                 Coordinate,
@@ -95,13 +108,16 @@ public class MapRuntimeState
             return false;
         }
 
+
         if (Cell.Mine == null)
         {
             return false;
         }
 
+
         Mine =
             Cell.Mine;
+
 
         return true;
     }
@@ -156,7 +172,8 @@ public class MapRuntimeState
         out MineState Mine
     )
     {
-        Mine = null;
+        Mine =
+            null;
 
 
         if (SourceUnit == null ||

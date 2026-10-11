@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Attach To Controller_Match GameObject
-// Initializes The Game Scene From The Frontend Match Configuration
+// Initializes And Owns The Live Match State
 public class MatchController : MonoBehaviour
 {
     [Header("Scene References")]
@@ -15,6 +15,16 @@ public class MatchController : MonoBehaviour
     private GameModeInfo _ActiveGameMode;
 
     private GameObject _ActiveGameModeObject;
+
+    private GameModeRules _ActiveGameModeRules;
+
+
+    private MatchSideState _SideOneState;
+
+    private MatchSideState _SideTwoState;
+
+
+    private int _NextRuntimeUnitID = 1;
 
 
     public MatchConfig ActiveMatch
@@ -35,11 +45,29 @@ public class MatchController : MonoBehaviour
     }
 
 
-    public GameObject ActiveGameModeObject
+    public GameModeRules ActiveGameModeRules
     {
         get
         {
-            return _ActiveGameModeObject;
+            return _ActiveGameModeRules;
+        }
+    }
+
+
+    public MatchSideState SideOneState
+    {
+        get
+        {
+            return _SideOneState;
+        }
+    }
+
+
+    public MatchSideState SideTwoState
+    {
+        get
+        {
+            return _SideTwoState;
         }
     }
 
@@ -105,30 +133,38 @@ public class MatchController : MonoBehaviour
         );
 
 
-        LoadGameMode(
-            _ActiveGameMode
-        );
+        if (!LoadGameMode(
+                _ActiveGameMode))
+        {
+            return;
+        }
+
+
+        BuildStartingForces();
 
 
         Debug.Log(
             $"Match Initialized\n" +
             $"Map: {_ActiveMatch.SelectedMap.MapName}\n" +
-            $"Game Mode: {_ActiveGameMode.GameModeName}"
+            $"Game Mode: {_ActiveGameMode.GameModeName}\n" +
+            $"Side One Units: {_SideOneState.UnitCount}\n" +
+            $"Side Two Units: {_SideTwoState.UnitCount}\n" +
+            $"Victory Condition: {_ActiveGameModeRules.VictoryCondition}"
         );
     }
 
 
-    private void LoadGameMode(
+    private bool LoadGameMode(
         GameModeInfo GameMode
     )
     {
         if (GameMode.GameModeReference == null)
         {
-            Debug.LogWarning(
+            Debug.LogError(
                 $"GameMode '{GameMode.GameModeName}' has no GameModeReference assigned."
             );
 
-            return;
+            return false;
         }
 
 
@@ -140,8 +176,115 @@ public class MatchController : MonoBehaviour
             );
 
 
+        _ActiveGameModeRules =
+            _ActiveGameModeObject.GetComponent<GameModeRules>();
+
+
+        if (_ActiveGameModeRules == null)
+        {
+            Debug.LogError(
+                $"GameMode prefab '{GameMode.GameModeReference.name}' has no GameModeRules component."
+            );
+
+            Destroy(
+                _ActiveGameModeObject
+            );
+
+
+            _ActiveGameModeObject =
+                null;
+
+
+            return false;
+        }
+
+
         Debug.Log(
             $"Loaded Game Mode: {GameMode.GameModeName}"
         );
+
+
+        return true;
+    }
+
+
+    private void BuildStartingForces()
+    {
+        _SideOneState =
+            new MatchSideState(
+                MatchSide.SideOne
+            );
+
+
+        _SideTwoState =
+            new MatchSideState(
+                MatchSide.SideTwo
+            );
+
+
+        AddRosterToSide(
+            _SideOneState,
+            _ActiveGameModeRules.SideOneStartingRoster
+        );
+
+
+        AddRosterToSide(
+            _SideTwoState,
+            _ActiveGameModeRules.SideTwoStartingRoster
+        );
+    }
+
+
+    private void AddRosterToSide(
+        MatchSideState SideState,
+        StartingUnitEntry[] Roster
+    )
+    {
+        if (Roster == null)
+        {
+            return;
+        }
+
+
+        for (
+            int EntryIndex = 0;
+            EntryIndex < Roster.Length;
+            EntryIndex++
+        )
+        {
+            StartingUnitEntry Entry =
+                Roster[EntryIndex];
+
+
+            if (Entry == null ||
+                Entry.Unit == null ||
+                Entry.Count <= 0)
+            {
+                continue;
+            }
+
+
+            for (
+                int UnitIndex = 0;
+                UnitIndex < Entry.Count;
+                UnitIndex++
+            )
+            {
+                UnitRuntimeState Unit =
+                    new UnitRuntimeState(
+                        _NextRuntimeUnitID,
+                        Entry.Unit,
+                        SideState.Side
+                    );
+
+
+                _NextRuntimeUnitID++;
+
+
+                SideState.AddUnit(
+                    Unit
+                );
+            }
+        }
     }
 }

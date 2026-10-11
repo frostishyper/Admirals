@@ -144,6 +144,9 @@ public class MapController : MonoBehaviour
         int LandCount = 0;
         int BarrierCount = 0;
 
+        int ZoneACount = 0;
+        int ZoneBCount = 0;
+
 
         for (
             int Y = 0;
@@ -176,9 +179,16 @@ public class MapController : MonoBehaviour
                 }
 
 
+                _ActiveBoard.TryGetDeploymentZone(
+                    Coordinate,
+                    out DeploymentZone Zone
+                );
+
+
                 _RuntimeState.AddCell(
                     Coordinate,
-                    Terrain
+                    Terrain,
+                    Zone
                 );
 
 
@@ -211,6 +221,23 @@ public class MapController : MonoBehaviour
 
                         break;
                 }
+
+
+                switch (Zone)
+                {
+                    case DeploymentZone.ZoneA:
+
+                        ZoneACount++;
+
+                        break;
+
+
+                    case DeploymentZone.ZoneB:
+
+                        ZoneBCount++;
+
+                        break;
+                }
             }
         }
 
@@ -220,7 +247,9 @@ public class MapController : MonoBehaviour
             $"Deep Water: {DeepWaterCount}\n" +
             $"Shallow Water: {ShallowWaterCount}\n" +
             $"Land: {LandCount}\n" +
-            $"Barrier: {BarrierCount}"
+            $"Barrier: {BarrierCount}\n" +
+            $"Deployment Zone A: {ZoneACount}\n" +
+            $"Deployment Zone B: {ZoneBCount}"
         );
     }
 }

@@ -3,39 +3,159 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 // Unity Editor Script - Not Attached To A GameObject
-// Provides MapBoard Setup And Gameplay Terrain Painting Tools
+// Provides Scene Tools For Authoring Terrain And Deployment Zones
 [CustomEditor(typeof(MapBoard))]
 public class MapBoardEditor : Editor
 {
-    private bool _PickingOrigin;
-    private bool _PaintingTerrain;
+    private enum PaintingMode
+    {
+        None,
+        Terrain,
+        DeploymentZone
+    }
 
-    private bool _ShowTerrainOverlay = true;
-    private bool _ShowDeepWaterOverlay = false;
+
+    private MapBoard _Board;
+
+    private PaintingMode _PaintingMode =
+        PaintingMode.None;
+
 
     private TerrainType _SelectedTerrain =
         TerrainType.DeepWater;
 
+    private DeploymentZone _SelectedDeploymentZone =
+        DeploymentZone.ZoneA;
 
-    public override void OnInspectorGUI()
+
+    private bool _ShowTerrainOverlay =
+        true;
+
+    private bool _ShowDeepWater =
+        false;
+
+    private bool _ShowDeploymentZoneOverlay =
+        true;
+
+    private bool _PickingTilemapOrigin =
+        false;
+
+
+    private static readonly Color DeepWaterColor =
+        new Color(
+            0.10f,
+            0.35f,
+            1.00f,
+            0.20f
+        );
+
+    private static readonly Color ShallowWaterColor =
+        new Color(
+            0.00f,
+            0.90f,
+            1.00f,
+            0.28f
+        );
+
+    private static readonly Color LandColor =
+        new Color(
+            0.15f,
+            0.90f,
+            0.20f,
+            0.28f
+        );
+
+    private static readonly Color BarrierColor =
+        new Color(
+            1.00f,
+            0.10f,
+            0.10f,
+            0.30f
+        );
+
+
+    private static readonly Color ZoneAColor =
+        new Color(
+            0.15f,
+            0.45f,
+            1.00f,
+            0.30f
+        );
+
+    private static readonly Color ZoneBColor =
+        new Color(
+            1.00f,
+            0.20f,
+            0.20f,
+            0.30f
+        );
+
+    private static readonly Color BoardOutlineColor =
+        new Color(
+            1.00f,
+            0.85f,
+            0.10f,
+            1.00f
+        );
+
+    private static readonly Color HoverColor =
+        new Color(
+            1.00f,
+            1.00f,
+            1.00f,
+            0.45f
+        );
+
+
+    private void OnEnable()
     {
-        DrawDefaultInspector();
-
-        MapBoard Board =
+        _Board =
             (MapBoard)target;
 
 
-        EditorGUILayout.Space();
-
-        DrawBoardSetup(Board);
-
-        EditorGUILayout.Space();
-
-        DrawTerrainTools(Board);
+        SceneView.duringSceneGui +=
+            OnSceneGUI;
     }
 
 
-    private void DrawBoardSetup(MapBoard Board)
+    private void OnDisable()
+    {
+        SceneView.duringSceneGui -=
+            OnSceneGUI;
+    }
+
+
+    public override void OnInspectorGUI()
+    {
+        serializedObject.Update();
+
+
+        DrawDefaultInspector();
+
+
+        EditorGUILayout.Space(12);
+
+
+        DrawBoardSetupTools();
+
+
+        EditorGUILayout.Space(12);
+
+
+        DrawTerrainTools();
+
+
+        EditorGUILayout.Space(12);
+
+
+        DrawDeploymentZoneTools();
+
+
+        serializedObject.ApplyModifiedProperties();
+    }
+
+
+    private void DrawBoardSetupTools()
     {
         EditorGUILayout.LabelField(
             "Board Setup",
@@ -43,30 +163,33 @@ public class MapBoardEditor : Editor
         );
 
 
-        if (!_PickingOrigin)
+        if (_PickingTilemapOrigin)
         {
+            EditorGUILayout.HelpBox(
+                "Click the bottom-left gameplay cell in the Scene View.",
+                MessageType.Info
+            );
+
+
             if (GUILayout.Button(
-                    "Pick Bottom-Left Board Cell"
-                ))
+                    "Cancel Picking Bottom-Left Cell"))
             {
-                _PickingOrigin = true;
-                _PaintingTerrain = false;
+                _PickingTilemapOrigin =
+                    false;
 
                 SceneView.RepaintAll();
             }
         }
         else
         {
-            EditorGUILayout.HelpBox(
-                "Click the bottom-left cell of the painted map in the Scene view.",
-                MessageType.Info
-            );
-
             if (GUILayout.Button(
-                    "Cancel Origin Picking"
-                ))
+                    "Pick Bottom-Left Board Cell"))
             {
-                _PickingOrigin = false;
+                _PickingTilemapOrigin =
+                    true;
+
+                _PaintingMode =
+                    PaintingMode.None;
 
                 SceneView.RepaintAll();
             }
@@ -74,45 +197,37 @@ public class MapBoardEditor : Editor
     }
 
 
-    private void DrawTerrainTools(MapBoard Board)
+    private void DrawTerrainTools()
     {
         EditorGUILayout.LabelField(
-            "Gameplay Terrain",
+            "Terrain Authoring",
             EditorStyles.boldLabel
         );
 
 
-        if (!Board.HasTerrainData)
+        if (!_Board.HasTerrainData)
         {
             EditorGUILayout.HelpBox(
-                $"Terrain data is not initialized for the current {Board.BoardSize.x}x{Board.BoardSize.y} board.",
+                "Terrain data has not been initialized for this board size.",
                 MessageType.Warning
             );
-
-            if (GUILayout.Button(
-                    "Initialize Terrain As Deep Water"
-                ))
-            {
-                Undo.RecordObject(
-                    Board,
-                    "Initialize Map Terrain"
-                );
-
-                Board.InitializeTerrainData();
-
-                EditorUtility.SetDirty(Board);
-
-                SceneView.RepaintAll();
-            }
-
-            return;
         }
 
 
-        EditorGUILayout.HelpBox(
-            $"Terrain Data Ready: {Board.BoardSize.x * Board.BoardSize.y} Cells",
-            MessageType.Info
-        );
+        if (GUILayout.Button(
+                "Initialize Terrain Data"))
+        {
+            Undo.RecordObject(
+                _Board,
+                "Initialize Terrain Data"
+            );
+
+
+            _Board.InitializeTerrainData();
+
+
+            MarkBoardDirty();
+        }
 
 
         _SelectedTerrain =
@@ -129,128 +244,213 @@ public class MapBoardEditor : Editor
             );
 
 
-        if (_ShowTerrainOverlay)
-        {
-            _ShowDeepWaterOverlay =
-                EditorGUILayout.Toggle(
-                    "Show Deep Water",
-                    _ShowDeepWaterOverlay
-                );
-        }
-
-
-        EditorGUILayout.Space();
-
-
-        if (!_PaintingTerrain)
-        {
-            if (GUILayout.Button(
-                    "Start Terrain Painting"
-                ))
-            {
-                _PaintingTerrain = true;
-                _PickingOrigin = false;
-
-                SceneView.RepaintAll();
-            }
-        }
-        else
-        {
-            EditorGUILayout.HelpBox(
-                "Left-click and drag across cells in the Scene view to paint the selected gameplay terrain.",
-                MessageType.Info
+        _ShowDeepWater =
+            EditorGUILayout.Toggle(
+                "Show Deep Water",
+                _ShowDeepWater
             );
 
-            if (GUILayout.Button(
-                    "Stop Terrain Painting"
-                ))
-            {
-                _PaintingTerrain = false;
 
-                SceneView.RepaintAll();
-            }
-        }
+        bool IsPaintingTerrain =
+            _PaintingMode ==
+            PaintingMode.Terrain;
 
 
-        EditorGUILayout.Space();
+        string PaintButtonText =
+            IsPaintingTerrain
+                ? "Stop Terrain Painting"
+                : "Start Terrain Painting";
 
 
         if (GUILayout.Button(
-                "Fill Entire Board With Deep Water"
-            ))
+                PaintButtonText))
         {
-            bool Confirmed =
-                EditorUtility.DisplayDialog(
-                    "Fill Entire Board?",
-                    "This replaces all current gameplay terrain classifications with Deep Water.",
-                    "Fill",
-                    "Cancel"
-                );
+            _PaintingMode =
+                IsPaintingTerrain
+                    ? PaintingMode.None
+                    : PaintingMode.Terrain;
 
-            if (Confirmed)
-            {
-                Undo.RecordObject(
-                    Board,
-                    "Fill Map Terrain"
-                );
 
-                Board.FillTerrain(
-                    TerrainType.DeepWater
-                );
+            _PickingTilemapOrigin =
+                false;
 
-                EditorUtility.SetDirty(Board);
 
-                SceneView.RepaintAll();
-            }
+            SceneView.RepaintAll();
+        }
+
+
+        if (GUILayout.Button(
+                "Fill Entire Board With Deep Water"))
+        {
+            Undo.RecordObject(
+                _Board,
+                "Fill Board With Deep Water"
+            );
+
+
+            _Board.FillTerrain(
+                TerrainType.DeepWater
+            );
+
+
+            MarkBoardDirty();
         }
     }
 
 
-    private void OnSceneGUI()
+    private void DrawDeploymentZoneTools()
     {
-        MapBoard Board =
-            (MapBoard)target;
+        EditorGUILayout.LabelField(
+            "Deployment Zone Authoring",
+            EditorStyles.boldLabel
+        );
 
 
-        if (Board.TerrainTilemap == null)
+        if (!_Board.HasDeploymentZoneData)
+        {
+            EditorGUILayout.HelpBox(
+                "Deployment zone data has not been initialized. Initialize it once before painting.",
+                MessageType.Warning
+            );
+        }
+
+
+        if (GUILayout.Button(
+                "Initialize Deployment Zone Data"))
+        {
+            Undo.RecordObject(
+                _Board,
+                "Initialize Deployment Zone Data"
+            );
+
+
+            _Board.InitializeDeploymentZoneData();
+
+
+            MarkBoardDirty();
+        }
+
+
+        _SelectedDeploymentZone =
+            (DeploymentZone)EditorGUILayout.EnumPopup(
+                "Selected Zone",
+                _SelectedDeploymentZone
+            );
+
+
+        _ShowDeploymentZoneOverlay =
+            EditorGUILayout.Toggle(
+                "Show Deployment Zone Overlay",
+                _ShowDeploymentZoneOverlay
+            );
+
+
+        bool IsPaintingDeploymentZone =
+            _PaintingMode ==
+            PaintingMode.DeploymentZone;
+
+
+        string PaintButtonText =
+            IsPaintingDeploymentZone
+                ? "Stop Deployment Zone Painting"
+                : "Start Deployment Zone Painting";
+
+
+        if (GUILayout.Button(
+                PaintButtonText))
+        {
+            _PaintingMode =
+                IsPaintingDeploymentZone
+                    ? PaintingMode.None
+                    : PaintingMode.DeploymentZone;
+
+
+            _PickingTilemapOrigin =
+                false;
+
+
+            SceneView.RepaintAll();
+        }
+
+
+        if (GUILayout.Button(
+                "Clear All Deployment Zones"))
+        {
+            Undo.RecordObject(
+                _Board,
+                "Clear Deployment Zones"
+            );
+
+
+            _Board.FillDeploymentZones(
+                DeploymentZone.None
+            );
+
+
+            MarkBoardDirty();
+        }
+    }
+
+
+    private void OnSceneGUI(
+        SceneView SceneView
+    )
+    {
+        if (_Board == null ||
+            _Board.TerrainTilemap == null)
         {
             return;
         }
 
 
-        DrawBoardOutline(Board);
+        DrawBoardOutline();
 
 
         if (_ShowTerrainOverlay &&
-            Board.HasTerrainData)
+            _Board.HasTerrainData)
         {
-            DrawTerrainOverlay(Board);
+            DrawTerrainOverlay();
         }
 
 
-        if (_PickingOrigin)
+        if (_ShowDeploymentZoneOverlay &&
+            _Board.HasDeploymentZoneData)
         {
-            HandleOriginPicking(Board);
-            return;
+            DrawDeploymentZoneOverlay();
         }
 
 
-        if (_PaintingTerrain &&
-            Board.HasTerrainData)
-        {
-            HandleTerrainPainting(Board);
-        }
-    }
-
-
-    private void HandleOriginPicking(
-        MapBoard Board
-    )
-    {
         Event CurrentEvent =
             Event.current;
 
 
+        if (_PickingTilemapOrigin)
+        {
+            HandleOriginPicking(
+                CurrentEvent
+            );
+
+            return;
+        }
+
+
+        if (_PaintingMode ==
+            PaintingMode.None)
+        {
+            return;
+        }
+
+
+        HandlePainting(
+            CurrentEvent
+        );
+    }
+
+
+    private void HandleOriginPicking(
+        Event CurrentEvent
+    )
+    {
         HandleUtility.AddDefaultControl(
             GUIUtility.GetControlID(
                 FocusType.Passive
@@ -258,24 +458,23 @@ public class MapBoardEditor : Editor
         );
 
 
-        if (!TryGetHoveredTilemapCell(
-                Board,
-                out Vector3Int HoveredCell))
+        if (!TryGetMouseWorldPosition(
+                CurrentEvent.mousePosition,
+                out Vector3 WorldPosition))
         {
             return;
         }
 
 
-        DrawTilemapCellHighlight(
-            Board.TerrainTilemap,
-            HoveredCell,
-            new Color(
-                1f,
-                1f,
-                0f,
-                0.25f
-            ),
-            Color.yellow
+        Vector3Int TilemapCell =
+            _Board.TerrainTilemap.WorldToCell(
+                WorldPosition
+            );
+
+
+        DrawCellOutline(
+            TilemapCell,
+            HoverColor
         );
 
 
@@ -287,47 +486,43 @@ public class MapBoardEditor : Editor
         }
 
 
+        Undo.RecordObject(
+            _Board,
+            "Set Board Tilemap Origin"
+        );
+
+
         SerializedProperty OriginProperty =
             serializedObject.FindProperty(
                 "_TilemapOrigin"
             );
 
 
-        Undo.RecordObject(
-            Board,
-            "Set Map Tilemap Origin"
-        );
-
-
         OriginProperty.vector2IntValue =
             new Vector2Int(
-                HoveredCell.x,
-                HoveredCell.y
+                TilemapCell.x,
+                TilemapCell.y
             );
 
 
         serializedObject.ApplyModifiedProperties();
 
-        EditorUtility.SetDirty(Board);
+
+        _PickingTilemapOrigin =
+            false;
 
 
-        _PickingOrigin = false;
+        MarkBoardDirty();
+
 
         CurrentEvent.Use();
-
-        Repaint();
-        SceneView.RepaintAll();
     }
 
 
-    private void HandleTerrainPainting(
-        MapBoard Board
+    private void HandlePainting(
+        Event CurrentEvent
     )
     {
-        Event CurrentEvent =
-            Event.current;
-
-
         HandleUtility.AddDefaultControl(
             GUIUtility.GetControlID(
                 FocusType.Passive
@@ -335,137 +530,132 @@ public class MapBoardEditor : Editor
         );
 
 
-        if (!TryGetHoveredTilemapCell(
-                Board,
-                out Vector3Int TilemapCell))
+        if (!TryGetMouseWorldPosition(
+                CurrentEvent.mousePosition,
+                out Vector3 WorldPosition))
         {
             return;
         }
 
 
         Vector2Int BoardCoordinate =
-            Board.TilemapCellToBoard(
-                TilemapCell
+            _Board.WorldToBoard(
+                WorldPosition
             );
 
 
-        if (!Board.IsWithinBoard(
+        if (!_Board.IsWithinBoard(
                 BoardCoordinate))
         {
             return;
         }
 
 
-        DrawTilemapCellHighlight(
-            Board.TerrainTilemap,
+        Vector3Int TilemapCell =
+            _Board.BoardToTilemapCell(
+                BoardCoordinate
+            );
+
+
+        DrawCellOutline(
             TilemapCell,
-            GetTerrainColor(
-                _SelectedTerrain,
-                0.55f
-            ),
-            Color.white
+            HoverColor
         );
 
 
-        bool IsPainting =
+        bool ShouldPaint =
+            CurrentEvent.button == 0 &&
             (
                 CurrentEvent.type ==
-                EventType.MouseDown ||
+                    EventType.MouseDown ||
                 CurrentEvent.type ==
-                EventType.MouseDrag
-            ) &&
-            CurrentEvent.button == 0;
+                    EventType.MouseDrag
+            );
 
 
-        if (!IsPainting)
+        if (!ShouldPaint)
         {
-            return;
-        }
-
-
-        if (Board.TryGetTerrainType(
-                BoardCoordinate,
-                out TerrainType CurrentTerrain) &&
-            CurrentTerrain == _SelectedTerrain)
-        {
-            CurrentEvent.Use();
             return;
         }
 
 
         Undo.RecordObject(
-            Board,
-            "Paint Map Terrain"
+            _Board,
+            "Paint Map Cell"
         );
 
 
-        Board.SetTerrainType(
-            BoardCoordinate,
-            _SelectedTerrain
-        );
+        switch (_PaintingMode)
+        {
+            case PaintingMode.Terrain:
+
+                _Board.SetTerrainType(
+                    BoardCoordinate,
+                    _SelectedTerrain
+                );
+
+                break;
 
 
-        EditorUtility.SetDirty(Board);
+            case PaintingMode.DeploymentZone:
+
+                _Board.SetDeploymentZone(
+                    BoardCoordinate,
+                    _SelectedDeploymentZone
+                );
+
+                break;
+        }
+
+
+        MarkBoardDirty();
+
 
         CurrentEvent.Use();
-
-        Repaint();
-        SceneView.RepaintAll();
     }
 
 
-    private void DrawTerrainOverlay(
-        MapBoard Board
-    )
+    private void DrawTerrainOverlay()
     {
-        Vector2Int BoardSize =
-            Board.BoardSize;
-
-
-        for (int Y = 0; Y < BoardSize.y; Y++)
+        for (
+            int Y = 0;
+            Y < _Board.BoardSize.y;
+            Y++
+        )
         {
-            for (int X = 0; X < BoardSize.x; X++)
+            for (
+                int X = 0;
+                X < _Board.BoardSize.x;
+                X++
+            )
             {
-                Vector2Int BoardCoordinate =
+                Vector2Int Coordinate =
                     new Vector2Int(
                         X,
                         Y
                     );
 
 
-                if (!Board.TryGetTerrainType(
-                        BoardCoordinate,
+                if (!_Board.TryGetTerrainType(
+                        Coordinate,
                         out TerrainType Terrain))
                 {
                     continue;
                 }
 
 
-                if (Terrain == TerrainType.DeepWater &&
-                    !_ShowDeepWaterOverlay)
+                if (Terrain ==
+                        TerrainType.DeepWater &&
+                    !_ShowDeepWater)
                 {
                     continue;
                 }
 
 
-                Vector3Int TilemapCell =
-                    Board.BoardToTilemapCell(
-                        BoardCoordinate
-                    );
-
-
-                DrawTilemapCellHighlight(
-                    Board.TerrainTilemap,
-                    TilemapCell,
+                DrawCellFill(
+                    Coordinate,
                     GetTerrainColor(
-                        Terrain,
-                        0.25f
-                    ),
-                    new Color(
-                        1f,
-                        1f,
-                        1f,
-                        0.15f
+                        Terrain
                     )
                 );
             }
@@ -473,140 +663,141 @@ public class MapBoardEditor : Editor
     }
 
 
-    private void DrawBoardOutline(
-        MapBoard Board
-    )
+    private void DrawDeploymentZoneOverlay()
     {
-        if (Board.BoardSize.x <= 0 ||
-            Board.BoardSize.y <= 0)
+        for (
+            int Y = 0;
+            Y < _Board.BoardSize.y;
+            Y++
+        )
         {
-            return;
+            for (
+                int X = 0;
+                X < _Board.BoardSize.x;
+                X++
+            )
+            {
+                Vector2Int Coordinate =
+                    new Vector2Int(
+                        X,
+                        Y
+                    );
+
+
+                if (!_Board.TryGetDeploymentZone(
+                        Coordinate,
+                        out DeploymentZone Zone))
+                {
+                    continue;
+                }
+
+
+                if (Zone ==
+                    DeploymentZone.None)
+                {
+                    continue;
+                }
+
+
+                DrawCellFill(
+                    Coordinate,
+                    GetDeploymentZoneColor(
+                        Zone
+                    )
+                );
+            }
         }
+    }
 
 
+    private void DrawBoardOutline()
+    {
         Vector3Int BottomLeftCell =
-            Board.BoardToTilemapCell(
+            _Board.BoardToTilemapCell(
                 Vector2Int.zero
             );
 
 
         Vector3Int TopRightCell =
-            Board.BoardToTilemapCell(
-                new Vector2Int(
-                    Board.BoardSize.x,
-                    Board.BoardSize.y
-                )
+            _Board.BoardToTilemapCell(
+                _Board.BoardSize
             );
 
 
         Vector3 BottomLeft =
-            Board.TerrainTilemap.CellToWorld(
+            _Board.TerrainTilemap.CellToWorld(
                 BottomLeftCell
             );
 
 
         Vector3 TopRight =
-            Board.TerrainTilemap.CellToWorld(
+            _Board.TerrainTilemap.CellToWorld(
                 TopRightCell
             );
 
 
-        Vector3[] Corners =
-        {
-            new Vector3(
-                BottomLeft.x,
-                BottomLeft.y,
-                BottomLeft.z
-            ),
-
+        Vector3 BottomRight =
             new Vector3(
                 TopRight.x,
                 BottomLeft.y,
                 BottomLeft.z
-            ),
+            );
 
-            new Vector3(
-                TopRight.x,
-                TopRight.y,
-                BottomLeft.z
-            ),
 
+        Vector3 TopLeft =
             new Vector3(
                 BottomLeft.x,
                 TopRight.y,
                 BottomLeft.z
-            )
-        };
+            );
 
 
-        Handles.DrawSolidRectangleWithOutline(
-            Corners,
-            Color.clear,
-            Color.yellow
+        Handles.color =
+            BoardOutlineColor;
+
+
+        Handles.DrawLine(
+            BottomLeft,
+            BottomRight
+        );
+
+        Handles.DrawLine(
+            BottomRight,
+            TopRight
+        );
+
+        Handles.DrawLine(
+            TopRight,
+            TopLeft
+        );
+
+        Handles.DrawLine(
+            TopLeft,
+            BottomLeft
         );
     }
 
 
-    private bool TryGetHoveredTilemapCell(
-        MapBoard Board,
-        out Vector3Int Cell
+    private void DrawCellFill(
+        Vector2Int BoardCoordinate,
+        Color Color
     )
     {
-        Ray MouseRay =
-            HandleUtility.GUIPointToWorldRay(
-                Event.current.mousePosition
+        Vector3Int TilemapCell =
+            _Board.BoardToTilemapCell(
+                BoardCoordinate
             );
 
 
-        Plane MapPlane =
-            new Plane(
-                Vector3.forward,
-                Board.TerrainTilemap
-                    .transform.position
-            );
-
-
-        if (!MapPlane.Raycast(
-                MouseRay,
-                out float Distance))
-        {
-            Cell = default;
-            return false;
-        }
-
-
-        Vector3 WorldPosition =
-            MouseRay.GetPoint(
-                Distance
-            );
-
-
-        Cell =
-            Board.TerrainTilemap.WorldToCell(
-                WorldPosition
-            );
-
-
-        return true;
-    }
-
-
-    private void DrawTilemapCellHighlight(
-        Tilemap Tilemap,
-        Vector3Int Cell,
-        Color FillColor,
-        Color OutlineColor
-    )
-    {
         Vector3 BottomLeft =
-            Tilemap.CellToWorld(
-                Cell
+            _Board.TerrainTilemap.CellToWorld(
+                TilemapCell
             );
 
 
         Vector3 TopRight =
-            Tilemap.CellToWorld(
-                Cell +
+            _Board.TerrainTilemap.CellToWorld(
+                TilemapCell +
                 new Vector3Int(
                     1,
                     1,
@@ -615,13 +806,9 @@ public class MapBoardEditor : Editor
             );
 
 
-        Vector3[] Corners =
+        Vector3[] Vertices =
         {
-            new Vector3(
-                BottomLeft.x,
-                BottomLeft.y,
-                BottomLeft.z
-            ),
+            BottomLeft,
 
             new Vector3(
                 TopRight.x,
@@ -629,11 +816,7 @@ public class MapBoardEditor : Editor
                 BottomLeft.z
             ),
 
-            new Vector3(
-                TopRight.x,
-                TopRight.y,
-                BottomLeft.z
-            ),
+            TopRight,
 
             new Vector3(
                 BottomLeft.x,
@@ -644,54 +827,184 @@ public class MapBoardEditor : Editor
 
 
         Handles.DrawSolidRectangleWithOutline(
-            Corners,
-            FillColor,
-            OutlineColor
+            Vertices,
+            Color,
+            Color.clear
         );
     }
 
 
+    private void DrawCellOutline(
+        Vector3Int TilemapCell,
+        Color Color
+    )
+    {
+        Vector3 BottomLeft =
+            _Board.TerrainTilemap.CellToWorld(
+                TilemapCell
+            );
+
+
+        Vector3 TopRight =
+            _Board.TerrainTilemap.CellToWorld(
+                TilemapCell +
+                new Vector3Int(
+                    1,
+                    1,
+                    0
+                )
+            );
+
+
+        Vector3[] Vertices =
+        {
+            BottomLeft,
+
+            new Vector3(
+                TopRight.x,
+                BottomLeft.y,
+                BottomLeft.z
+            ),
+
+            TopRight,
+
+            new Vector3(
+                BottomLeft.x,
+                TopRight.y,
+                BottomLeft.z
+            )
+        };
+
+
+        Handles.DrawSolidRectangleWithOutline(
+            Vertices,
+            Color.clear,
+            Color
+        );
+    }
+
+
+    private bool TryGetMouseWorldPosition(
+        Vector2 MousePosition,
+        out Vector3 WorldPosition
+    )
+    {
+        Ray MouseRay =
+            HandleUtility.GUIPointToWorldRay(
+                MousePosition
+            );
+
+
+        float PlaneZ =
+            _Board.TerrainTilemap.transform.position.z;
+
+
+        if (Mathf.Approximately(
+                MouseRay.direction.z,
+                0f))
+        {
+            WorldPosition =
+                Vector3.zero;
+
+            return false;
+        }
+
+
+        float Distance =
+            (
+                PlaneZ -
+                MouseRay.origin.z
+            ) /
+            MouseRay.direction.z;
+
+
+        if (Distance < 0f)
+        {
+            WorldPosition =
+                Vector3.zero;
+
+            return false;
+        }
+
+
+        WorldPosition =
+            MouseRay.GetPoint(
+                Distance
+            );
+
+
+        return true;
+    }
+
+
     private Color GetTerrainColor(
-        TerrainType Terrain,
-        float Alpha
+        TerrainType Terrain
     )
     {
         switch (Terrain)
         {
             case TerrainType.DeepWater:
-                return new Color(
-                    0.1f,
-                    0.4f,
-                    1f,
-                    Alpha
-                );
+
+                return DeepWaterColor;
+
 
             case TerrainType.ShallowWater:
-                return new Color(
-                    0f,
-                    1f,
-                    1f,
-                    Alpha
-                );
+
+                return ShallowWaterColor;
+
 
             case TerrainType.Land:
-                return new Color(
-                    0.3f,
-                    1f,
-                    0.2f,
-                    Alpha
-                );
+
+                return LandColor;
+
 
             case TerrainType.Barrier:
-                return new Color(
-                    1f,
-                    0.15f,
-                    0.15f,
-                    Alpha
-                );
+
+                return BarrierColor;
+
 
             default:
+
                 return Color.clear;
         }
+    }
+
+
+    private Color GetDeploymentZoneColor(
+        DeploymentZone Zone
+    )
+    {
+        switch (Zone)
+        {
+            case DeploymentZone.ZoneA:
+
+                return ZoneAColor;
+
+
+            case DeploymentZone.ZoneB:
+
+                return ZoneBColor;
+
+
+            default:
+
+                return Color.clear;
+        }
+    }
+
+
+    private void MarkBoardDirty()
+    {
+        EditorUtility.SetDirty(
+            _Board
+        );
+
+
+        PrefabUtility.RecordPrefabInstancePropertyModifications(
+            _Board
+        );
+
+
+        SceneView.RepaintAll();
     }
 }

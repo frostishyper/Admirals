@@ -15,18 +15,27 @@ public class MapCellState
         private set;
     }
 
+
     public TerrainType TerrainType
     {
         get;
         private set;
     }
 
-    // One Unit Maximum Per Board Cell
+
+    public DeploymentZone DeploymentZone
+    {
+        get;
+        private set;
+    }
+
+
     public UnitRuntimeState OccupyingUnit
     {
         get;
         internal set;
     }
+
 
     public MineState Mine
     {
@@ -34,15 +43,20 @@ public class MapCellState
         internal set;
     }
 
+
     public IReadOnlyCollection<TileTag> TileTags
     {
-        get { return _TileTags; }
+        get
+        {
+            return _TileTags;
+        }
     }
 
 
     public MapCellState(
         Vector2Int Coordinate,
-        TerrainType TerrainType
+        TerrainType TerrainType,
+        DeploymentZone DeploymentZone
     )
     {
         this.Coordinate =
@@ -51,8 +65,15 @@ public class MapCellState
         this.TerrainType =
             TerrainType;
 
-        OccupyingUnit = null;
-        Mine = null;
+        this.DeploymentZone =
+            DeploymentZone;
+
+
+        OccupyingUnit =
+            null;
+
+        Mine =
+            null;
     }
 
 

@@ -27,6 +27,9 @@ public class MapBoard : MonoBehaviour
     [HideInInspector]
     [SerializeField] private TerrainType[] _TerrainData;
 
+    [HideInInspector]
+    [SerializeField] private DeploymentZone[] _DeploymentZoneData;
+
 
     public Grid Grid
     {
@@ -73,6 +76,7 @@ public class MapBoard : MonoBehaviour
         get { return _BoardSize; }
     }
 
+
     public bool HasTerrainData
     {
         get
@@ -80,6 +84,18 @@ public class MapBoard : MonoBehaviour
             return
                 _TerrainData != null &&
                 _TerrainData.Length ==
+                _BoardSize.x * _BoardSize.y;
+        }
+    }
+
+
+    public bool HasDeploymentZoneData
+    {
+        get
+        {
+            return
+                _DeploymentZoneData != null &&
+                _DeploymentZoneData.Length ==
                 _BoardSize.x * _BoardSize.y;
         }
     }
@@ -135,7 +151,7 @@ public class MapBoard : MonoBehaviour
 
         Terrain =
             _TerrainData[
-                GetTerrainIndex(
+                GetCellIndex(
                     BoardCoordinate
                 )
             ];
@@ -157,7 +173,7 @@ public class MapBoard : MonoBehaviour
         }
 
         _TerrainData[
-            GetTerrainIndex(
+            GetCellIndex(
                 BoardCoordinate
             )
         ] = Terrain;
@@ -183,17 +199,7 @@ public class MapBoard : MonoBehaviour
 
     public void InitializeTerrainData()
     {
-        _BoardSize.x =
-            Mathf.Max(
-                1,
-                _BoardSize.x
-            );
-
-        _BoardSize.y =
-            Mathf.Max(
-                1,
-                _BoardSize.y
-            );
+        EnsureBoardSize();
 
         _TerrainData =
             new TerrainType[
@@ -203,6 +209,88 @@ public class MapBoard : MonoBehaviour
 
         FillTerrain(
             TerrainType.DeepWater
+        );
+    }
+
+
+    public bool TryGetDeploymentZone(
+        Vector2Int BoardCoordinate,
+        out DeploymentZone Zone
+    )
+    {
+        EnsureDeploymentZoneData();
+
+        if (!IsWithinBoard(BoardCoordinate))
+        {
+            Zone = DeploymentZone.None;
+            return false;
+        }
+
+
+        Zone =
+            _DeploymentZoneData[
+                GetCellIndex(
+                    BoardCoordinate
+                )
+            ];
+
+
+        return true;
+    }
+
+
+    public void SetDeploymentZone(
+        Vector2Int BoardCoordinate,
+        DeploymentZone Zone
+    )
+    {
+        EnsureDeploymentZoneData();
+
+        if (!IsWithinBoard(BoardCoordinate))
+        {
+            return;
+        }
+
+
+        _DeploymentZoneData[
+            GetCellIndex(
+                BoardCoordinate
+            )
+        ] = Zone;
+    }
+
+
+    public void FillDeploymentZones(
+        DeploymentZone Zone
+    )
+    {
+        EnsureDeploymentZoneData();
+
+        for (
+            int i = 0;
+            i < _DeploymentZoneData.Length;
+            i++
+        )
+        {
+            _DeploymentZoneData[i] =
+                Zone;
+        }
+    }
+
+
+    public void InitializeDeploymentZoneData()
+    {
+        EnsureBoardSize();
+
+        _DeploymentZoneData =
+            new DeploymentZone[
+                _BoardSize.x *
+                _BoardSize.y
+            ];
+
+
+        FillDeploymentZones(
+            DeploymentZone.None
         );
     }
 
@@ -229,6 +317,7 @@ public class MapBoard : MonoBehaviour
                 WorldPosition
             );
 
+
         return
             TilemapCellToBoard(
                 TilemapCell
@@ -245,6 +334,7 @@ public class MapBoard : MonoBehaviour
                 )
             );
 
+
         Vector3 TopRight =
             _TerrainTilemap.CellToWorld(
                 BoardToTilemapCell(
@@ -252,9 +342,11 @@ public class MapBoard : MonoBehaviour
                 )
             );
 
+
         Vector3 Center =
             (BottomLeft + TopRight) *
             0.5f;
+
 
         Vector3 Size =
             new Vector3(
@@ -271,6 +363,7 @@ public class MapBoard : MonoBehaviour
                 0f
             );
 
+
         return new Bounds(
             Center,
             Size
@@ -278,7 +371,7 @@ public class MapBoard : MonoBehaviour
     }
 
 
-    private int GetTerrainIndex(
+    private int GetCellIndex(
         Vector2Int BoardCoordinate
     )
     {
@@ -289,20 +382,59 @@ public class MapBoard : MonoBehaviour
     }
 
 
-    private void EnsureTerrainData()
+    private void EnsureBoardSize()
     {
-        int RequiredSize =
+        _BoardSize.x =
             Mathf.Max(
                 1,
-                _BoardSize.x *
+                _BoardSize.x
+            );
+
+
+        _BoardSize.y =
+            Mathf.Max(
+                1,
                 _BoardSize.y
             );
+    }
+
+
+    private void EnsureTerrainData()
+    {
+        EnsureBoardSize();
+
+
+        int RequiredSize =
+            _BoardSize.x *
+            _BoardSize.y;
+
 
         if (_TerrainData == null ||
             _TerrainData.Length != RequiredSize)
         {
             _TerrainData =
                 new TerrainType[
+                    RequiredSize
+                ];
+        }
+    }
+
+
+    private void EnsureDeploymentZoneData()
+    {
+        EnsureBoardSize();
+
+
+        int RequiredSize =
+            _BoardSize.x *
+            _BoardSize.y;
+
+
+        if (_DeploymentZoneData == null ||
+            _DeploymentZoneData.Length != RequiredSize)
+        {
+            _DeploymentZoneData =
+                new DeploymentZone[
                     RequiredSize
                 ];
         }
