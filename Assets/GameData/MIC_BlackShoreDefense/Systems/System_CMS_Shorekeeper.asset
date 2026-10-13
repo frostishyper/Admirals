@@ -29,9 +29,9 @@ MonoBehaviour:
   _Pattern: {fileID: 11400000, guid: c511374404c82e440b770cec7cec81de, type: 2}
   _UsesCharges: 0
   _ReplenishRate: 0
-  _ReplenishInterval: 1
+  _ReplenishInterval: 0
   _Search:
-    _Enabled: 1
+    _Enabled: 0
   _FireControl:
     _Enabled: 1
   _Passive:
@@ -42,6 +42,7 @@ MonoBehaviour:
     _Enabled: 0
     _CanDefendSelf: 0
     _CanDefendAllies: 0
+    _DefendableWeaponTypes: []
     _UsesD20Roll: 0
     _DefenseOutcome:
       _Name: 

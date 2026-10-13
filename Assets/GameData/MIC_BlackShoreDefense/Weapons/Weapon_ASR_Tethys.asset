@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13bbeb2266123ae4bb91238b9177e79f, type: 3}
   m_Name: Weapon_ASR_Tethys
   m_EditorClassIdentifier: Assembly-CSharp::Definition_Weapon
-  _Name: '"Tethys" Anti-Submarine Rocket '
+  _Name: '"Tethys" Anti-Submarine Rocket (AC) '
   _ID: weapon_bsd_asr_tethys
   _Manufacturer: {fileID: 11400000, guid: 4a4c1895ca81e7b4380efddbf9981217, type: 2}
-  _Type: {fileID: 11400000, guid: 59a4037caa070074ea775af3325faff0, type: 2}
+  _Types:
+  - {fileID: 11400000, guid: 59a4037caa070074ea775af3325faff0, type: 2}
+  - {fileID: 11400000, guid: 4fb5c3fe53badc04c84608d65482a734, type: 2}
   _Tier: {fileID: 11400000, guid: 9b6435a49cfd64c4a8f3311634e014ac, type: 2}
   _TargetDomains: 4
   _EligibleUnitTypes:
@@ -36,7 +38,7 @@ MonoBehaviour:
   - _MinimumRoll: 1
     _MaximumRoll: 5
     _Outcome:
-      _Name: Failed Launch
+      _Name: Miss
       _Result: 2
       _Damage: 0
       _AttackProperties: 
@@ -61,4 +63,4 @@ MonoBehaviour:
       _Result: 1
       _Damage: 20
       _AttackProperties: 010000000200000003000000
-  _Afflictions: []
+  _StatusAfflictions: []

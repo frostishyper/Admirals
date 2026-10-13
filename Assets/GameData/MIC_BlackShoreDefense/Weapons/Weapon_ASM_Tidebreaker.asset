@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13bbeb2266123ae4bb91238b9177e79f, type: 3}
   m_Name: Weapon_ASM_Tidebreaker
   m_EditorClassIdentifier: Assembly-CSharp::Definition_Weapon
-  _Name: '"Tidebreaker" Anti-Ship Missile'
+  _Name: '"Tidebreaker" Anti-Ship Missile (RD)'
   _ID: weapon_bsd_asm_tidebreaker
   _Manufacturer: {fileID: 11400000, guid: 4a4c1895ca81e7b4380efddbf9981217, type: 2}
-  _Type: {fileID: 11400000, guid: d029c181173bb444ca6acade58a41e9e, type: 2}
+  _Types:
+  - {fileID: 11400000, guid: d029c181173bb444ca6acade58a41e9e, type: 2}
+  - {fileID: 11400000, guid: eb6ab711e55e5224283e1c8984468278, type: 2}
   _Tier: {fileID: 11400000, guid: 9b6435a49cfd64c4a8f3311634e014ac, type: 2}
   _TargetDomains: 2
   _EligibleUnitTypes:
@@ -62,4 +64,4 @@ MonoBehaviour:
       _Result: 1
       _Damage: 15
       _AttackProperties: 0100000003000000
-  _Afflictions: []
+  _StatusAfflictions: []

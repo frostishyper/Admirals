@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Definition_Status
   _Name: On Fire
   _ID: status_fire
-  _DurationMode: 0
-  _DurationTurns: 1
+  _DurationMode: 2
+  _DurationTurns: 2
   _IntervalTurns: 1
-  _DamagePerInterval: 0
+  _DamagePerInterval: 1
   _HealthPerInterval: 0
   _Modifiers: []

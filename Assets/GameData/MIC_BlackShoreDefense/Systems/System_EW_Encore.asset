@@ -42,7 +42,8 @@ MonoBehaviour:
     _Enabled: 1
     _CanDefendSelf: 1
     _CanDefendAllies: 0
-    _DefendableWeaponTypes: []
+    _DefendableWeaponTypes:
+    - {fileID: 11400000, guid: eb6ab711e55e5224283e1c8984468278, type: 2}
     _UsesD20Roll: 1
     _DefenseOutcome:
       _Name: 

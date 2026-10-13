@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GameMode_Annihilation
   m_EditorClassIdentifier: Assembly-CSharp::GameModeInfo
   _GameModeName: Annihilation
-  _GameModeID: 1
-  _GameModeReference: {fileID: 0}
+  _GameModeID: gamemode_info_annihilation
+  _GameModeReference: {fileID: 11400000, guid: 89c378f5c32749f418a953ab9f125929, type: 2}
