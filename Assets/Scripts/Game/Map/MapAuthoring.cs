@@ -17,7 +17,6 @@ public enum MapTerrain
 
 
 // Conditions attached to authored Map Tiles.
-// More condition types can be added later without changing the Tile structure.
 public enum MapTileCondition
 {
     None = 0,
@@ -299,6 +298,20 @@ public class MapTileAuthoringData
 public class MapAuthoring :
     MonoBehaviour
 {
+    private class TilemapCellSnapshot
+    {
+        public Vector3Int Position;
+
+        public TileBase Tile;
+
+        public Color Color;
+
+        public Matrix4x4 Transform;
+
+        public TileFlags Flags;
+    }
+
+
     [HideInInspector]
     [SerializeField]
     private Vector2Int _MapSize =
@@ -484,9 +497,14 @@ public class MapAuthoring :
     }
 
 
-    // Creates the initial Map canvas or expands an existing one.
-    // Existing coordinates and their authored data are preserved exactly.
-    public bool InitializeOrExpand(
+    // Resizes around the Map's center.
+    //
+    // Expansion adds empty cells around the existing authored Map.
+    // Existing data and Tilemap artwork move together.
+    //
+    // Shrinking is allowed only when the removed outer rows/columns
+    // contain no authored Terrain, Conditions, or visual Tiles.
+    public bool ResizeMap(
         Vector2Int NewSize,
         out string ValidationMessage
     )
@@ -501,18 +519,60 @@ public class MapAuthoring :
         }
 
 
-        if (NewSize.x < _MapSize.x ||
-            NewSize.y < _MapSize.y)
+        EnsureTileStorage();
+
+
+        if (NewSize ==
+            _MapSize)
         {
             ValidationMessage =
-                "Map resizing is expansion-only. Existing authored Map bounds cannot be reduced.";
+                string.Empty;
 
-            return false;
+            return true;
         }
 
 
         Vector2Int OldSize =
             _MapSize;
+
+
+        if (!TryCalculateAxisResize(
+                true,
+                OldSize.x,
+                NewSize.x,
+                out int XOffset,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        if (!TryCalculateAxisResize(
+                false,
+                OldSize.y,
+                NewSize.y,
+                out int YOffset,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        Vector2Int CoordinateOffset =
+            new Vector2Int(
+                XOffset,
+                YOffset
+            );
+
+
+        if (!ValidateRemovedCellsAreEmpty(
+                NewSize,
+                CoordinateOffset,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
 
         MapTileAuthoringData[] OldTiles =
             _Tiles;
@@ -527,6 +587,71 @@ public class MapAuthoring :
 
         for (
             int Y = 0;
+            Y < OldSize.y;
+            Y++
+        )
+        {
+            for (
+                int X = 0;
+                X < OldSize.x;
+                X++
+            )
+            {
+                Vector2Int OldCoordinate =
+                    new Vector2Int(
+                        X,
+                        Y
+                    );
+
+
+                int OldIndex =
+                    Y *
+                    OldSize.x +
+                    X;
+
+
+                MapTileAuthoringData Tile =
+                    OldTiles[OldIndex];
+
+
+                if (Tile == null)
+                {
+                    continue;
+                }
+
+
+                Vector2Int NewCoordinate =
+                    OldCoordinate +
+                    CoordinateOffset;
+
+
+                if (!IsInsideSize(
+                        NewCoordinate,
+                        NewSize))
+                {
+                    continue;
+                }
+
+
+                Tile.SetCoordinate(
+                    NewCoordinate
+                );
+
+
+                int NewIndex =
+                    NewCoordinate.y *
+                    NewSize.x +
+                    NewCoordinate.x;
+
+
+                NewTiles[NewIndex] =
+                    Tile;
+            }
+        }
+
+
+        for (
+            int Y = 0;
             Y < NewSize.y;
             Y++
         )
@@ -537,65 +662,33 @@ public class MapAuthoring :
                 X++
             )
             {
-                Vector2Int Coordinate =
-                    new Vector2Int(
-                        X,
-                        Y
-                    );
-
-
-                MapTileAuthoringData Tile =
-                    null;
-
-
-                bool ExistedPreviously =
-                    X < OldSize.x &&
-                    Y < OldSize.y &&
-                    OldTiles != null;
-
-
-                if (ExistedPreviously)
-                {
-                    int OldIndex =
-                        Y *
-                        OldSize.x +
-                        X;
-
-
-                    if (OldIndex >= 0 &&
-                        OldIndex < OldTiles.Length)
-                    {
-                        Tile =
-                            OldTiles[OldIndex];
-                    }
-                }
-
-
-                if (Tile == null)
-                {
-                    Tile =
-                        new MapTileAuthoringData(
-                            Coordinate
-                        );
-                }
-                else
-                {
-                    Tile.SetCoordinate(
-                        Coordinate
-                    );
-                }
-
-
-                int NewIndex =
+                int Index =
                     Y *
                     NewSize.x +
                     X;
 
 
-                NewTiles[NewIndex] =
-                    Tile;
+                if (NewTiles[Index] !=
+                    null)
+                {
+                    continue;
+                }
+
+
+                NewTiles[Index] =
+                    new MapTileAuthoringData(
+                        new Vector2Int(
+                            X,
+                            Y
+                        )
+                    );
             }
         }
+
+
+        ShiftVisualLayers(
+            CoordinateOffset
+        );
 
 
         _MapSize =
@@ -612,7 +705,530 @@ public class MapAuthoring :
     }
 
 
-    // Initializes the Terrain layer without touching Visual Art or Conditions.
+    // Kept for existing editor/code compatibility.
+    public bool InitializeOrExpand(
+        Vector2Int NewSize,
+        out string ValidationMessage
+    )
+    {
+        return
+            ResizeMap(
+                NewSize,
+                out ValidationMessage
+            );
+    }
+
+
+    private bool TryCalculateAxisResize(
+        bool IsXAxis,
+        int OldLength,
+        int NewLength,
+        out int CoordinateOffset,
+        out string ValidationMessage
+    )
+    {
+        CoordinateOffset =
+            0;
+
+
+        int Difference =
+            NewLength -
+            OldLength;
+
+
+        if (Difference >= 0)
+        {
+            // With an even expansion the padding is perfectly symmetrical.
+            // With an odd expansion the extra cell goes to the positive side.
+            int PaddingOnNegativeSide =
+                Difference /
+                2;
+
+
+            CoordinateOffset =
+                PaddingOnNegativeSide;
+
+
+            ValidationMessage =
+                string.Empty;
+
+            return true;
+        }
+
+
+        int TrimNeeded =
+            -Difference;
+
+
+        int EmptyNegativeEdge =
+            CountEmptyEdgeLines(
+                IsXAxis,
+                true
+            );
+
+
+        int EmptyPositiveEdge =
+            CountEmptyEdgeLines(
+                IsXAxis,
+                false
+            );
+
+
+        int PreferredNegativeTrim =
+            TrimNeeded /
+            2;
+
+
+        int NegativeTrim =
+            Mathf.Min(
+                PreferredNegativeTrim,
+                EmptyNegativeEdge
+            );
+
+
+        int PositiveTrim =
+            TrimNeeded -
+            NegativeTrim;
+
+
+        if (PositiveTrim >
+            EmptyPositiveEdge)
+        {
+            int MissingFromPositive =
+                PositiveTrim -
+                EmptyPositiveEdge;
+
+
+            PositiveTrim =
+                EmptyPositiveEdge;
+
+            NegativeTrim +=
+                MissingFromPositive;
+        }
+
+
+        if (NegativeTrim >
+                EmptyNegativeEdge ||
+            PositiveTrim >
+                EmptyPositiveEdge)
+        {
+            string AxisName =
+                IsXAxis
+                    ? "Width"
+                    : "Height";
+
+
+            ValidationMessage =
+                $"Cannot reduce Map {AxisName} from {OldLength} to {NewLength}. " +
+                "The required outer rows/columns contain authored Map data or visual Tiles.";
+
+            return false;
+        }
+
+
+        CoordinateOffset =
+            -NegativeTrim;
+
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
+    }
+
+
+    private int CountEmptyEdgeLines(
+        bool IsXAxis,
+        bool NegativeEdge
+    )
+    {
+        int LineCount =
+            IsXAxis
+                ? _MapSize.x
+                : _MapSize.y;
+
+
+        int EmptyCount =
+            0;
+
+
+        for (
+            int i = 0;
+            i < LineCount;
+            i++
+        )
+        {
+            int Line =
+                NegativeEdge
+                    ? i
+                    : LineCount - 1 - i;
+
+
+            bool Empty =
+                IsXAxis
+                    ? IsColumnEmpty(Line)
+                    : IsRowEmpty(Line);
+
+
+            if (!Empty)
+            {
+                break;
+            }
+
+
+            EmptyCount++;
+        }
+
+
+        return
+            EmptyCount;
+    }
+
+
+    private bool IsColumnEmpty(
+        int X
+    )
+    {
+        for (
+            int Y = 0;
+            Y < _MapSize.y;
+            Y++
+        )
+        {
+            if (!IsCellEmptyForResize(
+                    new Vector2Int(
+                        X,
+                        Y
+                    )))
+            {
+                return false;
+            }
+        }
+
+
+        return true;
+    }
+
+
+    private bool IsRowEmpty(
+        int Y
+    )
+    {
+        for (
+            int X = 0;
+            X < _MapSize.x;
+            X++
+        )
+        {
+            if (!IsCellEmptyForResize(
+                    new Vector2Int(
+                        X,
+                        Y
+                    )))
+            {
+                return false;
+            }
+        }
+
+
+        return true;
+    }
+
+
+    private bool IsCellEmptyForResize(
+        Vector2Int Coordinate
+    )
+    {
+        if (TryGetTile(
+                Coordinate,
+                out MapTileAuthoringData Tile))
+        {
+            if (Tile.Terrain !=
+                MapTerrain.None)
+            {
+                return false;
+            }
+
+
+            if (Tile.Conditions !=
+                    null &&
+                Tile.Conditions.Length >
+                    0)
+            {
+                return false;
+            }
+        }
+
+
+        Vector3Int Cell =
+            new Vector3Int(
+                Coordinate.x,
+                Coordinate.y,
+                0
+            );
+
+
+        Tilemap[] VisualLayers =
+            GetVisualTilemaps();
+
+
+        for (
+            int i = 0;
+            i < VisualLayers.Length;
+            i++
+        )
+        {
+            Tilemap Tilemap =
+                VisualLayers[i];
+
+
+            if (Tilemap !=
+                    null &&
+                Tilemap.HasTile(
+                    Cell))
+            {
+                return false;
+            }
+        }
+
+
+        return true;
+    }
+
+
+    private bool ValidateRemovedCellsAreEmpty(
+        Vector2Int NewSize,
+        Vector2Int CoordinateOffset,
+        out string ValidationMessage
+    )
+    {
+        for (
+            int Y = 0;
+            Y < _MapSize.y;
+            Y++
+        )
+        {
+            for (
+                int X = 0;
+                X < _MapSize.x;
+                X++
+            )
+            {
+                Vector2Int OldCoordinate =
+                    new Vector2Int(
+                        X,
+                        Y
+                    );
+
+
+                Vector2Int NewCoordinate =
+                    OldCoordinate +
+                    CoordinateOffset;
+
+
+                if (IsInsideSize(
+                        NewCoordinate,
+                        NewSize))
+                {
+                    continue;
+                }
+
+
+                if (!IsCellEmptyForResize(
+                        OldCoordinate))
+                {
+                    ValidationMessage =
+                        $"Cannot resize Map because authored content at {OldCoordinate} " +
+                        "would be removed.";
+
+                    return false;
+                }
+            }
+        }
+
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
+    }
+
+
+    private bool IsInsideSize(
+        Vector2Int Coordinate,
+        Vector2Int Size
+    )
+    {
+        return
+            Coordinate.x >= 0 &&
+            Coordinate.y >= 0 &&
+            Coordinate.x < Size.x &&
+            Coordinate.y < Size.y;
+    }
+
+
+    private Tilemap[] GetVisualTilemaps()
+    {
+        return
+            new Tilemap[]
+            {
+                _TerrainArt,
+                _BelowUnits,
+                _TileMarkers,
+                _Fog,
+                _VFX
+            };
+    }
+
+
+    private void ShiftVisualLayers(
+        Vector2Int CoordinateOffset
+    )
+    {
+        if (CoordinateOffset ==
+            Vector2Int.zero)
+        {
+            return;
+        }
+
+
+        Tilemap[] VisualLayers =
+            GetVisualTilemaps();
+
+
+        for (
+            int i = 0;
+            i < VisualLayers.Length;
+            i++
+        )
+        {
+            ShiftTilemap(
+                VisualLayers[i],
+                CoordinateOffset
+            );
+        }
+    }
+
+
+    private void ShiftTilemap(
+        Tilemap Tilemap,
+        Vector2Int CoordinateOffset
+    )
+    {
+        if (Tilemap == null)
+        {
+            return;
+        }
+
+
+        List<TilemapCellSnapshot> Cells =
+            new List<TilemapCellSnapshot>();
+
+
+        foreach (
+            Vector3Int Position
+            in Tilemap.cellBounds.allPositionsWithin)
+        {
+            TileBase Tile =
+                Tilemap.GetTile(
+                    Position
+                );
+
+
+            if (Tile == null)
+            {
+                continue;
+            }
+
+
+            Cells.Add(
+                new TilemapCellSnapshot
+                {
+                    Position =
+                        Position,
+
+                    Tile =
+                        Tile,
+
+                    Color =
+                        Tilemap.GetColor(
+                            Position
+                        ),
+
+                    Transform =
+                        Tilemap.GetTransformMatrix(
+                            Position
+                        ),
+
+                    Flags =
+                        Tilemap.GetTileFlags(
+                            Position
+                        )
+                }
+            );
+        }
+
+
+        Tilemap.ClearAllTiles();
+
+
+        for (
+            int i = 0;
+            i < Cells.Count;
+            i++
+        )
+        {
+            TilemapCellSnapshot Cell =
+                Cells[i];
+
+
+            Vector3Int NewPosition =
+                new Vector3Int(
+                    Cell.Position.x +
+                        CoordinateOffset.x,
+
+                    Cell.Position.y +
+                        CoordinateOffset.y,
+
+                    Cell.Position.z
+                );
+
+
+            Tilemap.SetTile(
+                NewPosition,
+                Cell.Tile
+            );
+
+
+            Tilemap.SetTileFlags(
+                NewPosition,
+                TileFlags.None
+            );
+
+
+            Tilemap.SetTransformMatrix(
+                NewPosition,
+                Cell.Transform
+            );
+
+
+            Tilemap.SetColor(
+                NewPosition,
+                Cell.Color
+            );
+
+
+            Tilemap.SetTileFlags(
+                NewPosition,
+                Cell.Flags
+            );
+        }
+
+
+        Tilemap.RefreshAllTiles();
+    }
+
+
     public void PrimeMap()
     {
         EnsureTileStorage();
@@ -682,8 +1298,6 @@ public class MapAuthoring :
     }
 
 
-    // Player A and Player B deployment conditions are mutually exclusive.
-    // Barrier tiles cannot receive a Deployment condition.
     public bool SetDeploymentCondition(
         Vector2Int Coordinate,
         MapTileCondition DeploymentCondition
@@ -763,7 +1377,8 @@ public class MapAuthoring :
             _MapSize.y;
 
 
-        if (_Tiles != null &&
+        if (_Tiles !=
+                null &&
             _Tiles.Length ==
                 ExpectedCount)
         {
@@ -771,27 +1386,46 @@ public class MapAuthoring :
         }
 
 
-        Vector2Int CurrentSize =
-            _MapSize;
-
-
-        _MapSize =
-            Vector2Int.one;
-
-
         _Tiles =
-            null;
+            new MapTileAuthoringData[
+                ExpectedCount
+            ];
 
 
-        InitializeOrExpand(
-            CurrentSize,
-            out _
-        );
+        for (
+            int Y = 0;
+            Y < _MapSize.y;
+            Y++
+        )
+        {
+            for (
+                int X = 0;
+                X < _MapSize.x;
+                X++
+            )
+            {
+                Vector2Int Coordinate =
+                    new Vector2Int(
+                        X,
+                        Y
+                    );
+
+
+                int Index =
+                    Y *
+                    _MapSize.x +
+                    X;
+
+
+                _Tiles[Index] =
+                    new MapTileAuthoringData(
+                        Coordinate
+                    );
+            }
+        }
     }
 
 
-    // Validates only authored Map data and visual coverage.
-    // Runtime occupancy is intentionally not part of this authoring model.
     public bool ValidateMap(
         out string ValidationMessage
     )

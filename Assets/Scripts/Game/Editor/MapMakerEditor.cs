@@ -1,18 +1,10 @@
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
 
 
-// Unity Editor Scene Overlay.
-//
-// Unlike MapMakerEditor's OnSceneGUI, this remains active while any
-// GameObject inside the authored Map hierarchy is selected.
-//
-// This is what allows Terrain Art to be painted while still seeing
-// authored Terrain data, Deployment data, bounds, equator, and meridian.
 [InitializeOnLoad]
 public static class MapMakerSceneOverlay
 {
@@ -55,7 +47,6 @@ public static class MapMakerSceneOverlay
             Handles.zTest;
 
 
-        // Keep authoring guides visible over Tilemap artwork.
         Handles.zTest =
             CompareFunction.Always;
 
@@ -165,8 +156,6 @@ public static class MapMakerSceneOverlay
                     }
                     else
                     {
-                        // Empty authored Terrain still gets a very faint
-                        // cell outline so the canvas remains readable.
                         Handles.DrawSolidRectangleWithOutline(
                             Corners,
                             Color.clear,
@@ -245,7 +234,6 @@ public static class MapMakerSceneOverlay
             );
 
 
-        // Map Bounds
         Handles.color =
             Color.white;
 
@@ -271,8 +259,6 @@ public static class MapMakerSceneOverlay
         );
 
 
-        // Guides intentionally pass between the central cells
-        // on even-sized Maps.
         float MeridianX =
             Size.x *
             0.5f;
@@ -291,7 +277,6 @@ public static class MapMakerSceneOverlay
             );
 
 
-        // Prime Meridian
         Handles.DrawLine(
             GetGridPoint(
                 Map,
@@ -306,7 +291,6 @@ public static class MapMakerSceneOverlay
         );
 
 
-        // Equator
         Handles.DrawLine(
             GetGridPoint(
                 Map,
@@ -479,8 +463,6 @@ public static class MapMakerSceneOverlay
 }
 
 
-// Unity Editor Script - Not Attached To A GameObject
-// Inspector + Scene Data Painting Tool For Admirals Map Prefabs.
 [CustomEditor(typeof(MapAuthoring))]
 public class MapMakerEditor :
     Editor
@@ -565,30 +547,21 @@ public class MapMakerEditor :
 
         EditorGUILayout.Space(10);
 
-
         DrawMapSize();
 
-
         EditorGUILayout.Space(10);
-
 
         DrawMapOperations();
 
-
         EditorGUILayout.Space(10);
-
 
         DrawAuthoringControls();
 
-
         EditorGUILayout.Space(10);
-
 
         DrawOverlayControls();
 
-
         EditorGUILayout.Space(10);
-
 
         DrawValidation();
 
@@ -622,28 +595,28 @@ public class MapMakerEditor :
 
 
         EditorGUILayout.HelpBox(
-            "Map resizing is expansion-only. Existing authored coordinates are preserved. " +
-            "New cells are added empty.",
+            "Expansion adds empty cells around the existing Map while preserving and shifting authored data and visuals together. " +
+            "Shrinking is allowed only through empty outer rows or columns.",
             MessageType.Info
         );
 
 
         if (GUILayout.Button(
-                "Create / Expand Map Bounds"))
+                "Resize Map Bounds"))
         {
-            Undo.RecordObject(
-                _Map,
-                "Resize Admirals Map"
-            );
+            RecordResizeUndo();
 
 
-            if (_Map.InitializeOrExpand(
+            if (_Map.ResizeMap(
                     _RequestedSize,
                     out string ValidationMessage))
             {
                 EditorUtility.SetDirty(
                     _Map
                 );
+
+
+                MarkVisualLayersDirty();
 
 
                 _ValidationMessage =
@@ -663,6 +636,101 @@ public class MapMakerEditor :
 
 
             SceneView.RepaintAll();
+        }
+    }
+
+
+    private void RecordResizeUndo()
+    {
+        List<UnityEngine.Object> Objects =
+            new List<UnityEngine.Object>();
+
+
+        Objects.Add(
+            _Map
+        );
+
+
+        AddUndoObject(
+            Objects,
+            _Map.TerrainArt
+        );
+
+        AddUndoObject(
+            Objects,
+            _Map.BelowUnits
+        );
+
+        AddUndoObject(
+            Objects,
+            _Map.TileMarkers
+        );
+
+        AddUndoObject(
+            Objects,
+            _Map.Fog
+        );
+
+        AddUndoObject(
+            Objects,
+            _Map.VFX
+        );
+
+
+        Undo.RecordObjects(
+            Objects.ToArray(),
+            "Resize Admirals Map"
+        );
+    }
+
+
+    private void AddUndoObject(
+        List<UnityEngine.Object> Objects,
+        UnityEngine.Object Object
+    )
+    {
+        if (Object != null)
+        {
+            Objects.Add(
+                Object
+            );
+        }
+    }
+
+
+    private void MarkVisualLayersDirty()
+    {
+        MarkDirty(
+            _Map.TerrainArt
+        );
+
+        MarkDirty(
+            _Map.BelowUnits
+        );
+
+        MarkDirty(
+            _Map.TileMarkers
+        );
+
+        MarkDirty(
+            _Map.Fog
+        );
+
+        MarkDirty(
+            _Map.VFX
+        );
+    }
+
+
+    private void MarkDirty(
+        UnityEngine.Object Object
+    )
+    {
+        if (Object != null)
+        {
+            EditorUtility.SetDirty(
+                Object
+            );
         }
     }
 
@@ -856,10 +924,6 @@ public class MapMakerEditor :
     }
 
 
-    // This OnSceneGUI now handles DATA PAINTING only.
-    //
-    // Persistent visual overlays are handled by MapMakerSceneOverlay,
-    // allowing them to stay visible while Terrain_Art is selected.
     private void OnSceneGUI()
     {
         if (_Map == null ||
@@ -1271,7 +1335,6 @@ public class MapMakerEditor :
             }
 
 
-            // Barrier Tiles are hard boundaries for Deployment painting.
             if (Tile.Terrain ==
                 MapTerrain.Barrier)
             {
@@ -1389,7 +1452,6 @@ public class MapMakerEditor :
     }
 
 
-    // Creates the complete authored Map layer hierarchy in one operation.
     [MenuItem(
         "GameObject/Admirals/Game Map",
         false,
@@ -1469,14 +1531,6 @@ public class MapMakerEditor :
             GridObject.transform,
             false
         );
-
-
-        SortingGroup UnitsSorting =
-            UnitsObject.AddComponent<SortingGroup>();
-
-
-        UnitsSorting.sortingOrder =
-            20;
 
 
         Tilemap TileMarkers =
@@ -1572,7 +1626,7 @@ public class MapMakerEditor :
         MapSerialized.ApplyModifiedPropertiesWithoutUndo();
 
 
-        Map.InitializeOrExpand(
+        Map.ResizeMap(
             Vector2Int.one,
             out _
         );

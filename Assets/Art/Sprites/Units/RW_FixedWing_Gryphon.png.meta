@@ -124,7 +124,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: c1
+      name: Gryphon_Side_01
       rect:
         serializedVersion: 2
         x: 0
@@ -146,7 +146,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeaRaider_Side_02
+      name: Gryphon_Side_02
       rect:
         serializedVersion: 2
         x: 0
@@ -168,7 +168,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeaRaider_Side_03
+      name: Gryphon_Side_03
       rect:
         serializedVersion: 2
         x: 0
@@ -190,7 +190,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeaRaider_Down_01
+      name: Gryphon_Down_01
       rect:
         serializedVersion: 2
         x: 109
@@ -212,7 +212,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeaRaider_Down_02
+      name: Gryphon_Down_02
       rect:
         serializedVersion: 2
         x: 109
@@ -234,7 +234,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeaRaider_Down_03
+      name: Gryphon_Down_03
       rect:
         serializedVersion: 2
         x: 109
@@ -256,7 +256,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeaRaider_Up_01
+      name: Gryphon_Up_01
       rect:
         serializedVersion: 2
         x: 173
@@ -278,7 +278,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeaRaider_Up_02
+      name: Gryphon_Up_02
       rect:
         serializedVersion: 2
         x: 173
@@ -300,7 +300,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SeaRaider_Up_03
+      name: Gryphon_Up_03
       rect:
         serializedVersion: 2
         x: 173
@@ -337,15 +337,17 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":222.0,"y":195.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      SeaRaider_Down_01: 553602693
-      SeaRaider_Down_02: 1596916318
-      SeaRaider_Down_03: 1730391432
-      SeaRaider_Side_02: -1345042535
-      SeaRaider_Side_03: -101307909
-      SeaRaider_Up_01: -1484076225
-      SeaRaider_Up_02: 2034617602
-      SeaRaider_Up_03: 792271973
-      c1: 804102521
+      Gryphon_Down_01: 553602693
+      Gryphon_Down_02: 1596916318
+      Gryphon_Down_03: 1730391432
+      Gryphon_Side_01: -393985699
+      Gryphon_Side_02: -1345042535
+      Gryphon_Side_03: -101307909
+      Gryphon_Up_01: -1484076225
+      Gryphon_Up_02: 2034617602
+      Gryphon_Up_03: 792271973
+      SeaRaiderGryphon: -1345042535
+      c: 553602693
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

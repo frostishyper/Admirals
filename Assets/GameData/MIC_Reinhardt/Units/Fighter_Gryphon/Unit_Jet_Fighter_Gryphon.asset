@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bb47f0e9efea9b4093594840409160c, type: 3}
-  m_Name: Unit_Jet_Fighter_SeaRaider
+  m_Name: Unit_Jet_Fighter_Gryphon
   m_EditorClassIdentifier: Assembly-CSharp::Definition_Unit
   _Name: '"Gryphon" Naval Strike Fighter'
   _ID: unit_rw_fighter_searaider
