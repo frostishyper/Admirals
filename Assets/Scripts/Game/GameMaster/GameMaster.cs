@@ -36,8 +36,10 @@ public class RuntimeParticipant
         this.Participant =
             Participant;
 
+
         this.Fleet =
             Fleet;
+
 
         DeploymentLocked =
             false;
@@ -62,10 +64,11 @@ public class RuntimeParticipant
 // - instantiate authored Map
 // - create authoritative GameMap
 // - establish separate Unit-state rosters
+// - establish tentative Deployment state
 // - prepare Deployment
 //
-// Actual Deployment actions, Turns, GameMode resolution,
-// and presentation systems are intentionally not implemented yet.
+// RuntimeUnits are not created until a participant confirms
+// a valid Deployment.
 public class GameMaster :
     MonoBehaviour
 {
@@ -87,6 +90,8 @@ public class GameMaster :
 
 
     private GameUnits _GameUnits;
+
+    private GameDeployment _GameDeployment;
 
 
     private GameplayPhase _CurrentPhase =
@@ -170,6 +175,15 @@ public class GameMaster :
     }
 
 
+    public GameDeployment GameDeployment
+    {
+        get
+        {
+            return _GameDeployment;
+        }
+    }
+
+
     public GameplayPhase CurrentPhase
     {
         get
@@ -219,6 +233,7 @@ public class GameMaster :
                 "The Game scene must be entered through a finalized Match."
             );
 
+
             return false;
         }
 
@@ -233,6 +248,7 @@ public class GameMaster :
                 "MatchSession contains no ActiveMatch."
             );
 
+
             return false;
         }
 
@@ -243,6 +259,7 @@ public class GameMaster :
             FailInitialization(
                 $"MatchConfig is invalid: {ValidationMessage}"
             );
+
 
             return false;
         }
@@ -274,6 +291,12 @@ public class GameMaster :
         }
 
 
+        if (!InitializeDeploymentState())
+        {
+            return false;
+        }
+
+
         PrepareDeployment();
 
 
@@ -287,10 +310,10 @@ public class GameMaster :
             $"Runtime Board: {_GameMap.MapSize.x}x{_GameMap.MapSize.y} " +
             $"({_GameMap.TileCount} Tiles). " +
             $"Participant A Fleet: '{_ParticipantA.Fleet.Name}' " +
-            $"({_GameUnits.ParticipantA.FleetEntries.Count} deployable Fleet Entries, " +
+            $"({_GameDeployment.ParticipantA.TotalCount} deployable Fleet Entries, " +
             $"{_GameUnits.ParticipantA.RemainingFleetSize} total Units including carried). " +
             $"Participant B Fleet: '{_ParticipantB.Fleet.Name}' " +
-            $"({_GameUnits.ParticipantB.FleetEntries.Count} deployable Fleet Entries, " +
+            $"({_GameDeployment.ParticipantB.TotalCount} deployable Fleet Entries, " +
             $"{_GameUnits.ParticipantB.RemainingFleetSize} total Units including carried). " +
             $"Runtime Units created: 0. " +
             $"Awaiting Deployment.",
@@ -311,6 +334,7 @@ public class GameMaster :
                 "Participant A snapshot is missing."
             );
 
+
             return false;
         }
 
@@ -321,6 +345,7 @@ public class GameMaster :
             FailInitialization(
                 "Participant B snapshot is missing."
             );
+
 
             return false;
         }
@@ -333,6 +358,7 @@ public class GameMaster :
                 "Participant A has no resolved Fleet."
             );
 
+
             return false;
         }
 
@@ -343,6 +369,7 @@ public class GameMaster :
             FailInitialization(
                 "Participant B has no resolved Fleet."
             );
+
 
             return false;
         }
@@ -379,6 +406,7 @@ public class GameMaster :
                 "MatchConfig has no Map prefab."
             );
 
+
             return false;
         }
 
@@ -397,6 +425,7 @@ public class GameMaster :
             FailInitialization(
                 $"Failed to instantiate Map prefab '{MapPrefab.name}'."
             );
+
 
             return false;
         }
@@ -426,6 +455,7 @@ public class GameMaster :
                 $"Runtime Map '{MapPrefab.name}' has no MapAuthoring component."
             );
 
+
             return false;
         }
 
@@ -454,8 +484,10 @@ public class GameMaster :
             _MapInstance =
                 null;
 
+
             _MapAuthoring =
                 null;
+
 
             _GameMap =
                 null;
@@ -464,6 +496,7 @@ public class GameMaster :
             FailInitialization(
                 $"Runtime Map initialization failed: {ValidationMessage}"
             );
+
 
             return false;
         }
@@ -492,6 +525,35 @@ public class GameMaster :
                 $"Unit State initialization failed: {ValidationMessage}"
             );
 
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    private bool InitializeDeploymentState()
+    {
+        _GameDeployment =
+            new GameDeployment();
+
+
+        if (!_GameDeployment.Initialize(
+                _GameUnits.ParticipantA,
+                _GameUnits.ParticipantB,
+                out string ValidationMessage))
+        {
+            _GameDeployment =
+                null;
+
+
+            FailInitialization(
+                $"Deployment State initialization failed: {ValidationMessage}"
+            );
+
+
             return false;
         }
 
@@ -516,11 +578,18 @@ public class GameMaster :
         );
 
 
+        _GameDeployment.ParticipantA.Reset();
+
+        _GameDeployment.ParticipantB.Reset();
+
+
         // No RuntimeUnits are created here.
         //
-        // Each participant still has Fleet Entry data available for
-        // Deployment planning. RuntimeUnits are created only when
-        // that participant confirms a valid Deployment.
+        // GameDeployment references the same top-level Fleet Entry states
+        // already owned by GameUnits and stores only tentative placement data.
+        //
+        // RuntimeUnits are created only when GameMaster successfully commits
+        // a participant's confirmed Deployment.
         _MatchStarted =
             false;
     }
@@ -536,11 +605,17 @@ public class GameMaster :
         );
 
 
+        _GameDeployment =
+            null;
+
+
         _InitializationComplete =
             false;
 
+
         _MatchStarted =
             false;
+
 
         _CurrentPhase =
             GameplayPhase.None;
