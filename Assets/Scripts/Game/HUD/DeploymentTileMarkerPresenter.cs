@@ -166,6 +166,13 @@ public sealed class DeploymentTileMarkerPresenter :
     }
 
 
+    public void ClearMarkers()
+    {
+        ClearDragPreviewState();
+        ClearPaintedTiles();
+    }
+
+
     private void LateUpdate()
     {
         if (!_Initialized)

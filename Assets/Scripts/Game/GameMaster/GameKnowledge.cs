@@ -424,8 +424,6 @@ internal sealed class GameKnowledge
                 !_GameMap.TryGetUnitCoordinates(Unit, out Vector2Int[] Footprint))
                 continue;
 
-            HashSet<Vector2Int> FootprintSet =
-                new HashSet<Vector2Int>(Footprint);
             int Range = Unit.Definition != null
                 ? Mathf.Max(0, Unit.Definition.AbsoluteVision)
                 : 0;
@@ -439,8 +437,7 @@ internal sealed class GameKnowledge
                         Vector2Int Coordinate =
                             Footprint[f] + new Vector2Int(x, y);
 
-                        if (_GameMap.IsInsideBounds(Coordinate) &&
-                            !FootprintSet.Contains(Coordinate))
+                        if (_GameMap.IsInsideBounds(Coordinate))
                             Visibility[Coordinate] =
                                 ParticipantTileVisibility.Absolute;
                     }

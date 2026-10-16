@@ -329,6 +329,10 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
             HandleParticipantChanged;
 
 
+        _ParticipantAccess.SnapshotChanged +=
+            HandleSnapshotChanged;
+
+
         SynchronizeTentativeViews();
         RefreshPresentation();
 
@@ -348,8 +352,19 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         CancelActiveDrag(false);
         DestroyAllTentativeViews();
 
+
+        if (_ParticipantAccess != null)
+        {
+            _ParticipantAccess.SnapshotChanged -=
+                HandleSnapshotChanged;
+        }
+
         _ParticipantAccess = _HumanGameplayInput.ParticipantAccess;
         _Participant = _ParticipantAccess.Participant;
+
+
+        _ParticipantAccess.SnapshotChanged +=
+            HandleSnapshotChanged;
 
         if (!_ParticipantAccess.TryGetDeploymentView(out _Plan) ||
             !_TileMarkerPresenter.Initialize(_ParticipantAccess, _Plan) ||
@@ -364,6 +379,15 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         _GameplayHUD.SetPlayerName(_ParticipantAccess.DisplayName);
         SynchronizeTentativeViews();
         RefreshPresentation();
+    }
+
+
+    private void HandleSnapshotChanged()
+    {
+        if (_Initialized)
+        {
+            RefreshPresentation();
+        }
     }
 
 
@@ -1422,6 +1446,18 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         }
 
 
+        if (_GameMaster.CurrentPhase !=
+                GameplayPhase.Deployment)
+        {
+            FinishDeploymentPresentation();
+
+            return;
+        }
+
+
+        _GameplayHUD.ShowDeploymentPhase();
+
+
         SynchronizeTentativeViews();
         ApplyTentativeViewColors();
         _DeploymentTray.Refresh();
@@ -1455,6 +1491,37 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
             CanAcceptInput &&
                 HasSelection
         );
+    }
+
+
+    private void FinishDeploymentPresentation()
+    {
+        CancelActiveDrag(
+            true
+        );
+
+
+        _TileMarkerPresenter.ClearMarkers();
+
+
+        foreach (KeyValuePair<string, UnitView> Pair
+            in _TentativeViews)
+        {
+            SetViewColor(
+                Pair.Value,
+                _PlacedViewColor
+            );
+        }
+
+
+        _GameplayHUD.SetDeploymentControlsAvailable(
+            false,
+            false,
+            false
+        );
+
+
+        _GameplayHUD.ShowMovementPhase();
     }
 
 
@@ -1781,6 +1848,13 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         if (_HumanGameplayInput != null)
             _HumanGameplayInput.ParticipantChanged -=
                 HandleParticipantChanged;
+
+
+        if (_ParticipantAccess != null)
+        {
+            _ParticipantAccess.SnapshotChanged -=
+                HandleSnapshotChanged;
+        }
 
 
         if (_TileMarkerPresenter != null)

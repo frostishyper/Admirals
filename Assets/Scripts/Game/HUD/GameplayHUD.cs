@@ -30,6 +30,9 @@ public sealed class GameplayHUD :
 
     [Header("Deployment - Overlay")]
     [SerializeField]
+    private GameObject _DeploymentOverlayRoot;
+
+    [SerializeField]
     private Button _RotateLeftButton;
 
     [SerializeField]
@@ -109,14 +112,31 @@ public sealed class GameplayHUD :
 
     public void ShowDeploymentPhase()
     {
-        if (_PhaseText == null)
+        SetDeploymentObjectsVisible(
+            true
+        );
+
+
+        if (_PhaseText != null)
         {
-            return;
+            _PhaseText.text =
+                "0 Deployment";
         }
+    }
 
 
-        _PhaseText.text =
-            "0 Deployment";
+    public void ShowMovementPhase()
+    {
+        SetDeploymentObjectsVisible(
+            false
+        );
+
+
+        if (_PhaseText != null)
+        {
+            _PhaseText.text =
+                "1 Movement";
+        }
     }
 
 
@@ -226,5 +246,56 @@ public sealed class GameplayHUD :
 
         _DeploymentTray.horizontalNormalizedPosition =
             0f;
+    }
+
+
+    private void SetDeploymentObjectsVisible(
+        bool Visible
+    )
+    {
+        SetObjectVisible(
+            _PlacedCountText,
+            Visible
+        );
+
+
+        SetObjectVisible(
+            _ResetButton,
+            Visible
+        );
+
+
+        SetObjectVisible(
+            _ConfirmButton,
+            Visible
+        );
+
+
+        if (_DeploymentOverlayRoot != null)
+        {
+            _DeploymentOverlayRoot.SetActive(
+                Visible
+            );
+        }
+
+
+        SetObjectVisible(
+            _DeploymentTray,
+            Visible
+        );
+    }
+
+
+    private static void SetObjectVisible(
+        Component Component,
+        bool Visible
+    )
+    {
+        if (Component != null)
+        {
+            Component.gameObject.SetActive(
+                Visible
+            );
+        }
     }
 }

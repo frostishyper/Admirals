@@ -2738,7 +2738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MatchLaunchBridge
   _LobbyController: {fileID: 613311339}
   _CountdownText: {fileID: 1607352726}
-  _CountdownDuration: 10
+  _CountdownDuration: 5
   _GameSceneName: Game
 --- !u!1 &619394800
 GameObject:

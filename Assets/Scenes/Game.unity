@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 18008981}
   - component: {fileID: 18008982}
   - component: {fileID: 18008983}
+  - component: {fileID: 18008984}
   m_Layer: 0
   m_Name: HumanGameplayInput
   m_TagString: Untagged
@@ -205,6 +206,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanGameplayInput
   _GameMaster: {fileID: 1706890883}
+--- !u!114 &18008984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18008979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87c84f4e3c0a4f079d66553224dfe86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FogOfWarPresenter
+  _FogCenter: {fileID: 11400000, guid: 59192ec4d4fffe44aa472d392d93654f, type: 2}
+  _FogNorth: {fileID: 11400000, guid: 0ebc18bd91896024f890ca51fe4e8ffc, type: 2}
+  _FogSouth: {fileID: 11400000, guid: 46814243ff546554093a8b4ab7bfd74a, type: 2}
+  _FogEast: {fileID: 11400000, guid: 9ffe54ae8c10d684e99148817d21cc2f, type: 2}
+  _FogWest: {fileID: 11400000, guid: 01875fc11817f404d8acb643a82fb7b1, type: 2}
+  _FogNortheast: {fileID: 11400000, guid: 2cccf3923f2950440a165b096988e607, type: 2}
+  _FogNorthwest: {fileID: 11400000, guid: 739049af5240ed747aa3418f95d54087, type: 2}
+  _FogSoutheast: {fileID: 11400000, guid: e99aa31892a308242830bf2d934e7af7, type: 2}
+  _FogSouthwest: {fileID: 11400000, guid: a5c922ddcbc0d7a41b4f5c9a9738df7d, type: 2}
+  _FogNortheastSouthwest: {fileID: 11400000, guid: 9c4865537b38160449e502789e3dc4b1, type: 2}
+  _FogNorthwestSoutheast: {fileID: 11400000, guid: 91227712e5f19cc4ba6b2916f462455f, type: 2}
+  _FogCornerNortheast: {fileID: 11400000, guid: a574f3f0272a88d4cbdf7bdcb64f256b, type: 2}
+  _FogCornerNorthwest: {fileID: 11400000, guid: 12ed2b760a7ccb34dab29847941d36d2, type: 2}
+  _FogCornerSoutheast: {fileID: 11400000, guid: 4b50fb132a210c64bafb46c17a66627a, type: 2}
+  _FogCornerSouthwest: {fileID: 11400000, guid: 040a5ad1f7b9d5e43a65b4772393efda, type: 2}
+  _ObscuredTerrainMultiplier: {r: 0.55, g: 0.55, b: 0.55, a: 1}
 --- !u!1 &116287883 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8838907008211768191, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
@@ -232,6 +261,7 @@ MonoBehaviour:
   _PlacedCountText: {fileID: 452749368}
   _ResetButton: {fileID: 2085166552}
   _ConfirmButton: {fileID: 574301722}
+  _DeploymentOverlayRoot: {fileID: 8108232747181557519}
   _RotateLeftButton: {fileID: 1293830893}
   _RotateRightButton: {fileID: 1787620101}
   _DeploymentTray: {fileID: 1252368073}
@@ -1416,6 +1446,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
+--- !u!1 &8108232747181557519 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8011866550035961283, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+  m_PrefabInstance: {fileID: 8108232747181557515}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8108232747181557520 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6462634753025102648, guid: c8db8157aad75c749b045c3595da2c18, type: 3}

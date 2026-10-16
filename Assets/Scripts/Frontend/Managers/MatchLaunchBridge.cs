@@ -21,7 +21,7 @@ public class MatchLaunchBridge :
     [Min(1f)]
     [SerializeField]
     private float _CountdownDuration =
-        10f;
+        5f;
 
 
     [Header("Scene")]

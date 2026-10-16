@@ -10,6 +10,8 @@ public sealed class GameParticipantAPI
     {
         private readonly GameParticipantAPI _API;
 
+        public event Action SnapshotChanged;
+
         public RuntimeParticipant Participant { get; }
 
         public string DisplayName =>
@@ -23,6 +25,11 @@ public sealed class GameParticipantAPI
         {
             _API = API;
             this.Participant = Participant;
+        }
+
+        internal void NotifySnapshotChanged()
+        {
+            SnapshotChanged?.Invoke();
         }
 
         public bool TryGetSnapshot(
@@ -194,7 +201,15 @@ public sealed class GameParticipantAPI
                 return false;
             }
 
-            return _API._GameMaster.TryConfirmDeployment(Participant, out ValidationMessage);
+            bool Confirmed =
+                _API._GameMaster.TryConfirmDeployment(
+                    Participant,
+                    out ValidationMessage);
+
+            if (Confirmed)
+                _API.NotifySnapshotsChanged();
+
+            return Confirmed;
         }
 
     }
@@ -278,6 +293,12 @@ public sealed class GameParticipantAPI
             Access = _ParticipantBAccess;
 
         return Access != null;
+    }
+
+    private void NotifySnapshotsChanged()
+    {
+        _ParticipantAAccess?.NotifySnapshotChanged();
+        _ParticipantBAccess?.NotifySnapshotChanged();
     }
 
     private static bool IsLocalPlayer(RuntimeParticipant Participant)
