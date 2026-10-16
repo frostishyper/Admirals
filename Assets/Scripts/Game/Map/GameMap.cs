@@ -131,6 +131,72 @@ public sealed class RuntimeMineOccupancy
 }
 
 
+internal sealed class RuntimeUnitPlacementRequest
+{
+    public RuntimeUnit Unit
+    {
+        get;
+    }
+
+
+    public RuntimeUnitTilePlacement[] Placements
+    {
+        get;
+    }
+
+
+    public MapTileCondition RequiredAuthoredCondition
+    {
+        get;
+    }
+
+
+    internal RuntimeUnitPlacementRequest(
+        RuntimeUnit Unit,
+        RuntimeUnitTilePlacement[] Placements,
+        MapTileCondition RequiredAuthoredCondition
+    )
+    {
+        this.Unit =
+            Unit;
+
+        this.Placements =
+            Placements;
+
+        this.RequiredAuthoredCondition =
+            RequiredAuthoredCondition;
+    }
+}
+
+
+internal sealed class PreparedMapUnitDeployment
+{
+    public RuntimeUnitPlacementRequest[] Requests
+    {
+        get;
+    }
+
+
+    public RuntimeMineOccupancy[] TriggeredMines
+    {
+        get;
+    }
+
+
+    internal PreparedMapUnitDeployment(
+        RuntimeUnitPlacementRequest[] Requests,
+        RuntimeMineOccupancy[] TriggeredMines
+    )
+    {
+        this.Requests =
+            Requests;
+
+        this.TriggeredMines =
+            TriggeredMines;
+    }
+}
+
+
 // One authoritative live Tile in the current Match.
 public sealed class RuntimeMapTile
 {
@@ -1029,6 +1095,190 @@ public class GameMap :
     }
 
 
+    internal bool TryPrepareUnitPlacementBatch(
+        IReadOnlyList<RuntimeUnitPlacementRequest> Requests,
+        out PreparedMapUnitDeployment PreparedDeployment,
+        out string ValidationMessage
+    )
+    {
+        PreparedDeployment =
+            null;
+
+
+        if (Requests == null ||
+            Requests.Count == 0)
+        {
+            ValidationMessage =
+                "Unit placement batch is empty.";
+
+            return false;
+        }
+
+
+        HashSet<RuntimeUnit> SeenUnits =
+            new HashSet<RuntimeUnit>();
+
+        HashSet<Vector2Int> SeenCoordinates =
+            new HashSet<Vector2Int>();
+
+        HashSet<RuntimeMineOccupancy> TriggeredMines =
+            new HashSet<RuntimeMineOccupancy>();
+
+        RuntimeUnitPlacementRequest[] PreparedRequests =
+            new RuntimeUnitPlacementRequest[Requests.Count];
+
+
+        for (int RequestIndex = 0;
+            RequestIndex < Requests.Count;
+            RequestIndex++)
+        {
+            RuntimeUnitPlacementRequest Request =
+                Requests[RequestIndex];
+
+
+            if (Request == null ||
+                Request.Unit == null ||
+                Request.Placements == null ||
+                Request.Placements.Length == 0 ||
+                !SeenUnits.Add(
+                    Request.Unit) ||
+                _UnitCoordinates.ContainsKey(
+                    Request.Unit))
+            {
+                ValidationMessage =
+                    "Unit placement batch contains an invalid or duplicate Unit.";
+
+                return false;
+            }
+
+
+            if (!ValidateUnitPlacementInternal(
+                    Request.Unit,
+                    Request.Placements,
+                    Request.RequiredAuthoredCondition,
+                    false,
+                    out RuntimeMineOccupancy[] RequestMines,
+                    out ValidationMessage))
+            {
+                return false;
+            }
+
+
+            for (int TileIndex = 0;
+                TileIndex < Request.Placements.Length;
+                TileIndex++)
+            {
+                if (!SeenCoordinates.Add(
+                        Request.Placements[TileIndex].MapCoordinate))
+                {
+                    ValidationMessage =
+                        "Unit placement batch contains overlapping footprints.";
+
+                    return false;
+                }
+            }
+
+
+            for (int MineIndex = 0;
+                MineIndex < RequestMines.Length;
+                MineIndex++)
+            {
+                TriggeredMines.Add(
+                    RequestMines[MineIndex]
+                );
+            }
+
+
+            PreparedRequests[RequestIndex] =
+                Request;
+        }
+
+
+        RuntimeMineOccupancy[] PreparedMines =
+            new RuntimeMineOccupancy[TriggeredMines.Count];
+
+        TriggeredMines.CopyTo(
+            PreparedMines
+        );
+
+
+        PreparedDeployment =
+            new PreparedMapUnitDeployment(
+                PreparedRequests,
+                PreparedMines
+            );
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
+    }
+
+
+    internal void CommitPreparedUnitPlacementBatch(
+        PreparedMapUnitDeployment PreparedDeployment
+    )
+    {
+        if (PreparedDeployment == null)
+        {
+            throw new InvalidOperationException(
+                "Prepared Map Unit Deployment is missing."
+            );
+        }
+
+
+        for (int RequestIndex = 0;
+            RequestIndex < PreparedDeployment.Requests.Length;
+            RequestIndex++)
+        {
+            RuntimeUnitPlacementRequest Request =
+                PreparedDeployment.Requests[RequestIndex];
+
+            List<Vector2Int> OccupiedCoordinates =
+                new List<Vector2Int>(
+                    Request.Placements.Length
+                );
+
+
+            for (int TileIndex = 0;
+                TileIndex < Request.Placements.Length;
+                TileIndex++)
+            {
+                RuntimeUnitTilePlacement Placement =
+                    Request.Placements[TileIndex];
+
+
+                TryGetTile(
+                    Placement.MapCoordinate,
+                    out RuntimeMapTile Tile
+                );
+
+                Tile.SetUnitOccupancy(
+                    new RuntimeUnitOccupancy(
+                        Request.Unit,
+                        Placement.FootprintCoordinate
+                    )
+                );
+
+                OccupiedCoordinates.Add(
+                    Placement.MapCoordinate
+                );
+            }
+
+
+            _UnitCoordinates.Add(
+                Request.Unit,
+                OccupiedCoordinates
+            );
+        }
+
+
+        RemoveTriggeredMines(
+            PreparedDeployment.TriggeredMines
+        );
+    }
+
+
     // Places a RuntimeUnit that is not currently on the board.
     //
     // Enemy Mines entered by Surface/Subsurface Units are removed from
@@ -1764,3 +2014,4 @@ public class GameMap :
             false;
     }
 }
+

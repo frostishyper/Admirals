@@ -46,6 +46,8 @@ public sealed class DeploymentTileMarkerPresenter :
             new List<Vector3Int>();
 
 
+    private GameParticipantAPI.ParticipantAccess _ParticipantAccess;
+
     private RuntimeParticipant _Participant;
 
     private GameDeployment.ParticipantView _Plan;
@@ -74,93 +76,36 @@ public sealed class DeploymentTileMarkerPresenter :
 
 
     public bool Initialize(
-        RuntimeParticipant Participant,
-        GameDeployment.ParticipantView Plan
-    )
+        GameParticipantAPI.ParticipantAccess ParticipantAccess,
+        GameDeployment.ParticipantView Plan)
     {
+        if (!ValidateReferences() ||
+            ParticipantAccess == null ||
+            Plan == null)
+            return false;
+
         if (_Initialized)
         {
-            return
-                ReferenceEquals(
-                    _Participant,
-                    Participant
-                ) &&
-                ReferenceEquals(
-                    _Plan,
-                    Plan
-                );
+            ClearDragPreviewState();
+            ClearPaintedTiles();
         }
 
+        _ParticipantAccess = ParticipantAccess;
+        _Participant = ParticipantAccess.Participant;
+        _Plan = Plan;
 
-        if (!ValidateReferences())
-        {
-            return false;
-        }
-
-
-        _Participant =
-            Participant;
-
-        _Plan =
-            Plan;
-
-
-        if (_Participant == null)
-        {
-            Debug.LogError(
-                "Deployment Tile Marker Presenter received no participant.",
-                this
-            );
-
-            return false;
-        }
-
-
-        if (_Plan == null)
-        {
-            Debug.LogError(
-                "Deployment Tile Marker Presenter received no participant-filtered Deployment view.",
-                this
-            );
-
-            return false;
-        }
-
-
-        if (!_GameMaster.TryGetDeploymentZoneCoordinates(
-                _Participant,
+        if (_Participant == null ||
+            !_ParticipantAccess.TryGetDeploymentZoneCoordinates(
                 out _DeploymentZone))
-        {
-            Debug.LogError(
-                "Deployment Tile Marker Presenter could not read Participant A's Deployment zone.",
-                this
-            );
-
             return false;
-        }
-
 
         if (_GameMaster.MapAuthoring == null ||
             _GameMaster.MapAuthoring.TileMarkers == null)
-        {
-            Debug.LogError(
-                "Deployment Tile Marker Presenter could not find the runtime Map's Tile_Markers layer.",
-                this
-            );
-
             return false;
-        }
 
-
-        _TileMarkers =
-            _GameMaster.MapAuthoring.TileMarkers;
-
-        _Initialized =
-            true;
-
-
+        _TileMarkers = _GameMaster.MapAuthoring.TileMarkers;
+        _Initialized = true;
         RefreshMarkers();
-
         return true;
     }
 
@@ -230,7 +175,9 @@ public sealed class DeploymentTileMarkerPresenter :
 
 
         if (_GameMaster.CurrentPhase !=
-            GameplayPhase.Deployment)
+                GameplayPhase.Deployment ||
+            _Plan == null ||
+            _Plan.IsLocked)
         {
             ClearDragPreviewState();
             ClearPaintedTiles();
@@ -288,8 +235,7 @@ public sealed class DeploymentTileMarkerPresenter :
             }
 
 
-            if (!_GameMaster.TryGetDeploymentPlacementTiles(
-                    _Participant,
+            if (!_ParticipantAccess.TryGetDeploymentPlacementTiles(
                     Placement.ID,
                     out RuntimeUnitTilePlacement[] PlacementTiles,
                     out _))
@@ -359,8 +305,7 @@ public sealed class DeploymentTileMarkerPresenter :
         }
 
 
-        if (!_GameMaster.TryGetDeploymentPlacementTiles(
-                _Participant,
+        if (!_ParticipantAccess.TryGetDeploymentPlacementTiles(
                 SelectedPlacement.ID,
                 out RuntimeUnitTilePlacement[] SelectedTiles,
                 out _))
@@ -616,3 +561,6 @@ public sealed class DeploymentTileMarkerPresenter :
         ClearPaintedTiles();
     }
 }
+
+
+

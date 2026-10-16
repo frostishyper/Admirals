@@ -67,6 +67,8 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         new List<RaycastResult>();
 
 
+    private GameParticipantAPI.ParticipantAccess _ParticipantAccess;
+
     private RuntimeParticipant _Participant;
 
     private GameDeployment.ParticipantView _Plan;
@@ -149,7 +151,9 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
     private void Update()
     {
         if (!_Initialized ||
-            _GameMaster.CurrentPhase != GameplayPhase.Deployment)
+            _GameMaster.CurrentPhase != GameplayPhase.Deployment ||
+            _Plan == null ||
+            _Plan.IsLocked)
         {
             return;
         }
@@ -257,12 +261,15 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         }
 
 
+        _ParticipantAccess =
+            _HumanGameplayInput.ParticipantAccess;
+
         _Participant =
-            _HumanGameplayInput.Participant;
+            _ParticipantAccess?.Participant;
 
 
-        if (!_GameMaster.TryGetDeploymentView(
-                _Participant,
+        if (_ParticipantAccess == null ||
+            !_ParticipantAccess.TryGetDeploymentView(
                 out _Plan))
         {
             Debug.LogError(
@@ -278,7 +285,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
 
         if (!_TileMarkerPresenter.Initialize(
-                _Participant,
+                _ParticipantAccess,
                 _Plan))
         {
             Debug.LogError(
@@ -318,10 +325,45 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
             true;
 
 
+        _HumanGameplayInput.ParticipantChanged +=
+            HandleParticipantChanged;
+
+
         SynchronizeTentativeViews();
         RefreshPresentation();
 
         return true;
+    }
+
+
+    private void HandleParticipantChanged()
+    {
+        if (!_Initialized ||
+            _HumanGameplayInput?.ParticipantAccess == null ||
+            ReferenceEquals(
+                _ParticipantAccess,
+                _HumanGameplayInput.ParticipantAccess))
+            return;
+
+        CancelActiveDrag(false);
+        DestroyAllTentativeViews();
+
+        _ParticipantAccess = _HumanGameplayInput.ParticipantAccess;
+        _Participant = _ParticipantAccess.Participant;
+
+        if (!_ParticipantAccess.TryGetDeploymentView(out _Plan) ||
+            !_TileMarkerPresenter.Initialize(_ParticipantAccess, _Plan) ||
+            !_DeploymentTray.Initialize(_Plan, this))
+        {
+            Debug.LogError(
+                "Deployment HUD could not rebind its participant context.",
+                this);
+            return;
+        }
+
+        _GameplayHUD.SetPlayerName(_ParticipantAccess.DisplayName);
+        SynchronizeTentativeViews();
+        RefreshPresentation();
     }
 
 
@@ -362,8 +404,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
             InitialFacing =
                 Placement.Facing;
         }
-        else if (!_GameMaster.TryGetInitialDeploymentFacing(
-                _Participant,
+        else if (!_ParticipantAccess.TryGetInitialDeploymentFacing(
                 out InitialFacing))
         {
             Debug.LogError(
@@ -470,8 +511,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
 
         _DragCandidateLegal =
-            _GameMaster.ValidateDeploymentPlacement(
-                _Participant,
+            _ParticipantAccess.ValidateDeploymentPlacement(
                 _DraggedPlacement.ID,
                 _DragCandidateMovementPivotCoordinate,
                 _DragFacing,
@@ -531,8 +571,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
         bool Submitted =
             _DragCandidateLegal &&
-            _GameMaster.TrySubmitDeploymentPlacement(
-                _Participant,
+            _ParticipantAccess.TrySubmitDeploymentPlacement(
                 _DraggedPlacement.ID,
                 _DragCandidateMovementPivotCoordinate,
                 _DragFacing,
@@ -676,6 +715,9 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         Button ResetButton =
             _GameplayHUD.ResetButton;
 
+        Button ConfirmButton =
+            _GameplayHUD.ConfirmButton;
+
         Button RotateLeftButton =
             _GameplayHUD.RotateLeftButton;
 
@@ -687,6 +729,14 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         {
             ResetButton.onClick.AddListener(
                 HandleReset
+            );
+        }
+
+
+        if (ConfirmButton != null)
+        {
+            ConfirmButton.onClick.AddListener(
+                HandleConfirm
             );
         }
 
@@ -724,6 +774,9 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         Button ResetButton =
             _GameplayHUD.ResetButton;
 
+        Button ConfirmButton =
+            _GameplayHUD.ConfirmButton;
+
         Button RotateLeftButton =
             _GameplayHUD.RotateLeftButton;
 
@@ -735,6 +788,14 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         {
             ResetButton.onClick.RemoveListener(
                 HandleReset
+            );
+        }
+
+
+        if (ConfirmButton != null)
+        {
+            ConfirmButton.onClick.RemoveListener(
+                HandleConfirm
             );
         }
 
@@ -776,8 +837,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         CancelActiveDrag(true);
 
 
-        if (!_GameMaster.TrySelectDeploymentPlacement(
-                _Participant,
+        if (!_ParticipantAccess.TrySelectDeploymentPlacement(
                 Placement.ID,
                 out string SelectionMessage))
         {
@@ -908,8 +968,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
 
             _DragCandidateLegal =
-                _GameMaster.ValidateDeploymentPlacement(
-                    _Participant,
+                _ParticipantAccess.ValidateDeploymentPlacement(
                     _DraggedPlacement.ID,
                     _DragCandidateMovementPivotCoordinate,
                     _DragFacing,
@@ -960,8 +1019,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
         bool Submitted =
             _DragCandidateLegal &&
-            _GameMaster.TrySubmitDeploymentPlacement(
-                _Participant,
+            _ParticipantAccess.TrySubmitDeploymentPlacement(
                 _DraggedPlacement.ID,
                 _DragCandidateMovementPivotCoordinate,
                 _DragFacing,
@@ -1025,8 +1083,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
             }
 
 
-            if (!_GameMaster.TryGetDeploymentPlacementTiles(
-                    _Participant,
+            if (!_ParticipantAccess.TryGetDeploymentPlacementTiles(
                     Placement.ID,
                     out RuntimeUnitTilePlacement[] PlacementTiles,
                     out _))
@@ -1075,8 +1132,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
             _Plan.SelectedPlacement;
 
 
-        if (!_GameMaster.TryRotateDeploymentPlacementCounterClockwise(
-                _Participant,
+        if (!_ParticipantAccess.TryRotateDeploymentPlacementCounterClockwise(
                 SelectedPlacement.ID,
                 out string ValidationMessage))
         {
@@ -1107,8 +1163,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
             _Plan.SelectedPlacement;
 
 
-        if (!_GameMaster.TryRotateDeploymentPlacementClockwise(
-                _Participant,
+        if (!_ParticipantAccess.TryRotateDeploymentPlacementClockwise(
                 SelectedPlacement.ID,
                 out string ValidationMessage))
         {
@@ -1133,8 +1188,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         CancelActiveDrag(true);
 
 
-        if (!_GameMaster.TryResetDeployment(
-                _Participant,
+        if (!_ParticipantAccess.TryResetDeployment(
                 out string ValidationMessage))
         {
             ReportRejectedInput(
@@ -1153,6 +1207,34 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
     }
 
 
+    private void HandleConfirm()
+    {
+        if (!_Initialized ||
+            _Plan == null ||
+            _Plan.IsLocked)
+        {
+            return;
+        }
+
+
+        CancelActiveDrag(
+            true
+        );
+
+
+        if (!_ParticipantAccess.TryConfirmDeployment(
+                out string ValidationMessage))
+        {
+            ReportRejectedInput(
+                ValidationMessage
+            );
+        }
+
+
+        RefreshPresentation();
+    }
+
+
     private void ClearSelection()
     {
         if (!_Initialized ||
@@ -1164,8 +1246,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         }
 
 
-        if (!_GameMaster.TryClearDeploymentSelection(
-                _Participant,
+        if (!_ParticipantAccess.TryClearDeploymentSelection(
                 out string ValidationMessage))
         {
             ReportRejectedInput(
@@ -1360,12 +1441,19 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
             _Plan.PlacedCount > 0;
 
 
-        // Confirm remains disabled until the transactional confirmation
-        // pass is implemented.
+        bool CanAcceptInput =
+            !_Plan.IsLocked &&
+            _GameMaster.CurrentPhase ==
+                GameplayPhase.Deployment;
+
+
         _GameplayHUD.SetDeploymentControlsAvailable(
-            HasTentativePlacements,
-            false,
-            HasSelection
+            CanAcceptInput &&
+                HasTentativePlacements,
+            CanAcceptInput &&
+                _Plan.AllPlaced,
+            CanAcceptInput &&
+                HasSelection
         );
     }
 
@@ -1690,6 +1778,11 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_HumanGameplayInput != null)
+            _HumanGameplayInput.ParticipantChanged -=
+                HandleParticipantChanged;
+
+
         if (_TileMarkerPresenter != null)
         {
             _TileMarkerPresenter.ClearDragPreview();
@@ -1699,3 +1792,6 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         UnbindHUDButtons();
     }
 }
+
+
+

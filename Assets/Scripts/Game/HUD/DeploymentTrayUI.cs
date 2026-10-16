@@ -101,6 +101,11 @@ public sealed class DeploymentTrayUI :
         }
 
 
+        bool ParticipantChanged =
+            _Built &&
+            !ReferenceEquals(_Plan, Plan);
+
+
         _Plan =
             Plan;
 
@@ -108,19 +113,18 @@ public sealed class DeploymentTrayUI :
             Interaction;
 
 
-        if (_Built)
+        if (ParticipantChanged)
         {
-            Refresh();
-
-            return true;
+            ClearCards();
+            BuildCards();
         }
+        else if (!_Built)
+        {
+            BuildCards();
 
-
-        BuildCards();
-
-
-        _Built =
-            true;
+            _Built =
+                true;
+        }
 
 
         Refresh();
@@ -253,6 +257,21 @@ public sealed class DeploymentTrayUI :
     }
 
 
+    private void ClearCards()
+    {
+        foreach (DeploymentUnitCard Card in _Cards)
+        {
+            if (Card == null)
+                continue;
+
+            Card.gameObject.SetActive(false);
+            Destroy(Card.gameObject);
+        }
+
+        _Cards.Clear();
+    }
+
+
     private void BuildCards()
     {
         IReadOnlyList<GameDeployment.PlacementView> Placements =
@@ -283,3 +302,5 @@ public sealed class DeploymentTrayUI :
         }
     }
 }
+
+

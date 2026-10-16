@@ -1304,6 +1304,72 @@ public sealed class RuntimeFleetEntryState
 }
 
 
+internal sealed class PreparedRuntimeUnitDeployment
+{
+    internal sealed class Entry
+    {
+        public RuntimeFleetEntryState FleetEntry
+        {
+            get;
+        }
+
+
+        public RuntimeUnit RuntimeUnit
+        {
+            get;
+        }
+
+
+        internal Entry(
+            RuntimeFleetEntryState FleetEntry,
+            RuntimeUnit RuntimeUnit
+        )
+        {
+            this.FleetEntry =
+                FleetEntry;
+
+            this.RuntimeUnit =
+                RuntimeUnit;
+        }
+    }
+
+
+    public ParticipantUnitRoster Roster
+    {
+        get;
+    }
+
+
+    public Entry[] Entries
+    {
+        get;
+    }
+
+
+    public Dictionary<string, int> InstanceNameCounters
+    {
+        get;
+    }
+
+
+    internal PreparedRuntimeUnitDeployment(
+        ParticipantUnitRoster Roster,
+        Entry[] Entries,
+        Dictionary<string, int> InstanceNameCounters
+    )
+    {
+        this.Roster =
+            Roster;
+
+        this.Entries =
+            Entries;
+
+        this.InstanceNameCounters =
+            InstanceNameCounters;
+    }
+}
+
+
 // One participant's completely separate Unit roster.
 //
 // There is deliberately no shared/global Unit pool between participants.
@@ -1640,6 +1706,188 @@ public sealed class ParticipantUnitRoster
 
 
         return false;
+    }
+
+
+    internal bool TryPrepareInitialDeployment(
+        IReadOnlyList<GameDeployment.ConfirmedPlacement> Placements,
+        out PreparedRuntimeUnitDeployment PreparedDeployment,
+        out string ValidationMessage
+    )
+    {
+        PreparedDeployment =
+            null;
+
+
+        if (Placements == null ||
+            Placements.Count == 0)
+        {
+            ValidationMessage =
+                "Confirmed Deployment contains no placements.";
+
+            return false;
+        }
+
+
+        Dictionary<string, int> PreparedCounters =
+            new Dictionary<string, int>(
+                _InstanceNameCounters,
+                StringComparer.Ordinal
+            );
+
+        PreparedRuntimeUnitDeployment.Entry[] PreparedEntries =
+            new PreparedRuntimeUnitDeployment.Entry[Placements.Count];
+
+        HashSet<RuntimeFleetEntryState> SeenEntries =
+            new HashSet<RuntimeFleetEntryState>();
+
+
+        for (int Index = 0;
+            Index < Placements.Count;
+            Index++)
+        {
+            GameDeployment.ConfirmedPlacement Placement =
+                Placements[Index];
+
+
+            if (Placement == null ||
+                !TryGetFleetEntry(
+                    Placement.FleetEntryID,
+                    out RuntimeFleetEntryState FleetEntry) ||
+                FleetEntry.IsCommitted ||
+                !ReferenceEquals(
+                    FleetEntry.Unit,
+                    Placement.Unit) ||
+                !SeenEntries.Add(
+                    FleetEntry))
+            {
+                ValidationMessage =
+                    $"Fleet Entry '{Placement?.FleetEntryID}' cannot be prepared for Deployment.";
+
+                return false;
+            }
+
+
+            string BaseName =
+                FleetEntry.Unit != null &&
+                !string.IsNullOrWhiteSpace(
+                    FleetEntry.Unit.Name)
+                    ? FleetEntry.Unit.Name
+                    : "Unit";
+
+
+            PreparedCounters.TryGetValue(
+                BaseName,
+                out int CurrentNumber
+            );
+
+            CurrentNumber++;
+
+            PreparedCounters[BaseName] =
+                CurrentNumber;
+
+
+            RuntimeUnit RuntimeUnit =
+                new RuntimeUnit(
+                    FleetEntry.ID,
+                    $"{BaseName} {CurrentNumber}",
+                    FleetEntry.Unit,
+                    Participant,
+                    Placement.Facing
+                );
+
+
+            PreparedEntries[Index] =
+                new PreparedRuntimeUnitDeployment.Entry(
+                    FleetEntry,
+                    RuntimeUnit
+                );
+        }
+
+
+        PreparedDeployment =
+            new PreparedRuntimeUnitDeployment(
+                this,
+                PreparedEntries,
+                PreparedCounters
+            );
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
+    }
+
+
+    internal void CommitPreparedInitialDeployment(
+        PreparedRuntimeUnitDeployment PreparedDeployment
+    )
+    {
+        if (PreparedDeployment == null ||
+            !ReferenceEquals(
+                PreparedDeployment.Roster,
+                this))
+        {
+            throw new InvalidOperationException(
+                "Prepared Deployment does not belong to this Unit roster."
+            );
+        }
+
+
+        for (int Index = 0;
+            Index < PreparedDeployment.Entries.Length;
+            Index++)
+        {
+            PreparedRuntimeUnitDeployment.Entry PreparedEntry =
+                PreparedDeployment.Entries[Index];
+
+
+            if (PreparedEntry == null ||
+                PreparedEntry.FleetEntry == null ||
+                PreparedEntry.FleetEntry.IsCommitted ||
+                PreparedEntry.RuntimeUnit == null)
+            {
+                throw new InvalidOperationException(
+                    "Prepared Deployment changed before commit."
+                );
+            }
+        }
+
+
+        for (int Index = 0;
+            Index < PreparedDeployment.Entries.Length;
+            Index++)
+        {
+            PreparedRuntimeUnitDeployment.Entry PreparedEntry =
+                PreparedDeployment.Entries[Index];
+
+
+            if (!PreparedEntry.FleetEntry.Commit(
+                    PreparedEntry.RuntimeUnit))
+            {
+                throw new InvalidOperationException(
+                    $"Fleet Entry '{PreparedEntry.FleetEntry.ID}' failed a validated Deployment commit."
+                );
+            }
+
+
+            _RuntimeUnits.Add(
+                PreparedEntry.RuntimeUnit
+            );
+        }
+
+
+        _InstanceNameCounters.Clear();
+
+
+        foreach (KeyValuePair<string, int> Counter
+            in PreparedDeployment.InstanceNameCounters)
+        {
+            _InstanceNameCounters.Add(
+                Counter.Key,
+                Counter.Value
+            );
+        }
     }
 
 
@@ -2120,4 +2368,55 @@ public sealed class GameUnits
 
         return false;
     }
+
+
+    internal bool TryPrepareInitialDeployment(
+        RuntimeParticipant Participant,
+        IReadOnlyList<GameDeployment.ConfirmedPlacement> Placements,
+        out PreparedRuntimeUnitDeployment PreparedDeployment,
+        out string ValidationMessage
+    )
+    {
+        PreparedDeployment =
+            null;
+
+
+        if (!TryGetRoster(
+                Participant,
+                out ParticipantUnitRoster Roster))
+        {
+            ValidationMessage =
+                "Participant has no Unit roster in this Match.";
+
+            return false;
+        }
+
+
+        return
+            Roster.TryPrepareInitialDeployment(
+                Placements,
+                out PreparedDeployment,
+                out ValidationMessage
+            );
+    }
+
+
+    internal void CommitPreparedInitialDeployment(
+        PreparedRuntimeUnitDeployment PreparedDeployment
+    )
+    {
+        if (PreparedDeployment == null ||
+            PreparedDeployment.Roster == null)
+        {
+            throw new InvalidOperationException(
+                "Prepared Unit Deployment is missing."
+            );
+        }
+
+
+        PreparedDeployment.Roster.CommitPreparedInitialDeployment(
+            PreparedDeployment
+        );
+    }
 }
+

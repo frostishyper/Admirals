@@ -637,6 +637,75 @@ public sealed class GameDeployment
     }
 
 
+    // Fully revalidated, immutable input for the confirmation transaction.
+    internal sealed class ConfirmedPlacement
+    {
+        public string FleetEntryID
+        {
+            get;
+        }
+
+
+        public Definition_Unit Unit
+        {
+            get;
+        }
+
+
+        public Vector2Int MovementPivotCoordinate
+        {
+            get;
+        }
+
+
+        public UnitFacing Facing
+        {
+            get;
+        }
+
+
+        public RuntimeUnitTilePlacement[] Tiles
+        {
+            get;
+        }
+
+
+        public MapTileCondition DeploymentCondition
+        {
+            get;
+        }
+
+
+        internal ConfirmedPlacement(
+            string FleetEntryID,
+            Definition_Unit Unit,
+            Vector2Int MovementPivotCoordinate,
+            UnitFacing Facing,
+            RuntimeUnitTilePlacement[] Tiles,
+            MapTileCondition DeploymentCondition
+        )
+        {
+            this.FleetEntryID =
+                FleetEntryID;
+
+            this.Unit =
+                Unit;
+
+            this.MovementPivotCoordinate =
+                MovementPivotCoordinate;
+
+            this.Facing =
+                Facing;
+
+            this.Tiles =
+                Tiles;
+
+            this.DeploymentCondition =
+                DeploymentCondition;
+        }
+    }
+
+
     private GameMap _GameMap;
 
     private ParticipantView _ParticipantAView;
@@ -858,6 +927,110 @@ public sealed class GameDeployment
 
 
         return false;
+    }
+
+
+    internal bool TryPrepareConfirmation(
+        RuntimeParticipant Participant,
+        out ConfirmedPlacement[] ConfirmedPlacements,
+        out string ValidationMessage
+    )
+    {
+        ConfirmedPlacements =
+            Array.Empty<ConfirmedPlacement>();
+
+
+        if (!TryGetPlan(
+                Participant,
+                out ParticipantPlan Plan))
+        {
+            ValidationMessage =
+                "Participant has no Deployment plan in this Match.";
+
+            return false;
+        }
+
+
+        if (Participant.DeploymentLocked)
+        {
+            ValidationMessage =
+                "Participant Deployment is already confirmed.";
+
+            return false;
+        }
+
+
+        if (!Plan.AllPlaced)
+        {
+            ValidationMessage =
+                "Every deployable Fleet Entry must be placed before confirmation.";
+
+            return false;
+        }
+
+
+        if (!TryGetDeploymentCondition(
+                Participant,
+                out MapTileCondition DeploymentCondition))
+        {
+            ValidationMessage =
+                "Participant has no authored Deployment-zone mapping.";
+
+            return false;
+        }
+
+
+        ConfirmedPlacement[] Prepared =
+            new ConfirmedPlacement[Plan.Placements.Count];
+
+
+        for (int Index = 0;
+            Index < Plan.Placements.Count;
+            Index++)
+        {
+            Placement Placement =
+                Plan.Placements[Index];
+
+
+            if (!ValidatePlacement(
+                    Participant,
+                    Placement.ID,
+                    Placement.MovementPivotCoordinate,
+                    Placement.Facing,
+                    out ValidationMessage) ||
+                !UnitFootprintGeometry.TryBuildPlacement(
+                    Placement.Unit,
+                    Placement.MovementPivotCoordinate,
+                    Placement.Facing,
+                    out RuntimeUnitTilePlacement[] Tiles,
+                    out ValidationMessage))
+            {
+                ConfirmedPlacements =
+                    Array.Empty<ConfirmedPlacement>();
+
+                return false;
+            }
+
+
+            Prepared[Index] =
+                new ConfirmedPlacement(
+                    Placement.ID,
+                    Placement.Unit,
+                    Placement.MovementPivotCoordinate,
+                    Placement.Facing,
+                    Tiles,
+                    DeploymentCondition
+                );
+        }
+
+
+        ConfirmedPlacements =
+            Prepared;
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
     }
 
 
@@ -1722,3 +1895,4 @@ public sealed class GameDeployment
         return false;
     }
 }
+

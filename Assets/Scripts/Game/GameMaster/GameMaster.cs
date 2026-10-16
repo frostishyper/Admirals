@@ -38,6 +38,10 @@ public class GameMaster :
 
     private GameDeployment _GameDeployment;
 
+    private GameKnowledge _GameKnowledge;
+
+    private GameParticipantAPI _ParticipantAPI;
+
 
     private GameplayPhase _CurrentPhase =
         GameplayPhase.None;
@@ -46,6 +50,10 @@ public class GameMaster :
     private bool _InitializationComplete;
 
     private bool _MatchStarted;
+
+    private RuntimeParticipant _FirstPlayer;
+
+    private int _TurnNumber;
 
 
     public MatchConfig MatchConfig =>
@@ -84,6 +92,14 @@ public class GameMaster :
         _GameDeployment;
 
 
+    internal GameKnowledge GameKnowledge =>
+        _GameKnowledge;
+
+
+    public GameParticipantAPI ParticipantAPI =>
+        _ParticipantAPI;
+
+
     public GameplayPhase CurrentPhase =>
         _CurrentPhase;
 
@@ -94,6 +110,14 @@ public class GameMaster :
 
     public bool MatchStarted =>
         _MatchStarted;
+
+
+    public RuntimeParticipant FirstPlayer =>
+        _FirstPlayer;
+
+
+    public int TurnNumber =>
+        _TurnNumber;
 
 
     private void Start()
@@ -156,7 +180,9 @@ public class GameMaster :
         if (!InitializeParticipants() ||
             !InitializeMap() ||
             !InitializeUnitState() ||
-            !InitializeDeploymentState())
+            !InitializeDeploymentState() ||
+            !InitializeKnowledgeState() ||
+            !InitializeParticipantAPI())
         {
             return false;
         }
@@ -194,7 +220,7 @@ public class GameMaster :
     // Human and AI controllers receive only the requested participant's
     // read-only view. The authoritative ParticipantPlan remains internal to
     // GameDeployment.
-    public bool TryGetDeploymentView(
+    internal bool TryGetDeploymentView(
         RuntimeParticipant Participant,
         out GameDeployment.ParticipantView View
     )
@@ -212,7 +238,7 @@ public class GameMaster :
     }
 
 
-    public bool TryGetInitialDeploymentFacing(
+    internal bool TryGetInitialDeploymentFacing(
         RuntimeParticipant Participant,
         out UnitFacing Facing
     )
@@ -230,7 +256,7 @@ public class GameMaster :
     }
 
 
-    public bool TryGetDeploymentZoneCoordinates(
+    internal bool TryGetDeploymentZoneCoordinates(
         RuntimeParticipant Participant,
         out Vector2Int[] Coordinates
     )
@@ -248,7 +274,7 @@ public class GameMaster :
     }
 
 
-    public bool TryGetDeploymentPlacementTiles(
+    internal bool TryGetDeploymentPlacementTiles(
         RuntimeParticipant Participant,
         string FleetEntryID,
         out RuntimeUnitTilePlacement[] Placements,
@@ -281,7 +307,7 @@ public class GameMaster :
     // Validates a complete gameplay proposal without mutation.
     //
     // Pointer, drag, HUD and GameObject data never cross this boundary.
-    public bool ValidateDeploymentPlacement(
+    internal bool ValidateDeploymentPlacement(
         RuntimeParticipant Participant,
         string FleetEntryID,
         Vector2Int MovementPivotCoordinate,
@@ -312,7 +338,7 @@ public class GameMaster :
     //
     // The same operation represents initial placement and movement of an
     // already placed tentative Unit.
-    public bool TrySubmitDeploymentPlacement(
+    internal bool TrySubmitDeploymentPlacement(
         RuntimeParticipant Participant,
         string FleetEntryID,
         Vector2Int MovementPivotCoordinate,
@@ -339,7 +365,7 @@ public class GameMaster :
     }
 
 
-    public bool TrySelectDeploymentPlacement(
+    internal bool TrySelectDeploymentPlacement(
         RuntimeParticipant Participant,
         string FleetEntryID,
         out string ValidationMessage
@@ -362,7 +388,7 @@ public class GameMaster :
     }
 
 
-    public bool TryClearDeploymentSelection(
+    internal bool TryClearDeploymentSelection(
         RuntimeParticipant Participant,
         out string ValidationMessage
     )
@@ -385,7 +411,7 @@ public class GameMaster :
 
     // The Fleet Entry is explicit so human and AI controllers use the same
     // gameplay operation. Human HUD selection is not itself the rules API.
-    public bool TryRotateDeploymentPlacementClockwise(
+    internal bool TryRotateDeploymentPlacementClockwise(
         RuntimeParticipant Participant,
         string FleetEntryID,
         out string ValidationMessage
@@ -408,7 +434,7 @@ public class GameMaster :
     }
 
 
-    public bool TryRotateDeploymentPlacementCounterClockwise(
+    internal bool TryRotateDeploymentPlacementCounterClockwise(
         RuntimeParticipant Participant,
         string FleetEntryID,
         out string ValidationMessage
@@ -431,7 +457,7 @@ public class GameMaster :
     }
 
 
-    public bool TryResetDeployment(
+    internal bool TryResetDeployment(
         RuntimeParticipant Participant,
         out string ValidationMessage
     )
@@ -449,6 +475,95 @@ public class GameMaster :
                 Participant,
                 out ValidationMessage
             );
+    }
+
+
+    internal bool TryConfirmDeployment(
+        RuntimeParticipant Participant,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptDeploymentInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        if (!_GameDeployment.TryPrepareConfirmation(
+                Participant,
+                out GameDeployment.ConfirmedPlacement[] ConfirmedPlacements,
+                out ValidationMessage) ||
+            !_GameUnits.TryPrepareInitialDeployment(
+                Participant,
+                ConfirmedPlacements,
+                out PreparedRuntimeUnitDeployment PreparedUnits,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        RuntimeUnitPlacementRequest[] MapRequests =
+            new RuntimeUnitPlacementRequest[ConfirmedPlacements.Length];
+
+
+        for (int Index = 0;
+            Index < ConfirmedPlacements.Length;
+            Index++)
+        {
+            MapRequests[Index] =
+                new RuntimeUnitPlacementRequest(
+                    PreparedUnits.Entries[Index].RuntimeUnit,
+                    ConfirmedPlacements[Index].Tiles,
+                    ConfirmedPlacements[Index].DeploymentCondition
+                );
+        }
+
+
+        if (!_GameMap.TryPrepareUnitPlacementBatch(
+                MapRequests,
+                out PreparedMapUnitDeployment PreparedMap,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        // Both prepared batches have passed every fallible validation step.
+        // These commits contain no remaining rule checks or partial-failure
+        // return paths.
+        _GameUnits.CommitPreparedInitialDeployment(
+            PreparedUnits
+        );
+
+        _GameMap.CommitPreparedUnitPlacementBatch(
+            PreparedMap
+        );
+
+        Participant.SetDeploymentLocked(
+            true
+        );
+
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' confirmed Deployment with {ConfirmedPlacements.Length} Runtime Units committed to GameMap.",
+            this
+        );
+
+
+        if (_ParticipantA.DeploymentLocked &&
+            _ParticipantB.DeploymentLocked)
+        {
+            BeginMatchAfterDeployment();
+        }
+
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
     }
 
 
@@ -710,6 +825,76 @@ public class GameMaster :
     }
 
 
+    private bool InitializeKnowledgeState()
+    {
+        _GameKnowledge = new GameKnowledge();
+
+        if (!_GameKnowledge.Initialize(
+                _GameMap,
+                _GameUnits,
+                _GameDeployment,
+                _ParticipantA,
+                _ParticipantB,
+                out string ValidationMessage))
+        {
+            _GameKnowledge = null;
+            FailInitialization(
+                $"Knowledge State initialization failed: {ValidationMessage}");
+            return false;
+        }
+
+        return true;
+    }
+
+
+    internal bool TryGetParticipantSnapshot(
+        RuntimeParticipant Participant,
+        out ParticipantGameSnapshot Snapshot,
+        out string ValidationMessage)
+    {
+        Snapshot = null;
+
+        if (!_InitializationComplete || _GameKnowledge == null)
+        {
+            ValidationMessage =
+                "Participant snapshot is unavailable before Match initialization.";
+            return false;
+        }
+
+        return _GameKnowledge.TryCreateSnapshot(
+            Participant,
+            _CurrentPhase,
+            _TurnNumber,
+            _MatchStarted,
+            _FirstPlayer,
+            out Snapshot,
+            out ValidationMessage);
+    }
+
+
+    private bool InitializeParticipantAPI()
+    {
+        _ParticipantAPI = new GameParticipantAPI();
+
+        if (!_ParticipantAPI.Initialize(
+                this,
+                _ParticipantA,
+                _ParticipantB,
+                out string ValidationMessage))
+        {
+            _ParticipantAPI = null;
+
+            FailInitialization(
+                $"Participant API initialization failed: {ValidationMessage}"
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+
     private void PrepareDeployment()
     {
         _CurrentPhase =
@@ -728,6 +913,15 @@ public class GameMaster :
         _GameDeployment.ResetAll();
 
 
+        if (!_GameKnowledge.Refresh(
+                _CurrentPhase,
+                out string KnowledgeMessage))
+        {
+            FailInitialization(KnowledgeMessage);
+            return;
+        }
+
+
         // No RuntimeUnits are created here.
         //
         // GameDeployment references the top-level Fleet Entry states owned by
@@ -737,6 +931,49 @@ public class GameMaster :
         // GameMaster later completes a successful Confirm transaction.
         _MatchStarted =
             false;
+
+        _FirstPlayer =
+            null;
+
+        _TurnNumber =
+            0;
+    }
+
+
+    private void BeginMatchAfterDeployment()
+    {
+        _FirstPlayer =
+            UnityEngine.Random.Range(
+                0,
+                2
+            ) == 0
+                ? _ParticipantA
+                : _ParticipantB;
+
+        _TurnNumber =
+            1;
+
+        _MatchStarted =
+            true;
+
+        _CurrentPhase =
+            GameplayPhase.Movement;
+
+
+        if (!_GameKnowledge.Refresh(
+                _CurrentPhase,
+                out string KnowledgeMessage))
+        {
+            Debug.LogError(
+                $"GameKnowledge refresh failed: {KnowledgeMessage}",
+                this);
+        }
+
+
+        Debug.Log(
+            $"Deployment complete. '{_FirstPlayer.Participant.DisplayName}' has first-player priority for Turn {_TurnNumber}.",
+            this
+        );
     }
 
 
@@ -753,11 +990,23 @@ public class GameMaster :
         _GameDeployment =
             null;
 
+        _GameKnowledge =
+            null;
+
+        _ParticipantAPI =
+            null;
+
         _InitializationComplete =
             false;
 
         _MatchStarted =
             false;
+
+        _FirstPlayer =
+            null;
+
+        _TurnNumber =
+            0;
 
         _CurrentPhase =
             GameplayPhase.None;
@@ -766,3 +1015,8 @@ public class GameMaster :
             false;
     }
 }
+
+
+
+
+
