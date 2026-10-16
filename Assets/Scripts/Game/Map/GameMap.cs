@@ -725,8 +725,99 @@ public class GameMap :
     }
 
 
+    // Checks a tentative Unit Definition footprint without creating a
+    // RuntimeUnit or modifying committed board occupancy.
+    //
+    // Initial Deployment uses this path because RuntimeUnits must not exist
+    // before the complete participant plan is confirmed.
+    public bool ValidateUnitPlacement(
+        Definition_Unit UnitDefinition,
+        RuntimeParticipant Owner,
+        IReadOnlyList<RuntimeUnitTilePlacement> Placements,
+        MapTileCondition RequiredAuthoredCondition,
+        out RuntimeMineOccupancy[] TriggeredMines,
+        out string ValidationMessage
+    )
+    {
+        TriggeredMines =
+            Array.Empty<RuntimeMineOccupancy>();
+
+
+        if (UnitDefinition == null)
+        {
+            ValidationMessage =
+                "Unit Definition is missing.";
+
+            return false;
+        }
+
+
+        if (Owner == null)
+        {
+            ValidationMessage =
+                $"Unit '{UnitDefinition.Name}' has no owning Participant.";
+
+            return false;
+        }
+
+
+        return
+            ValidateUnitPlacementInternal(
+                null,
+                UnitDefinition.Name,
+                Owner,
+                UnitDefinition.BaseDomain,
+                Placements,
+                RequiredAuthoredCondition,
+                false,
+                out TriggeredMines,
+                out ValidationMessage
+            );
+    }
+
+
     private bool ValidateUnitPlacementInternal(
         RuntimeUnit Unit,
+        IReadOnlyList<RuntimeUnitTilePlacement> Placements,
+        MapTileCondition RequiredAuthoredCondition,
+        bool AllowExistingOccupancyFromSameUnit,
+        out RuntimeMineOccupancy[] TriggeredMines,
+        out string ValidationMessage
+    )
+    {
+        TriggeredMines =
+            Array.Empty<RuntimeMineOccupancy>();
+
+
+        if (Unit == null)
+        {
+            ValidationMessage =
+                "Runtime Unit is missing.";
+
+            return false;
+        }
+
+
+        return
+            ValidateUnitPlacementInternal(
+                Unit,
+                Unit.InstanceName,
+                Unit.Owner,
+                Unit.CurrentDomain,
+                Placements,
+                RequiredAuthoredCondition,
+                AllowExistingOccupancyFromSameUnit,
+                out TriggeredMines,
+                out ValidationMessage
+            );
+    }
+
+
+    private bool ValidateUnitPlacementInternal(
+        RuntimeUnit ExistingUnit,
+        string UnitName,
+        RuntimeParticipant Owner,
+        Domain UnitDomain,
         IReadOnlyList<RuntimeUnitTilePlacement> Placements,
         MapTileCondition RequiredAuthoredCondition,
         bool AllowExistingOccupancyFromSameUnit,
@@ -747,26 +838,13 @@ public class GameMap :
         }
 
 
-        if (Unit == null)
+        if (Owner == null)
         {
             ValidationMessage =
-                "Runtime Unit is missing.";
+                $"Unit '{UnitName}' has no owning Participant.";
 
             return false;
         }
-
-
-        if (Unit.Owner == null)
-        {
-            ValidationMessage =
-                $"Unit '{Unit.InstanceName}' has no owning Participant.";
-
-            return false;
-        }
-
-
-        Domain UnitDomain =
-            Unit.CurrentDomain;
 
 
         if (UnitDomain != Domain.Air &&
@@ -774,7 +852,7 @@ public class GameMap :
             UnitDomain != Domain.Subsurface)
         {
             ValidationMessage =
-                $"Unit '{Unit.InstanceName}' has invalid Domain '{UnitDomain}'.";
+                $"Unit '{UnitName}' has invalid Domain '{UnitDomain}'.";
 
             return false;
         }
@@ -784,7 +862,7 @@ public class GameMap :
             Placements.Count == 0)
         {
             ValidationMessage =
-                $"Unit '{Unit.InstanceName}' has no requested occupied Tiles.";
+                $"Unit '{UnitName}' has no requested occupied Tiles.";
 
             return false;
         }
@@ -814,7 +892,7 @@ public class GameMap :
                     Placement.MapCoordinate))
             {
                 ValidationMessage =
-                    $"Unit '{Unit.InstanceName}' requests Map Tile " +
+                    $"Unit '{UnitName}' requests Map Tile " +
                     $"{Placement.MapCoordinate} more than once.";
 
                 return false;
@@ -825,7 +903,7 @@ public class GameMap :
                     Placement.FootprintCoordinate))
             {
                 ValidationMessage =
-                    $"Unit '{Unit.InstanceName}' uses footprint segment " +
+                    $"Unit '{UnitName}' uses footprint segment " +
                     $"{Placement.FootprintCoordinate} more than once.";
 
                 return false;
@@ -837,7 +915,7 @@ public class GameMap :
                     out RuntimeMapTile Tile))
             {
                 ValidationMessage =
-                    $"Unit '{Unit.InstanceName}' would extend outside the Map at " +
+                    $"Unit '{UnitName}' would extend outside the Map at " +
                     $"{Placement.MapCoordinate}.";
 
                 return false;
@@ -849,7 +927,7 @@ public class GameMap :
                     UnitDomain))
             {
                 ValidationMessage =
-                    $"Unit '{Unit.InstanceName}' Domain '{UnitDomain}' cannot occupy " +
+                    $"Unit '{UnitName}' Domain '{UnitDomain}' cannot occupy " +
                     $"{Tile.Terrain} at {Placement.MapCoordinate}.";
 
                 return false;
@@ -873,9 +951,10 @@ public class GameMap :
                 null)
             {
                 bool SameUnit =
+                    ExistingUnit != null &&
                     ReferenceEquals(
                         Tile.UnitOccupancy.Unit,
-                        Unit
+                        ExistingUnit
                     );
 
 
@@ -919,14 +998,14 @@ public class GameMap :
             bool FriendlyMine =
                 ReferenceEquals(
                     Tile.Mine.Owner,
-                    Unit.Owner
+                    Owner
                 );
 
 
             if (FriendlyMine)
             {
                 ValidationMessage =
-                    $"Unit '{Unit.InstanceName}' cannot occupy {Placement.MapCoordinate} " +
+                    $"Unit '{UnitName}' cannot occupy {Placement.MapCoordinate} " +
                     "because the Tile contains a friendly Mine.";
 
                 return false;

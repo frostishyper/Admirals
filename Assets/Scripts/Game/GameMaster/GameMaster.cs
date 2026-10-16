@@ -1,74 +1,19 @@
+using System;
 using UnityEngine;
-
-
-// Runtime representation of one Match participant.
-//
-// Runtime Units themselves are owned by GameUnits.
-// This object identifies the Participant and the Fleet assigned to them.
-public class RuntimeParticipant
-{
-    public ParticipantSlot Participant
-    {
-        get;
-        private set;
-    }
-
-
-    public Definition_Fleet Fleet
-    {
-        get;
-        private set;
-    }
-
-
-    public bool DeploymentLocked
-    {
-        get;
-        private set;
-    }
-
-
-    public RuntimeParticipant(
-        ParticipantSlot Participant,
-        Definition_Fleet Fleet
-    )
-    {
-        this.Participant =
-            Participant;
-
-
-        this.Fleet =
-            Fleet;
-
-
-        DeploymentLocked =
-            false;
-    }
-
-
-    internal void SetDeploymentLocked(
-        bool Locked
-    )
-    {
-        DeploymentLocked =
-            Locked;
-    }
-}
 
 
 // Authoritative gameplay orchestrator.
 //
-// Current responsibility:
-// - receive finalized Match
-// - establish Participants
-// - instantiate authored Map
-// - create authoritative GameMap
-// - establish separate Unit-state rosters
-// - establish tentative Deployment state
-// - prepare Deployment
+// GameMaster owns:
+// - finalized Match initialization;
+// - runtime Participants;
+// - phase and Match lifecycle;
+// - construction and coordination of authoritative subsystems;
+// - participant-aware gameplay input boundaries;
+// - future cross-system transactions and phase transitions.
 //
-// RuntimeUnits are not created until a participant confirms
-// a valid Deployment.
+// Domain rules are delegated to substantial subordinate systems.
+// Presentation and controller objects are never authoritative.
 public class GameMaster :
     MonoBehaviour
 {
@@ -103,112 +48,52 @@ public class GameMaster :
     private bool _MatchStarted;
 
 
-    public MatchConfig MatchConfig
-    {
-        get
-        {
-            return _MatchConfig;
-        }
-    }
+    public MatchConfig MatchConfig =>
+        _MatchConfig;
 
 
-    public Definition_GameMode GameMode
-    {
-        get
-        {
-            return _GameMode;
-        }
-    }
+    public Definition_GameMode GameMode =>
+        _GameMode;
 
 
-    public RuntimeParticipant ParticipantA
-    {
-        get
-        {
-            return _ParticipantA;
-        }
-    }
+    public RuntimeParticipant ParticipantA =>
+        _ParticipantA;
 
 
-    public RuntimeParticipant ParticipantB
-    {
-        get
-        {
-            return _ParticipantB;
-        }
-    }
+    public RuntimeParticipant ParticipantB =>
+        _ParticipantB;
 
 
-    public GameObject MapInstance
-    {
-        get
-        {
-            return _MapInstance;
-        }
-    }
+    public GameObject MapInstance =>
+        _MapInstance;
 
 
-    public MapAuthoring MapAuthoring
-    {
-        get
-        {
-            return _MapAuthoring;
-        }
-    }
+    public MapAuthoring MapAuthoring =>
+        _MapAuthoring;
 
 
-    public GameMap GameMap
-    {
-        get
-        {
-            return _GameMap;
-        }
-    }
+    public GameMap GameMap =>
+        _GameMap;
 
 
-    public GameUnits GameUnits
-    {
-        get
-        {
-            return _GameUnits;
-        }
-    }
+    public GameUnits GameUnits =>
+        _GameUnits;
 
 
-    public GameDeployment GameDeployment
-    {
-        get
-        {
-            return _GameDeployment;
-        }
-    }
+    public GameDeployment GameDeployment =>
+        _GameDeployment;
 
 
-    public GameplayPhase CurrentPhase
-    {
-        get
-        {
-            return _CurrentPhase;
-        }
-    }
+    public GameplayPhase CurrentPhase =>
+        _CurrentPhase;
 
 
-    public bool InitializationComplete
-    {
-        get
-        {
-            return _InitializationComplete;
-        }
-    }
+    public bool InitializationComplete =>
+        _InitializationComplete;
 
 
-    public bool MatchStarted
-    {
-        get
-        {
-            return _MatchStarted;
-        }
-    }
+    public bool MatchStarted =>
+        _MatchStarted;
 
 
     private void Start()
@@ -225,14 +110,12 @@ public class GameMaster :
         }
 
 
-        if (MatchSession.Instance ==
-            null)
+        if (MatchSession.Instance == null)
         {
             FailInitialization(
                 "No MatchSession exists. " +
                 "The Game scene must be entered through a finalized Match."
             );
-
 
             return false;
         }
@@ -248,7 +131,6 @@ public class GameMaster :
                 "MatchSession contains no ActiveMatch."
             );
 
-
             return false;
         }
 
@@ -260,7 +142,6 @@ public class GameMaster :
                 $"MatchConfig is invalid: {ValidationMessage}"
             );
 
-
             return false;
         }
 
@@ -268,37 +149,20 @@ public class GameMaster :
         _MatchConfig =
             Match;
 
-
         _GameMode =
             Match.GameMode;
 
 
-        if (!InitializeParticipants())
-        {
-            return false;
-        }
-
-
-        if (!InitializeMap())
-        {
-            return false;
-        }
-
-
-        if (!InitializeUnitState())
-        {
-            return false;
-        }
-
-
-        if (!InitializeDeploymentState())
+        if (!InitializeParticipants() ||
+            !InitializeMap() ||
+            !InitializeUnitState() ||
+            !InitializeDeploymentState())
         {
             return false;
         }
 
 
         PrepareDeployment();
-
 
         _InitializationComplete =
             true;
@@ -325,51 +189,349 @@ public class GameMaster :
     }
 
 
+    // Participant-filtered Deployment output.
+    //
+    // Human and AI controllers receive only the requested participant's
+    // read-only view. The authoritative ParticipantPlan remains internal to
+    // GameDeployment.
+    public bool TryGetDeploymentView(
+        RuntimeParticipant Participant,
+        out GameDeployment.ParticipantView View
+    )
+    {
+        View =
+            null;
+
+
+        return
+            _GameDeployment != null &&
+            _GameDeployment.TryGetView(
+                Participant,
+                out View
+            );
+    }
+
+
+    public bool TryGetInitialDeploymentFacing(
+        RuntimeParticipant Participant,
+        out UnitFacing Facing
+    )
+    {
+        Facing =
+            default;
+
+
+        return
+            _GameDeployment != null &&
+            _GameDeployment.TryGetInitialFacing(
+                Participant,
+                out Facing
+            );
+    }
+
+
+    public bool TryGetDeploymentZoneCoordinates(
+        RuntimeParticipant Participant,
+        out Vector2Int[] Coordinates
+    )
+    {
+        Coordinates =
+            Array.Empty<Vector2Int>();
+
+
+        return
+            _GameDeployment != null &&
+            _GameDeployment.TryGetDeploymentZoneCoordinates(
+                Participant,
+                out Coordinates
+            );
+    }
+
+
+    public bool TryGetDeploymentPlacementTiles(
+        RuntimeParticipant Participant,
+        string FleetEntryID,
+        out RuntimeUnitTilePlacement[] Placements,
+        out string ValidationMessage
+    )
+    {
+        Placements =
+            Array.Empty<RuntimeUnitTilePlacement>();
+
+
+        if (_GameDeployment == null)
+        {
+            ValidationMessage =
+                "Deployment has not been initialized.";
+
+            return false;
+        }
+
+
+        return
+            _GameDeployment.TryGetPlacementTiles(
+                Participant,
+                FleetEntryID,
+                out Placements,
+                out ValidationMessage
+            );
+    }
+
+
+    // Validates a complete gameplay proposal without mutation.
+    //
+    // Pointer, drag, HUD and GameObject data never cross this boundary.
+    public bool ValidateDeploymentPlacement(
+        RuntimeParticipant Participant,
+        string FleetEntryID,
+        Vector2Int MovementPivotCoordinate,
+        UnitFacing Facing,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptDeploymentInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        return
+            _GameDeployment.ValidatePlacement(
+                Participant,
+                FleetEntryID,
+                MovementPivotCoordinate,
+                Facing,
+                out ValidationMessage
+            );
+    }
+
+
+    // Revalidates and applies one tentative placement.
+    //
+    // The same operation represents initial placement and movement of an
+    // already placed tentative Unit.
+    public bool TrySubmitDeploymentPlacement(
+        RuntimeParticipant Participant,
+        string FleetEntryID,
+        Vector2Int MovementPivotCoordinate,
+        UnitFacing Facing,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptDeploymentInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        return
+            _GameDeployment.TrySubmitPlacement(
+                Participant,
+                FleetEntryID,
+                MovementPivotCoordinate,
+                Facing,
+                out ValidationMessage
+            );
+    }
+
+
+    public bool TrySelectDeploymentPlacement(
+        RuntimeParticipant Participant,
+        string FleetEntryID,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptDeploymentInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        return
+            _GameDeployment.TrySelectPlacement(
+                Participant,
+                FleetEntryID,
+                out ValidationMessage
+            );
+    }
+
+
+    public bool TryClearDeploymentSelection(
+        RuntimeParticipant Participant,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptDeploymentInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        return
+            _GameDeployment.TryClearSelection(
+                Participant,
+                out ValidationMessage
+            );
+    }
+
+
+    // The Fleet Entry is explicit so human and AI controllers use the same
+    // gameplay operation. Human HUD selection is not itself the rules API.
+    public bool TryRotateDeploymentPlacementClockwise(
+        RuntimeParticipant Participant,
+        string FleetEntryID,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptDeploymentInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        return
+            _GameDeployment.TryRotatePlacementClockwise(
+                Participant,
+                FleetEntryID,
+                out ValidationMessage
+            );
+    }
+
+
+    public bool TryRotateDeploymentPlacementCounterClockwise(
+        RuntimeParticipant Participant,
+        string FleetEntryID,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptDeploymentInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        return
+            _GameDeployment.TryRotatePlacementCounterClockwise(
+                Participant,
+                FleetEntryID,
+                out ValidationMessage
+            );
+    }
+
+
+    public bool TryResetDeployment(
+        RuntimeParticipant Participant,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptDeploymentInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        return
+            _GameDeployment.TryResetPlan(
+                Participant,
+                out ValidationMessage
+            );
+    }
+
+
+    private bool CanAcceptDeploymentInput(
+        RuntimeParticipant Participant,
+        out string ValidationMessage
+    )
+    {
+        if (!_InitializationComplete ||
+            _CurrentPhase != GameplayPhase.Deployment)
+        {
+            ValidationMessage =
+                "The Match is not accepting Deployment input.";
+
+            return false;
+        }
+
+
+        if (_GameDeployment == null ||
+            !_GameDeployment.TryGetPlan(
+                Participant,
+                out _))
+        {
+            ValidationMessage =
+                "Participant has no Deployment plan in this Match.";
+
+            return false;
+        }
+
+
+        if (Participant.DeploymentLocked)
+        {
+            ValidationMessage =
+                "Participant Deployment is already confirmed.";
+
+            return false;
+        }
+
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
+    }
+
+
     private bool InitializeParticipants()
     {
-        if (_MatchConfig.PlayerSlot1 ==
-            null)
+        if (_MatchConfig.PlayerSlot1 == null)
         {
             FailInitialization(
                 "Participant A snapshot is missing."
             );
 
-
             return false;
         }
 
 
-        if (_MatchConfig.PlayerSlot2 ==
-            null)
+        if (_MatchConfig.PlayerSlot2 == null)
         {
             FailInitialization(
                 "Participant B snapshot is missing."
             );
 
-
             return false;
         }
 
 
-        if (_MatchConfig.Player1Fleet ==
-            null)
+        if (_MatchConfig.Player1Fleet == null)
         {
             FailInitialization(
                 "Participant A has no resolved Fleet."
             );
 
-
             return false;
         }
 
 
-        if (_MatchConfig.Player2Fleet ==
-            null)
+        if (_MatchConfig.Player2Fleet == null)
         {
             FailInitialization(
                 "Participant B has no resolved Fleet."
             );
-
 
             return false;
         }
@@ -380,7 +542,6 @@ public class GameMaster :
                 _MatchConfig.PlayerSlot1,
                 _MatchConfig.Player1Fleet
             );
-
 
         _ParticipantB =
             new RuntimeParticipant(
@@ -399,13 +560,11 @@ public class GameMaster :
             _MatchConfig.MapPrefab;
 
 
-        if (MapPrefab ==
-            null)
+        if (MapPrefab == null)
         {
             FailInitialization(
                 "MatchConfig has no Map prefab."
             );
-
 
             return false;
         }
@@ -419,13 +578,11 @@ public class GameMaster :
             );
 
 
-        if (_MapInstance ==
-            null)
+        if (_MapInstance == null)
         {
             FailInitialization(
                 $"Failed to instantiate Map prefab '{MapPrefab.name}'."
             );
-
 
             return false;
         }
@@ -439,13 +596,11 @@ public class GameMaster :
             _MapInstance.GetComponent<MapAuthoring>();
 
 
-        if (_MapAuthoring ==
-            null)
+        if (_MapAuthoring == null)
         {
             Destroy(
                 _MapInstance
             );
-
 
             _MapInstance =
                 null;
@@ -455,7 +610,6 @@ public class GameMaster :
                 $"Runtime Map '{MapPrefab.name}' has no MapAuthoring component."
             );
 
-
             return false;
         }
 
@@ -464,8 +618,7 @@ public class GameMaster :
             _MapInstance.GetComponent<GameMap>();
 
 
-        if (_GameMap ==
-            null)
+        if (_GameMap == null)
         {
             _GameMap =
                 _MapInstance.AddComponent<GameMap>();
@@ -480,14 +633,11 @@ public class GameMaster :
                 _MapInstance
             );
 
-
             _MapInstance =
                 null;
 
-
             _MapAuthoring =
                 null;
-
 
             _GameMap =
                 null;
@@ -496,7 +646,6 @@ public class GameMaster :
             FailInitialization(
                 $"Runtime Map initialization failed: {ValidationMessage}"
             );
-
 
             return false;
         }
@@ -525,7 +674,6 @@ public class GameMaster :
                 $"Unit State initialization failed: {ValidationMessage}"
             );
 
-
             return false;
         }
 
@@ -541,6 +689,7 @@ public class GameMaster :
 
 
         if (!_GameDeployment.Initialize(
+                _GameMap,
                 _GameUnits.ParticipantA,
                 _GameUnits.ParticipantB,
                 out string ValidationMessage))
@@ -552,7 +701,6 @@ public class GameMaster :
             FailInitialization(
                 $"Deployment State initialization failed: {ValidationMessage}"
             );
-
 
             return false;
         }
@@ -572,24 +720,21 @@ public class GameMaster :
             false
         );
 
-
         _ParticipantB.SetDeploymentLocked(
             false
         );
 
 
-        _GameDeployment.ParticipantA.Reset();
-
-        _GameDeployment.ParticipantB.Reset();
+        _GameDeployment.ResetAll();
 
 
         // No RuntimeUnits are created here.
         //
-        // GameDeployment references the same top-level Fleet Entry states
-        // already owned by GameUnits and stores only tentative placement data.
+        // GameDeployment references the top-level Fleet Entry states owned by
+        // GameUnits and stores only tentative placement data.
         //
-        // RuntimeUnits are created only when GameMaster successfully commits
-        // a participant's confirmed Deployment.
+        // RuntimeUnits and committed GameMap occupancy are created only when
+        // GameMaster later completes a successful Confirm transaction.
         _MatchStarted =
             false;
     }
@@ -608,18 +753,14 @@ public class GameMaster :
         _GameDeployment =
             null;
 
-
         _InitializationComplete =
             false;
-
 
         _MatchStarted =
             false;
 
-
         _CurrentPhase =
             GameplayPhase.None;
-
 
         enabled =
             false;

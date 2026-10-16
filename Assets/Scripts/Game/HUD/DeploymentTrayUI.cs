@@ -1,17 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
+// Presentation for the initial Deployment card tray.
+//
+// This component owns card creation, layout and scrolling only.
+// Map interaction and tentative UnitView lifecycle belong to
+// DeploymentMapInteraction.
 [DisallowMultipleComponent]
 public sealed class DeploymentTrayUI :
     MonoBehaviour
 {
-    [Header("Game")]
-    [SerializeField]
-    private GameMaster _GameMaster;
-
+    [Header("Presentation")]
     [SerializeField]
     private UnitPresentationCatalog _UnitPresentationCatalog;
 
@@ -31,65 +33,38 @@ public sealed class DeploymentTrayUI :
         new List<DeploymentUnitCard>();
 
 
+    private GameDeployment.ParticipantView _Plan;
+
+    private DeploymentMapInteraction _Interaction;
+
+
     private bool _Built;
 
 
-    private IEnumerator Start()
+    public bool Initialize(
+        GameDeployment.ParticipantView Plan,
+        DeploymentMapInteraction Interaction
+    )
     {
-        if (_GameMaster == null)
+        if (Plan == null)
         {
             Debug.LogError(
-                "Deployment Tray UI has no GameMaster.",
+                "Deployment Tray UI received no Deployment plan.",
                 this
             );
 
-
-            yield break;
+            return false;
         }
 
 
-        while (!_GameMaster.InitializationComplete)
-        {
-            if (!_GameMaster.enabled)
-            {
-                Debug.LogError(
-                    "Deployment Tray UI could not initialize because GameMaster initialization failed.",
-                    this
-                );
-
-
-                yield break;
-            }
-
-
-            yield return null;
-        }
-
-
-        Build();
-    }
-
-
-    public void Build()
-    {
-        if (_Built)
-        {
-            Refresh();
-
-            return;
-        }
-
-
-        if (_GameMaster.GameDeployment == null ||
-            _GameMaster.GameDeployment.ParticipantA == null)
+        if (Interaction == null)
         {
             Debug.LogError(
-                "Deployment Tray UI has no initialized Participant A Deployment plan.",
+                "Deployment Tray UI received no Deployment Map Interaction.",
                 this
             );
 
-
-            return;
+            return false;
         }
 
 
@@ -100,8 +75,7 @@ public sealed class DeploymentTrayUI :
                 this
             );
 
-
-            return;
+            return false;
         }
 
 
@@ -112,8 +86,7 @@ public sealed class DeploymentTrayUI :
                 this
             );
 
-
-            return;
+            return false;
         }
 
 
@@ -124,40 +97,26 @@ public sealed class DeploymentTrayUI :
                 this
             );
 
-
-            return;
+            return false;
         }
 
 
-        IReadOnlyList<GameDeployment.Placement> Placements =
-            _GameMaster
-                .GameDeployment
-                .ParticipantA
-                .Placements;
+        _Plan =
+            Plan;
+
+        _Interaction =
+            Interaction;
 
 
-        for (
-            int Index = 0;
-            Index < Placements.Count;
-            Index++)
+        if (_Built)
         {
-            DeploymentUnitCard Card =
-                Instantiate(
-                    _CardPrefab,
-                    _Content
-                );
+            Refresh();
 
-
-            Card.Bind(
-                Placements[Index],
-                _UnitPresentationCatalog
-            );
-
-
-            _Cards.Add(
-                Card
-            );
+            return true;
         }
+
+
+        BuildCards();
 
 
         _Built =
@@ -166,19 +125,22 @@ public sealed class DeploymentTrayUI :
 
         Refresh();
 
+        ResetScroll();
 
-        if (_ScrollRect != null)
-        {
-            _ScrollRect.horizontalNormalizedPosition =
-                0f;
-        }
+        return true;
     }
 
 
     public void Refresh()
     {
-        for (
-            int Index = 0;
+        if (!_Built ||
+            _Plan == null)
+        {
+            return;
+        }
+
+
+        for (int Index = 0;
             Index < _Cards.Count;
             Index++)
         {
@@ -203,6 +165,120 @@ public sealed class DeploymentTrayUI :
         {
             LayoutRebuilder.ForceRebuildLayoutImmediate(
                 _Content
+            );
+        }
+    }
+
+
+    public void ResetScroll()
+    {
+        if (_ScrollRect == null)
+        {
+            return;
+        }
+
+
+        _ScrollRect.StopMovement();
+
+        _ScrollRect.horizontalNormalizedPosition =
+            0f;
+    }
+
+
+    internal void BeginCardDrag(
+        DeploymentUnitCard Card,
+        PointerEventData EventData
+    )
+    {
+        if (!_Built ||
+            _Interaction == null ||
+            Card == null ||
+            Card.Placement == null ||
+            Card.Placement.IsPlaced ||
+            !_Cards.Contains(
+                Card))
+        {
+            return;
+        }
+
+
+        _Interaction.BeginCardDrag(
+            Card,
+            EventData
+        );
+    }
+
+
+    internal void UpdateCardDrag(
+        DeploymentUnitCard Card,
+        PointerEventData EventData
+    )
+    {
+        if (!_Built ||
+            _Interaction == null ||
+            Card == null ||
+            !_Cards.Contains(
+                Card))
+        {
+            return;
+        }
+
+
+        _Interaction.UpdateCardDrag(
+            Card,
+            EventData
+        );
+    }
+
+
+    internal void EndCardDrag(
+        DeploymentUnitCard Card,
+        PointerEventData EventData
+    )
+    {
+        if (!_Built ||
+            _Interaction == null ||
+            Card == null ||
+            !_Cards.Contains(
+                Card))
+        {
+            return;
+        }
+
+
+        _Interaction.EndCardDrag(
+            Card,
+            EventData
+        );
+    }
+
+
+    private void BuildCards()
+    {
+        IReadOnlyList<GameDeployment.PlacementView> Placements =
+            _Plan.Placements;
+
+
+        for (int Index = 0;
+            Index < Placements.Count;
+            Index++)
+        {
+            DeploymentUnitCard Card =
+                Instantiate(
+                    _CardPrefab,
+                    _Content
+                );
+
+
+            Card.Bind(
+                Placements[Index],
+                _UnitPresentationCatalog,
+                this
+            );
+
+
+            _Cards.Add(
+                Card
             );
         }
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 
@@ -309,16 +310,13 @@ public sealed class GameplayCamera :
             MinimumX -
             _MapPadding;
 
-
         _MapMaximumX =
             MaximumX +
             _MapPadding;
 
-
         _MapMinimumY =
             MinimumY -
             _MapPadding;
-
 
         _MapMaximumY =
             MaximumY +
@@ -343,7 +341,6 @@ public sealed class GameplayCamera :
             ) *
             0.5f;
 
-
         float MapCenterY =
             (
                 _MapMinimumY +
@@ -351,14 +348,12 @@ public sealed class GameplayCamera :
             ) *
             0.5f;
 
-
         float SafeCenterOffsetX =
             (
                 SafeLeft +
                 SafeRight
             ) *
             0.5f;
-
 
         float SafeCenterOffsetY =
             (
@@ -371,9 +366,9 @@ public sealed class GameplayCamera :
         transform.position =
             new Vector3(
                 MapCenterX -
-                SafeCenterOffsetX,
+                    SafeCenterOffsetX,
                 MapCenterY -
-                SafeCenterOffsetY,
+                    SafeCenterOffsetY,
                 transform.position.z
             );
 
@@ -462,7 +457,16 @@ public sealed class GameplayCamera :
             UnityEngine.InputSystem.Mouse.current;
 
 
-        if (Mouse != null)
+        // HUD interaction owns the mouse wheel while the pointer is over
+        // raycastable UI. The existing zoom interpolation still runs so a
+        // previous map zoom can finish smoothly.
+        bool PointerOverUI =
+            EventSystem.current != null &&
+            EventSystem.current.IsPointerOverGameObject();
+
+
+        if (Mouse != null &&
+            !PointerOverUI)
         {
             float Scroll =
                 Mouse.scroll.ReadValue().y;
@@ -481,8 +485,8 @@ public sealed class GameplayCamera :
                 _TargetOrthographicSize =
                     Mathf.Clamp(
                         _TargetOrthographicSize -
-                        ScrollDirection *
-                        _ZoomSensitivity,
+                            ScrollDirection *
+                            _ZoomSensitivity,
                         _MinimumOrthographicSize,
                         _MaximumOrthographicSize
                     );
@@ -525,7 +529,6 @@ public sealed class GameplayCamera :
                 SafeRight
             );
 
-
         Position.y =
             ClampAxisToSafeArea(
                 Position.y,
@@ -545,12 +548,6 @@ public sealed class GameplayCamera :
     }
 
 
-    // Returns the world-space offsets from Camera center to
-    // the four unobstructed PlayAreaUI edges.
-    //
-    // Example:
-    // SafeBottom is usually above the full Camera's bottom edge
-    // because the BottomBar occupies that screen region.
     private void GetSafeViewOffsets(
         out float SafeLeft,
         out float SafeRight,
@@ -561,14 +558,11 @@ public sealed class GameplayCamera :
         float HalfHeight =
             _Camera.orthographicSize;
 
-
         float HalfWidth =
             HalfHeight *
             _Camera.aspect;
 
 
-        // Fallback:
-        // if HUD references are unavailable, use the entire screen.
         if (_PlayAreaUI == null ||
             Screen.width <= 0 ||
             Screen.height <= 0)
@@ -604,7 +598,6 @@ public sealed class GameplayCamera :
                 _PlayAreaCorners[0]
             );
 
-
         Vector2 TopRight =
             RectTransformUtility.WorldToScreenPoint(
                 UICamera,
@@ -615,28 +608,25 @@ public sealed class GameplayCamera :
         float NormalizedLeft =
             Mathf.Clamp01(
                 BottomLeft.x /
-                Screen.width
+                    Screen.width
             );
-
 
         float NormalizedRight =
             Mathf.Clamp01(
                 TopRight.x /
-                Screen.width
+                    Screen.width
             );
-
 
         float NormalizedBottom =
             Mathf.Clamp01(
                 BottomLeft.y /
-                Screen.height
+                    Screen.height
             );
-
 
         float NormalizedTop =
             Mathf.Clamp01(
                 TopRight.y /
-                Screen.height
+                    Screen.height
             );
 
 
@@ -647,7 +637,6 @@ public sealed class GameplayCamera :
                 NormalizedLeft
             );
 
-
         SafeRight =
             Mathf.Lerp(
                 -HalfWidth,
@@ -655,14 +644,12 @@ public sealed class GameplayCamera :
                 NormalizedRight
             );
 
-
         SafeBottom =
             Mathf.Lerp(
                 -HalfHeight,
                 HalfHeight,
                 NormalizedBottom
             );
-
 
         SafeTop =
             Mathf.Lerp(
@@ -688,11 +675,6 @@ public sealed class GameplayCamera :
     }
 
 
-    // Keeps the unobstructed HUD-safe portion of the Camera
-    // within the padded Map bounds.
-    //
-    // If the complete padded Map fits inside the safe viewport,
-    // the Map is centered inside that safe region instead.
     private float ClampAxisToSafeArea(
         float CurrentPosition,
         float MapMinimum,
@@ -704,7 +686,6 @@ public sealed class GameplayCamera :
         float MapSpan =
             MapMaximum -
             MapMinimum;
-
 
         float SafeSpan =
             SafeMaximumOffset -
@@ -720,7 +701,6 @@ public sealed class GameplayCamera :
                     MapMaximum
                 ) *
                 0.5f;
-
 
             float SafeCenterOffset =
                 (
@@ -739,7 +719,6 @@ public sealed class GameplayCamera :
         float MinimumCameraPosition =
             MapMinimum -
             SafeMinimumOffset;
-
 
         float MaximumCameraPosition =
             MapMaximum -

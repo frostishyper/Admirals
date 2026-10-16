@@ -119,6 +119,92 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &18008979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 18008980}
+  - component: {fileID: 18008981}
+  - component: {fileID: 18008982}
+  - component: {fileID: 18008983}
+  m_Layer: 0
+  m_Name: HumanGameplayInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &18008980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18008979}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &18008981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18008979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fec3db4bb8568e241813f19e074b0e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeploymentMapInteraction
+  _GameMaster: {fileID: 1706890883}
+  _HumanGameplayInput: {fileID: 18008983}
+  _UnitPresentationCatalog: {fileID: 11400000, guid: d1f92b22d07a8d94facb7f63e339f3b9, type: 2}
+  _GameplayCamera: {fileID: 1121756988}
+  _GameplayHUD: {fileID: 116287887}
+  _DeploymentTray: {fileID: 8108232747181557521}
+  _TileMarkerPresenter: {fileID: 18008982}
+  _LegalGhostColor: {r: 1, g: 1, b: 1, a: 0.8}
+  _IllegalGhostColor: {r: 1, g: 1, b: 1, a: 0.35}
+  _PlacedViewColor: {r: 1, g: 1, b: 1, a: 1}
+  _SelectedViewColor: {r: 1, g: 1, b: 1, a: 0.8}
+--- !u!114 &18008982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18008979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509d0667864f65144b1674a2f2bc1c5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeploymentTileMarkerPresenter
+  _GameMaster: {fileID: 1706890883}
+  _AvailableZoneTile: {fileID: 11400000, guid: 79b3b98a274bad543a216d406279f563, type: 2}
+  _LegalFootprintTile: {fileID: 11400000, guid: 1b6c0fb8c9d7b78478f666cded9cfbc6, type: 2}
+  _IllegalFootprintTile: {fileID: 11400000, guid: 6b268ab92bae77c4cb9e23608dec1f07, type: 2}
+--- !u!114 &18008983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18008979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70e7c3e5c99514b498ddf4b4fccd31b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HumanGameplayInput
+  _GameMaster: {fileID: 1706890883}
 --- !u!1 &116287883 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8838907008211768191, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
@@ -1199,6 +1285,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8081519387827297593, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+      propertyPath: _GameMaster
+      value: 
+      objectReference: {fileID: 1706890883}
+    - target: {fileID: 8081519387827297593, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+      propertyPath: _GameplayCamera
+      value: 
+      objectReference: {fileID: 1121756988}
     - target: {fileID: 8111668341644845563, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
       propertyPath: m_PreferredHeight
       value: 200
@@ -1284,7 +1378,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2929597238775122506, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8838907008211768191, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
@@ -1338,7 +1433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910008c588fc33549b874052ae9ca466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeploymentTrayUI
-  _GameMaster: {fileID: 1706890883}
   _UnitPresentationCatalog: {fileID: 11400000, guid: d1f92b22d07a8d94facb7f63e339f3b9, type: 2}
   _Content: {fileID: 1939985881}
   _ScrollRect: {fileID: 1252368073}
@@ -1349,5 +1443,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1121756989}
   - {fileID: 1706890884}
+  - {fileID: 18008980}
   - {fileID: 890816549}
   - {fileID: 904069837}

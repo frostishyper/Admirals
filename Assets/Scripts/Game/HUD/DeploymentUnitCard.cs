@@ -1,12 +1,27 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
 [DisallowMultipleComponent]
 public sealed class DeploymentUnitCard :
-    MonoBehaviour
+    MonoBehaviour,
+    IInitializePotentialDragHandler,
+    IBeginDragHandler,
+    IDragHandler,
+    IEndDragHandler,
+    IScrollHandler
 {
+    private enum PointerDragMode
+    {
+        None = 0,
+        Pending = 1,
+        TrayScroll = 2,
+        Deployment = 3
+    }
+
+
     [Header("Presentation")]
     [SerializeField]
     private Image _UnitPreview;
@@ -18,10 +33,18 @@ public sealed class DeploymentUnitCard :
     private TMP_Text _CountText;
 
 
-    private GameDeployment.Placement _Placement;
+    private GameDeployment.PlacementView _Placement;
+
+    private DeploymentTrayUI _DragOwner;
+
+    private ScrollRect _ParentScrollRect;
 
 
-    public GameDeployment.Placement Placement =>
+    private PointerDragMode _PointerDragMode =
+        PointerDragMode.None;
+
+
+    public GameDeployment.PlacementView Placement =>
         _Placement;
 
 
@@ -41,12 +64,19 @@ public sealed class DeploymentUnitCard :
 
 
     public void Bind(
-        GameDeployment.Placement Placement,
-        UnitPresentationCatalog PresentationCatalog
+        GameDeployment.PlacementView Placement,
+        UnitPresentationCatalog PresentationCatalog,
+        DeploymentTrayUI DragOwner
     )
     {
         _Placement =
             Placement;
+
+        _DragOwner =
+            DragOwner;
+
+        _ParentScrollRect =
+            GetComponentInParent<ScrollRect>();
 
 
         if (_Placement == null ||
@@ -61,7 +91,6 @@ public sealed class DeploymentUnitCard :
             gameObject.SetActive(
                 false
             );
-
 
             return;
         }
@@ -78,7 +107,6 @@ public sealed class DeploymentUnitCard :
             gameObject.SetActive(
                 false
             );
-
 
             return;
         }
@@ -97,7 +125,6 @@ public sealed class DeploymentUnitCard :
             gameObject.SetActive(
                 false
             );
-
 
             return;
         }
@@ -120,7 +147,6 @@ public sealed class DeploymentUnitCard :
                 false
             );
 
-
             return;
         }
 
@@ -129,7 +155,6 @@ public sealed class DeploymentUnitCard :
         {
             _UnitPreview.sprite =
                 SpriteRenderer.sprite;
-
 
             _UnitPreview.preserveAspect =
                 true;
@@ -161,5 +186,242 @@ public sealed class DeploymentUnitCard :
                 CardRectTransform
             );
         }
+    }
+
+
+    public void OnInitializePotentialDrag(
+        PointerEventData EventData
+    )
+    {
+        _PointerDragMode =
+            PointerDragMode.None;
+
+
+        if (_ParentScrollRect != null &&
+            EventData != null)
+        {
+            _ParentScrollRect.OnInitializePotentialDrag(
+                EventData
+            );
+        }
+    }
+
+
+    public void OnBeginDrag(
+        PointerEventData EventData
+    )
+    {
+        if (EventData == null)
+        {
+            return;
+        }
+
+
+        _PointerDragMode =
+            PointerDragMode.Pending;
+
+
+        ResolvePendingDragMode(
+            EventData
+        );
+    }
+
+
+    public void OnDrag(
+        PointerEventData EventData
+    )
+    {
+        if (EventData == null)
+        {
+            return;
+        }
+
+
+        if (_PointerDragMode ==
+            PointerDragMode.Pending)
+        {
+            ResolvePendingDragMode(
+                EventData
+            );
+        }
+
+
+        switch (_PointerDragMode)
+        {
+            case PointerDragMode.TrayScroll:
+
+                if (_ParentScrollRect != null)
+                {
+                    _ParentScrollRect.OnDrag(
+                        EventData
+                    );
+                }
+
+                break;
+
+
+            case PointerDragMode.Deployment:
+
+                if (_DragOwner != null)
+                {
+                    _DragOwner.UpdateCardDrag(
+                        this,
+                        EventData
+                    );
+                }
+
+                break;
+        }
+    }
+
+
+    public void OnEndDrag(
+        PointerEventData EventData
+    )
+    {
+        if (EventData == null)
+        {
+            _PointerDragMode =
+                PointerDragMode.None;
+
+            return;
+        }
+
+
+        switch (_PointerDragMode)
+        {
+            case PointerDragMode.TrayScroll:
+
+                if (_ParentScrollRect != null)
+                {
+                    _ParentScrollRect.OnEndDrag(
+                        EventData
+                    );
+                }
+
+                break;
+
+
+            case PointerDragMode.Deployment:
+
+                if (_DragOwner != null)
+                {
+                    _DragOwner.EndCardDrag(
+                        this,
+                        EventData
+                    );
+                }
+
+                break;
+        }
+
+
+        _PointerDragMode =
+            PointerDragMode.None;
+    }
+
+
+    public void OnScroll(
+        PointerEventData EventData
+    )
+    {
+        if (_ParentScrollRect == null ||
+            EventData == null)
+        {
+            return;
+        }
+
+
+        _ParentScrollRect.OnScroll(
+            EventData
+        );
+
+
+        EventData.Use();
+    }
+
+
+    private void ResolvePendingDragMode(
+        PointerEventData EventData
+    )
+    {
+        if (_PointerDragMode !=
+                PointerDragMode.Pending ||
+            EventData == null)
+        {
+            return;
+        }
+
+
+        float HorizontalMovement =
+            Mathf.Abs(
+                EventData.delta.x
+            );
+
+        float VerticalMovement =
+            Mathf.Abs(
+                EventData.delta.y
+            );
+
+
+        if (Mathf.Approximately(
+                HorizontalMovement +
+                    VerticalMovement,
+                0f))
+        {
+            return;
+        }
+
+
+        bool CanBeginDeployment =
+            _DragOwner != null &&
+            _Placement != null &&
+            !_Placement.IsPlaced;
+
+        bool IsUpwardDeploymentGesture =
+            CanBeginDeployment &&
+            EventData.delta.y > 0f &&
+            VerticalMovement >
+                HorizontalMovement;
+
+
+        if (IsUpwardDeploymentGesture)
+        {
+            _PointerDragMode =
+                PointerDragMode.Deployment;
+
+
+            _DragOwner.BeginCardDrag(
+                this,
+                EventData
+            );
+
+            return;
+        }
+
+
+        if (_ParentScrollRect == null)
+        {
+            _PointerDragMode =
+                PointerDragMode.None;
+
+            return;
+        }
+
+
+        _PointerDragMode =
+            PointerDragMode.TrayScroll;
+
+
+        _ParentScrollRect.OnBeginDrag(
+            EventData
+        );
+    }
+
+
+    private void OnDisable()
+    {
+        _PointerDragMode =
+            PointerDragMode.None;
     }
 }

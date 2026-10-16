@@ -85,4 +85,5 @@ crashlytics-build.properties
 
 # File Types
 *.xsd
+/Docs
 AGENTS.md

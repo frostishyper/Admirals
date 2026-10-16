@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -625, y: 85}
+  m_AnchoredPosition: {x: -10, y: 85}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5441885917756193838
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ScrollRect
-  m_Content: {fileID: 7571464960283085048}
+  m_Content: {fileID: 7673217267611756839}
   m_Horizontal: 1
   m_Vertical: 0
   m_MovementType: 2
