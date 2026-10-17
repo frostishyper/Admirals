@@ -143,6 +143,96 @@ public sealed class HumanGameplayInput : MonoBehaviour
     }
 
 
+    [ContextMenu("Development/Use First Available Submerge Ability")]
+    private void DevelopmentUseSubmergeAbility()
+    {
+        DevelopmentUseFirstAbility(
+            "ability_submerge"
+        );
+    }
+
+
+    [ContextMenu("Development/Use First Available Surface Ability")]
+    private void DevelopmentUseSurfaceAbility()
+    {
+        DevelopmentUseFirstAbility(
+            "ability_surface"
+        );
+    }
+
+
+    private void DevelopmentUseFirstAbility(
+        string AbilityID
+    )
+    {
+        string ValidationMessage =
+            "Human Gameplay Input is not initialized.";
+
+
+        if (!Initialize() ||
+            !_ParticipantAccess.TryGetSnapshot(
+                out ParticipantGameSnapshot Snapshot,
+                out ValidationMessage))
+        {
+            Debug.LogError(
+                $"Development Ability could not read a snapshot: {ValidationMessage}",
+                this
+            );
+
+            return;
+        }
+
+
+        for (int UnitIndex = 0;
+            UnitIndex < Snapshot.OwnUnits.Length;
+            UnitIndex++)
+        {
+            ParticipantUnitSnapshot Unit =
+                Snapshot.OwnUnits[UnitIndex];
+
+
+            for (int AbilityIndex = 0;
+                AbilityIndex < Unit.Abilities.Length;
+                AbilityIndex++)
+            {
+                ParticipantAbilitySnapshot Ability =
+                    Unit.Abilities[AbilityIndex];
+
+
+                if (!string.Equals(
+                        Ability.DefinitionID,
+                        AbilityID,
+                        StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+
+                if (!_ParticipantAccess.TryUseAbility(
+                        Unit.RuntimeUnitID,
+                        Ability.SlotIndex,
+                        out ValidationMessage))
+                {
+                    Debug.LogError(
+                        $"Development Ability '{AbilityID}' was rejected: " +
+                        ValidationMessage,
+                        this
+                    );
+                }
+
+
+                return;
+            }
+        }
+
+
+        Debug.LogError(
+            $"No owned Unit exposes Ability '{AbilityID}'.",
+            this
+        );
+    }
+
+
     private void SetDevelopmentParticipant(
         RuntimeParticipant Participant)
     {

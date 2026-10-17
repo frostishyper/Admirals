@@ -212,6 +212,40 @@ public sealed class GameParticipantAPI
             return Confirmed;
         }
 
+
+        public bool TryUseAbility(
+            string RuntimeUnitID,
+            int AbilitySlotIndex,
+            out string ValidationMessage
+        )
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+
+                return false;
+            }
+
+
+            bool Used =
+                _API._GameMaster.TryUseAbility(
+                    Participant,
+                    RuntimeUnitID,
+                    AbilitySlotIndex,
+                    out ValidationMessage
+                );
+
+
+            if (Used)
+            {
+                _API.NotifySnapshotsChanged();
+            }
+
+
+            return Used;
+        }
+
     }
 
     private GameMaster _GameMaster;
@@ -295,7 +329,7 @@ public sealed class GameParticipantAPI
         return Access != null;
     }
 
-    private void NotifySnapshotsChanged()
+    internal void NotifySnapshotsChanged()
     {
         _ParticipantAAccess?.NotifySnapshotChanged();
         _ParticipantBAccess?.NotifySnapshotChanged();

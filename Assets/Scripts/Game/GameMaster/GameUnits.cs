@@ -727,11 +727,16 @@ public sealed class RuntimeUnit
         _ActiveModifiers =
             new List<RuntimeModifierState>();
 
-    private readonly HashSet<string>
+    private readonly HashSet<Definition_UnitTag>
         _Tags =
-            new HashSet<string>(
-                StringComparer.Ordinal
-            );
+            new HashSet<Definition_UnitTag>();
+
+
+    public string RuntimeID
+    {
+        get;
+        private set;
+    }
 
 
     public string SourceFleetEntryID
@@ -864,6 +869,10 @@ public sealed class RuntimeUnit
         UnitFacing Facing
     )
     {
+        RuntimeID =
+            Guid.NewGuid().ToString("N");
+
+
         this.SourceFleetEntryID =
             SourceFleetEntryID;
 
@@ -1067,11 +1076,10 @@ public sealed class RuntimeUnit
 
 
     public bool HasTag(
-        string TagID
+        Definition_UnitTag Tag
     )
     {
-        if (string.IsNullOrWhiteSpace(
-                TagID))
+        if (Tag == null)
         {
             return false;
         }
@@ -1079,15 +1087,15 @@ public sealed class RuntimeUnit
 
         return
             _Tags.Contains(
-                TagID
+                Tag
             );
     }
 
 
-    public string[] GetTags()
+    public Definition_UnitTag[] GetTags()
     {
-        string[] Tags =
-            new string[
+        Definition_UnitTag[] Tags =
+            new Definition_UnitTag[
                 _Tags.Count
             ];
 
@@ -1103,11 +1111,10 @@ public sealed class RuntimeUnit
 
 
     internal bool AddTag(
-        string TagID
+        Definition_UnitTag Tag
     )
     {
-        if (string.IsNullOrWhiteSpace(
-                TagID))
+        if (Tag == null)
         {
             return false;
         }
@@ -1115,17 +1122,16 @@ public sealed class RuntimeUnit
 
         return
             _Tags.Add(
-                TagID
+                Tag
             );
     }
 
 
     internal bool RemoveTag(
-        string TagID
+        Definition_UnitTag Tag
     )
     {
-        if (string.IsNullOrWhiteSpace(
-                TagID))
+        if (Tag == null)
         {
             return false;
         }
@@ -1133,7 +1139,7 @@ public sealed class RuntimeUnit
 
         return
             _Tags.Remove(
-                TagID
+                Tag
             );
     }
 
@@ -1699,6 +1705,48 @@ public sealed class ParticipantUnitRoster
             {
                 FleetEntry =
                     Entry;
+
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+
+    public bool TryGetRuntimeUnit(
+        string RuntimeUnitID,
+        out RuntimeUnit RuntimeUnit
+    )
+    {
+        RuntimeUnit =
+            null;
+
+
+        if (string.IsNullOrWhiteSpace(
+                RuntimeUnitID))
+        {
+            return false;
+        }
+
+
+        for (int i = 0;
+            i < _RuntimeUnits.Count;
+            i++)
+        {
+            RuntimeUnit Candidate =
+                _RuntimeUnits[i];
+
+
+            if (Candidate != null &&
+                string.Equals(
+                    Candidate.RuntimeID,
+                    RuntimeUnitID,
+                    StringComparison.Ordinal))
+            {
+                RuntimeUnit =
+                    Candidate;
 
                 return true;
             }

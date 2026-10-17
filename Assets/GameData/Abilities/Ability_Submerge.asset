@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51f32e1d90b713942873f2acdeda0c99, type: 3}
+  m_Name: Ability_Submerge
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_Ability
+  _Name: Submerge
+  _ID: ability_submerge
+  _UsablePhases: 2
+  _CombatRoles: 0
+  _ValidTargets: 1
+  _TargetDomains: 0
+  _Pattern: {fileID: 0}
+  _OutcomeType: 1
+  _UsesD20Roll: 0
+  _AbilityOutcome:
+    _Name: Submerged
+    _Actions:
+    - _Type: 3
+      _Amount: 0
+      _Tag: {fileID: 11400000, guid: c53300cfcc02b0747befdde63656b97a, type: 2}
+      _Status: {fileID: 0}
+      _Modifier:
+        _Type: 0
+        _Value: 0
+        _ApplicablePhases: 0
+      _ModifierDurationMode: 0
+      _ModifierDurationTurns: 0
+  _AbilityD20Outcomes: []
+  _AttackOutcome:
+    _Name: 
+    _Result: 0
+    _Damage: 0
+    _AttackProperties: 
+  _AttackD20Outcomes: []
+  _DefenseOutcome:
+    _Name: 
+    _AttackRollModifier: 0
+    _DamageModifier: 0
+    _NegatesAttack: 0
+    _StripGuaranteedHit: 0
+    _StripBypassDefense: 0
+    _Actions: []
+  _DefenseD20Outcomes: []

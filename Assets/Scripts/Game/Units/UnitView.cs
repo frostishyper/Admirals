@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -7,6 +9,26 @@ using UnityEngine;
 public sealed class UnitView :
     MonoBehaviour
 {
+    [Serializable]
+    private sealed class AnimatorTagBoolBinding
+    {
+        [SerializeField]
+        [ScriptableObjectPicker]
+        private Definition_UnitTag _Tag;
+
+        [AnimatorBoolParameter]
+        [SerializeField]
+        private string _AnimatorBoolParameter;
+
+
+        public Definition_UnitTag Tag =>
+            _Tag;
+
+        public string AnimatorBoolParameter =>
+            _AnimatorBoolParameter;
+    }
+
+
     private const float FacingNorth =
         0f;
 
@@ -28,9 +50,18 @@ public sealed class UnitView :
         UnitFacing.East;
 
 
+    [Header("Runtime Tag Presentation")]
+    [SerializeField]
+    private AnimatorTagBoolBinding[] _AnimatorTagBoolBindings =
+        Array.Empty<AnimatorTagBoolBinding>();
+
+
     private SpriteRenderer _SpriteRenderer;
 
     private Animator _Animator;
+
+    private ParticipantUnitTagSnapshot[] _RuntimeTags =
+        Array.Empty<ParticipantUnitTagSnapshot>();
 
 
     public UnitFacing Facing =>
@@ -46,6 +77,7 @@ public sealed class UnitView :
     private void OnEnable()
     {
         ApplyFacing();
+        ApplyTags();
     }
 
 
@@ -58,6 +90,102 @@ public sealed class UnitView :
 
 
         ApplyFacing();
+    }
+
+
+    public void SetTags(
+        IReadOnlyList<ParticipantUnitTagSnapshot> Tags
+    )
+    {
+        if (Tags == null ||
+            Tags.Count == 0)
+        {
+            _RuntimeTags =
+                Array.Empty<ParticipantUnitTagSnapshot>();
+        }
+        else
+        {
+            _RuntimeTags =
+                new ParticipantUnitTagSnapshot[Tags.Count];
+
+
+            for (int i = 0;
+                i < Tags.Count;
+                i++)
+            {
+                _RuntimeTags[i] =
+                    Tags[i];
+            }
+        }
+
+
+        ApplyTags();
+    }
+
+
+    private void ApplyTags()
+    {
+        if (_Animator == null)
+        {
+            CacheComponents();
+        }
+
+
+        if (_Animator == null ||
+            _AnimatorTagBoolBindings == null)
+        {
+            return;
+        }
+
+
+        for (int BindingIndex = 0;
+            BindingIndex < _AnimatorTagBoolBindings.Length;
+            BindingIndex++)
+        {
+            AnimatorTagBoolBinding Binding =
+                _AnimatorTagBoolBindings[BindingIndex];
+
+
+            if (Binding == null ||
+                Binding.Tag == null ||
+                string.IsNullOrWhiteSpace(
+                    Binding.AnimatorBoolParameter))
+            {
+                continue;
+            }
+
+
+            bool IsPresent =
+                false;
+
+
+            if (_RuntimeTags != null)
+            {
+                for (int TagIndex = 0;
+                    TagIndex < _RuntimeTags.Length;
+                    TagIndex++)
+                {
+                    if (string.Equals(
+                            _RuntimeTags[TagIndex]?.DefinitionID,
+                            Binding.Tag.ID,
+                            StringComparison.Ordinal))
+                    {
+                        IsPresent =
+                            true;
+
+                        break;
+                    }
+                }
+            }
+
+
+            _Animator.SetBool(
+                Animator.StringToHash(
+                    Binding.AnimatorBoolParameter
+                ),
+                IsPresent
+            );
+        }
     }
 
 

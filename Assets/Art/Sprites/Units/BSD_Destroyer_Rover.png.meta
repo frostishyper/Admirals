@@ -181,7 +181,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Destroyer_Side_01
+      name: Rover_Side_01
       rect:
         serializedVersion: 2
         x: 0
@@ -203,7 +203,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Side_02
+      name: Rover_Side_02
       rect:
         serializedVersion: 2
         x: 205
@@ -225,7 +225,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Side_03
+      name: Rover_Side_03
       rect:
         serializedVersion: 2
         x: 410
@@ -247,7 +247,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Side_04
+      name: Rover_Side_04
       rect:
         serializedVersion: 2
         x: 615
@@ -269,7 +269,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Side_05
+      name: Rover_Side_05
       rect:
         serializedVersion: 2
         x: 820
@@ -291,7 +291,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Side_06
+      name: Rover_Side_06
       rect:
         serializedVersion: 2
         x: 1025
@@ -313,7 +313,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Side_07
+      name: Rover_Side_07
       rect:
         serializedVersion: 2
         x: 1230
@@ -335,7 +335,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Down_01
+      name: Rover_Down_01
       rect:
         serializedVersion: 2
         x: 1
@@ -357,7 +357,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Down_02
+      name: Rover_Down_02
       rect:
         serializedVersion: 2
         x: 206
@@ -379,7 +379,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Down_03
+      name: Rover_Down_03
       rect:
         serializedVersion: 2
         x: 411
@@ -401,7 +401,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Down_04
+      name: Rover_Down_04
       rect:
         serializedVersion: 2
         x: 616
@@ -423,7 +423,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Down_05
+      name: Rover_Down_05
       rect:
         serializedVersion: 2
         x: 821
@@ -445,7 +445,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Down_06
+      name: Rover_Down_06
       rect:
         serializedVersion: 2
         x: 1026
@@ -467,7 +467,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Down_07
+      name: Rover_Down_07
       rect:
         serializedVersion: 2
         x: 1231
@@ -489,7 +489,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Up_01
+      name: Rover_Up_01
       rect:
         serializedVersion: 2
         x: 1
@@ -511,11 +511,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Up_02
+      name: Rover_Up_02
       rect:
         serializedVersion: 2
         x: 206
-        y: 3
+        y: 1
         width: 70
         height: 201
       alignment: 0
@@ -533,7 +533,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Up_03
+      name: Rover_Up_03
       rect:
         serializedVersion: 2
         x: 411
@@ -555,7 +555,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Up_04
+      name: Rover_Up_04
       rect:
         serializedVersion: 2
         x: 616
@@ -577,7 +577,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Up_05
+      name: Rover_Up_05
       rect:
         serializedVersion: 2
         x: 821
@@ -599,7 +599,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Up_06
+      name: Rover_Up_06
       rect:
         serializedVersion: 2
         x: 1026
@@ -621,7 +621,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Destroyer_Up_07
+      name: Rover_Up_07
       rect:
         serializedVersion: 2
         x: 1231
@@ -663,27 +663,29 @@ TextureImporter:
       Destroyer_3: 1568569237788930045
       Destroyer_5: 2107199527637638170
       Destroyer_6: -6878836387376231566
-      Destroyer_Down_01: 2021735697380808875
-      Destroyer_Down_02: 6856751382375452902
-      Destroyer_Down_03: 4005996344916473915
-      Destroyer_Down_04: -7382724504868712242
-      Destroyer_Down_05: 6520939174031620088
-      Destroyer_Down_06: 6997752641905893652
-      Destroyer_Down_07: -3380139556632185148
-      Destroyer_Side_01: -6871892450741501236
-      Destroyer_Side_02: -5717335398714070623
-      Destroyer_Side_03: 7393335764238929087
-      Destroyer_Side_04: 8051482032124475110
-      Destroyer_Side_05: 5487961516071800476
-      Destroyer_Side_06: 7643647072846571948
-      Destroyer_Side_07: 1449795950458847769
-      Destroyer_Up_01: 504429978374008723
-      Destroyer_Up_02: -6403589499359077982
-      Destroyer_Up_03: -7103973673424767380
-      Destroyer_Up_04: -3425334514632864118
-      Destroyer_Up_05: -2765202023655071414
-      Destroyer_Up_06: 4572201034508677085
-      Destroyer_Up_07: -3606346312593202603
+      RoverRover_Side_04: 8051482032124475110
+      RoverRoverr_Up_03: -7103973673424767380
+      Rover_Down_01: 2021735697380808875
+      Rover_Down_02: 6856751382375452902
+      Rover_Down_03: 4005996344916473915
+      Rover_Down_04: -7382724504868712242
+      Rover_Down_05: 6520939174031620088
+      Rover_Down_06: 6997752641905893652
+      Rover_Down_07: -3380139556632185148
+      Rover_Side_01: -6871892450741501236
+      Rover_Side_02: -5717335398714070623
+      Rover_Side_03: 7393335764238929087
+      Rover_Side_04: 8051482032124475110
+      Rover_Side_05: 5487961516071800476
+      Rover_Side_06: 7643647072846571948
+      Rover_Side_07: 1449795950458847769
+      Rover_Up_01: 504429978374008723
+      Rover_Up_02: -6403589499359077982
+      Rover_Up_03: -7103973673424767380
+      Rover_Up_04: -3425334514632864118
+      Rover_Up_05: -2765202023655071414
+      Rover_Up_06: 4572201034508677085
+      Rover_Up_07: -3606346312593202603
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

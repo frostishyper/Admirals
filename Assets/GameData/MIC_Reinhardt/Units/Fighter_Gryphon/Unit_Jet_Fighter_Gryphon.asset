@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Unit_Jet_Fighter_Gryphon
   m_EditorClassIdentifier: Assembly-CSharp::Definition_Unit
   _Name: '"Gryphon" Naval Strike Fighter'
-  _ID: unit_rw_fighter_searaider
+  _ID: unit_rw_fighter_gryphon
   _Manufacturer: {fileID: 11400000, guid: dbdf1c8e6e25ca640bf4746c8b3c8e34, type: 2}
   _UnitTypes:
   - {fileID: 11400000, guid: d2180e5b489fa8a4f83e465525fbc0f3, type: 2}

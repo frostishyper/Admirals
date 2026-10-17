@@ -15,13 +15,13 @@ MonoBehaviour:
   _Name: Annihilation Fleet #1
   _ID: fleet_annihilation_1
   _Entries:
-  - _ID: destroyer_1
+  - _ID: destroyer_rover_1
     _Unit: {fileID: 11400000, guid: 4a82b7680e749bb47ab3b7ae7d5481cb, type: 2}
-  - _ID: destroyer_2
+  - _ID: destroyer_rover_2
     _Unit: {fileID: 11400000, guid: 4a82b7680e749bb47ab3b7ae7d5481cb, type: 2}
-  - _ID: fighter_1
+  - _ID: fighter_gryphon_1
     _Unit: {fileID: 11400000, guid: 6798c1dcff1a9f548a1b5067a87809f7, type: 2}
-  - _ID: fighter_2
+  - _ID: fighter_gryphon_2
     _Unit: {fileID: 11400000, guid: 6798c1dcff1a9f548a1b5067a87809f7, type: 2}
-  - _ID: fighter_3
-    _Unit: {fileID: 11400000, guid: 6798c1dcff1a9f548a1b5067a87809f7, type: 2}
+  - _ID: submarine_marlin_1
+    _Unit: {fileID: 11400000, guid: 18ad3b6f5bd027646b1bc1e7a683fdb1, type: 2}

@@ -149,8 +149,32 @@ public sealed class ParticipantModifierSnapshot
 }
 
 
+public sealed class ParticipantUnitTagSnapshot
+{
+    public string DefinitionID { get; }
+    public string Name { get; }
+
+
+    internal ParticipantUnitTagSnapshot(
+        Definition_UnitTag Tag
+    )
+    {
+        DefinitionID =
+            Tag != null
+                ? Tag.ID
+                : string.Empty;
+
+        Name =
+            Tag != null
+                ? Tag.Name
+                : string.Empty;
+    }
+}
+
+
 public sealed class ParticipantUnitSnapshot
 {
+    public string RuntimeUnitID { get; }
     public string FleetEntryID { get; }
     public string InstanceName { get; }
     public string DefinitionID { get; }
@@ -167,12 +191,13 @@ public sealed class ParticipantUnitSnapshot
     public ParticipantAbilitySnapshot[] Abilities { get; }
     public ParticipantStatusSnapshot[] Statuses { get; }
     public ParticipantModifierSnapshot[] Modifiers { get; }
-    public string[] Tags { get; }
+    public ParticipantUnitTagSnapshot[] Tags { get; }
 
     internal ParticipantUnitSnapshot(
         RuntimeUnit Unit,
         Vector2Int[] Coordinates)
     {
+        RuntimeUnitID = Unit.RuntimeID;
         FleetEntryID = Unit.SourceFleetEntryID;
         InstanceName = Unit.InstanceName;
         DefinitionID = Unit.Definition != null ? Unit.Definition.ID : string.Empty;
@@ -205,7 +230,23 @@ public sealed class ParticipantUnitSnapshot
         for (int i = 0; i < Modifiers.Length; i++)
             Modifiers[i] = new ParticipantModifierSnapshot(Unit.ActiveModifiers[i]);
 
-        Tags = Unit.GetTags();
+        Definition_UnitTag[] RuntimeTags =
+            Unit.GetTags();
+
+        Tags =
+            new ParticipantUnitTagSnapshot[
+                RuntimeTags.Length
+            ];
+
+        for (int i = 0;
+            i < Tags.Length;
+            i++)
+        {
+            Tags[i] =
+                new ParticipantUnitTagSnapshot(
+                    RuntimeTags[i]
+                );
+        }
     }
 }
 

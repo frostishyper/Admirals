@@ -36,6 +36,8 @@ public class GameMaster :
 
     private GameUnits _GameUnits;
 
+    private GameUnitEffects _GameUnitEffects;
+
     private GameDeployment _GameDeployment;
 
     private GameKnowledge _GameKnowledge;
@@ -180,6 +182,7 @@ public class GameMaster :
         if (!InitializeParticipants() ||
             !InitializeMap() ||
             !InitializeUnitState() ||
+            !InitializeUnitEffects() ||
             !InitializeDeploymentState() ||
             !InitializeKnowledgeState() ||
             !InitializeParticipantAPI())
@@ -567,6 +570,157 @@ public class GameMaster :
     }
 
 
+    // Shared human/AI Ability input. The participant-bound API supplies the
+    // caller identity; controllers submit only plain gameplay data.
+    internal bool TryUseAbility(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        int AbilitySlotIndex,
+        out string ValidationMessage
+    )
+    {
+        if (!_InitializationComplete ||
+            !_MatchStarted)
+        {
+            ValidationMessage =
+                "The Match is not accepting Ability input.";
+
+            return false;
+        }
+
+
+        if (!_GameUnits.TryGetRoster(
+                Participant,
+                out ParticipantUnitRoster Roster) ||
+            !Roster.TryGetRuntimeUnit(
+                RuntimeUnitID,
+                out RuntimeUnit Unit))
+        {
+            ValidationMessage =
+                "The requested Unit does not belong to this participant.";
+
+            return false;
+        }
+
+
+        if (!Unit.IsActive ||
+            !_GameMap.IsUnitOnMap(
+                Unit))
+        {
+            ValidationMessage =
+                "The requested Unit is not active on the Map.";
+
+            return false;
+        }
+
+
+        if (AbilitySlotIndex < 0 ||
+            AbilitySlotIndex >=
+                Unit.Abilities.Length)
+        {
+            ValidationMessage =
+                "The requested Ability slot does not exist.";
+
+            return false;
+        }
+
+
+        RuntimeAbilityState RuntimeAbility =
+            Unit.Abilities[AbilitySlotIndex];
+
+        Definition_Ability Ability =
+            RuntimeAbility != null
+                ? RuntimeAbility.Ability
+                : null;
+
+
+        if (Ability == null)
+        {
+            ValidationMessage =
+                "The requested Ability slot is empty.";
+
+            return false;
+        }
+
+
+        if (!Ability.Validate(
+                out string AbilityMessage))
+        {
+            ValidationMessage =
+                $"Ability '{Ability.name}' is invalid: {AbilityMessage}";
+
+            return false;
+        }
+
+
+        if ((Ability.UsablePhases &
+                _CurrentPhase) == 0)
+        {
+            ValidationMessage =
+                $"Ability '{Ability.Name}' cannot be used during {_CurrentPhase}.";
+
+            return false;
+        }
+
+
+        if ((Ability.ValidTargets &
+                GameplayTarget.Self) == 0)
+        {
+            ValidationMessage =
+                $"Ability '{Ability.Name}' is not a self-targeted Ability.";
+
+            return false;
+        }
+
+
+        if (Ability.OutcomeType !=
+                AbilityOutcomeType.Actions ||
+            Ability.UsesD20Roll ||
+            Ability.AbilityOutcome == null)
+        {
+            ValidationMessage =
+                "The requested Ability is not a deterministic Action Ability.";
+
+            return false;
+        }
+
+
+        if (!_GameUnitEffects.TryApplyTagActions(
+                Unit,
+                Ability.AbilityOutcome.Actions,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        if (!_GameKnowledge.Refresh(
+                _CurrentPhase,
+                out string KnowledgeMessage))
+        {
+            Debug.LogError(
+                $"GameKnowledge refresh failed after Ability '{Ability.Name}': " +
+                KnowledgeMessage,
+                this
+            );
+        }
+
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' used " +
+            $"'{Ability.Name}' on '{Unit.InstanceName}'. " +
+            $"Domain is now {Unit.CurrentDomain}.",
+            this
+        );
+
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
+    }
+
+
     private bool CanAcceptDeploymentInput(
         RuntimeParticipant Participant,
         out string ValidationMessage
@@ -797,6 +951,32 @@ public class GameMaster :
     }
 
 
+    private bool InitializeUnitEffects()
+    {
+        _GameUnitEffects =
+            new GameUnitEffects();
+
+
+        if (!_GameUnitEffects.Initialize(
+                _GameMap,
+                out string ValidationMessage))
+        {
+            _GameUnitEffects =
+                null;
+
+
+            FailInitialization(
+                $"Unit Effects initialization failed: {ValidationMessage}"
+            );
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
     private bool InitializeDeploymentState()
     {
         _GameDeployment =
@@ -988,6 +1168,9 @@ public class GameMaster :
 
 
         _GameDeployment =
+            null;
+
+        _GameUnitEffects =
             null;
 
         _GameKnowledge =

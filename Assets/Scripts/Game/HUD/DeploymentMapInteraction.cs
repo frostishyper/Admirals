@@ -529,6 +529,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
         PositionView(
             _DraggedView,
+            _DraggedPlacement.Unit,
             _DragCandidateMovementPivotCoordinate,
             _DragFacing
         );
@@ -925,6 +926,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
         PositionView(
             _DraggedView,
+            _DraggedPlacement.Unit,
             _OriginalMovementPivotCoordinate,
             _OriginalFacing
         );
@@ -966,6 +968,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         {
             PositionView(
                 _DraggedView,
+                _DraggedPlacement.Unit,
                 _OriginalMovementPivotCoordinate,
                 _OriginalFacing
             );
@@ -986,6 +989,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
             PositionView(
                 _DraggedView,
+                _DraggedPlacement.Unit,
                 _DragCandidateMovementPivotCoordinate,
                 _DragFacing
             );
@@ -1318,6 +1322,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
             {
                 PositionView(
                     ExistingView,
+                    Placement.Unit,
                     Placement.MovementPivotCoordinate,
                     Placement.Facing
                 );
@@ -1340,6 +1345,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
             PositionView(
                 NewView,
+                Placement.Unit,
                 Placement.MovementPivotCoordinate,
                 Placement.Facing
             );
@@ -1411,6 +1417,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
     private void PositionView(
         UnitView View,
+        Definition_Unit Unit,
         Vector2Int MovementPivotCoordinate,
         UnitFacing Facing
     )
@@ -1422,10 +1429,34 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         }
 
 
-        View.transform.position =
+        Vector3 WorldPosition =
             _GameMaster.GameMap.CoordinateToWorldCenter(
                 MovementPivotCoordinate
             );
+
+
+        if (UnitFootprintGeometry.TryGetVisualCenterOffset(
+                Unit,
+                Facing,
+                out Vector2 VisualCenterOffset,
+                out string ValidationMessage))
+        {
+            WorldPosition +=
+                _GameMaster.GameMap.CoordinateOffsetToWorld(
+                    VisualCenterOffset
+                );
+        }
+        else
+        {
+            Debug.LogError(
+                $"Could not position Unit presentation: {ValidationMessage}",
+                View
+            );
+        }
+
+
+        View.transform.position =
+            WorldPosition;
 
         View.SetFacing(
             Facing
@@ -1514,6 +1545,9 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         }
 
 
+        SynchronizeCommittedViewStates();
+
+
         _GameplayHUD.SetDeploymentControlsAvailable(
             false,
             false,
@@ -1522,6 +1556,48 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
 
         _GameplayHUD.ShowMovementPhase();
+    }
+
+
+    private void SynchronizeCommittedViewStates()
+    {
+        if (_ParticipantAccess == null ||
+            !_ParticipantAccess.TryGetSnapshot(
+                out ParticipantGameSnapshot Snapshot,
+                out _))
+        {
+            return;
+        }
+
+
+        for (int i = 0;
+            i < Snapshot.OwnUnits.Length;
+            i++)
+        {
+            ParticipantUnitSnapshot Unit =
+                Snapshot.OwnUnits[i];
+
+
+            if (Unit == null ||
+                string.IsNullOrWhiteSpace(
+                    Unit.FleetEntryID) ||
+                !_TentativeViews.TryGetValue(
+                    Unit.FleetEntryID,
+                    out UnitView View) ||
+                View == null)
+            {
+                continue;
+            }
+
+
+            View.SetFacing(
+                Unit.Facing
+            );
+
+            View.SetTags(
+                Unit.Tags
+            );
+        }
     }
 
 
@@ -1552,6 +1628,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
             PositionView(
                 View,
+                Placement.Unit,
                 Placement.MovementPivotCoordinate,
                 Placement.Facing
             );
@@ -1747,6 +1824,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         {
             PositionView(
                 _DraggedView,
+                _DraggedPlacement.Unit,
                 _OriginalMovementPivotCoordinate,
                 _OriginalFacing
             );

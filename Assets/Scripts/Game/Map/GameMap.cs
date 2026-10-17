@@ -767,6 +767,47 @@ public class GameMap :
     }
 
 
+    // Converts a possibly fractional board-cell offset to its world-space
+    // equivalent using the authored Grid transform and cell geometry.
+    public Vector3 CoordinateOffsetToWorld(
+        Vector2 CoordinateOffset
+    )
+    {
+        if (_AuthoringMap == null ||
+            _AuthoringMap.GridReference == null)
+        {
+            return
+                Vector3.zero;
+        }
+
+
+        Grid GridReference =
+            _AuthoringMap.GridReference;
+
+        Vector3 Origin =
+            GridReference.CellToWorld(
+                Vector3Int.zero
+            );
+
+        Vector3 XAxis =
+            GridReference.CellToWorld(
+                Vector3Int.right
+            ) -
+            Origin;
+
+        Vector3 YAxis =
+            GridReference.CellToWorld(
+                Vector3Int.up
+            ) -
+            Origin;
+
+
+        return
+            (XAxis * CoordinateOffset.x) +
+            (YAxis * CoordinateOffset.y);
+    }
+
+
     // Checks the complete requested Unit footprint without modifying the board.
     //
     // RequiredAuthoredCondition is used for board rules such as Deployment.
@@ -1637,6 +1678,93 @@ public class GameMap :
             _UnitCoordinates.ContainsKey(
                 Unit
             );
+    }
+
+
+    // Validates a Domain change against the Unit's current occupied
+    // footprint without changing Unit or Map state.
+    public bool ValidateUnitDomainChange(
+        RuntimeUnit Unit,
+        Domain RequestedDomain,
+        out string ValidationMessage
+    )
+    {
+        if (!_Initialized)
+        {
+            ValidationMessage =
+                "GameMap has not been initialized.";
+
+            return false;
+        }
+
+
+        if (Unit == null)
+        {
+            ValidationMessage =
+                "Runtime Unit is missing.";
+
+            return false;
+        }
+
+
+        if (RequestedDomain != Domain.Air &&
+            RequestedDomain != Domain.Surface &&
+            RequestedDomain != Domain.Subsurface)
+        {
+            ValidationMessage =
+                $"Requested Domain '{RequestedDomain}' is not a physical Unit Domain.";
+
+            return false;
+        }
+
+
+        if (!_UnitCoordinates.TryGetValue(
+                Unit,
+                out List<Vector2Int> Coordinates))
+        {
+            ValidationMessage =
+                $"Unit '{Unit.InstanceName}' is not currently on the Map.";
+
+            return false;
+        }
+
+
+        for (int i = 0;
+            i < Coordinates.Count;
+            i++)
+        {
+            Vector2Int Coordinate =
+                Coordinates[i];
+
+
+            if (!TryGetTile(
+                    Coordinate,
+                    out RuntimeMapTile Tile))
+            {
+                ValidationMessage =
+                    $"Unit '{Unit.InstanceName}' occupies missing Tile {Coordinate}.";
+
+                return false;
+            }
+
+
+            if (!TerrainAllowsDomain(
+                    Tile.Terrain,
+                    RequestedDomain))
+            {
+                ValidationMessage =
+                    $"Unit '{Unit.InstanceName}' cannot change to " +
+                    $"{RequestedDomain} while occupying Tile {Coordinate}.";
+
+                return false;
+            }
+        }
+
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
     }
 
 

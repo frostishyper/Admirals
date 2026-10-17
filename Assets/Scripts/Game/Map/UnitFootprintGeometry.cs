@@ -10,6 +10,60 @@ using UnityEngine;
 // are physically legal.
 public static class UnitFootprintGeometry
 {
+    // Returns the visual center of the complete footprint relative to its
+    // MovementPivot. The result is expressed in board-cell coordinates so
+    // presentation can place centered-pivot art without changing gameplay
+    // coordinates or requiring per-facing sprite pivots.
+    public static bool TryGetVisualCenterOffset(
+        Definition_Unit Unit,
+        UnitFacing Facing,
+        out Vector2 VisualCenterOffset,
+        out string ValidationMessage
+    )
+    {
+        VisualCenterOffset =
+            Vector2.zero;
+
+
+        if (!TryValidateUnitGeometry(
+                Unit,
+                Facing,
+                out Vector2Int FootprintSize,
+                out Vector2Int LocalPivot,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        Vector2 EastCanonicalCenterOffset =
+            new Vector2(
+                ((FootprintSize.x - 1) * 0.5f) -
+                    LocalPivot.x,
+                ((FootprintSize.y - 1) * 0.5f) -
+                    LocalPivot.y
+            );
+
+
+        if (!TryRotateEastCanonicalOffset(
+                EastCanonicalCenterOffset,
+                Facing,
+                out VisualCenterOffset))
+        {
+            ValidationMessage =
+                $"Facing '{Facing}' is invalid.";
+
+            return false;
+        }
+
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
+    }
+
+
     public static bool TryBuildPlacement(
         Definition_Unit Unit,
         Vector2Int MovementPivotCoordinate,
@@ -22,42 +76,13 @@ public static class UnitFootprintGeometry
             Array.Empty<RuntimeUnitTilePlacement>();
 
 
-        if (Unit == null)
+        if (!TryValidateUnitGeometry(
+                Unit,
+                Facing,
+                out Vector2Int FootprintSize,
+                out Vector2Int LocalPivot,
+                out ValidationMessage))
         {
-            ValidationMessage =
-                "Unit Definition is missing.";
-
-            return false;
-        }
-
-
-        if (!IsValidFacing(
-                Facing))
-        {
-            ValidationMessage =
-                $"Facing '{Facing}' is invalid.";
-
-            return false;
-        }
-
-
-        Vector2Int FootprintSize =
-            Unit.FootprintSize;
-
-        Vector2Int LocalPivot =
-            Unit.MovementPivot;
-
-
-        if (FootprintSize.x < 1 ||
-            FootprintSize.y < 1 ||
-            LocalPivot.x < 0 ||
-            LocalPivot.y < 0 ||
-            LocalPivot.x >= FootprintSize.x ||
-            LocalPivot.y >= FootprintSize.y)
-        {
-            ValidationMessage =
-                $"Unit '{Unit.Name}' has invalid Footprint or MovementPivot data.";
-
             return false;
         }
 
@@ -183,6 +208,127 @@ public static class UnitFootprintGeometry
 
                 return false;
         }
+    }
+
+
+    public static bool TryRotateEastCanonicalOffset(
+        Vector2 Offset,
+        UnitFacing Facing,
+        out Vector2 RotatedOffset
+    )
+    {
+        switch (Facing)
+        {
+            case UnitFacing.North:
+
+                RotatedOffset =
+                    new Vector2(
+                        -Offset.y,
+                        Offset.x
+                    );
+
+                return true;
+
+
+            case UnitFacing.East:
+
+                RotatedOffset =
+                    Offset;
+
+                return true;
+
+
+            case UnitFacing.South:
+
+                RotatedOffset =
+                    new Vector2(
+                        Offset.y,
+                        -Offset.x
+                    );
+
+                return true;
+
+
+            case UnitFacing.West:
+
+                RotatedOffset =
+                    new Vector2(
+                        -Offset.x,
+                        -Offset.y
+                    );
+
+                return true;
+
+
+            default:
+
+                RotatedOffset =
+                    default;
+
+                return false;
+        }
+    }
+
+
+    private static bool TryValidateUnitGeometry(
+        Definition_Unit Unit,
+        UnitFacing Facing,
+        out Vector2Int FootprintSize,
+        out Vector2Int LocalPivot,
+        out string ValidationMessage
+    )
+    {
+        FootprintSize =
+            default;
+
+        LocalPivot =
+            default;
+
+
+        if (Unit == null)
+        {
+            ValidationMessage =
+                "Unit Definition is missing.";
+
+            return false;
+        }
+
+
+        if (!IsValidFacing(
+                Facing))
+        {
+            ValidationMessage =
+                $"Facing '{Facing}' is invalid.";
+
+            return false;
+        }
+
+
+        FootprintSize =
+            Unit.FootprintSize;
+
+        LocalPivot =
+            Unit.MovementPivot;
+
+
+        if (FootprintSize.x < 1 ||
+            FootprintSize.y < 1 ||
+            LocalPivot.x < 0 ||
+            LocalPivot.y < 0 ||
+            LocalPivot.x >= FootprintSize.x ||
+            LocalPivot.y >= FootprintSize.y)
+        {
+            ValidationMessage =
+                $"Unit '{Unit.Name}' has invalid Footprint or MovementPivot data.";
+
+            return false;
+        }
+
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
     }
 
 

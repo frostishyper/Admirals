@@ -216,6 +216,8 @@ public class Definition_Ability :
 
     public bool UsesD20Roll => _UsesD20Roll;
 
+    public AbilityOutcome AbilityOutcome => _AbilityOutcome;
+
 
     public bool Validate(
         out string ValidationMessage

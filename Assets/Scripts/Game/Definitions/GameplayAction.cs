@@ -17,8 +17,9 @@ public class GameplayAction
 
 
     [Header("Tag")]
+    [ScriptableObjectPicker]
     [SerializeField]
-    private string _TagID;
+    private Definition_UnitTag _Tag;
 
 
     [Header("Status")]
@@ -56,11 +57,11 @@ public class GameplayAction
     }
 
 
-    public string TagID
+    public Definition_UnitTag Tag
     {
         get
         {
-            return _TagID;
+            return _Tag;
         }
     }
 
@@ -119,11 +120,20 @@ public class GameplayAction
             case GameplayActionType.AddTag:
             case GameplayActionType.RemoveTag:
 
-                if (string.IsNullOrWhiteSpace(
-                        _TagID))
+                if (_Tag == null)
                 {
                     ValidationMessage =
-                        $"Gameplay Action '{_Type}' has no Tag ID.";
+                        $"Gameplay Action '{_Type}' has no Unit Tag.";
+
+                    return false;
+                }
+
+
+                if (!_Tag.Validate(
+                        out string TagMessage))
+                {
+                    ValidationMessage =
+                        $"Gameplay Action '{_Type}' has an invalid Unit Tag: {TagMessage}";
 
                     return false;
                 }
