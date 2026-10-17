@@ -68,6 +68,24 @@ public sealed class UnitView :
         _Facing;
 
 
+    public void SetColor(
+        Color Color
+    )
+    {
+        if (_SpriteRenderer == null)
+        {
+            CacheComponents();
+        }
+
+
+        if (_SpriteRenderer != null)
+        {
+            _SpriteRenderer.color =
+                Color;
+        }
+    }
+
+
     private void Awake()
     {
         CacheComponents();

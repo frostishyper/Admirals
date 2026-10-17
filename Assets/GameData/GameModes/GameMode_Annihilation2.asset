@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb520ff1444df2442a12ebc804188f9b, type: 3}
-  m_Name: GameMode_Annihilation
+  m_Name: GameMode_Annihilation2
   m_EditorClassIdentifier: Assembly-CSharp::Definition_GameMode
-  _Name: Annihilation
+  _Name: Annihilation 2
   _ID: gamemode_annihilation
   _FleetSource: 1
   _SideA:
@@ -21,6 +21,9 @@ MonoBehaviour:
   _SideB:
     _ProvidedFleet: {fileID: 11400000, guid: 953d0ec6e2c5bfa4dadc218bea46e39b, type: 2}
     _AdmiralEntryID: 
+  _PhaseTimers:
+  - _Phase: 2
+    _Seconds: 60
   _VictoryGroups: []
   _DefeatGroups:
   - _Name: Annihilated

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -6,11 +7,76 @@ using UnityEngine;
 // Owns no gameplay truth; GameMaster remains authoritative.
 public sealed class GameParticipantAPI
 {
+    public sealed class MovementPresentationSegment
+    {
+        public GameMovement.RouteStep[] Steps { get; }
+
+
+        internal MovementPresentationSegment(
+            GameMovement.RouteStep[] Steps)
+        {
+            this.Steps =
+                Steps ??
+                Array.Empty<GameMovement.RouteStep>();
+        }
+    }
+
+
+    public sealed class MovementPresentation
+    {
+        public bool IsOwnUnit { get; }
+        public string RuntimeUnitID { get; }
+        public string DefinitionID { get; }
+        public string InstanceName { get; }
+        public ParticipantUnitTagSnapshot[] Tags { get; }
+        public bool RemainsVisible { get; }
+        public MovementPresentationSegment[] Segments { get; }
+
+
+        internal MovementPresentation(
+            bool IsOwnUnit,
+            string RuntimeUnitID,
+            string DefinitionID,
+            string InstanceName,
+            ParticipantUnitTagSnapshot[] Tags,
+            bool RemainsVisible,
+            MovementPresentationSegment[] Segments)
+        {
+            this.IsOwnUnit =
+                IsOwnUnit;
+
+            this.RuntimeUnitID =
+                RuntimeUnitID ??
+                string.Empty;
+
+            this.DefinitionID =
+                DefinitionID ??
+                string.Empty;
+
+            this.InstanceName =
+                InstanceName ??
+                string.Empty;
+
+            this.Tags =
+                Tags ??
+                Array.Empty<ParticipantUnitTagSnapshot>();
+
+            this.RemainsVisible =
+                RemainsVisible;
+
+            this.Segments =
+                Segments ??
+                Array.Empty<MovementPresentationSegment>();
+        }
+    }
+
+
     public sealed class ParticipantAccess
     {
         private readonly GameParticipantAPI _API;
 
         public event Action SnapshotChanged;
+        public event Action<MovementPresentation> MovementPresented;
 
         public RuntimeParticipant Participant { get; }
 
@@ -30,6 +96,18 @@ public sealed class GameParticipantAPI
         internal void NotifySnapshotChanged()
         {
             SnapshotChanged?.Invoke();
+        }
+
+
+        internal void NotifyMovementPresented(
+            MovementPresentation Presentation)
+        {
+            if (Presentation != null)
+            {
+                MovementPresented?.Invoke(
+                    Presentation
+                );
+            }
         }
 
         public bool TryGetSnapshot(
@@ -246,6 +324,164 @@ public sealed class GameParticipantAPI
             return Used;
         }
 
+
+        public bool TryGetMovementView(
+            out GameMovement.ParticipantView View
+        )
+        {
+            View = null;
+
+
+            if (!_API.IsInitialized)
+            {
+                return false;
+            }
+
+
+            return
+                _API._GameMaster.TryGetMovementView(
+                    Participant,
+                    out View
+                );
+        }
+
+
+        public bool ValidateMovement(
+            string RuntimeUnitID,
+            Vector2Int DestinationMovementPivotCoordinate,
+            UnitFacing DestinationFacing,
+            out GameMovement.MovementPlan Plan,
+            out string ValidationMessage
+        )
+        {
+            Plan = null;
+
+
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+
+                return false;
+            }
+
+
+            return
+                _API._GameMaster.ValidateMovement(
+                    Participant,
+                    RuntimeUnitID,
+                    DestinationMovementPivotCoordinate,
+                    DestinationFacing,
+                    out Plan,
+                    out ValidationMessage
+                );
+        }
+
+
+        public bool TryGetMovementArea(
+            string RuntimeUnitID,
+            out Vector2Int[] MovementArea,
+            out string ValidationMessage
+        )
+        {
+            MovementArea =
+                Array.Empty<Vector2Int>();
+
+
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+
+                return false;
+            }
+
+
+            return
+                _API._GameMaster.TryGetMovementArea(
+                    Participant,
+                    RuntimeUnitID,
+                    out MovementArea,
+                    out ValidationMessage
+                );
+        }
+
+
+        public bool TryCommitMovement(
+            string RuntimeUnitID,
+            Vector2Int DestinationMovementPivotCoordinate,
+            UnitFacing DestinationFacing,
+            out GameMovement.CommitResult Result,
+            out string ValidationMessage
+        )
+        {
+            Result = null;
+
+
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+
+                return false;
+            }
+
+
+            bool Committed =
+                _API._GameMaster.TryCommitMovement(
+                    Participant,
+                    RuntimeUnitID,
+                    DestinationMovementPivotCoordinate,
+                    DestinationFacing,
+                    out Result,
+                    out ValidationMessage
+                );
+
+
+            if (Committed)
+            {
+                _API.NotifyMovementPresented(
+                    Participant,
+                    Result
+                );
+
+                _API.NotifySnapshotsChanged();
+            }
+
+
+            return Committed;
+        }
+
+
+        public bool TryEndMovement(
+            out string ValidationMessage
+        )
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+
+                return false;
+            }
+
+
+            bool Ended =
+                _API._GameMaster.TryEndMovement(
+                    Participant,
+                    out ValidationMessage
+                );
+
+
+            if (Ended)
+            {
+                _API.NotifySnapshotsChanged();
+            }
+
+
+            return Ended;
+        }
+
     }
 
     private GameMaster _GameMaster;
@@ -333,6 +569,139 @@ public sealed class GameParticipantAPI
     {
         _ParticipantAAccess?.NotifySnapshotChanged();
         _ParticipantBAccess?.NotifySnapshotChanged();
+    }
+
+
+    private void NotifyMovementPresented(
+        RuntimeParticipant ActingParticipant,
+        GameMovement.CommitResult Result)
+    {
+        NotifyMovementPresented(
+            _ParticipantAAccess,
+            ActingParticipant,
+            Result,
+            Result?.ParticipantAVisibility
+        );
+
+        NotifyMovementPresented(
+            _ParticipantBAccess,
+            ActingParticipant,
+            Result,
+            Result?.ParticipantBVisibility
+        );
+    }
+
+
+    private static void NotifyMovementPresented(
+        ParticipantAccess Access,
+        RuntimeParticipant ActingParticipant,
+        GameMovement.CommitResult Result,
+        bool[] Visibility)
+    {
+        if (Access == null ||
+            Result == null ||
+            Result.TraveledRoute == null ||
+            Result.TraveledRoute.Length == 0)
+        {
+            return;
+        }
+
+
+        bool IsOwnUnit =
+            ReferenceEquals(
+                Access.Participant,
+                ActingParticipant
+            );
+
+        List<MovementPresentationSegment> Segments =
+            new List<MovementPresentationSegment>();
+
+
+        if (IsOwnUnit)
+        {
+            Segments.Add(
+                new MovementPresentationSegment(
+                    Result.TraveledRoute
+                )
+            );
+        }
+        else
+        {
+            List<GameMovement.RouteStep> VisibleSteps =
+                null;
+
+
+            for (int i = 0; i < Result.TraveledRoute.Length; i++)
+            {
+                bool IsVisible =
+                    Visibility != null &&
+                    i < Visibility.Length &&
+                    Visibility[i];
+
+
+                if (IsVisible)
+                {
+                    if (VisibleSteps == null)
+                    {
+                        VisibleSteps =
+                            new List<GameMovement.RouteStep>();
+                    }
+
+
+                    VisibleSteps.Add(
+                        Result.TraveledRoute[i]
+                    );
+                }
+                else if (VisibleSteps != null)
+                {
+                    Segments.Add(
+                        new MovementPresentationSegment(
+                            VisibleSteps.ToArray()
+                        )
+                    );
+
+                    VisibleSteps =
+                        null;
+                }
+            }
+
+
+            if (VisibleSteps != null)
+            {
+                Segments.Add(
+                    new MovementPresentationSegment(
+                        VisibleSteps.ToArray()
+                    )
+                );
+            }
+        }
+
+
+        if (Segments.Count == 0)
+        {
+            return;
+        }
+
+
+        bool RemainsVisible =
+            IsOwnUnit ||
+            (Visibility != null &&
+                Visibility.Length > 0 &&
+                Visibility[Visibility.Length - 1]);
+
+        Access.NotifyMovementPresented(
+            new MovementPresentation(
+                IsOwnUnit,
+                IsOwnUnit
+                    ? Result.RuntimeUnitID
+                    : string.Empty,
+                Result.DefinitionID,
+                Result.InstanceName,
+                Result.Tags,
+                RemainsVisible,
+                Segments.ToArray()
+            )
+        );
     }
 
     private static bool IsLocalPlayer(RuntimeParticipant Participant)

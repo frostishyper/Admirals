@@ -1533,11 +1533,22 @@ public class MapMakerEditor :
         );
 
 
+        SortingGroup UnitsSortingGroup =
+            UnitsObject.AddComponent<SortingGroup>();
+
+
+        UnitsSortingGroup.sortingLayerName =
+            "Default";
+
+        UnitsSortingGroup.sortingOrder =
+            50;
+
+
         Tilemap TileMarkers =
             CreateTilemapLayer(
                 GridObject.transform,
                 "Tile_Markers",
-                30
+                60
             );
 
 
@@ -1553,7 +1564,7 @@ public class MapMakerEditor :
             CreateTilemapLayer(
                 GridObject.transform,
                 "VFX",
-                50
+                70
             );
 
 
@@ -1674,6 +1685,9 @@ public class MapMakerEditor :
         TilemapRenderer Renderer =
             LayerObject.AddComponent<TilemapRenderer>();
 
+
+        Renderer.sortingLayerName =
+            "Default";
 
         Renderer.sortingOrder =
             SortingOrder;

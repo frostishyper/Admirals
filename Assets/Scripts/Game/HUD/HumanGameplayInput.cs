@@ -138,8 +138,258 @@ public sealed class HumanGameplayInput : MonoBehaviour
             $"Phase {Snapshot.CurrentPhase}, Turn {Snapshot.TurnNumber}, " +
             $"Own Units {Snapshot.OwnUnits.Length}, " +
             $"Visible Enemies {Snapshot.VisibleEnemies.Length}, " +
+            $"Movement {Snapshot.Movement?.MovesCommitted ?? 0}/" +
+            $"{Snapshot.Movement?.MovementLimit ?? 0}, " +
+            $"Movement Ended {Snapshot.Movement?.MovementEnded ?? false}, " +
+            $"Can Act {Snapshot.Movement?.CanAct ?? false}, " +
+            $"Time {(Snapshot.Movement?.SecondsRemaining ?? 0f):0.0}s, " +
             $"Tiles Absolute {Absolute}, Obscured {Obscured}, Fog {Fog}.",
             this);
+    }
+
+
+    [ContextMenu("Development/Movement/Commit First Available Unit Furthest Forward")]
+    private void DevelopmentCommitFirstAvailableUnitFurthestForward()
+    {
+        string ValidationMessage =
+            "Human Gameplay Input is not initialized.";
+
+
+        if (!Initialize() ||
+            !_ParticipantAccess.TryGetSnapshot(
+                out ParticipantGameSnapshot Snapshot,
+                out ValidationMessage))
+        {
+            Debug.LogError(
+                $"Development Movement could not read a snapshot: {ValidationMessage}",
+                this
+            );
+
+            return;
+        }
+
+
+        if (Snapshot.Movement == null ||
+            !Snapshot.Movement.CanAct)
+        {
+            Debug.LogError(
+                "Development Movement was rejected because this participant is waiting for Movement priority.",
+                this
+            );
+
+            return;
+        }
+
+
+        for (int i = 0;
+            i < Snapshot.OwnUnits.Length;
+            i++)
+        {
+            ParticipantUnitSnapshot Unit =
+                Snapshot.OwnUnits[i];
+
+
+            if (Unit == null ||
+                Unit.LifeState != RuntimeUnitLifeState.Active ||
+                !Unit.IsOnMap ||
+                HasMoved(
+                    Snapshot.Movement,
+                    Unit.RuntimeUnitID))
+            {
+                continue;
+            }
+
+
+            Vector2Int Forward =
+                FacingDirection(
+                    Unit.Facing
+                );
+
+            Vector2Int Sideways =
+                new Vector2Int(
+                    -Forward.y,
+                    Forward.x
+                );
+
+            Vector2Int Destination =
+                default;
+
+            int BestForwardDistance =
+                0;
+
+            int BestSidewaysDistance =
+                int.MaxValue;
+
+            bool FoundDestination =
+                false;
+
+
+            for (int TileIndex = 0;
+                TileIndex < Snapshot.Tiles.Length;
+                TileIndex++)
+            {
+                Vector2Int Candidate =
+                    Snapshot.Tiles[TileIndex].Coordinate;
+
+                Vector2Int Delta =
+                    Candidate -
+                    Unit.MovementPivotCoordinate;
+
+                int ForwardDistance =
+                    Delta.x * Forward.x +
+                    Delta.y * Forward.y;
+
+
+                if (ForwardDistance <= 0)
+                {
+                    continue;
+                }
+
+
+                int SidewaysDistance =
+                    Mathf.Abs(
+                        Delta.x * Sideways.x +
+                        Delta.y * Sideways.y
+                    );
+
+
+                if ((ForwardDistance < BestForwardDistance) ||
+                    (ForwardDistance == BestForwardDistance &&
+                     SidewaysDistance >= BestSidewaysDistance) ||
+                    !_ParticipantAccess.ValidateMovement(
+                        Unit.RuntimeUnitID,
+                        Candidate,
+                        Unit.Facing,
+                        out GameMovement.MovementPlan Plan,
+                        out ValidationMessage) ||
+                    !Plan.WouldConsumeMove)
+                {
+                    continue;
+                }
+
+
+                Destination = Candidate;
+                BestForwardDistance = ForwardDistance;
+                BestSidewaysDistance = SidewaysDistance;
+                FoundDestination = true;
+            }
+
+
+            if (!FoundDestination)
+            {
+                continue;
+            }
+
+
+            if (!_ParticipantAccess.TryCommitMovement(
+                    Unit.RuntimeUnitID,
+                    Destination,
+                    Unit.Facing,
+                    out GameMovement.CommitResult Result,
+                    out ValidationMessage))
+            {
+                Debug.LogError(
+                    $"Development Movement was rejected: {ValidationMessage}",
+                    this
+                );
+
+                return;
+            }
+
+
+            Debug.Log(
+                $"Development Movement resolved '{Unit.InstanceName}' at " +
+                $"{Result.FinalMovementPivotCoordinate}, facing {Result.FinalFacing}. " +
+                $"Outcome {Result.Outcome}; consumed {Result.MoveConsumed}.",
+                this
+            );
+
+            return;
+        }
+
+
+        Debug.LogError(
+            $"No owned Unit has a known legal forward destination. Last result: {ValidationMessage}",
+            this
+        );
+    }
+
+
+    [ContextMenu("Development/Movement/End Movement")]
+    private void DevelopmentEndMovement()
+    {
+        string ValidationMessage =
+            "Human Gameplay Input is not initialized.";
+
+
+        if (!Initialize() ||
+            !_ParticipantAccess.TryEndMovement(
+                out ValidationMessage))
+        {
+            Debug.LogError(
+                $"Development End Movement was rejected: {ValidationMessage}",
+                this
+            );
+        }
+    }
+
+
+    private static bool HasMoved(
+        GameMovement.ParticipantView Movement,
+        string RuntimeUnitID
+    )
+    {
+        if (Movement?.Units == null)
+        {
+            return false;
+        }
+
+
+        for (int i = 0;
+            i < Movement.Units.Length;
+            i++)
+        {
+            GameMovement.UnitView Unit =
+                Movement.Units[i];
+
+
+            if (Unit != null &&
+                string.Equals(
+                    Unit.RuntimeUnitID,
+                    RuntimeUnitID,
+                    StringComparison.Ordinal))
+            {
+                return
+                    Unit.HasMoved;
+            }
+        }
+
+
+        return false;
+    }
+
+
+    private static Vector2Int FacingDirection(
+        UnitFacing Facing
+    )
+    {
+        switch (Facing)
+        {
+            case UnitFacing.North:
+                return Vector2Int.up;
+
+            case UnitFacing.East:
+                return Vector2Int.right;
+
+            case UnitFacing.South:
+                return Vector2Int.down;
+
+            case UnitFacing.West:
+                return Vector2Int.left;
+
+            default:
+                return Vector2Int.zero;
+        }
     }
 
 

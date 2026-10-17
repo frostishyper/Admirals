@@ -196,6 +196,12 @@ public sealed class FogOfWarPresenter : MonoBehaviour
     private void ApplyTerrainVisibility(
         ParticipantGameSnapshot Snapshot)
     {
+        // Refreshing a Tilemap reapplies its Tile asset data, including the
+        // authored locked color. Do that before per-cell visibility colors;
+        // refreshing afterward would immediately erase the obscured tint.
+        _TerrainArt.RefreshAllTiles();
+
+
         for (int i = 0; i < Snapshot.Tiles.Length; i++)
         {
             ParticipantTileSnapshot Tile =
@@ -216,16 +222,14 @@ public sealed class FogOfWarPresenter : MonoBehaviour
                 Original.Flags & ~TileFlags.LockColor);
 
             Color Color =
-                Tile.Visibility == ParticipantTileVisibility.Obscured
-                    ? MultiplyColor(
+                Tile.Visibility == ParticipantTileVisibility.Absolute
+                    ? Original.Color
+                    : MultiplyColor(
                         Original.Color,
-                        _ObscuredTerrainMultiplier)
-                    : Original.Color;
+                        _ObscuredTerrainMultiplier);
 
             _TerrainArt.SetColor(Cell, Color);
         }
-
-        _TerrainArt.RefreshAllTiles();
     }
 
     private void PaintFog(

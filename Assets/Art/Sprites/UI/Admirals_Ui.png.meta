@@ -655,9 +655,9 @@ TextureImporter:
       name: HP_Seg_Tail_Full
       rect:
         serializedVersion: 2
-        x: 795
+        x: 796
         y: 1008
-        width: 33
+        width: 32
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -701,7 +701,7 @@ TextureImporter:
         serializedVersion: 2
         x: 862
         y: 1008
-        width: 33
+        width: 32
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -723,7 +723,7 @@ TextureImporter:
         serializedVersion: 2
         x: 895
         y: 1008
-        width: 33
+        width: 32
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1752,7 +1752,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BDG_SubSurfaceDomain
+      name: BDG_AirDomain
       rect:
         serializedVersion: 2
         x: 716
@@ -1906,7 +1906,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BDG_AirDomain
+      name: BDG_SubSurfaceDomain
       rect:
         serializedVersion: 2
         x: 716
@@ -2948,7 +2948,7 @@ TextureImporter:
         width: 9
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2970,7 +2970,7 @@ TextureImporter:
         width: 9
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3013,7 +3013,7 @@ TextureImporter:
       Admirals_Ui_47: 435255082361659618
       Admirals_Ui_5: -4765469772815693077
       Admirals_Ui_6: -7704711352689885842
-      BDG_AirDomain: 8721532142104538885
+      BDG_AirDomain: -6713955398357139781
       BDG_AntiAirMSL: -6059357440880070376
       BDG_Auxiliary: -6195304413893173289
       BDG_CIWS: -1440631958319679174
@@ -3037,7 +3037,7 @@ TextureImporter:
       BDG_Radar: 1485950545428787703
       BDG_Repair: 3757902474332220524
       BDG_Sonar: -3938232391240535311
-      BDG_SubSurfaceDomain: -6713955398357139781
+      BDG_SubSurfaceDomain: 8721532142104538885
       BDG_Submarine: -5081371355272648908
       BDG_Supply: -1677024061982835311
       BDG_SurfaceDomain: 7869926609406975850

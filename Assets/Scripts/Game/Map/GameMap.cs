@@ -1669,6 +1669,60 @@ public class GameMap :
     }
 
 
+    // Board position remains owned by GameMap. The movement pivot is derived
+    // from the occupied footprint segment authored as the Unit's pivot.
+    public bool TryGetUnitMovementPivotCoordinate(
+        RuntimeUnit Unit,
+        out Vector2Int MovementPivotCoordinate
+    )
+    {
+        MovementPivotCoordinate =
+            default;
+
+
+        if (Unit == null ||
+            Unit.Definition == null ||
+            !_UnitCoordinates.TryGetValue(
+                Unit,
+                out List<Vector2Int> Coordinates))
+        {
+            return false;
+        }
+
+
+        Vector2Int LocalMovementPivot =
+            Unit.Definition.MovementPivot;
+
+
+        for (int i = 0;
+            i < Coordinates.Count;
+            i++)
+        {
+            if (!TryGetTile(
+                    Coordinates[i],
+                    out RuntimeMapTile Tile) ||
+                Tile.UnitOccupancy == null ||
+                !ReferenceEquals(
+                    Tile.UnitOccupancy.Unit,
+                    Unit) ||
+                Tile.UnitOccupancy.FootprintCoordinate !=
+                    LocalMovementPivot)
+            {
+                continue;
+            }
+
+
+            MovementPivotCoordinate =
+                Coordinates[i];
+
+            return true;
+        }
+
+
+        return false;
+    }
+
+
     public bool IsUnitOnMap(
         RuntimeUnit Unit
     )

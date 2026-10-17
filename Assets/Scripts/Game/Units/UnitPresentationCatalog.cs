@@ -76,6 +76,53 @@ public sealed class UnitPresentationCatalog :
     }
 
 
+    public bool TryGetPresentation(
+        string DefinitionID,
+        out Definition_Unit Unit,
+        out UnitView Prefab
+    )
+    {
+        Unit = null;
+        Prefab = null;
+
+
+        if (string.IsNullOrWhiteSpace(DefinitionID) ||
+            _Entries == null)
+        {
+            return false;
+        }
+
+
+        for (int Index = 0;
+            Index < _Entries.Length;
+            Index++)
+        {
+            Entry Current =
+                _Entries[Index];
+
+
+            if (Current == null ||
+                Current.Unit == null ||
+                !string.Equals(
+                    Current.Unit.ID,
+                    DefinitionID,
+                    StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+
+            Unit = Current.Unit;
+            Prefab = Current.Prefab;
+
+            return Prefab != null;
+        }
+
+
+        return false;
+    }
+
+
 #if UNITY_EDITOR
 
     private void OnValidate()
@@ -114,14 +161,19 @@ public sealed class UnitPresentationCatalog :
 
 
                 if (Other == null ||
-                    Other.Unit != Current.Unit)
+                    Other.Unit == null ||
+                    (Other.Unit != Current.Unit &&
+                     !string.Equals(
+                         Other.Unit.ID,
+                         Current.Unit.ID,
+                         StringComparison.Ordinal)))
                 {
                     continue;
                 }
 
 
                 Debug.LogWarning(
-                    $"UnitPresentationCatalog contains duplicate entries for '{Current.Unit.name}'.",
+                    $"UnitPresentationCatalog contains duplicate entries for Unit ID '{Current.Unit.ID}'.",
                     this
                 );
             }

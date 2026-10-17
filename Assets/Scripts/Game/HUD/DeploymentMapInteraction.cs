@@ -377,7 +377,14 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
         }
 
         _GameplayHUD.SetPlayerName(_ParticipantAccess.DisplayName);
-        SynchronizeTentativeViews();
+
+
+        if (_GameMaster.CurrentPhase == GameplayPhase.Deployment)
+        {
+            SynchronizeTentativeViews();
+        }
+
+
         RefreshPresentation();
     }
 
@@ -1534,18 +1541,7 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
         _TileMarkerPresenter.ClearMarkers();
 
-
-        foreach (KeyValuePair<string, UnitView> Pair
-            in _TentativeViews)
-        {
-            SetViewColor(
-                Pair.Value,
-                _PlacedViewColor
-            );
-        }
-
-
-        SynchronizeCommittedViewStates();
+        DestroyAllTentativeViews();
 
 
         _GameplayHUD.SetDeploymentControlsAvailable(
@@ -1556,48 +1552,6 @@ public sealed class DeploymentMapInteraction : MonoBehaviour
 
 
         _GameplayHUD.ShowMovementPhase();
-    }
-
-
-    private void SynchronizeCommittedViewStates()
-    {
-        if (_ParticipantAccess == null ||
-            !_ParticipantAccess.TryGetSnapshot(
-                out ParticipantGameSnapshot Snapshot,
-                out _))
-        {
-            return;
-        }
-
-
-        for (int i = 0;
-            i < Snapshot.OwnUnits.Length;
-            i++)
-        {
-            ParticipantUnitSnapshot Unit =
-                Snapshot.OwnUnits[i];
-
-
-            if (Unit == null ||
-                string.IsNullOrWhiteSpace(
-                    Unit.FleetEntryID) ||
-                !_TentativeViews.TryGetValue(
-                    Unit.FleetEntryID,
-                    out UnitView View) ||
-                View == null)
-            {
-                continue;
-            }
-
-
-            View.SetFacing(
-                Unit.Facing
-            );
-
-            View.SetTags(
-                Unit.Tags
-            );
-        }
     }
 
 

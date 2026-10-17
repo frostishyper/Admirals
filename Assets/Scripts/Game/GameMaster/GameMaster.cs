@@ -42,6 +42,8 @@ public class GameMaster :
 
     private GameKnowledge _GameKnowledge;
 
+    private GameMovement _GameMovement;
+
     private GameParticipantAPI _ParticipantAPI;
 
 
@@ -96,6 +98,10 @@ public class GameMaster :
 
     internal GameKnowledge GameKnowledge =>
         _GameKnowledge;
+
+
+    public GameMovement GameMovement =>
+        _GameMovement;
 
 
     public GameParticipantAPI ParticipantAPI =>
@@ -185,6 +191,7 @@ public class GameMaster :
             !InitializeUnitEffects() ||
             !InitializeDeploymentState() ||
             !InitializeKnowledgeState() ||
+            !InitializeMovementState() ||
             !InitializeParticipantAPI())
         {
             return false;
@@ -589,6 +596,25 @@ public class GameMaster :
         }
 
 
+        if (_CurrentPhase == GameplayPhase.Movement &&
+            _GameMovement == null)
+        {
+            ValidationMessage =
+                "Movement state is unavailable.";
+
+            return false;
+        }
+
+
+        if (_CurrentPhase == GameplayPhase.Movement &&
+            !_GameMovement.CanAcceptParticipantAction(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
         if (!_GameUnits.TryGetRoster(
                 Participant,
                 out ParticipantUnitRoster Roster) ||
@@ -721,6 +747,211 @@ public class GameMaster :
     }
 
 
+    internal bool TryGetMovementView(
+        RuntimeParticipant Participant,
+        out GameMovement.ParticipantView View
+    )
+    {
+        View = null;
+
+        return
+            _GameMovement != null &&
+            _GameMovement.TryGetView(
+                Participant,
+                out View
+            );
+    }
+
+
+    internal bool ValidateMovement(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        Vector2Int DestinationMovementPivotCoordinate,
+        UnitFacing DestinationFacing,
+        out GameMovement.MovementPlan Plan,
+        out string ValidationMessage
+    )
+    {
+        Plan = null;
+
+
+        if (!CanAcceptMovementInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        return
+            _GameMovement.ValidateMovement(
+                Participant,
+                RuntimeUnitID,
+                DestinationMovementPivotCoordinate,
+                DestinationFacing,
+                out Plan,
+                out ValidationMessage
+            );
+    }
+
+
+    internal bool TryGetMovementArea(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        out Vector2Int[] MovementArea,
+        out string ValidationMessage
+    )
+    {
+        MovementArea =
+            Array.Empty<Vector2Int>();
+
+
+        if (!CanAcceptMovementInput(
+                Participant,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        return
+            _GameMovement.TryGetMovementArea(
+                Participant,
+                RuntimeUnitID,
+                out MovementArea,
+                out ValidationMessage
+            );
+    }
+
+
+    internal bool TryCommitMovement(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        Vector2Int DestinationMovementPivotCoordinate,
+        UnitFacing DestinationFacing,
+        out GameMovement.CommitResult Result,
+        out string ValidationMessage
+    )
+    {
+        Result = null;
+
+
+        if (!CanAcceptMovementInput(
+                Participant,
+                out ValidationMessage) ||
+            !_GameMovement.TryCommitMovement(
+                Participant,
+                RuntimeUnitID,
+                DestinationMovementPivotCoordinate,
+                DestinationFacing,
+                out Result,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' committed Movement for " +
+            $"Unit '{RuntimeUnitID}'. Outcome: {Result.Outcome}. " +
+            $"Final pivot: {Result.FinalMovementPivotCoordinate}; " +
+            $"Facing: {Result.FinalFacing}; Move consumed: {Result.MoveConsumed}.",
+            this
+        );
+
+
+        return true;
+    }
+
+
+    internal bool TryEndMovement(
+        RuntimeParticipant Participant,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptMovementInput(
+                Participant,
+                out ValidationMessage) ||
+            !_GameMovement.TryEndMovement(
+                Participant,
+                out bool AllParticipantsEnded,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' ended Movement for Turn {_TurnNumber}.",
+            this
+        );
+
+
+        if (AllParticipantsEnded)
+        {
+            CompleteMovementPhase();
+        }
+
+
+        ValidationMessage = string.Empty;
+
+        return true;
+    }
+
+
+    private void Update()
+    {
+        if (!_InitializationComplete ||
+            _CurrentPhase != GameplayPhase.Movement ||
+            _GameMovement == null ||
+            !_GameMovement.Tick(
+                Time.deltaTime,
+                out RuntimeParticipant TimedOutParticipant,
+                out bool AllParticipantsEnded))
+        {
+            return;
+        }
+
+
+        Debug.Log(
+            $"'{TimedOutParticipant.Participant.DisplayName}' ran out of Movement time on Turn {_TurnNumber}.",
+            this
+        );
+
+
+        if (AllParticipantsEnded)
+        {
+            CompleteMovementPhase();
+        }
+
+
+        _ParticipantAPI?.NotifySnapshotsChanged();
+    }
+
+
+    private void CompleteMovementPhase()
+    {
+        _CurrentPhase = GameplayPhase.PreBattle;
+
+
+        if (!_GameKnowledge.Refresh(
+                _CurrentPhase,
+                out string KnowledgeMessage))
+        {
+            Debug.LogError(
+                $"GameKnowledge refresh failed after Movement: {KnowledgeMessage}",
+                this
+            );
+        }
+
+
+        Debug.Log(
+            $"Both participants ended Movement. Turn {_TurnNumber} entered Pre-Battle.",
+            this
+        );
+    }
+
+
     private bool CanAcceptDeploymentInput(
         RuntimeParticipant Participant,
         out string ValidationMessage
@@ -759,6 +990,40 @@ public class GameMaster :
 
         ValidationMessage =
             string.Empty;
+
+        return true;
+    }
+
+
+    private bool CanAcceptMovementInput(
+        RuntimeParticipant Participant,
+        out string ValidationMessage
+    )
+    {
+        if (!_InitializationComplete ||
+            !_MatchStarted ||
+            _CurrentPhase != GameplayPhase.Movement ||
+            _GameMovement == null)
+        {
+            ValidationMessage =
+                "The Match is not accepting Movement input.";
+
+            return false;
+        }
+
+
+        if (Participant == null ||
+            (!ReferenceEquals(Participant, _ParticipantA) &&
+             !ReferenceEquals(Participant, _ParticipantB)))
+        {
+            ValidationMessage =
+                "Participant does not belong to this Match.";
+
+            return false;
+        }
+
+
+        ValidationMessage = string.Empty;
 
         return true;
     }
@@ -1027,6 +1292,33 @@ public class GameMaster :
     }
 
 
+    private bool InitializeMovementState()
+    {
+        _GameMovement = new GameMovement();
+
+
+        if (!_GameMovement.Initialize(
+                _GameMap,
+                _GameUnits,
+                _GameKnowledge,
+                _ParticipantA,
+                _ParticipantB,
+                out string ValidationMessage))
+        {
+            _GameMovement = null;
+
+            FailInitialization(
+                $"Movement State initialization failed: {ValidationMessage}"
+            );
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
     internal bool TryGetParticipantSnapshot(
         RuntimeParticipant Participant,
         out ParticipantGameSnapshot Snapshot,
@@ -1041,12 +1333,23 @@ public class GameMaster :
             return false;
         }
 
+        GameMovement.ParticipantView MovementView =
+            null;
+
+
+        _GameMovement?.TryGetView(
+            Participant,
+            out MovementView
+        );
+
+
         return _GameKnowledge.TryCreateSnapshot(
             Participant,
             _CurrentPhase,
             _TurnNumber,
             _MatchStarted,
             _FirstPlayer,
+            MovementView,
             out Snapshot,
             out ValidationMessage);
     }
@@ -1140,6 +1443,31 @@ public class GameMaster :
             GameplayPhase.Movement;
 
 
+        float MovementSeconds = 60f;
+
+
+        if (_GameMode.TryGetPhaseTimeLimit(
+                GameplayPhase.Movement,
+                out float AuthoredMovementSeconds))
+        {
+            MovementSeconds = AuthoredMovementSeconds;
+        }
+
+
+        if (!_GameMovement.BeginPhase(
+                _FirstPlayer,
+                MovementSeconds,
+                out string MovementMessage))
+        {
+            Debug.LogError(
+                $"Movement phase initialization failed: {MovementMessage}",
+                this
+            );
+
+            return;
+        }
+
+
         if (!_GameKnowledge.Refresh(
                 _CurrentPhase,
                 out string KnowledgeMessage))
@@ -1174,6 +1502,9 @@ public class GameMaster :
             null;
 
         _GameKnowledge =
+            null;
+
+        _GameMovement =
             null;
 
         _ParticipantAPI =

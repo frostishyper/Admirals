@@ -49,6 +49,22 @@ public enum ScoreRelationship
 }
 
 
+[Serializable]
+public class GameplayPhaseTimer
+{
+    [SerializeField]
+    private GameplayPhase _Phase;
+
+    [Min(1f)]
+    [SerializeField]
+    private float _Seconds = 60f;
+
+
+    public GameplayPhase Phase => _Phase;
+    public float Seconds => _Seconds;
+}
+
+
 // Embedded Serializable Data - Not A ScriptableObject
 // Defines the Fleet supplied to one side by the GameMode.
 [Serializable]
@@ -932,6 +948,11 @@ public class Definition_GameMode :
     private GameModeSideFleet _SideB;
 
 
+    [Header("Phase Timers")]
+    [SerializeField]
+    private GameplayPhaseTimer[] _PhaseTimers;
+
+
     [Header("Victory Groups")]
     [Tooltip(
         "Every Condition inside one Group is AND. " +
@@ -997,6 +1018,39 @@ public class Definition_GameMode :
         {
             return _SideB;
         }
+    }
+
+
+    public bool TryGetPhaseTimeLimit(
+        GameplayPhase Phase,
+        out float Seconds
+    )
+    {
+        Seconds = 0f;
+
+
+        if (_PhaseTimers == null)
+        {
+            return false;
+        }
+
+
+        for (int i = 0; i < _PhaseTimers.Length; i++)
+        {
+            GameplayPhaseTimer Timer = _PhaseTimers[i];
+
+
+            if (Timer != null &&
+                Timer.Phase == Phase &&
+                Timer.Seconds > 0f)
+            {
+                Seconds = Timer.Seconds;
+                return true;
+            }
+        }
+
+
+        return false;
     }
 
 
@@ -1159,6 +1213,13 @@ public class Definition_GameMode :
         }
 
 
+        if (!ValidatePhaseTimers(
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
         bool UsesAdmirals =
             UsesDesignatedUnitConditions();
 
@@ -1256,6 +1317,83 @@ public class Definition_GameMode :
         ValidationMessage =
             string.Empty;
 
+        return true;
+    }
+
+
+    private bool ValidatePhaseTimers(
+        out string ValidationMessage
+    )
+    {
+        if (_PhaseTimers == null)
+        {
+            ValidationMessage = string.Empty;
+            return true;
+        }
+
+
+        for (int i = 0; i < _PhaseTimers.Length; i++)
+        {
+            GameplayPhaseTimer Timer = _PhaseTimers[i];
+
+
+            if (Timer == null)
+            {
+                ValidationMessage =
+                    $"Phase Timer {i} is missing.";
+
+                return false;
+            }
+
+
+            GameplayPhase Phase = Timer.Phase;
+            int PhaseValue = (int)Phase;
+
+
+            if (Phase == GameplayPhase.None ||
+                Phase == GameplayPhase.All ||
+                !Enum.IsDefined(
+                    typeof(GameplayPhase),
+                    Phase) ||
+                (PhaseValue & (PhaseValue - 1)) != 0)
+            {
+                ValidationMessage =
+                    $"Phase Timer {i} must target exactly one gameplay phase.";
+
+                return false;
+            }
+
+
+            if (Timer.Seconds < 1f)
+            {
+                ValidationMessage =
+                    $"Phase Timer {i} must be at least one second.";
+
+                return false;
+            }
+
+
+            for (int PreviousIndex = 0;
+                PreviousIndex < i;
+                PreviousIndex++)
+            {
+                GameplayPhaseTimer PreviousTimer =
+                    _PhaseTimers[PreviousIndex];
+
+
+                if (PreviousTimer != null &&
+                    PreviousTimer.Phase == Phase)
+                {
+                    ValidationMessage =
+                        $"Phase Timer {i} duplicates the {Phase} timer.";
+
+                    return false;
+                }
+            }
+        }
+
+
+        ValidationMessage = string.Empty;
         return true;
     }
 

@@ -185,6 +185,8 @@ public sealed class ParticipantUnitSnapshot
     public Domain CurrentDomain { get; }
     public UnitFacing Facing { get; }
     public int AbsoluteVision { get; }
+    public bool IsOnMap { get; }
+    public Vector2Int MovementPivotCoordinate { get; }
     public Vector2Int[] OccupiedCoordinates { get; }
     public ParticipantWeaponSnapshot[] Weapons { get; }
     public ParticipantSystemSnapshot[] Systems { get; }
@@ -195,7 +197,9 @@ public sealed class ParticipantUnitSnapshot
 
     internal ParticipantUnitSnapshot(
         RuntimeUnit Unit,
-        Vector2Int[] Coordinates)
+        Vector2Int[] Coordinates,
+        bool IsOnMap,
+        Vector2Int MovementPivotCoordinate)
     {
         RuntimeUnitID = Unit.RuntimeID;
         FleetEntryID = Unit.SourceFleetEntryID;
@@ -208,6 +212,8 @@ public sealed class ParticipantUnitSnapshot
         CurrentDomain = Unit.CurrentDomain;
         Facing = Unit.Facing;
         AbsoluteVision = Unit.Definition != null ? Unit.Definition.AbsoluteVision : 0;
+        this.IsOnMap = IsOnMap;
+        this.MovementPivotCoordinate = MovementPivotCoordinate;
         OccupiedCoordinates = Coordinates ?? Array.Empty<Vector2Int>();
 
         Weapons = new ParticipantWeaponSnapshot[Unit.WeaponSlots.Length];
@@ -252,7 +258,8 @@ public sealed class ParticipantUnitSnapshot
 
 
 // Conservative enemy projection: only currently Absolute-visible Units exist
-// here. It intentionally exposes no weapons, systems, statuses or hidden IDs.
+// here. It exposes position and presentation tags, but no weapons, systems,
+// statuses or hidden runtime IDs.
 public sealed class VisibleEnemyUnitSnapshot
 {
     public string InstanceName { get; }
@@ -260,18 +267,37 @@ public sealed class VisibleEnemyUnitSnapshot
     public string DefinitionName { get; }
     public Domain CurrentDomain { get; }
     public UnitFacing Facing { get; }
+    public Vector2Int MovementPivotCoordinate { get; }
     public Vector2Int[] OccupiedCoordinates { get; }
+    public ParticipantUnitTagSnapshot[] Tags { get; }
 
     internal VisibleEnemyUnitSnapshot(
         RuntimeUnit Unit,
-        Vector2Int[] Coordinates)
+        Vector2Int[] Coordinates,
+        Vector2Int MovementPivotCoordinate)
     {
         InstanceName = Unit.InstanceName;
         DefinitionID = Unit.Definition != null ? Unit.Definition.ID : string.Empty;
         DefinitionName = Unit.Definition != null ? Unit.Definition.Name : string.Empty;
         CurrentDomain = Unit.CurrentDomain;
         Facing = Unit.Facing;
+        this.MovementPivotCoordinate = MovementPivotCoordinate;
         OccupiedCoordinates = Coordinates ?? Array.Empty<Vector2Int>();
+
+        Definition_UnitTag[] RuntimeTags =
+            Unit.GetTags();
+
+        Tags =
+            new ParticipantUnitTagSnapshot[RuntimeTags.Length];
+
+
+        for (int i = 0; i < Tags.Length; i++)
+        {
+            Tags[i] =
+                new ParticipantUnitTagSnapshot(
+                    RuntimeTags[i]
+                );
+        }
     }
 }
 
@@ -283,6 +309,7 @@ public sealed class ParticipantGameSnapshot
     public bool MatchStarted { get; }
     public bool HasFirstPlayerPriority { get; }
     public bool DeploymentLocked { get; }
+    public GameMovement.ParticipantView Movement { get; }
     public ParticipantTileSnapshot[] Tiles { get; }
     public ParticipantUnitSnapshot[] OwnUnits { get; }
     public VisibleEnemyUnitSnapshot[] VisibleEnemies { get; }
@@ -293,6 +320,7 @@ public sealed class ParticipantGameSnapshot
         bool MatchStarted,
         bool HasFirstPlayerPriority,
         bool DeploymentLocked,
+        GameMovement.ParticipantView Movement,
         ParticipantTileSnapshot[] Tiles,
         ParticipantUnitSnapshot[] OwnUnits,
         VisibleEnemyUnitSnapshot[] VisibleEnemies)
@@ -302,6 +330,7 @@ public sealed class ParticipantGameSnapshot
         this.MatchStarted = MatchStarted;
         this.HasFirstPlayerPriority = HasFirstPlayerPriority;
         this.DeploymentLocked = DeploymentLocked;
+        this.Movement = Movement;
         this.Tiles = Tiles ?? Array.Empty<ParticipantTileSnapshot>();
         this.OwnUnits = OwnUnits ?? Array.Empty<ParticipantUnitSnapshot>();
         this.VisibleEnemies = VisibleEnemies ?? Array.Empty<VisibleEnemyUnitSnapshot>();
@@ -317,6 +346,12 @@ internal sealed class GameKnowledge
         _ParticipantAVisibility = new Dictionary<Vector2Int, ParticipantTileVisibility>();
     private readonly Dictionary<Vector2Int, ParticipantTileVisibility>
         _ParticipantBVisibility = new Dictionary<Vector2Int, ParticipantTileVisibility>();
+
+    private readonly HashSet<Vector2Int>
+        _ParticipantAKnownTerrain = new HashSet<Vector2Int>();
+
+    private readonly HashSet<Vector2Int>
+        _ParticipantBKnownTerrain = new HashSet<Vector2Int>();
 
     private GameMap _GameMap;
     private GameUnits _GameUnits;
@@ -396,6 +431,7 @@ internal sealed class GameKnowledge
         int TurnNumber,
         bool MatchStarted,
         RuntimeParticipant FirstPlayer,
+        GameMovement.ParticipantView Movement,
         out ParticipantGameSnapshot Snapshot,
         out string ValidationMessage)
     {
@@ -422,6 +458,7 @@ internal sealed class GameKnowledge
             MatchStarted,
             ReferenceEquals(Participant, FirstPlayer),
             Participant.DeploymentLocked,
+            Movement,
             BuildTileSnapshots(Visibility),
             BuildOwnUnitSnapshots(OwnRoster),
             BuildVisibleEnemySnapshots(EnemyRoster, Visibility));
@@ -442,7 +479,18 @@ internal sealed class GameKnowledge
             return false;
 
         for (int i = 0; i < Zone.Length; i++)
+        {
             Visibility[Zone[i]] = ParticipantTileVisibility.Absolute;
+
+            if (TryGetKnownTerrain(
+                    Participant,
+                    out HashSet<Vector2Int> KnownTerrain))
+            {
+                KnownTerrain.Add(
+                    Zone[i]
+                );
+            }
+        }
 
         return true;
     }
@@ -452,6 +500,22 @@ internal sealed class GameKnowledge
         Dictionary<Vector2Int, ParticipantTileVisibility> Visibility)
     {
         FillVisibility(Visibility, ParticipantTileVisibility.Fog);
+
+        if (TryGetKnownTerrain(
+                Participant,
+                out HashSet<Vector2Int> KnownTerrain))
+        {
+            foreach (Vector2Int Coordinate
+                in KnownTerrain)
+            {
+                if (_GameMap.IsInsideBounds(
+                        Coordinate))
+                {
+                    Visibility[Coordinate] =
+                        ParticipantTileVisibility.Obscured;
+                }
+            }
+        }
 
         if (!_GameUnits.TryGetRoster(
                 Participant,
@@ -479,8 +543,14 @@ internal sealed class GameKnowledge
                             Footprint[f] + new Vector2Int(x, y);
 
                         if (_GameMap.IsInsideBounds(Coordinate))
+                        {
                             Visibility[Coordinate] =
                                 ParticipantTileVisibility.Absolute;
+
+                            KnownTerrain?.Add(
+                                Coordinate
+                            );
+                        }
                     }
                 }
             }
@@ -534,7 +604,20 @@ internal sealed class GameKnowledge
         {
             RuntimeUnit Unit = Roster.RuntimeUnits[i];
             _GameMap.TryGetUnitCoordinates(Unit, out Vector2Int[] Coordinates);
-            Result[i] = new ParticipantUnitSnapshot(Unit, Coordinates);
+
+            bool IsOnMap =
+                _GameMap.TryGetUnitMovementPivotCoordinate(
+                    Unit,
+                    out Vector2Int MovementPivotCoordinate
+                );
+
+            Result[i] =
+                new ParticipantUnitSnapshot(
+                    Unit,
+                    Coordinates,
+                    IsOnMap,
+                    MovementPivotCoordinate
+                );
         }
 
         return Result;
@@ -567,11 +650,56 @@ internal sealed class GameKnowledge
                 }
             }
 
-            if (Visible)
-                Result.Add(new VisibleEnemyUnitSnapshot(Unit, Coordinates));
+            if (Visible &&
+                _GameMap.TryGetUnitMovementPivotCoordinate(
+                    Unit,
+                    out Vector2Int MovementPivotCoordinate))
+            {
+                Result.Add(
+                    new VisibleEnemyUnitSnapshot(
+                        Unit,
+                        Coordinates,
+                        MovementPivotCoordinate
+                    )
+                );
+            }
         }
 
         return Result.ToArray();
+    }
+
+
+    internal bool IsUnitVisibleToParticipant(
+        RuntimeParticipant Participant,
+        RuntimeUnit Unit
+    )
+    {
+        if (Unit == null ||
+            !Unit.IsActive ||
+            !TryGetVisibility(
+                Participant,
+                out Dictionary<Vector2Int, ParticipantTileVisibility> Visibility) ||
+            !_GameMap.TryGetUnitCoordinates(
+                Unit,
+                out Vector2Int[] Coordinates))
+        {
+            return false;
+        }
+
+
+        for (int i = 0; i < Coordinates.Length; i++)
+        {
+            if (Visibility.TryGetValue(
+                    Coordinates[i],
+                    out ParticipantTileVisibility State) &&
+                State == ParticipantTileVisibility.Absolute)
+            {
+                return true;
+            }
+        }
+
+
+        return false;
     }
 
     private bool TryGetVisibility(
@@ -589,6 +717,80 @@ internal sealed class GameKnowledge
             Visibility = _ParticipantBVisibility;
 
         return Visibility != null;
+    }
+
+
+    internal bool TryGetTileKnowledge(
+        RuntimeParticipant Participant,
+        Vector2Int Coordinate,
+        out ParticipantTileVisibility Visibility,
+        out MapTerrain KnownTerrain
+    )
+    {
+        Visibility =
+            ParticipantTileVisibility.Fog;
+
+        KnownTerrain =
+            MapTerrain.None;
+
+
+        if (!TryGetVisibility(
+                Participant,
+                out Dictionary<Vector2Int, ParticipantTileVisibility> VisibilityMap) ||
+            !VisibilityMap.TryGetValue(
+                Coordinate,
+                out Visibility) ||
+            Visibility ==
+                ParticipantTileVisibility.Fog ||
+            !_GameMap.TryGetTile(
+                Coordinate,
+                out RuntimeMapTile Tile))
+        {
+            return false;
+        }
+
+
+        KnownTerrain =
+            Tile.Terrain;
+
+        return true;
+    }
+
+
+    private bool TryGetKnownTerrain(
+        RuntimeParticipant Participant,
+        out HashSet<Vector2Int> KnownTerrain
+    )
+    {
+        KnownTerrain =
+            null;
+
+
+        if (!IsInitialized ||
+            Participant == null)
+        {
+            return false;
+        }
+
+
+        if (ReferenceEquals(
+                Participant,
+                _ParticipantA))
+        {
+            KnownTerrain =
+                _ParticipantAKnownTerrain;
+        }
+        else if (ReferenceEquals(
+            Participant,
+            _ParticipantB))
+        {
+            KnownTerrain =
+                _ParticipantBKnownTerrain;
+        }
+
+
+        return
+            KnownTerrain != null;
     }
 }
 
