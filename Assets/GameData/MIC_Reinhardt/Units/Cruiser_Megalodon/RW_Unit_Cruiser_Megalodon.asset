@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb47f0e9efea9b4093594840409160c, type: 3}
+  m_Name: RW_Unit_Cruiser_Megalodon
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_Unit
+  _Name: '"Megalodon" Class Battle Cruiser'
+  _ID: RW_Unit_Cruiser_Megalodon
+  _Manufacturer: {fileID: 11400000, guid: dbdf1c8e6e25ca640bf4746c8b3c8e34, type: 2}
+  _UnitTypes:
+  - {fileID: 11400000, guid: 5504d9b2442672b46b85dee68d15bb4a, type: 2}
+  _Tier: {fileID: 11400000, guid: 7d8efc81ae65d1349afaf2b6381278be, type: 2}
+  _BaseDomain: 2
+  _Health: 25
+  _Stealth: 10
+  _AbsoluteVision: 2
+  _FootprintSize: {x: 4, y: 1}
+  _OriginPoint: {x: 2, y: 0}
+  _MovementPivot: {x: 2, y: 0}
+  _MovementPattern: {fileID: 11400000, guid: 159693d86e9c12e47b25792a56e3fa0a, type: 2}
+  _WeaponSlots:
+  - _Weapon: {fileID: 11400000, guid: 65cac9f9989f56144a153a8b7cbc5f96, type: 2}
+    _MaxCharges: 8
+  - _Weapon: {fileID: 11400000, guid: b3c684cff14a8a843abe8bd619cbd084, type: 2}
+    _MaxCharges: 3
+  _SystemSlots:
+  - _SlotType: 1
+    _System: {fileID: 11400000, guid: 26e4489e7347fd24e94e4e5e59dbd400, type: 2}
+    _MaxCharges: 0
+    _CarriedUnits: []
+  - _SlotType: 2
+    _System: {fileID: 11400000, guid: 21898c93431bb5a42930fc9aa841c8e7, type: 2}
+    _MaxCharges: 2
+    _CarriedUnits: []
+  - _SlotType: 2
+    _System: {fileID: 11400000, guid: 7e8c5a582af00d149aa1a9b8f55b2526, type: 2}
+    _MaxCharges: 2
+    _CarriedUnits: []
+  _Abilities:
+  - {fileID: 11400000, guid: d64888defec679547a2272f7d4ce1ca8, type: 2}

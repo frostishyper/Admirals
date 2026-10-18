@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ability_Submerge
   m_EditorClassIdentifier: Assembly-CSharp::Definition_Ability
   _Name: Submerge
-  _ID: ability_submerge
+  _ID: Ability_Submerge
   _UsablePhases: 2
   _CombatRoles: 0
   _ValidTargets: 1

@@ -346,6 +346,215 @@ public sealed class GameParticipantAPI
         }
 
 
+        public bool TryGetPreBattleView(
+            out GamePreBattle.ParticipantView View
+        )
+        {
+            View = null;
+
+            if (!_API.IsInitialized)
+                return false;
+
+            return _API._GameMaster.TryGetPreBattleView(
+                Participant,
+                out View
+            );
+        }
+
+
+        public bool TryGetMineDeploymentArea(
+            string RuntimeUnitID,
+            int SystemSlotIndex,
+            out Vector2Int[] Coordinates,
+            out string ValidationMessage
+        )
+        {
+            Coordinates = Array.Empty<Vector2Int>();
+
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            return _API._GameMaster.TryGetMineDeploymentArea(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                out Coordinates,
+                out ValidationMessage
+            );
+        }
+
+
+        public bool ValidateMineDeployment(
+            string RuntimeUnitID,
+            int SystemSlotIndex,
+            Vector2Int Coordinate,
+            out string ValidationMessage
+        )
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            return _API._GameMaster.ValidateMineDeployment(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                Coordinate,
+                out ValidationMessage
+            );
+        }
+
+
+        public bool TryDeployMine(
+            string RuntimeUnitID,
+            int SystemSlotIndex,
+            Vector2Int Coordinate,
+            out string ValidationMessage
+        )
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            bool Deployed = _API._GameMaster.TryDeployMine(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                Coordinate,
+                out ValidationMessage
+            );
+
+            if (Deployed)
+                _API.NotifySnapshotsChanged();
+
+            return Deployed;
+        }
+
+
+        public bool TryGetUnitDeploymentArea(
+            string RuntimeUnitID,
+            int SystemSlotIndex,
+            int CarriedUnitIndex,
+            UnitFacing Facing,
+            out Vector2Int[] Coordinates,
+            out string ValidationMessage
+        )
+        {
+            Coordinates = Array.Empty<Vector2Int>();
+
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            return _API._GameMaster.TryGetUnitDeploymentArea(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                CarriedUnitIndex,
+                Facing,
+                out Coordinates,
+                out ValidationMessage
+            );
+        }
+
+
+        public bool ValidateUnitDeployment(
+            string RuntimeUnitID,
+            int SystemSlotIndex,
+            int CarriedUnitIndex,
+            Vector2Int MovementPivotCoordinate,
+            UnitFacing Facing,
+            out string ValidationMessage
+        )
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            return _API._GameMaster.ValidateUnitDeployment(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                CarriedUnitIndex,
+                MovementPivotCoordinate,
+                Facing,
+                out ValidationMessage
+            );
+        }
+
+
+        public bool TryDeployCarriedUnit(
+            string RuntimeUnitID,
+            int SystemSlotIndex,
+            int CarriedUnitIndex,
+            Vector2Int MovementPivotCoordinate,
+            UnitFacing Facing,
+            out string ValidationMessage
+        )
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            bool Deployed = _API._GameMaster.TryDeployCarriedUnit(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                CarriedUnitIndex,
+                MovementPivotCoordinate,
+                Facing,
+                out ValidationMessage
+            );
+
+            if (Deployed)
+                _API.NotifySnapshotsChanged();
+
+            return Deployed;
+        }
+
+
+        public bool TryEndPreBattle(
+            out string ValidationMessage
+        )
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            bool Ended = _API._GameMaster.TryEndPreBattle(
+                Participant,
+                out ValidationMessage
+            );
+
+            if (Ended)
+                _API.NotifySnapshotsChanged();
+
+            return Ended;
+        }
+
+
         public bool ValidateMovement(
             string RuntimeUnitID,
             Vector2Int DestinationMovementPivotCoordinate,

@@ -1376,6 +1376,31 @@ internal sealed class PreparedRuntimeUnitDeployment
 }
 
 
+internal sealed class PreparedCarriedUnitDeployment
+{
+    public ParticipantUnitRoster Roster { get; }
+    public RuntimeCarriedUnit CarriedUnit { get; }
+    public RuntimeUnit RuntimeUnit { get; }
+    public string InstanceNameBase { get; }
+    public int InstanceNumber { get; }
+
+
+    internal PreparedCarriedUnitDeployment(
+        ParticipantUnitRoster Roster,
+        RuntimeCarriedUnit CarriedUnit,
+        RuntimeUnit RuntimeUnit,
+        string InstanceNameBase,
+        int InstanceNumber)
+    {
+        this.Roster = Roster;
+        this.CarriedUnit = CarriedUnit;
+        this.RuntimeUnit = RuntimeUnit;
+        this.InstanceNameBase = InstanceNameBase;
+        this.InstanceNumber = InstanceNumber;
+    }
+}
+
+
 // One participant's completely separate Unit roster.
 //
 // There is deliberately no shared/global Unit pool between participants.
@@ -2014,16 +2039,14 @@ public sealed class ParticipantUnitRoster
     }
 
 
-    // Converts one carried record into an actual RuntimeUnit.
-    // Once deployed, it can never become carried again.
-    internal bool TryDeployCarriedUnit(
+    internal bool TryPrepareCarriedUnitDeployment(
         RuntimeCarriedUnit CarriedUnit,
         UnitFacing Facing,
-        out RuntimeUnit RuntimeUnit,
+        out PreparedCarriedUnitDeployment PreparedDeployment,
         out string ValidationMessage
     )
     {
-        RuntimeUnit =
+        PreparedDeployment =
             null;
 
 
@@ -2075,40 +2098,114 @@ public sealed class ParticipantUnitRoster
         }
 
 
-        string InstanceName =
-            CreateNextInstanceName(
-                CarriedUnit.Unit
-            );
+        if (!UnitFootprintGeometry.IsValidFacing(Facing))
+        {
+            ValidationMessage =
+                "Carried Unit deployment has an invalid facing.";
+
+            return false;
+        }
 
 
-        RuntimeUnit =
+        string BaseName =
+            !string.IsNullOrWhiteSpace(CarriedUnit.Unit.Name)
+                ? CarriedUnit.Unit.Name
+                : "Unit";
+
+        _InstanceNameCounters.TryGetValue(
+            BaseName,
+            out int CurrentNumber
+        );
+
+        int InstanceNumber =
+            CurrentNumber + 1;
+
+
+        RuntimeUnit RuntimeUnit =
             new RuntimeUnit(
                 string.Empty,
-                InstanceName,
+                $"{BaseName} {InstanceNumber}",
                 CarriedUnit.Unit,
                 Participant,
                 Facing
             );
 
 
-        if (!CarriedUnit.MarkDeployed(
-                RuntimeUnit))
+        PreparedDeployment =
+            new PreparedCarriedUnitDeployment(
+                this,
+                CarriedUnit,
+                RuntimeUnit,
+                BaseName,
+                InstanceNumber
+            );
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
+    }
+
+
+    internal void CommitPreparedCarriedUnitDeployment(
+        PreparedCarriedUnitDeployment PreparedDeployment
+    )
+    {
+        if (PreparedDeployment == null ||
+            !ReferenceEquals(PreparedDeployment.Roster, this) ||
+            PreparedDeployment.CarriedUnit == null ||
+            PreparedDeployment.RuntimeUnit == null ||
+            PreparedDeployment.CarriedUnit.State != RuntimeCarriedUnitState.Carried ||
+            _RuntimeUnits.Contains(PreparedDeployment.RuntimeUnit))
         {
-            RuntimeUnit =
-                null;
+            throw new InvalidOperationException(
+                "Prepared carried Unit deployment changed before commit."
+            );
+        }
 
 
-            ValidationMessage =
-                "Carried Unit could not be marked as deployed.";
+        if (!PreparedDeployment.CarriedUnit.MarkDeployed(
+                PreparedDeployment.RuntimeUnit))
+        {
+            throw new InvalidOperationException(
+                "Carried Unit failed a validated deployment commit."
+            );
+        }
 
+        _RuntimeUnits.Add(
+            PreparedDeployment.RuntimeUnit
+        );
+
+
+        _InstanceNameCounters[PreparedDeployment.InstanceNameBase] =
+            PreparedDeployment.InstanceNumber;
+    }
+
+
+    // Converts one carried record into an actual RuntimeUnit.
+    // Prefer the prepared transaction when Map placement is also required.
+    internal bool TryDeployCarriedUnit(
+        RuntimeCarriedUnit CarriedUnit,
+        UnitFacing Facing,
+        out RuntimeUnit RuntimeUnit,
+        out string ValidationMessage
+    )
+    {
+        RuntimeUnit = null;
+
+
+        if (!TryPrepareCarriedUnitDeployment(
+                CarriedUnit,
+                Facing,
+                out PreparedCarriedUnitDeployment PreparedDeployment,
+                out ValidationMessage))
+        {
             return false;
         }
 
 
-        _RuntimeUnits.Add(
-            RuntimeUnit
-        );
-
+        CommitPreparedCarriedUnitDeployment(PreparedDeployment);
+        RuntimeUnit = PreparedDeployment.RuntimeUnit;
 
         ValidationMessage =
             string.Empty;

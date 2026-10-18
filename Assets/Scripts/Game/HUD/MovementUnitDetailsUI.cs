@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public sealed class MovementUnitDetailsUI : MonoBehaviour
 {
     private const int HealthSegmentsPerRow = 10;
-    private const float HealthSegmentWidth = 64f;
     private const float HealthSegmentHeight = 32f;
     private const float HealthSegmentVerticalSpacing = 4f;
 
@@ -90,23 +89,19 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
     [SerializeField] private Sprite _SubsurfaceDomainBadge;
 
     [Header("Generated Visual Sizes")]
-    [SerializeField, Min(1f)] private float _ChargeSegmentWidth = 32f;
     [SerializeField, Min(1f)] private float _ChargeSegmentHeight = 14f;
-    [SerializeField, Min(1f)] private float _BadgeWidth = 72f;
     [SerializeField, Min(1f)] private float _BadgeHeight = 24f;
-    [SerializeField, Min(1f)] private float _SystemCardWidth = 310f;
-    [SerializeField, Min(1f)] private float _WeaponCardWidth = 310f;
-    [SerializeField, Min(1f)] private float _AbilityCardWidth = 280f;
     [SerializeField, Min(1f)] private float _CardTitleFontSize = 20f;
     [SerializeField, Min(1f)] private float _CardBodyFontSize = 17f;
     [SerializeField, Min(1f)] private float _ChargeCountFontSize = 18f;
     [SerializeField, Min(1f)] private float _AbilityButtonFontSize = 18f;
     [SerializeField, Min(0f)] private float _BadgeSpacing = 6f;
-    [SerializeField, Min(1f)] private float _WeaponFooterTextWidth = 96f;
 
 
     private ParticipantUnitSnapshot _Unit;
     private Definition_Unit _Definition;
+    private GameplayPhase _Phase;
+    private Action<int, int> _UseSystem;
     private Action<int> _UseAbility;
     private string _BoundRuntimeUnitID = string.Empty;
     private Tab _CurrentTab;
@@ -116,6 +111,13 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
     private void Awake()
     {
         ConfigureCardTemplates();
+        ConfigureTrayContent(_SystemsContent);
+        ConfigureTrayContent(_WeaponsContent);
+        ConfigureTrayContent(_AbilitiesContent);
+        ConfigureContentSizedButton(_StatusTabButton, 14, 14, 6, 6);
+        ConfigureContentSizedButton(_SystemsTabButton, 14, 14, 6, 6);
+        ConfigureContentSizedButton(_WeaponsTabButton, 14, 14, 6, 6);
+        ConfigureContentSizedButton(_AbilitiesTabButton, 14, 14, 6, 6);
         BindTabButtons();
         ShowTab(Tab.Status);
     }
@@ -123,37 +125,147 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
 
     private void ConfigureCardTemplates()
     {
-        ConfigureCardTemplate(_SystemCardTemplate, _SystemCardWidth, false);
-        ConfigureCardTemplate(_WeaponCardTemplate, _WeaponCardWidth, false);
-        ConfigureCardTemplate(_AbilityCardTemplate, _AbilityCardWidth, true);
+        ConfigureCardTemplate(_SystemCardTemplate, false);
+        ConfigureCardTemplate(_WeaponCardTemplate, false);
+        ConfigureCardTemplate(_AbilityCardTemplate, true);
+    }
+
+
+    private static void ConfigureTrayContent(RectTransform Content)
+    {
+        if (Content == null)
+            return;
+
+        HorizontalLayoutGroup Group =
+            Content.GetComponent<HorizontalLayoutGroup>();
+        if (Group == null)
+            Group = Content.gameObject.AddComponent<HorizontalLayoutGroup>();
+
+        Group.childControlWidth = true;
+        Group.childControlHeight = true;
+        Group.childForceExpandWidth = false;
+        Group.childForceExpandHeight = true;
+
+        ContentSizeFitter Fitter =
+            Content.GetComponent<ContentSizeFitter>();
+        if (Fitter == null)
+            Fitter = Content.gameObject.AddComponent<ContentSizeFitter>();
+
+        Fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        Fitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+    }
+
+
+    private static void ConfigureContentSizedButton(
+        Button Button,
+        int LeftPadding,
+        int RightPadding,
+        int TopPadding,
+        int BottomPadding)
+    {
+        if (Button == null)
+            return;
+
+        HorizontalLayoutGroup Group =
+            Button.GetComponent<HorizontalLayoutGroup>();
+        if (Group == null)
+            Group = Button.gameObject.AddComponent<HorizontalLayoutGroup>();
+
+        Group.padding = new RectOffset(
+            LeftPadding,
+            RightPadding,
+            TopPadding,
+            BottomPadding
+        );
+        Group.childAlignment = TextAnchor.MiddleCenter;
+        Group.childControlWidth = true;
+        Group.childControlHeight = true;
+        Group.childForceExpandWidth = false;
+        Group.childForceExpandHeight = false;
+
+        ContentSizeFitter Fitter =
+            Button.GetComponent<ContentSizeFitter>();
+        if (Fitter == null)
+            Fitter = Button.gameObject.AddComponent<ContentSizeFitter>();
+
+        Fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        Fitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+
+        LayoutElement ButtonLayout =
+            Button.GetComponent<LayoutElement>();
+        if (ButtonLayout != null)
+        {
+            ButtonLayout.minWidth = -1f;
+            ButtonLayout.preferredWidth = -1f;
+            ButtonLayout.flexibleWidth = 0f;
+        }
+
+        TMP_Text Label = Button.GetComponentInChildren<TMP_Text>(true);
+        if (Label == null)
+            return;
+
+        Label.textWrappingMode = TextWrappingModes.NoWrap;
+        Label.overflowMode = TextOverflowModes.Overflow;
+        Label.alignment = TextAlignmentOptions.Center;
+
+        LayoutElement LabelLayout = Label.GetComponent<LayoutElement>();
+        if (LabelLayout != null)
+        {
+            LabelLayout.minWidth = -1f;
+            LabelLayout.preferredWidth = -1f;
+            LabelLayout.flexibleWidth = 0f;
+        }
     }
 
 
     private void ConfigureCardTemplate(
         GameObject Template,
-        float Width,
         bool HasUseButton)
     {
         if (Template == null)
             return;
 
+        ClearFixedChildWidths(Template.transform);
+
         LayoutElement CardLayout = Template.GetComponent<LayoutElement>();
         if (CardLayout != null)
         {
-            CardLayout.minWidth = Width;
-            CardLayout.preferredWidth = Width;
+            CardLayout.minWidth = -1f;
+            CardLayout.preferredWidth = -1f;
+            CardLayout.flexibleWidth = 0f;
+            CardLayout.minHeight = 0f;
+            CardLayout.preferredHeight = 0f;
+            CardLayout.flexibleHeight = 1f;
         }
+
+        ContentSizeFitter CardFitter =
+            Template.GetComponent<ContentSizeFitter>();
+        if (CardFitter == null)
+            CardFitter = Template.AddComponent<ContentSizeFitter>();
+
+        CardFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        CardFitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
 
         VerticalLayoutGroup CardGroup = Template.GetComponent<VerticalLayoutGroup>();
         if (CardGroup != null)
         {
-            CardGroup.padding = new RectOffset(12, 12, 10, 10);
-            CardGroup.spacing = 8f;
+            CardGroup.padding = new RectOffset(10, 10, 6, 6);
+            CardGroup.spacing = 4f;
+            CardGroup.childControlHeight = true;
+            CardGroup.childForceExpandHeight = false;
         }
 
-        ConfigureTemplateText(Template.transform, "Text_Name", _CardTitleFontSize, 56f);
+        ConfigureTemplateText(Template.transform, "Text_Name", _CardTitleFontSize);
         ConfigureTemplateText(Template.transform, "Text_Charges", _ChargeCountFontSize);
         ConfigureTemplateText(Template.transform, "Text_Replenish", _CardBodyFontSize);
+
+        Transform TitleTransform = Find(Template.transform, "Text_Name");
+        if (TitleTransform != null &&
+            TitleTransform.TryGetComponent(out TMP_Text TitleText))
+        {
+            TitleText.textWrappingMode = TextWrappingModes.NoWrap;
+            TitleText.overflowMode = TextOverflowModes.Overflow;
+        }
 
         Transform ChargeRow = Find(Template.transform, "ChargeRow");
         LayoutElement ChargeRowLayout = ChargeRow != null
@@ -161,16 +273,49 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             : null;
         if (ChargeRowLayout != null)
         {
-            ChargeRowLayout.minHeight = 32f;
-            ChargeRowLayout.preferredHeight = 32f;
+            ChargeRowLayout.minHeight = 28f;
+            ChargeRowLayout.preferredHeight = 28f;
+            ChargeRowLayout.flexibleHeight = 0f;
         }
 
-        if (!HasUseButton)
+        Transform Footer = Find(Template.transform, "Footer");
+        ConfigureCardFooter(
+            Footer,
+            HasUseButton ? 34f : _BadgeHeight);
+
+        if (HasUseButton)
+        {
+            Transform UseButton = Find(Template.transform, "Button_Use");
+            if (UseButton != null)
+            {
+                ConfigureTemplateText(UseButton, "Text_Label", _AbilityButtonFontSize);
+                ConfigureContentSizedButton(
+                    UseButton.GetComponent<Button>(),
+                    10,
+                    10,
+                    10,
+                    10
+                );
+            }
+        }
+    }
+
+
+    private static void ClearFixedChildWidths(Transform Root)
+    {
+        if (Root == null)
             return;
 
-        Transform UseButton = Find(Template.transform, "Button_Use");
-        if (UseButton != null)
-            ConfigureTemplateText(UseButton, "Text_Label", _AbilityButtonFontSize);
+        LayoutElement Layout = Root.GetComponent<LayoutElement>();
+        if (Layout != null)
+        {
+            Layout.minWidth = -1f;
+            Layout.preferredWidth = -1f;
+            Layout.flexibleWidth = 0f;
+        }
+
+        for (int i = 0; i < Root.childCount; i++)
+            ClearFixedChildWidths(Root.GetChild(i));
     }
 
 
@@ -194,15 +339,49 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             }
         }
 
-        if (PreferredHeight <= 0f || TextTransform == null)
+        if (TextTransform == null)
             return;
 
         LayoutElement Layout = TextTransform.GetComponent<LayoutElement>();
         if (Layout != null)
         {
-            Layout.minHeight = PreferredHeight;
-            Layout.preferredHeight = PreferredHeight;
+            Layout.minHeight = PreferredHeight > 0f
+                ? PreferredHeight
+                : -1f;
+            Layout.preferredHeight = PreferredHeight > 0f
+                ? PreferredHeight
+                : -1f;
+            Layout.flexibleHeight = 0f;
         }
+    }
+
+
+    private static void ConfigureCardFooter(
+        Transform Footer,
+        float Height)
+    {
+        if (Footer == null)
+            return;
+
+        HorizontalLayoutGroup Group =
+            Footer.GetComponent<HorizontalLayoutGroup>();
+        if (Group != null)
+        {
+            Group.childAlignment = TextAnchor.MiddleLeft;
+            Group.spacing = 6f;
+            Group.childControlWidth = true;
+            Group.childControlHeight = true;
+            Group.childForceExpandWidth = false;
+            Group.childForceExpandHeight = true;
+        }
+
+        LayoutElement Layout = Footer.GetComponent<LayoutElement>();
+        if (Layout == null)
+            Layout = Footer.gameObject.AddComponent<LayoutElement>();
+
+        Layout.minHeight = Height;
+        Layout.preferredHeight = Height;
+        Layout.flexibleHeight = 0f;
     }
 
 
@@ -210,7 +389,9 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         ParticipantUnitSnapshot Unit,
         Definition_Unit Definition,
         UnitPresentationCatalog PresentationCatalog,
+        GameplayPhase Phase,
         bool CanAct,
+        Action<int, int> UseSystem,
         Action<int> UseAbility)
     {
         bool SelectionChanged =
@@ -222,6 +403,8 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
 
         _Unit = Unit;
         _Definition = Definition;
+        _Phase = Phase;
+        _UseSystem = UseSystem;
         _UseAbility = UseAbility;
         _BoundRuntimeUnitID = Unit?.RuntimeUnitID ?? string.Empty;
 
@@ -237,7 +420,7 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         BindIdentity(PresentationCatalog);
         RebuildHealth();
         RebuildEffects();
-        RebuildSystems();
+        RebuildSystems(CanAct);
         RebuildWeapons();
         RebuildAbilities(CanAct);
         RefreshTabLabels();
@@ -248,6 +431,8 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
     {
         _Unit = null;
         _Definition = null;
+        _Phase = GameplayPhase.None;
+        _UseSystem = null;
         _UseAbility = null;
         _BoundRuntimeUnitID = string.Empty;
 
@@ -337,7 +522,6 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             CreateSegment(
                 _HealthSegments,
                 Segment,
-                HealthSegmentWidth,
                 HealthSegmentHeight);
         }
     }
@@ -388,7 +572,7 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
     }
 
 
-    private void RebuildSystems()
+    private void RebuildSystems(bool CanAct)
     {
         ClearGenerated(_SystemsContent, _SystemCardTemplate);
 
@@ -412,7 +596,8 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
                 Definition?.ReplenishInterval ?? 0,
                 Snapshot.ReplenishmentProgress));
 
-            RectTransform Badges = CreateBadgeStrip(Card.transform);
+            RectTransform Footer = CreateSystemFooter(Card);
+            RectTransform Badges = CreateBadgeStrip(Footer);
             if (Definition != null &&
                 Definition.Type != null &&
                 Definition.Type.Badge != null)
@@ -420,7 +605,83 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
                 CreateBadge(Badges, Definition.Type.Badge, Definition.Type.Name);
             }
 
-            ConfigureBadgeStrip(Badges, false);
+            ConfigureBadgeStrip(Badges);
+
+            Transform Replenish = Find(Card.transform, "Text_Replenish");
+            if (Replenish != null)
+            {
+                Replenish.SetParent(Footer, false);
+                ConfigureFooterText(Replenish);
+            }
+
+
+            bool SupportsMineDeployment =
+                Definition != null &&
+                (Definition.OperationalPhases & GameplayPhase.PreBattle) != 0 &&
+                Definition.MineDeployment != null &&
+                Definition.MineDeployment.Enabled;
+
+            bool SupportsUnitDeployment =
+                Definition != null &&
+                (Definition.OperationalPhases & GameplayPhase.PreBattle) != 0 &&
+                Definition.UnitDeployment != null &&
+                Definition.UnitDeployment.Enabled;
+
+            int CarriedUnitIndex = -1;
+            int AvailableCarriedUnits = 0;
+
+            if (SupportsUnitDeployment && Snapshot.CarriedUnits != null)
+            {
+                for (int CarriedIndex = 0;
+                    CarriedIndex < Snapshot.CarriedUnits.Length;
+                    CarriedIndex++)
+                {
+                    ParticipantCarriedUnitSnapshot Carried =
+                        Snapshot.CarriedUnits[CarriedIndex];
+
+                    if (Carried != null &&
+                        Carried.State == RuntimeCarriedUnitState.Carried)
+                    {
+                        AvailableCarriedUnits++;
+
+                        if (CarriedUnitIndex < 0)
+                            CarriedUnitIndex = Carried.CarriedUnitIndex;
+                    }
+                }
+            }
+
+            bool SupportsUse =
+                SupportsMineDeployment || SupportsUnitDeployment;
+
+
+            if (SupportsUse)
+            {
+                bool Usable =
+                    CanAct &&
+                    _Phase == GameplayPhase.PreBattle &&
+                    (!Definition.UsesCharges || Snapshot.CurrentCharges > 0) &&
+                    (!SupportsUnitDeployment || CarriedUnitIndex >= 0);
+
+                Button UseButton = CreateSystemUseButton(Card);
+                if (UseButton != null)
+                {
+                    SetText(
+                        UseButton.gameObject,
+                        "Text_Label",
+                        SupportsUnitDeployment
+                            ? $"Deploy ({AvailableCarriedUnits})"
+                            : "Lay Mine"
+                    );
+                    UseButton.interactable = Usable;
+                    int SlotIndex = Snapshot.SlotIndex;
+                    int SelectedCarriedUnitIndex = CarriedUnitIndex;
+                    UseButton.onClick.AddListener(() =>
+                    {
+                        if (UseButton.interactable)
+                            _UseSystem?.Invoke(SlotIndex, SelectedCarriedUnitIndex);
+                    });
+                }
+            }
         }
     }
 
@@ -449,6 +710,10 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
                 Definition?.ReplenishInterval ?? 0,
                 Snapshot.ReplenishmentProgress));
 
+            Transform Replenish = Find(Card.transform, "Text_Replenish");
+            if (Replenish != null)
+                ConfigureFooterText(Replenish);
+
             RectTransform Badges = Find(Card.transform, "BadgeStrip") as RectTransform;
             ClearGenerated(Badges, null);
 
@@ -467,8 +732,7 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
                 AddDomainBadges(Badges, Definition.TargetDomains);
             }
 
-            ConfigureBadgeStrip(Badges, true);
-            FitWeaponCardToBadges(Card, Badges);
+            ConfigureBadgeStrip(Badges);
         }
     }
 
@@ -494,7 +758,7 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             bool Usable =
                 CanAct &&
                 Definition != null &&
-                (Definition.UsablePhases & GameplayPhase.Movement) != 0;
+                (Definition.UsablePhases & _Phase) != 0;
 
             Button UseButton = Find(Card.transform, "Button_Use").GetComponent<Button>();
             UseButton.interactable = Usable;
@@ -506,6 +770,72 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
                     _UseAbility?.Invoke(SlotIndex);
             });
         }
+    }
+
+
+    private Button CreateSystemUseButton(GameObject Card)
+    {
+        Transform Source = _AbilityCardTemplate != null
+            ? Find(_AbilityCardTemplate.transform, "Button_Use")
+            : null;
+
+        Transform ChargeRow = Card != null
+            ? Find(Card.transform, "ChargeRow")
+            : null;
+
+
+        if (Source == null || ChargeRow == null)
+            return null;
+
+
+        GameObject ButtonObject = Instantiate(
+            Source.gameObject,
+            ChargeRow
+        );
+
+        ButtonObject.name = "Button_Use";
+        ButtonObject.SetActive(true);
+        SetText(ButtonObject, "Text_Label", "Use");
+        Button Button = ButtonObject.GetComponent<Button>();
+        ConfigureContentSizedButton(Button, 10, 10, 10, 10);
+        return Button;
+    }
+
+
+    private RectTransform CreateSystemFooter(GameObject Card)
+    {
+        GameObject Footer = new GameObject(
+            "Footer",
+            typeof(RectTransform),
+            typeof(HorizontalLayoutGroup),
+            typeof(LayoutElement));
+
+        Footer.layer = Card.layer;
+        Footer.transform.SetParent(Card.transform, false);
+        ConfigureCardFooter(Footer.transform, _BadgeHeight);
+        return Footer.GetComponent<RectTransform>();
+    }
+
+
+    private static void ConfigureFooterText(Transform TextTransform)
+    {
+        if (TextTransform.TryGetComponent(out TMP_Text Text))
+        {
+            Text.alignment = TextAlignmentOptions.MidlineRight;
+            Text.textWrappingMode = TextWrappingModes.NoWrap;
+            Text.overflowMode = TextOverflowModes.Ellipsis;
+        }
+
+        LayoutElement Layout = TextTransform.GetComponent<LayoutElement>();
+        if (Layout == null)
+            Layout = TextTransform.gameObject.AddComponent<LayoutElement>();
+
+        Layout.minWidth = -1f;
+        Layout.preferredWidth = -1f;
+        Layout.flexibleWidth = 0f;
+        Layout.minHeight = -1f;
+        Layout.preferredHeight = -1f;
+        Layout.flexibleHeight = 0f;
     }
 
 
@@ -544,9 +874,9 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
 
             if (ChargeTextLayout != null)
             {
-                ChargeTextLayout.minWidth = 0f;
-                ChargeTextLayout.preferredWidth = 0f;
-                ChargeTextLayout.flexibleWidth = 1f;
+                ChargeTextLayout.minWidth = -1f;
+                ChargeTextLayout.preferredWidth = -1f;
+                ChargeTextLayout.flexibleWidth = 0f;
             }
 
             SetText(Card, "Text_Charges", "No charges");
@@ -565,8 +895,8 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
 
         if (ChargeTextLayout != null)
         {
-            ChargeTextLayout.minWidth = 62f;
-            ChargeTextLayout.preferredWidth = 62f;
+            ChargeTextLayout.minWidth = -1f;
+            ChargeTextLayout.preferredWidth = -1f;
             ChargeTextLayout.flexibleWidth = 0f;
         }
 
@@ -592,8 +922,8 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             CreateSegment(
                 Strip,
                 Segment,
-                _ChargeSegmentWidth,
-                _ChargeSegmentHeight);
+                _ChargeSegmentHeight,
+                false);
         }
     }
 
@@ -629,7 +959,7 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
     }
 
 
-    private void ConfigureBadgeStrip(RectTransform Strip, bool SizeToContents)
+    private void ConfigureBadgeStrip(RectTransform Strip)
     {
         if (Strip == null)
             return;
@@ -652,39 +982,11 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         if (Layout == null)
             return;
 
-        float ContentWidth = BadgeCount > 0
-            ? BadgeCount * _BadgeWidth + (BadgeCount - 1) * _BadgeSpacing
-            : 0f;
-
         Layout.minHeight = _BadgeHeight;
         Layout.preferredHeight = _BadgeHeight;
-        Layout.minWidth = SizeToContents ? ContentWidth : 0f;
-        Layout.preferredWidth = SizeToContents ? ContentWidth : 0f;
-        Layout.flexibleWidth = SizeToContents ? 0f : 1f;
-    }
-
-
-    private void FitWeaponCardToBadges(GameObject Card, RectTransform Badges)
-    {
-        if (Card == null || Badges == null || Badges.childCount == 0)
-            return;
-
-        float BadgeContentWidth =
-            Badges.childCount * _BadgeWidth +
-            (Badges.childCount - 1) * _BadgeSpacing;
-        float RequiredWidth =
-            24f +
-            _WeaponFooterTextWidth +
-            5f +
-            BadgeContentWidth;
-
-        LayoutElement CardLayout = Card.GetComponent<LayoutElement>();
-        if (CardLayout == null)
-            return;
-
-        float Width = Mathf.Max(_WeaponCardWidth, RequiredWidth);
-        CardLayout.minWidth = Width;
-        CardLayout.preferredWidth = Width;
+        Layout.minWidth = -1f;
+        Layout.preferredWidth = -1f;
+        Layout.flexibleWidth = 0f;
     }
 
 
@@ -825,8 +1127,10 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         Image.raycastTarget = false;
 
         LayoutElement Layout = Badge.GetComponent<LayoutElement>();
-        Layout.minWidth = _BadgeWidth;
-        Layout.preferredWidth = _BadgeWidth;
+        float BadgeWidth = GetAspectWidth(Sprite, _BadgeHeight);
+        Layout.minWidth = BadgeWidth;
+        Layout.preferredWidth = BadgeWidth;
+        Layout.flexibleWidth = 0f;
         Layout.minHeight = _BadgeHeight;
         Layout.preferredHeight = _BadgeHeight;
     }
@@ -835,8 +1139,8 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
     private static void CreateSegment(
         RectTransform Parent,
         Sprite Sprite,
-        float Width,
-        float Height)
+        float Height,
+        bool FlexibleWidth = false)
     {
         GameObject Segment = new GameObject(
             "Segment",
@@ -854,10 +1158,21 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         Image.raycastTarget = false;
 
         LayoutElement Layout = Segment.GetComponent<LayoutElement>();
-        Layout.minWidth = Width;
+        float Width = GetAspectWidth(Sprite, Height);
+        Layout.minWidth = FlexibleWidth ? 0f : Width;
         Layout.preferredWidth = Width;
+        Layout.flexibleWidth = FlexibleWidth ? 1f : 0f;
         Layout.minHeight = Height;
         Layout.preferredHeight = Height;
+    }
+
+
+    private static float GetAspectWidth(Sprite Sprite, float Height)
+    {
+        if (Sprite == null || Sprite.rect.height <= 0f)
+            return Height;
+
+        return Height * Sprite.rect.width / Sprite.rect.height;
     }
 
 

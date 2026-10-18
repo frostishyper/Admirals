@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 
 // Authoritative subordinate for RuntimeUnit effects that cross Unit and Map
@@ -7,6 +8,8 @@ using System.Collections.Generic;
 internal sealed class GameUnitEffects
 {
     private GameMap _GameMap;
+
+    private GameUnits _GameUnits;
 
 
     internal bool Initialized
@@ -18,6 +21,7 @@ internal sealed class GameUnitEffects
 
     internal bool Initialize(
         GameMap GameMap,
+        GameUnits GameUnits,
         out string ValidationMessage
     )
     {
@@ -26,10 +30,12 @@ internal sealed class GameUnitEffects
 
 
         if (GameMap == null ||
-            !GameMap.Initialized)
+            !GameMap.Initialized ||
+            GameUnits == null ||
+            !GameUnits.Initialized)
         {
             ValidationMessage =
-                "GameUnitEffects requires an initialized GameMap.";
+                "GameUnitEffects requires initialized GameMap and GameUnits state.";
 
             return false;
         }
@@ -38,6 +44,9 @@ internal sealed class GameUnitEffects
         _GameMap =
             GameMap;
 
+        _GameUnits =
+            GameUnits;
+
 
         Initialized =
             true;
@@ -45,6 +54,107 @@ internal sealed class GameUnitEffects
         ValidationMessage =
             string.Empty;
 
+        return true;
+    }
+
+
+    internal bool ResolveTriggeredMines(
+        RuntimeUnit Unit,
+        IReadOnlyList<RuntimeMineOccupancy> Mines,
+        out bool UnitDestroyed,
+        out string ResolutionMessage
+    )
+    {
+        UnitDestroyed = false;
+        ResolutionMessage = string.Empty;
+
+
+        if (!Initialized ||
+            Unit == null ||
+            Mines == null)
+        {
+            ResolutionMessage =
+                "Mine resolution requires initialized effects, a Unit and Mine records.";
+            return false;
+        }
+
+
+        int TotalDamage = 0;
+
+
+        for (int i = 0; i < Mines.Count; i++)
+        {
+            RuntimeMineOccupancy Mine = Mines[i];
+            SystemMineDeploymentCapability Capability =
+                Mine?.SourceSystem?.MineDeployment;
+
+
+            if (Capability == null ||
+                !Capability.Enabled ||
+                (Capability.TriggerDomains & Unit.CurrentDomain) == 0)
+            {
+                continue;
+            }
+
+
+            int Roll = Capability.UsesD20Roll
+                ? Random.Range(1, 21)
+                : 1;
+
+
+            if (Capability.TryGetMineOutcome(
+                    Roll,
+                    out MineOutcome Outcome) &&
+                Outcome != null)
+            {
+                TotalDamage += Mathf.Max(0, Outcome.Damage);
+            }
+        }
+
+
+        if (TotalDamage > 0)
+        {
+            Unit.SetHealth(Unit.CurrentHealth - TotalDamage);
+        }
+
+
+        if (Unit.CurrentHealth <= 0 && Unit.IsActive)
+        {
+            if (!_GameUnits.TryGetRoster(
+                    Unit.Owner,
+                    out ParticipantUnitRoster Roster))
+            {
+                ResolutionMessage =
+                    "The damaged Unit has no participant roster.";
+                return false;
+            }
+
+
+            if (!_GameMap.TryRemoveUnit(
+                    Unit,
+                    out string MapMessage))
+            {
+                ResolutionMessage = MapMessage;
+                return false;
+            }
+
+
+            if (!Roster.TryMarkDestroyed(
+                    Unit,
+                    out _,
+                    out string UnitMessage))
+            {
+                ResolutionMessage = UnitMessage;
+                return false;
+            }
+
+
+            UnitDestroyed = true;
+        }
+
+
+        ResolutionMessage =
+            $"{Mines.Count} Mine(s) detonated for {TotalDamage} damage.";
         return true;
     }
 

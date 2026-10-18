@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13bbeb2266123ae4bb91238b9177e79f, type: 3}
+  m_Name: BSD_Weapon_ASR_Tethys
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_Weapon
+  _Name: '"Tethys" Anti-Submarine Rocket'
+  _ID: BSD_Weapon_ASR_Tethys
+  _Manufacturer: {fileID: 11400000, guid: 4a4c1895ca81e7b4380efddbf9981217, type: 2}
+  _Types:
+  - {fileID: 11400000, guid: 4fb5c3fe53badc04c84608d65482a734, type: 2}
+  _Tier: {fileID: 11400000, guid: 0d1f3f4bce1e0b64c86d489f5d3967ea, type: 2}
+  _TargetDomains: 4
+  _EligibleUnitTypes:
+  - {fileID: 11400000, guid: be3073be4daeacd42ade2c74f2267f12, type: 2}
+  - {fileID: 11400000, guid: b73b3ccedebfbba4e8169f0db6d7b025, type: 2}
+  - {fileID: 11400000, guid: 5504d9b2442672b46b85dee68d15bb4a, type: 2}
+  - {fileID: 11400000, guid: f351929677bc8c045a71bfb2527e6431, type: 2}
+  - {fileID: 11400000, guid: 5e0635ac74d75e9478903eeaf19b2e84, type: 2}
+  _ReplenishRate: 1
+  _ReplenishInterval: 3
+  _UsesD20Roll: 1
+  _AttackOutcome:
+    _Name: 
+    _Result: 0
+    _Damage: 0
+    _AttackProperties: 
+  _D20Outcomes:
+  - _MinimumRoll: 1
+    _MaximumRoll: 5
+    _Outcome:
+      _Name: Miss
+      _Result: 2
+      _Damage: 0
+      _AttackProperties: 
+  - _MinimumRoll: 6
+    _MaximumRoll: 10
+    _Outcome:
+      _Name: Proximity Detonation
+      _Result: 1
+      _Damage: 5
+      _AttackProperties: 
+  - _MinimumRoll: 11
+    _MaximumRoll: 15
+    _Outcome:
+      _Name: Close Detonation
+      _Result: 1
+      _Damage: 10
+      _AttackProperties: 
+  - _MinimumRoll: 16
+    _MaximumRoll: 20
+    _Outcome:
+      _Name: Direct Detonation
+      _Result: 1
+      _Damage: 15
+      _AttackProperties: 
+  _StatusAfflictions: []

@@ -55,12 +55,16 @@ public sealed class ParticipantWeaponSnapshot
 
 public sealed class ParticipantCarriedUnitSnapshot
 {
+    public int CarriedUnitIndex { get; }
     public string DefinitionID { get; }
     public string Name { get; }
     public RuntimeCarriedUnitState State { get; }
 
-    internal ParticipantCarriedUnitSnapshot(RuntimeCarriedUnit Unit)
+    internal ParticipantCarriedUnitSnapshot(
+        RuntimeCarriedUnit Unit,
+        int CarriedUnitIndex)
     {
+        this.CarriedUnitIndex = CarriedUnitIndex;
         DefinitionID = Unit?.Unit != null ? Unit.Unit.ID : string.Empty;
         Name = Unit?.Unit != null ? Unit.Unit.Name : string.Empty;
         State = Unit != null ? Unit.State : RuntimeCarriedUnitState.Lost;
@@ -91,7 +95,7 @@ public sealed class ParticipantSystemSnapshot
 
         CarriedUnits = new ParticipantCarriedUnitSnapshot[Slot.CarriedUnits.Count];
         for (int i = 0; i < CarriedUnits.Length; i++)
-            CarriedUnits[i] = new ParticipantCarriedUnitSnapshot(Slot.CarriedUnits[i]);
+            CarriedUnits[i] = new ParticipantCarriedUnitSnapshot(Slot.CarriedUnits[i], i);
     }
 }
 
@@ -184,6 +188,7 @@ public sealed class ParticipantUnitSnapshot
     public int MaxHealth { get; }
     public Domain CurrentDomain { get; }
     public UnitFacing Facing { get; }
+    public int EmbarkedPresentationLevel { get; }
     public int AbsoluteVision { get; }
     public bool IsOnMap { get; }
     public Vector2Int MovementPivotCoordinate { get; }
@@ -211,6 +216,7 @@ public sealed class ParticipantUnitSnapshot
         MaxHealth = Unit.MaxHealth;
         CurrentDomain = Unit.CurrentDomain;
         Facing = Unit.Facing;
+        EmbarkedPresentationLevel = GetEmbarkedPresentationLevel(Unit);
         AbsoluteVision = Unit.Definition != null ? Unit.Definition.AbsoluteVision : 0;
         this.IsOnMap = IsOnMap;
         this.MovementPivotCoordinate = MovementPivotCoordinate;
@@ -254,6 +260,21 @@ public sealed class ParticipantUnitSnapshot
                 );
         }
     }
+
+
+    private static int GetEmbarkedPresentationLevel(RuntimeUnit Unit)
+    {
+        int Count = 0;
+        RuntimeCarriedUnit[] CarriedUnits = Unit.GetCarriedUnits();
+
+        for (int i = 0; i < CarriedUnits.Length; i++)
+        {
+            if (CarriedUnits[i]?.State == RuntimeCarriedUnitState.Carried)
+                Count++;
+        }
+
+        return Mathf.Clamp(Count, 0, 3);
+    }
 }
 
 
@@ -267,6 +288,7 @@ public sealed class VisibleEnemyUnitSnapshot
     public string DefinitionName { get; }
     public Domain CurrentDomain { get; }
     public UnitFacing Facing { get; }
+    public int EmbarkedPresentationLevel { get; }
     public Vector2Int MovementPivotCoordinate { get; }
     public Vector2Int[] OccupiedCoordinates { get; }
     public ParticipantUnitTagSnapshot[] Tags { get; }
@@ -281,6 +303,7 @@ public sealed class VisibleEnemyUnitSnapshot
         DefinitionName = Unit.Definition != null ? Unit.Definition.Name : string.Empty;
         CurrentDomain = Unit.CurrentDomain;
         Facing = Unit.Facing;
+        EmbarkedPresentationLevel = GetEmbarkedPresentationLevel(Unit);
         this.MovementPivotCoordinate = MovementPivotCoordinate;
         OccupiedCoordinates = Coordinates ?? Array.Empty<Vector2Int>();
 
@@ -299,6 +322,43 @@ public sealed class VisibleEnemyUnitSnapshot
                 );
         }
     }
+
+
+    private static int GetEmbarkedPresentationLevel(RuntimeUnit Unit)
+    {
+        int Count = 0;
+        RuntimeCarriedUnit[] CarriedUnits = Unit.GetCarriedUnits();
+
+        for (int i = 0; i < CarriedUnits.Length; i++)
+        {
+            if (CarriedUnits[i]?.State == RuntimeCarriedUnitState.Carried)
+                Count++;
+        }
+
+        return Mathf.Clamp(Count, 0, 3);
+    }
+}
+
+
+public sealed class ParticipantMineSnapshot
+{
+    public string MineInstanceID { get; }
+    public Vector2Int Coordinate { get; }
+    public bool IsOwned { get; }
+
+
+    internal ParticipantMineSnapshot(
+        RuntimeMineOccupancy Mine,
+        Vector2Int Coordinate,
+        bool IsOwned
+    )
+    {
+        MineInstanceID = Mine != null
+            ? Mine.MineInstanceID
+            : string.Empty;
+        this.Coordinate = Coordinate;
+        this.IsOwned = IsOwned;
+    }
 }
 
 
@@ -310,9 +370,11 @@ public sealed class ParticipantGameSnapshot
     public bool HasFirstPlayerPriority { get; }
     public bool DeploymentLocked { get; }
     public GameMovement.ParticipantView Movement { get; }
+    public GamePreBattle.ParticipantView PreBattle { get; }
     public ParticipantTileSnapshot[] Tiles { get; }
     public ParticipantUnitSnapshot[] OwnUnits { get; }
     public VisibleEnemyUnitSnapshot[] VisibleEnemies { get; }
+    public ParticipantMineSnapshot[] Mines { get; }
 
     internal ParticipantGameSnapshot(
         GameplayPhase CurrentPhase,
@@ -321,9 +383,11 @@ public sealed class ParticipantGameSnapshot
         bool HasFirstPlayerPriority,
         bool DeploymentLocked,
         GameMovement.ParticipantView Movement,
+        GamePreBattle.ParticipantView PreBattle,
         ParticipantTileSnapshot[] Tiles,
         ParticipantUnitSnapshot[] OwnUnits,
-        VisibleEnemyUnitSnapshot[] VisibleEnemies)
+        VisibleEnemyUnitSnapshot[] VisibleEnemies,
+        ParticipantMineSnapshot[] Mines)
     {
         this.CurrentPhase = CurrentPhase;
         this.TurnNumber = TurnNumber;
@@ -331,9 +395,11 @@ public sealed class ParticipantGameSnapshot
         this.HasFirstPlayerPriority = HasFirstPlayerPriority;
         this.DeploymentLocked = DeploymentLocked;
         this.Movement = Movement;
+        this.PreBattle = PreBattle;
         this.Tiles = Tiles ?? Array.Empty<ParticipantTileSnapshot>();
         this.OwnUnits = OwnUnits ?? Array.Empty<ParticipantUnitSnapshot>();
         this.VisibleEnemies = VisibleEnemies ?? Array.Empty<VisibleEnemyUnitSnapshot>();
+        this.Mines = Mines ?? Array.Empty<ParticipantMineSnapshot>();
     }
 }
 
@@ -432,6 +498,7 @@ internal sealed class GameKnowledge
         bool MatchStarted,
         RuntimeParticipant FirstPlayer,
         GameMovement.ParticipantView Movement,
+        GamePreBattle.ParticipantView PreBattle,
         out ParticipantGameSnapshot Snapshot,
         out string ValidationMessage)
     {
@@ -459,9 +526,11 @@ internal sealed class GameKnowledge
             ReferenceEquals(Participant, FirstPlayer),
             Participant.DeploymentLocked,
             Movement,
+            PreBattle,
             BuildTileSnapshots(Visibility),
             BuildOwnUnitSnapshots(OwnRoster),
-            BuildVisibleEnemySnapshots(EnemyRoster, Visibility));
+            BuildVisibleEnemySnapshots(EnemyRoster, Visibility),
+            BuildMineSnapshots(Participant, Visibility));
 
         ValidationMessage = string.Empty;
         return true;
@@ -664,6 +733,55 @@ internal sealed class GameKnowledge
                 );
             }
         }
+
+        return Result.ToArray();
+    }
+
+
+    private ParticipantMineSnapshot[] BuildMineSnapshots(
+        RuntimeParticipant Participant,
+        Dictionary<Vector2Int, ParticipantTileVisibility> Visibility
+    )
+    {
+        List<ParticipantMineSnapshot> Result =
+            new List<ParticipantMineSnapshot>();
+
+        RuntimeMineMapRecord[] Mines =
+            _GameMap.GetMines();
+
+
+        for (int i = 0; i < Mines.Length; i++)
+        {
+            RuntimeMineMapRecord Record = Mines[i];
+            RuntimeMineOccupancy Mine = Record?.Mine;
+
+            if (Mine == null)
+                continue;
+
+
+            bool IsOwned =
+                ReferenceEquals(Mine.Owner, Participant);
+
+            bool IsVisibleEnemyMine =
+                !IsOwned &&
+                Visibility.TryGetValue(
+                    Record.Coordinate,
+                    out ParticipantTileVisibility State) &&
+                State == ParticipantTileVisibility.Absolute;
+
+
+            if (IsOwned || IsVisibleEnemyMine)
+            {
+                Result.Add(
+                    new ParticipantMineSnapshot(
+                        Mine,
+                        Record.Coordinate,
+                        IsOwned
+                    )
+                );
+            }
+        }
+
 
         return Result.ToArray();
     }

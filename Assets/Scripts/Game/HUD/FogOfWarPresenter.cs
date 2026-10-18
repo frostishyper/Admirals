@@ -76,6 +76,10 @@ public sealed class FogOfWarPresenter : MonoBehaviour
     private Color _ObscuredTerrainMultiplier =
         new Color(0.55f, 0.55f, 0.55f, 1f);
 
+    [Header("Participant-Known Mines")]
+    [SerializeField]
+    private TileBase _MineTile;
+
     private readonly Dictionary<Vector3Int, TerrainCellAppearance>
         _OriginalTerrainAppearance =
             new Dictionary<Vector3Int, TerrainCellAppearance>();
@@ -85,6 +89,11 @@ public sealed class FogOfWarPresenter : MonoBehaviour
     private MapAuthoring _MapAuthoring;
     private Tilemap _TerrainArt;
     private Tilemap _Fog;
+    private Tilemap _BelowUnits;
+    private readonly HashSet<Vector3Int> _PaintedMineCells =
+        new HashSet<Vector3Int>();
+    private readonly Dictionary<Vector3Int, TileBase> _MineCellBackgrounds =
+        new Dictionary<Vector3Int, TileBase>();
     private bool _PresentationInitialized;
 
     private IEnumerator Start()
@@ -140,6 +149,7 @@ public sealed class FogOfWarPresenter : MonoBehaviour
 
         ApplyTerrainVisibility(Snapshot);
         PaintFog(Snapshot);
+        PaintKnownMines(Snapshot);
         return true;
     }
 
@@ -156,6 +166,7 @@ public sealed class FogOfWarPresenter : MonoBehaviour
         if (_MapAuthoring == null ||
             _MapAuthoring.GridReference == null ||
             _MapAuthoring.TerrainArt == null ||
+            _MapAuthoring.BelowUnits == null ||
             _MapAuthoring.Fog == null)
         {
             Debug.LogError(
@@ -168,10 +179,51 @@ public sealed class FogOfWarPresenter : MonoBehaviour
             _MapAuthoring.TerrainArt;
         _Fog =
             _MapAuthoring.Fog;
+        _BelowUnits =
+            _MapAuthoring.BelowUnits;
 
         CacheTerrainAppearance();
         _PresentationInitialized = true;
         return true;
+    }
+
+
+    private void PaintKnownMines(
+        ParticipantGameSnapshot Snapshot)
+    {
+        foreach (Vector3Int Cell in _PaintedMineCells)
+        {
+            _MineCellBackgrounds.TryGetValue(Cell, out TileBase Background);
+            _BelowUnits.SetTile(Cell, Background);
+        }
+
+        _PaintedMineCells.Clear();
+        _MineCellBackgrounds.Clear();
+
+
+        if (_MineTile == null || Snapshot?.Mines == null)
+            return;
+
+
+        for (int i = 0; i < Snapshot.Mines.Length; i++)
+        {
+            ParticipantMineSnapshot Mine = Snapshot.Mines[i];
+            if (Mine == null)
+                continue;
+
+            Vector3Int Cell = new Vector3Int(
+                Mine.Coordinate.x,
+                Mine.Coordinate.y,
+                0
+            );
+
+            _MineCellBackgrounds[Cell] = _BelowUnits.GetTile(Cell);
+            _BelowUnits.SetTile(Cell, _MineTile);
+            _PaintedMineCells.Add(Cell);
+        }
+
+
+        _BelowUnits.RefreshAllTiles();
     }
 
     private void CacheTerrainAppearance()
@@ -459,24 +511,46 @@ public sealed class FogOfWarPresenter : MonoBehaviour
         if (!_PresentationInitialized)
             return;
 
-        foreach (
-            KeyValuePair<Vector3Int, TerrainCellAppearance> Pair
-            in _OriginalTerrainAppearance)
+        _PresentationInitialized = false;
+
+        if (_TerrainArt != null)
         {
-            _TerrainArt.SetTileFlags(
-                Pair.Key,
-                Pair.Value.Flags & ~TileFlags.LockColor);
-            _TerrainArt.SetColor(
-                Pair.Key,
-                Pair.Value.Color);
-            _TerrainArt.SetTileFlags(
-                Pair.Key,
-                Pair.Value.Flags);
+            foreach (
+                KeyValuePair<Vector3Int, TerrainCellAppearance> Pair
+                in _OriginalTerrainAppearance)
+            {
+                _TerrainArt.SetTileFlags(
+                    Pair.Key,
+                    Pair.Value.Flags & ~TileFlags.LockColor);
+                _TerrainArt.SetColor(
+                    Pair.Key,
+                    Pair.Value.Color);
+                _TerrainArt.SetTileFlags(
+                    Pair.Key,
+                    Pair.Value.Flags);
+            }
+
+            _TerrainArt.RefreshAllTiles();
         }
 
-        _TerrainArt.RefreshAllTiles();
-        _Fog.ClearAllTiles();
-        _PresentationInitialized = false;
+        if (_Fog != null)
+            _Fog.ClearAllTiles();
+
+        if (_BelowUnits != null)
+        {
+            foreach (Vector3Int Cell in _PaintedMineCells)
+            {
+                _MineCellBackgrounds.TryGetValue(
+                    Cell,
+                    out TileBase Background);
+                _BelowUnits.SetTile(Cell, Background);
+            }
+
+            _BelowUnits.RefreshAllTiles();
+        }
+
+        _PaintedMineCells.Clear();
+        _MineCellBackgrounds.Clear();
     }
 
     private static Color MultiplyColor(

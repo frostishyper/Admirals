@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb47f0e9efea9b4093594840409160c, type: 3}
+  m_Name: BSD_Unit_Carrier_Sentinel
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_Unit
+  _Name: '"Sentinel" Class Carrier'
+  _ID: BSD_Unit_Carrier_Sentinel
+  _Manufacturer: {fileID: 11400000, guid: 4a4c1895ca81e7b4380efddbf9981217, type: 2}
+  _UnitTypes:
+  - {fileID: 11400000, guid: be3073be4daeacd42ade2c74f2267f12, type: 2}
+  _Tier: {fileID: 11400000, guid: 7d8efc81ae65d1349afaf2b6381278be, type: 2}
+  _BaseDomain: 2
+  _Health: 30
+  _Stealth: 0
+  _AbsoluteVision: 2
+  _FootprintSize: {x: 5, y: 1}
+  _OriginPoint: {x: 2, y: 0}
+  _MovementPivot: {x: 2, y: 0}
+  _MovementPattern: {fileID: 11400000, guid: 769a8bfb8ace9ff4293d025d28691da2, type: 2}
+  _WeaponSlots:
+  - _Weapon: {fileID: 11400000, guid: 73a51abaabed8794b92d3cd3c734315a, type: 2}
+    _MaxCharges: 4
+  _SystemSlots:
+  - _SlotType: 1
+    _System: {fileID: 11400000, guid: a080f304f7a954745a08cfe11023175a, type: 2}
+    _MaxCharges: 0
+    _CarriedUnits: []
+  - _SlotType: 2
+    _System: {fileID: 11400000, guid: dd32a621656cb2c41af42820e0a637df, type: 2}
+    _MaxCharges: 2
+    _CarriedUnits: []
+  - _SlotType: 2
+    _System: {fileID: 11400000, guid: b9088f9a38f2b2f40a4f63b0a1bb63f3, type: 2}
+    _MaxCharges: 2
+    _CarriedUnits: []
+  - _SlotType: 2
+    _System: {fileID: 11400000, guid: 51c7587573ee6484b924ea32d9caa0dc, type: 2}
+    _MaxCharges: 2
+    _CarriedUnits: []
+  - _SlotType: 4
+    _System: {fileID: 11400000, guid: 152e8e6e8c41415418e8d61dd893877d, type: 2}
+    _MaxCharges: 0
+    _CarriedUnits:
+    - _Unit: {fileID: 11400000, guid: 59a0aa7b887e14f458a28dcc3dce095f, type: 2}
+      _Count: 3
+  _Abilities:
+  - {fileID: 11400000, guid: d64888defec679547a2272f7d4ce1ca8, type: 2}

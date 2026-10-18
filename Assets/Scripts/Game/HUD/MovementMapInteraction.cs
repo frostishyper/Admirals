@@ -77,6 +77,11 @@ public sealed class MovementMapInteraction : MonoBehaviour
     private Vector2Int _CandidatePivot;
     private UnitFacing _CandidateFacing;
     private bool _CandidateLegal;
+    private bool _MineTargeting;
+    private bool _UnitDeploymentTargeting;
+    private int _SelectedSystemSlotIndex = -1;
+    private int _SelectedCarriedUnitIndex = -1;
+    private string _DeploymentPreviewDefinitionID = string.Empty;
     private bool _Initialized;
     private bool _ButtonsBound;
     private float _NextTimerRefreshTime;
@@ -123,7 +128,8 @@ public sealed class MovementMapInteraction : MonoBehaviour
     private void Update()
     {
         if (!_Initialized ||
-            _GameMaster.CurrentPhase != GameplayPhase.Movement ||
+            (_GameMaster.CurrentPhase != GameplayPhase.Movement &&
+             _GameMaster.CurrentPhase != GameplayPhase.PreBattle) ||
             IsMovementPlaybackLocked())
         {
             return;
@@ -225,6 +231,24 @@ public sealed class MovementMapInteraction : MonoBehaviour
 
     private void RefreshTimerPresentation()
     {
+        if (_GameMaster.CurrentPhase == GameplayPhase.PreBattle)
+        {
+            if (_ParticipantAccess != null &&
+                _ParticipantAccess.TryGetPreBattleView(
+                    out GamePreBattle.ParticipantView PreBattle) &&
+                PreBattle != null)
+            {
+                _GameplayHUD.SetPreBattleStatus(
+                    PreBattle.ActionsCommitted,
+                    PreBattle.SecondsRemaining,
+                    PreBattle.CanAct
+                );
+            }
+
+            return;
+        }
+
+
         if (_ParticipantAccess == null ||
             !_ParticipantAccess.TryGetMovementView(
                 out GameMovement.ParticipantView Movement) ||
@@ -268,10 +292,67 @@ public sealed class MovementMapInteraction : MonoBehaviour
         }
 
 
-        if (_Snapshot.CurrentPhase != GameplayPhase.Movement ||
-            _Snapshot.Movement == null)
+        bool IsMovement =
+            _Snapshot.CurrentPhase == GameplayPhase.Movement &&
+            _Snapshot.Movement != null;
+
+        bool IsPreBattle =
+            _Snapshot.CurrentPhase == GameplayPhase.PreBattle &&
+            _Snapshot.PreBattle != null;
+
+
+        if (!IsMovement && !IsPreBattle)
         {
             ClearSelection();
+            return;
+        }
+
+
+        if (IsPreBattle)
+        {
+            _GameplayHUD.ShowPreBattlePhase();
+            _GameplayHUD.SetPlayerName(_ParticipantAccess.DisplayName);
+            _GameplayHUD.SetPreBattleStatus(
+                _Snapshot.PreBattle.ActionsCommitted,
+                _Snapshot.PreBattle.SecondsRemaining,
+                _Snapshot.PreBattle.CanAct
+            );
+
+
+            if (!_Snapshot.PreBattle.CanAct)
+            {
+                ClearSelection();
+                return;
+            }
+
+
+            if (_SelectedUnit == null)
+            {
+                _GameplayHUD.SetPreBattleSelectionVisible(false, false);
+                return;
+            }
+
+
+            if (!TryFindOwnUnit(
+                    _SelectedUnit.RuntimeUnitID,
+                    out ParticipantUnitSnapshot PreBattleUnit))
+            {
+                ClearSelection();
+                return;
+            }
+
+
+            _SelectedUnit = PreBattleUnit;
+            RefreshSelectedUnitDetails();
+            _GameplayHUD.SetPreBattleSelectionVisible(
+                true,
+                _MineTargeting || _UnitDeploymentTargeting,
+                _UnitDeploymentTargeting
+            );
+
+            if (_MineTargeting || _UnitDeploymentTargeting)
+                RefreshCandidatePresentation();
+
             return;
         }
 
@@ -362,6 +443,20 @@ public sealed class MovementMapInteraction : MonoBehaviour
         }
 
 
+        if (_MineTargeting)
+        {
+            TrySetMineCandidate(Coordinate);
+            return;
+        }
+
+
+        if (_UnitDeploymentTargeting)
+        {
+            TrySetUnitDeploymentCandidate(Coordinate);
+            return;
+        }
+
+
         if (_SelectedUnit != null)
         {
             TrySetCandidate(
@@ -380,6 +475,21 @@ public sealed class MovementMapInteraction : MonoBehaviour
 
         if (Keyboard == null)
         {
+            return;
+        }
+
+
+        if (_GameMaster.CurrentPhase == GameplayPhase.PreBattle)
+        {
+            if (Keyboard.escapeKey.wasPressedThisFrame)
+                ClearSelection();
+            else if (Keyboard.enterKey.wasPressedThisFrame)
+                ConfirmMovement();
+            else if (Keyboard.qKey.wasPressedThisFrame)
+                RotateCandidate(false);
+            else if (Keyboard.eKey.wasPressedThisFrame)
+                RotateCandidate(true);
+
             return;
         }
 
@@ -407,6 +517,14 @@ public sealed class MovementMapInteraction : MonoBehaviour
         ParticipantUnitSnapshot Unit
     )
     {
+        if (_Snapshot?.PreBattle != null &&
+            _Snapshot.CurrentPhase == GameplayPhase.PreBattle)
+        {
+            SelectPreBattleUnit(Unit);
+            return;
+        }
+
+
         if (_Snapshot?.Movement == null ||
             !_Snapshot.Movement.CanAct ||
             Unit == null ||
@@ -473,6 +591,169 @@ public sealed class MovementMapInteraction : MonoBehaviour
     }
 
 
+    private void SelectPreBattleUnit(
+        ParticipantUnitSnapshot Unit
+    )
+    {
+        if (_Snapshot?.PreBattle == null ||
+            !_Snapshot.PreBattle.CanAct ||
+            Unit == null ||
+            Unit.LifeState != RuntimeUnitLifeState.Active ||
+            !Unit.IsOnMap ||
+            !_UnitPresentationCatalog.TryGetPresentation(
+                Unit.DefinitionID,
+                out Definition_Unit Definition,
+                out _))
+        {
+            return;
+        }
+
+
+        ClearSelection();
+        _SelectedUnit = Unit;
+        _SelectedDefinition = Definition;
+        _CandidatePivot = Unit.MovementPivotCoordinate;
+        _CandidateFacing = Unit.Facing;
+        RefreshSelectedUnitDetails();
+        _GameplayHUD.SetPreBattleSelectionVisible(true, false);
+    }
+
+
+    private void BeginPreBattleSystemTargeting(
+        int SystemSlotIndex,
+        int CarriedUnitIndex)
+    {
+        if (CarriedUnitIndex >= 0)
+            BeginUnitDeploymentTargeting(SystemSlotIndex, CarriedUnitIndex);
+        else
+            BeginMineTargeting(SystemSlotIndex);
+    }
+
+
+    private void BeginMineTargeting(int SystemSlotIndex)
+    {
+        string ValidationMessage = string.Empty;
+
+
+        if (_SelectedUnit == null ||
+            _ParticipantAccess == null ||
+            !_ParticipantAccess.TryGetMineDeploymentArea(
+                _SelectedUnit.RuntimeUnitID,
+                SystemSlotIndex,
+                out Vector2Int[] Area,
+                out ValidationMessage))
+        {
+            ReportRejectedInput(ValidationMessage);
+            return;
+        }
+
+
+        _MovementArea.Clear();
+        for (int i = 0; i < Area.Length; i++)
+            _MovementArea.Add(Area[i]);
+
+        _SelectedSystemSlotIndex = SystemSlotIndex;
+        _MineTargeting = true;
+        _UnitDeploymentTargeting = false;
+        _SelectedCarriedUnitIndex = -1;
+        _DeploymentPreviewDefinitionID = string.Empty;
+        _CandidateLegal = false;
+
+        if (Area.Length > 0)
+        {
+            _CandidatePivot = Area[0];
+            RefreshCandidatePresentation();
+        }
+        else
+        {
+            PaintMarkers();
+            _GameplayHUD.SetPreBattleSelectionVisible(true, true);
+        }
+    }
+
+
+    private void BeginUnitDeploymentTargeting(
+        int SystemSlotIndex,
+        int CarriedUnitIndex)
+    {
+        string ValidationMessage = string.Empty;
+
+
+        if (_SelectedUnit == null ||
+            _ParticipantAccess == null ||
+            !TryGetCarriedUnitDefinitionID(
+                SystemSlotIndex,
+                CarriedUnitIndex,
+                out string DefinitionID) ||
+            !_ParticipantAccess.TryGetUnitDeploymentArea(
+                _SelectedUnit.RuntimeUnitID,
+                SystemSlotIndex,
+                CarriedUnitIndex,
+                _SelectedUnit.Facing,
+                out Vector2Int[] Area,
+                out ValidationMessage))
+        {
+            ReportRejectedInput(
+                string.IsNullOrWhiteSpace(ValidationMessage)
+                    ? "The carried Unit could not be selected for deployment."
+                    : ValidationMessage
+            );
+            return;
+        }
+
+
+        _MovementArea.Clear();
+        for (int i = 0; i < Area.Length; i++)
+            _MovementArea.Add(Area[i]);
+
+        _SelectedSystemSlotIndex = SystemSlotIndex;
+        _SelectedCarriedUnitIndex = CarriedUnitIndex;
+        _DeploymentPreviewDefinitionID = DefinitionID;
+        _MineTargeting = false;
+        _UnitDeploymentTargeting = true;
+        _CandidateFacing = _SelectedUnit.Facing;
+        _CandidateLegal = false;
+
+
+        if (Area.Length > 0)
+        {
+            _CandidatePivot = Area[0];
+            RefreshCandidatePresentation();
+        }
+        else
+        {
+            PaintMarkers();
+            _GameplayHUD.SetPreBattleSelectionVisible(true, true, true);
+        }
+    }
+
+
+    private void TrySetMineCandidate(Vector2Int Coordinate)
+    {
+        if (!_MineTargeting ||
+            !_MovementArea.Contains(Coordinate))
+        {
+            return;
+        }
+
+        _CandidatePivot = Coordinate;
+        RefreshCandidatePresentation();
+    }
+
+
+    private void TrySetUnitDeploymentCandidate(Vector2Int Coordinate)
+    {
+        if (!_UnitDeploymentTargeting ||
+            !_MovementArea.Contains(Coordinate))
+        {
+            return;
+        }
+
+        _CandidatePivot = Coordinate;
+        RefreshCandidatePresentation();
+    }
+
+
     private void NudgeCandidate(
         Vector2Int Offset
     )
@@ -509,6 +790,38 @@ public sealed class MovementMapInteraction : MonoBehaviour
 
         UnitFacing Rotated =
             (UnitFacing)((Facing + (Clockwise ? 1 : 3)) % 4);
+
+
+        if (_GameMaster.CurrentPhase == GameplayPhase.PreBattle)
+        {
+            if (!_UnitDeploymentTargeting)
+                return;
+
+            if (!_ParticipantAccess.TryGetUnitDeploymentArea(
+                    _SelectedUnit.RuntimeUnitID,
+                    _SelectedSystemSlotIndex,
+                    _SelectedCarriedUnitIndex,
+                    Rotated,
+                    out Vector2Int[] Area,
+                    out string ValidationMessage))
+            {
+                if (!string.IsNullOrWhiteSpace(ValidationMessage))
+                    ReportRejectedInput(ValidationMessage);
+                return;
+            }
+
+
+            _MovementArea.Clear();
+            for (int i = 0; i < Area.Length; i++)
+                _MovementArea.Add(Area[i]);
+
+            _CandidateFacing = Rotated;
+            if (!_MovementArea.Contains(_CandidatePivot) && Area.Length > 0)
+                _CandidatePivot = Area[0];
+
+            RefreshCandidatePresentation();
+            return;
+        }
 
         TrySetCandidate(
             _CandidatePivot,
@@ -579,6 +892,58 @@ public sealed class MovementMapInteraction : MonoBehaviour
         }
 
 
+        if (_GameMaster.CurrentPhase == GameplayPhase.PreBattle)
+        {
+            if (_MineTargeting)
+            {
+                _CandidateLegal =
+                _ParticipantAccess.ValidateMineDeployment(
+                    _SelectedUnit.RuntimeUnitID,
+                    _SelectedSystemSlotIndex,
+                    _CandidatePivot,
+                    out _
+                );
+            }
+            else if (_UnitDeploymentTargeting)
+            {
+                _CandidateLegal =
+                    _ParticipantAccess.ValidateUnitDeployment(
+                        _SelectedUnit.RuntimeUnitID,
+                        _SelectedSystemSlotIndex,
+                        _SelectedCarriedUnitIndex,
+                        _CandidatePivot,
+                        _CandidateFacing,
+                        out _
+                    );
+
+                _UnitPresenter.TryShowDeploymentPreview(
+                    _DeploymentPreviewDefinitionID,
+                    _CandidatePivot,
+                    _CandidateFacing,
+                    _CandidateLegal
+                        ? _LegalPreviewColor
+                        : _IllegalPreviewColor
+                );
+            }
+            else
+            {
+                _CandidateLegal = false;
+            }
+
+            PaintMarkers();
+            _GameplayHUD.SetPreBattleSelectionVisible(
+                true,
+                _MineTargeting || _UnitDeploymentTargeting,
+                _UnitDeploymentTargeting
+            );
+            _GameplayHUD.SetMovementSelectionControls(
+                _UnitDeploymentTargeting,
+                _CandidateLegal
+            );
+            return;
+        }
+
+
         _CandidateLegal =
             _ParticipantAccess.ValidateMovement(
                 _SelectedUnit.RuntimeUnitID,
@@ -610,6 +975,16 @@ public sealed class MovementMapInteraction : MonoBehaviour
 
     private void ConfirmMovement()
     {
+        if (_GameMaster.CurrentPhase == GameplayPhase.PreBattle)
+        {
+            if (_MineTargeting)
+                ConfirmMineDeployment();
+            else if (_UnitDeploymentTargeting)
+                ConfirmUnitDeployment();
+            return;
+        }
+
+
         if (_SelectedUnit == null ||
             !_CandidateLegal ||
             IsMovementPlaybackLocked())
@@ -648,8 +1023,84 @@ public sealed class MovementMapInteraction : MonoBehaviour
     }
 
 
+    private void ConfirmMineDeployment()
+    {
+        if (_SelectedUnit == null ||
+            !_MineTargeting ||
+            !_CandidateLegal ||
+            _ParticipantAccess == null)
+        {
+            return;
+        }
+
+
+        if (!_ParticipantAccess.TryDeployMine(
+                _SelectedUnit.RuntimeUnitID,
+                _SelectedSystemSlotIndex,
+                _CandidatePivot,
+                out string ValidationMessage))
+        {
+            ReportRejectedInput(ValidationMessage);
+            RefreshCandidatePresentation();
+            return;
+        }
+
+
+        ClearSelection();
+    }
+
+
+    private void ConfirmUnitDeployment()
+    {
+        if (_SelectedUnit == null ||
+            !_UnitDeploymentTargeting ||
+            !_CandidateLegal ||
+            _ParticipantAccess == null)
+        {
+            return;
+        }
+
+
+        if (!_ParticipantAccess.TryDeployCarriedUnit(
+                _SelectedUnit.RuntimeUnitID,
+                _SelectedSystemSlotIndex,
+                _SelectedCarriedUnitIndex,
+                _CandidatePivot,
+                _CandidateFacing,
+                out string ValidationMessage))
+        {
+            ReportRejectedInput(ValidationMessage);
+            RefreshCandidatePresentation();
+            return;
+        }
+
+
+        ClearSelection();
+    }
+
+
     private void EndMovement()
     {
+        if (_Snapshot?.CurrentPhase == GameplayPhase.PreBattle)
+        {
+            if (_Snapshot.PreBattle == null ||
+                !_Snapshot.PreBattle.CanAct)
+            {
+                return;
+            }
+
+            ClearSelection();
+
+            if (!_ParticipantAccess.TryEndPreBattle(
+                    out string PreBattleMessage))
+            {
+                ReportRejectedInput(PreBattleMessage);
+            }
+
+            return;
+        }
+
+
         if (_Snapshot?.Movement == null ||
             !_Snapshot.Movement.CanAct ||
             IsMovementPlaybackLocked())
@@ -680,6 +1131,10 @@ public sealed class MovementMapInteraction : MonoBehaviour
         }
 
 
+        if (_UnitPresenter != null)
+            _UnitPresenter.ClearDeploymentPreview();
+
+
         _SelectedUnit =
             null;
 
@@ -689,6 +1144,12 @@ public sealed class MovementMapInteraction : MonoBehaviour
         _CandidateLegal =
             false;
 
+        _MineTargeting = false;
+        _UnitDeploymentTargeting = false;
+        _SelectedSystemSlotIndex = -1;
+        _SelectedCarriedUnitIndex = -1;
+        _DeploymentPreviewDefinitionID = string.Empty;
+
         _MovementArea.Clear();
         ClearMarkers();
 
@@ -697,6 +1158,7 @@ public sealed class MovementMapInteraction : MonoBehaviour
         {
             _GameplayHUD.ClearMovementUnitDetails();
             _GameplayHUD.SetMovementSelectionVisible(false);
+            _GameplayHUD.SetPreBattleSelectionVisible(false, false);
             _GameplayHUD.SetMovementSelectionControls(false, false);
         }
     }
@@ -712,14 +1174,23 @@ public sealed class MovementMapInteraction : MonoBehaviour
         }
 
         bool CanAct =
-            _Snapshot?.Movement != null &&
-            _Snapshot.Movement.CanAct;
+            (_Snapshot?.Movement != null &&
+             _Snapshot.Movement.CanAct) ||
+            (_Snapshot?.PreBattle != null &&
+             _Snapshot.PreBattle.CanAct);
+
+        GameplayPhase Phase =
+            _Snapshot != null
+                ? _Snapshot.CurrentPhase
+                : GameplayPhase.None;
 
         _GameplayHUD.BindMovementUnitDetails(
             _SelectedUnit,
             _SelectedDefinition,
             _UnitPresentationCatalog,
+            Phase,
             CanAct,
+            BeginPreBattleSystemTargeting,
             TryUseSelectedAbility
         );
     }
@@ -744,6 +1215,47 @@ public sealed class MovementMapInteraction : MonoBehaviour
     }
 
 
+    private bool TryGetCarriedUnitDefinitionID(
+        int SystemSlotIndex,
+        int CarriedUnitIndex,
+        out string DefinitionID
+    )
+    {
+        DefinitionID = string.Empty;
+
+        if (_SelectedUnit?.Systems == null)
+            return false;
+
+        for (int i = 0; i < _SelectedUnit.Systems.Length; i++)
+        {
+            ParticipantSystemSnapshot System = _SelectedUnit.Systems[i];
+
+            if (System == null ||
+                System.SlotIndex != SystemSlotIndex ||
+                System.CarriedUnits == null)
+            {
+                continue;
+            }
+
+            for (int j = 0; j < System.CarriedUnits.Length; j++)
+            {
+                ParticipantCarriedUnitSnapshot Carried = System.CarriedUnits[j];
+
+                if (Carried != null &&
+                    Carried.CarriedUnitIndex == CarriedUnitIndex &&
+                    Carried.State == RuntimeCarriedUnitState.Carried &&
+                    !string.IsNullOrWhiteSpace(Carried.DefinitionID))
+                {
+                    DefinitionID = Carried.DefinitionID;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
     private void PaintMarkers()
     {
         if (_TileMarkers == null)
@@ -761,6 +1273,40 @@ public sealed class MovementMapInteraction : MonoBehaviour
                 Coordinate,
                 _MovementAreaTile
             );
+        }
+
+
+        if (_GameMaster.CurrentPhase == GameplayPhase.PreBattle)
+        {
+            if ((_MineTargeting || _UnitDeploymentTargeting) &&
+                _MovementArea.Contains(_CandidatePivot))
+            {
+                TileBase CandidateTile = _CandidateLegal
+                    ? _LegalDestinationTile
+                    : _IllegalDestinationTile;
+
+                if (_UnitDeploymentTargeting &&
+                    _UnitPresentationCatalog.TryGetPresentation(
+                        _DeploymentPreviewDefinitionID,
+                        out Definition_Unit DeploymentDefinition,
+                        out _) &&
+                    UnitFootprintGeometry.TryBuildPlacement(
+                        DeploymentDefinition,
+                        _CandidatePivot,
+                        _CandidateFacing,
+                        out RuntimeUnitTilePlacement[] DeploymentPlacements,
+                        out _))
+                {
+                    for (int i = 0; i < DeploymentPlacements.Length; i++)
+                        PaintTile(DeploymentPlacements[i].MapCoordinate, CandidateTile);
+                }
+                else
+                {
+                    PaintTile(_CandidatePivot, CandidateTile);
+                }
+            }
+
+            return;
         }
 
 

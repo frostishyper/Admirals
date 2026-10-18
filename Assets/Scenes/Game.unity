@@ -236,6 +236,7 @@ MonoBehaviour:
   _FogCornerSoutheast: {fileID: 11400000, guid: 4b50fb132a210c64bafb46c17a66627a, type: 2}
   _FogCornerSouthwest: {fileID: 11400000, guid: 040a5ad1f7b9d5e43a65b4772393efda, type: 2}
   _ObscuredTerrainMultiplier: {r: 0.65, g: 0.65, b: 0.65, a: 1}
+  _MineTile: {fileID: 11400000, guid: 08c958bcbd78ef64789c75bc355792cc, type: 2}
 --- !u!114 &18008985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ParticipantUnitPresenter
   _UnitPresentationCatalog: {fileID: 11400000, guid: d1f92b22d07a8d94facb7f63e339f3b9, type: 2}
   _PositionInterpolationSeconds: 0.15
+  _TranslationStepSeconds: 0.18
+  _TurnStepSeconds: 0.12
 --- !u!114 &18008986
 MonoBehaviour:
   m_ObjectHideFlags: 0

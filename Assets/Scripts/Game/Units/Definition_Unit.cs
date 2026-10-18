@@ -270,12 +270,28 @@ public class UnitSystemSlot
         }
 
 
-        if (_CarriedUnits.Length >
+        int AuthoredCarriedUnitCount =
+            0;
+
+
+        for (int i = 0;
+            i < _CarriedUnits.Length;
+            i++)
+        {
+            if (_CarriedUnits[i] != null)
+            {
+                AuthoredCarriedUnitCount +=
+                    Mathf.Max(0, _CarriedUnits[i].Count);
+            }
+        }
+
+
+        if (AuthoredCarriedUnitCount >
             _System.UnitDeployment.CarrySlots)
         {
             ValidationMessage =
                 $"System '{_System.Name}' has {_System.UnitDeployment.CarrySlots} Carry Slots " +
-                $"but {_CarriedUnits.Length} were authored.";
+                $"but {AuthoredCarriedUnitCount} carried Units were authored.";
 
             return false;
         }

@@ -304,6 +304,7 @@ public sealed class GameMovement
     private GameMap _GameMap;
     private GameUnits _GameUnits;
     private GameKnowledge _GameKnowledge;
+    private GameUnitEffects _GameUnitEffects;
     private ParticipantState _ParticipantA;
     private ParticipantState _ParticipantB;
     private bool _PhaseActive;
@@ -319,6 +320,7 @@ public sealed class GameMovement
         GameMap GameMap,
         GameUnits GameUnits,
         GameKnowledge GameKnowledge,
+        GameUnitEffects GameUnitEffects,
         RuntimeParticipant ParticipantA,
         RuntimeParticipant ParticipantB,
         out string ValidationMessage
@@ -334,6 +336,8 @@ public sealed class GameMovement
             !GameUnits.Initialized ||
             GameKnowledge == null ||
             !GameKnowledge.IsInitialized ||
+            GameUnitEffects == null ||
+            !GameUnitEffects.Initialized ||
             ParticipantA == null ||
             ParticipantB == null ||
             ReferenceEquals(
@@ -355,6 +359,9 @@ public sealed class GameMovement
 
         _GameKnowledge =
             GameKnowledge;
+
+        _GameUnitEffects =
+            GameUnitEffects;
 
         _ParticipantA =
             new ParticipantState(
@@ -888,9 +895,39 @@ public sealed class GameMovement
 
             if (TriggeredMines.Length > 0)
             {
-                Debug.Log(
-                    $"Movement for '{Unit.InstanceName}' triggered {TriggeredMines.Length} Mine(s)."
-                );
+                if (!_GameUnitEffects.ResolveTriggeredMines(
+                        Unit,
+                        TriggeredMines,
+                        out bool UnitDestroyed,
+                        out string MineResolutionMessage))
+                {
+                    Debug.LogError(
+                        $"Mine resolution failed for '{Unit.InstanceName}': {MineResolutionMessage}"
+                    );
+                }
+                else
+                {
+                    Debug.Log(
+                        $"Movement for '{Unit.InstanceName}' triggered Mines. {MineResolutionMessage}"
+                    );
+                }
+
+
+                if (UnitDestroyed)
+                {
+                    Outcome = CommitOutcome.Interrupted;
+
+                    if (!_GameKnowledge.Refresh(
+                            GameplayPhase.Movement,
+                            out string DestroyedKnowledgeMessage))
+                    {
+                        Debug.LogError(
+                            $"Knowledge refresh failed after Mine destruction: {DestroyedKnowledgeMessage}"
+                        );
+                    }
+
+                    break;
+                }
             }
 
 

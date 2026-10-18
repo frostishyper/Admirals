@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13bbeb2266123ae4bb91238b9177e79f, type: 3}
+  m_Name: RW_Weapon_ASM_Orca
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_Weapon
+  _Name: '"Orca" Anti-Ship Missile'
+  _ID: RW_Weapon_ASM_Orca
+  _Manufacturer: {fileID: 11400000, guid: dbdf1c8e6e25ca640bf4746c8b3c8e34, type: 2}
+  _Types:
+  - {fileID: 11400000, guid: eb6ab711e55e5224283e1c8984468278, type: 2}
+  _Tier: {fileID: 11400000, guid: 9b6435a49cfd64c4a8f3311634e014ac, type: 2}
+  _TargetDomains: 2
+  _EligibleUnitTypes:
+  - {fileID: 11400000, guid: b73b3ccedebfbba4e8169f0db6d7b025, type: 2}
+  - {fileID: 11400000, guid: 5504d9b2442672b46b85dee68d15bb4a, type: 2}
+  - {fileID: 11400000, guid: f351929677bc8c045a71bfb2527e6431, type: 2}
+  - {fileID: 11400000, guid: 5e0635ac74d75e9478903eeaf19b2e84, type: 2}
+  - {fileID: 11400000, guid: a2685d227dee359499d174a8fd45711f, type: 2}
+  _ReplenishRate: 1
+  _ReplenishInterval: 4
+  _UsesD20Roll: 1
+  _AttackOutcome:
+    _Name: 
+    _Result: 0
+    _Damage: 0
+    _AttackProperties: 
+  _D20Outcomes:
+  - _MinimumRoll: 1
+    _MaximumRoll: 7
+    _Outcome:
+      _Name: Miss
+      _Result: 2
+      _Damage: 0
+      _AttackProperties: 
+  - _MinimumRoll: 8
+    _MaximumRoll: 15
+    _Outcome:
+      _Name: Non-Vital Hit
+      _Result: 1
+      _Damage: 10
+      _AttackProperties: 
+  - _MinimumRoll: 16
+    _MaximumRoll: 20
+    _Outcome:
+      _Name: Catastrophic Hit
+      _Result: 1
+      _Damage: 20
+      _AttackProperties: 
+  _StatusAfflictions: []

@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe6fac2dec1f4c4b977c5e97d8e882e, type: 3}
+  m_Name: Pattern_Diamond_T5
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_Pattern
+  _Name: Pattern Diamond T5
+  _ID: Pattern_Diamond_T5
+  _Mode: 1
+  _Unit: {fileID: 0}
+  _Layers:
+  - _Name: Layer 1
+    _Strength: 100
+    _Offsets:
+    - {x: 1, y: 0}
+    - {x: -1, y: 0}
+    - {x: -2, y: 0}
+    - {x: 2, y: 0}
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: -1, y: 1}
+    - {x: 0, y: 2}
+    - {x: 0, y: -1}
+    - {x: -1, y: -1}
+    - {x: 1, y: -1}
+    - {x: 0, y: -2}
+    - {x: 0, y: 3}
+    - {x: 1, y: 2}
+    - {x: 2, y: 1}
+    - {x: 3, y: 0}
+    - {x: 2, y: -1}
+    - {x: 1, y: -2}
+    - {x: 0, y: -3}
+    - {x: -1, y: -2}
+    - {x: -2, y: -1}
+    - {x: -3, y: 0}
+    - {x: -2, y: 1}
+    - {x: -1, y: 2}
+  - _Name: Layer 2
+    _Strength: 80
+    _Offsets:
+    - {x: 0, y: 4}
+    - {x: -1, y: 3}
+    - {x: -2, y: 2}
+    - {x: -3, y: 1}
+    - {x: -4, y: 0}
+    - {x: -3, y: -1}
+    - {x: -2, y: -2}
+    - {x: -1, y: -3}
+    - {x: 0, y: -4}
+    - {x: 1, y: -3}
+    - {x: 2, y: -2}
+    - {x: 3, y: -1}
+    - {x: 4, y: 0}
+    - {x: 3, y: 1}
+    - {x: 2, y: 2}
+    - {x: 1, y: 3}
+    - {x: 0, y: 5}
+    - {x: -1, y: 4}
+    - {x: -2, y: 3}
+    - {x: -3, y: 2}
+    - {x: -4, y: 1}
+    - {x: -5, y: 0}
+    - {x: -4, y: -1}
+    - {x: -3, y: -2}
+    - {x: -2, y: -3}
+    - {x: -1, y: -4}
+    - {x: 0, y: -5}
+    - {x: 1, y: -4}
+    - {x: 2, y: -3}
+    - {x: 3, y: -2}
+    - {x: 4, y: -1}
+    - {x: 5, y: 0}
+    - {x: 4, y: 1}
+    - {x: 3, y: 2}
+    - {x: 2, y: 3}
+    - {x: 1, y: 4}
+  - _Name: Layer 3
+    _Strength: 60
+    _Offsets:
+    - {x: 0, y: 6}
+    - {x: -1, y: 5}
+    - {x: -2, y: 4}
+    - {x: -3, y: 3}
+    - {x: -4, y: 2}
+    - {x: -5, y: 1}
+    - {x: -6, y: 0}
+    - {x: -5, y: -1}
+    - {x: -4, y: -2}
+    - {x: -3, y: -3}
+    - {x: -2, y: -4}
+    - {x: -1, y: -5}
+    - {x: 0, y: -6}
+    - {x: 1, y: -5}
+    - {x: 2, y: -4}
+    - {x: 3, y: -3}
+    - {x: 4, y: -2}
+    - {x: 5, y: -1}
+    - {x: 6, y: 0}
+    - {x: 5, y: 1}
+    - {x: 4, y: 2}
+    - {x: 3, y: 3}
+    - {x: 2, y: 4}
+    - {x: 1, y: 5}
+    - {x: 0, y: 7}
+    - {x: 0, y: -7}
+    - {x: -7, y: 0}
+    - {x: 7, y: 0}
+    - {x: 6, y: 1}
+    - {x: 5, y: 2}
+    - {x: 4, y: 3}
+    - {x: 3, y: 4}
+    - {x: 2, y: 5}
+    - {x: 1, y: 6}
+    - {x: -1, y: 6}
+    - {x: -2, y: 5}
+    - {x: -3, y: 4}
+    - {x: -4, y: 3}
+    - {x: -5, y: 2}
+    - {x: -6, y: 1}
+    - {x: -6, y: -1}
+    - {x: -5, y: -2}
+    - {x: -4, y: -3}
+    - {x: -3, y: -4}
+    - {x: -2, y: -5}
+    - {x: -1, y: -6}
+    - {x: 1, y: -6}
+    - {x: 2, y: -5}
+    - {x: 3, y: -4}
+    - {x: 4, y: -3}
+    - {x: 5, y: -2}
+    - {x: 6, y: -1}

@@ -19,7 +19,7 @@ public class PatternMakerEditor :
     private int _SelectedLayer;
 
     private int _GridRadius =
-        8;
+        10;
 
 
     private const float CellSize =
@@ -83,7 +83,7 @@ public class PatternMakerEditor :
             (PatternMode)_Mode.intValue;
 
 
-        EditorGUILayout.Space(8);
+        EditorGUILayout.Space(10);
 
 
         DrawModeSettings(
@@ -91,13 +91,13 @@ public class PatternMakerEditor :
         );
 
 
-        EditorGUILayout.Space(8);
+        EditorGUILayout.Space(10);
 
 
         DrawLayerEditor();
 
 
-        EditorGUILayout.Space(8);
+        EditorGUILayout.Space(10);
 
 
         _GridRadius =

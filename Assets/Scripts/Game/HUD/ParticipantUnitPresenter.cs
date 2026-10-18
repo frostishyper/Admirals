@@ -60,6 +60,8 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
     private Transform _UnitsRoot;
     private bool _Initialized;
     private Coroutine _MovementPlayback;
+    private UnitView _DeploymentPreview;
+    private Definition_Unit _DeploymentPreviewDefinition;
 
 
     public bool IsPlayingMovementPresentation =>
@@ -266,6 +268,7 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
             Presentation.DefinitionID,
             First.MovementPivotCoordinate,
             First.Facing,
+            -1,
             Presentation.Tags,
             true
         );
@@ -372,6 +375,7 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
                 Unit.DefinitionID,
                 Unit.MovementPivotCoordinate,
                 Unit.Facing,
+                Unit.EmbarkedPresentationLevel,
                 Unit.Tags,
                 RebuildImmediately
             );
@@ -396,6 +400,7 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
                 Unit.DefinitionID,
                 Unit.MovementPivotCoordinate,
                 Unit.Facing,
+                Unit.EmbarkedPresentationLevel,
                 Unit.Tags,
                 RebuildImmediately
             );
@@ -412,6 +417,7 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
         string DefinitionID,
         Vector2Int MovementPivotCoordinate,
         UnitFacing Facing,
+        int EmbarkedPresentationLevel,
         IReadOnlyList<ParticipantUnitTagSnapshot> Tags,
         bool RebuildImmediately
     )
@@ -491,6 +497,13 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
 
         Presented.AuthoritativeFacing =
             Facing;
+
+        if (EmbarkedPresentationLevel >= 0)
+        {
+            Presented.View.SetEmbarkedPresentationLevel(
+                EmbarkedPresentationLevel
+            );
+        }
 
 
         if (!Presented.IsPreviewing &&
@@ -582,6 +595,55 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
         Presented.View.SetColor(
             Color.white
         );
+    }
+
+
+    public bool TryShowDeploymentPreview(
+        string DefinitionID,
+        Vector2Int MovementPivotCoordinate,
+        UnitFacing Facing,
+        Color Color
+    )
+    {
+        if (_UnitsRoot == null ||
+            !_UnitPresentationCatalog.TryGetPresentation(
+                DefinitionID,
+                out Definition_Unit Definition,
+                out UnitView Prefab))
+        {
+            return false;
+        }
+
+
+        if (_DeploymentPreview == null ||
+            !ReferenceEquals(_DeploymentPreviewDefinition, Definition))
+        {
+            ClearDeploymentPreview();
+            _DeploymentPreview = Instantiate(Prefab, _UnitsRoot);
+            _DeploymentPreview.name = $"DeploymentPreview_{Definition.Name}";
+            _DeploymentPreviewDefinition = Definition;
+        }
+
+
+        _DeploymentPreview.transform.position = CalculateWorldPosition(
+            Definition,
+            MovementPivotCoordinate,
+            Facing
+        );
+        _DeploymentPreview.SetFacing(Facing);
+        _DeploymentPreview.SetColor(Color);
+        _DeploymentPreview.gameObject.SetActive(true);
+        return true;
+    }
+
+
+    public void ClearDeploymentPreview()
+    {
+        if (_DeploymentPreview != null)
+            Destroy(_DeploymentPreview.gameObject);
+
+        _DeploymentPreview = null;
+        _DeploymentPreviewDefinition = null;
     }
 
 
@@ -681,6 +743,7 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
                 Presentation.DefinitionID,
                 First.MovementPivotCoordinate,
                 First.Facing,
+                -1,
                 Presentation.Tags,
                 true
             );
@@ -845,6 +908,8 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
 
     private void ClearPresentedUnits()
     {
+        ClearDeploymentPreview();
+
         foreach (PresentedUnit Presented
             in _PresentedUnits.Values)
         {

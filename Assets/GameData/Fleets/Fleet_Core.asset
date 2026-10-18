@@ -15,9 +15,13 @@ MonoBehaviour:
   _Name: Core Fleet
   _ID: fleet_core
   _Entries:
-  - _ID: destroyer_rover_1
+  - _ID: Carrier_Sentinel_1
+    _Unit: {fileID: 11400000, guid: f70e2be59309c4c48a95b2eed04808c6, type: 2}
+  - _ID: Cruiser_Megalodon_1
+    _Unit: {fileID: 11400000, guid: aa8e78f50a6d42f428d32d9f269c10bf, type: 2}
+  - _ID: Submarine_Marlin_1
+    _Unit: {fileID: 11400000, guid: 05fcbe67afd17df478e59314a21f84b2, type: 2}
+  - _ID: Destroyer_Rover_1
     _Unit: {fileID: 11400000, guid: 4a82b7680e749bb47ab3b7ae7d5481cb, type: 2}
-  - _ID: submarine_marlin_1
-    _Unit: {fileID: 11400000, guid: 18ad3b6f5bd027646b1bc1e7a683fdb1, type: 2}
-  - _ID: fighter_gryphon_1
-    _Unit: {fileID: 11400000, guid: 6798c1dcff1a9f548a1b5067a87809f7, type: 2}
+  - _ID: Corvette_Stonefish_1
+    _Unit: {fileID: 11400000, guid: 2d0243aae6f9e3d4a97247b93ea32d6f, type: 2}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ability_Surface
   m_EditorClassIdentifier: Assembly-CSharp::Definition_Ability
   _Name: Surface
-  _ID: ability_surface
+  _ID: Ability_Surface
   _UsablePhases: 2
   _CombatRoles: 0
   _ValidTargets: 1

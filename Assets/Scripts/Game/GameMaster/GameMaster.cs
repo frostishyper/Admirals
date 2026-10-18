@@ -44,6 +44,8 @@ public class GameMaster :
 
     private GameMovement _GameMovement;
 
+    private GamePreBattle _GamePreBattle;
+
     private GameParticipantAPI _ParticipantAPI;
 
 
@@ -102,6 +104,10 @@ public class GameMaster :
 
     public GameMovement GameMovement =>
         _GameMovement;
+
+
+    public GamePreBattle GamePreBattle =>
+        _GamePreBattle;
 
 
     public GameParticipantAPI ParticipantAPI =>
@@ -192,6 +198,7 @@ public class GameMaster :
             !InitializeDeploymentState() ||
             !InitializeKnowledgeState() ||
             !InitializeMovementState() ||
+            !InitializePreBattleState() ||
             !InitializeParticipantAPI())
         {
             return false;
@@ -606,6 +613,26 @@ public class GameMaster :
         }
 
 
+        if (_CurrentPhase == GameplayPhase.PreBattle &&
+            _GamePreBattle == null)
+        {
+            ValidationMessage =
+                "Pre-Battle state is unavailable.";
+            return false;
+        }
+
+
+        if (_CurrentPhase == GameplayPhase.PreBattle &&
+            !_GamePreBattle.CanUseAbility(
+                Participant,
+                RuntimeUnitID,
+                AbilitySlotIndex,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
         if (_CurrentPhase == GameplayPhase.Movement &&
             !_GameMovement.CanAcceptParticipantAction(
                 Participant,
@@ -717,6 +744,16 @@ public class GameMaster :
                 out ValidationMessage))
         {
             return false;
+        }
+
+
+        if (_CurrentPhase == GameplayPhase.PreBattle)
+        {
+            _GamePreBattle.CommitAbilityUse(
+                Participant,
+                RuntimeUnitID,
+                AbilitySlotIndex
+            );
         }
 
 
@@ -899,29 +936,261 @@ public class GameMaster :
     }
 
 
+    internal bool TryGetPreBattleView(
+        RuntimeParticipant Participant,
+        out GamePreBattle.ParticipantView View
+    )
+    {
+        View = null;
+
+        return _GamePreBattle != null &&
+            _GamePreBattle.TryGetView(Participant, out View);
+    }
+
+
+    internal bool TryGetMineDeploymentArea(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        int SystemSlotIndex,
+        out Vector2Int[] Coordinates,
+        out string ValidationMessage
+    )
+    {
+        Coordinates = Array.Empty<Vector2Int>();
+
+        if (!CanAcceptPreBattleInput(Participant, out ValidationMessage))
+            return false;
+
+        return _GamePreBattle.TryGetMineDeploymentArea(
+            Participant,
+            RuntimeUnitID,
+            SystemSlotIndex,
+            out Coordinates,
+            out ValidationMessage
+        );
+    }
+
+
+    internal bool ValidateMineDeployment(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        int SystemSlotIndex,
+        Vector2Int Coordinate,
+        out string ValidationMessage
+    )
+    {
+        return CanAcceptPreBattleInput(Participant, out ValidationMessage) &&
+            _GamePreBattle.ValidateMineDeployment(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                Coordinate,
+                out ValidationMessage
+            );
+    }
+
+
+    internal bool TryDeployMine(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        int SystemSlotIndex,
+        Vector2Int Coordinate,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptPreBattleInput(Participant, out ValidationMessage) ||
+            !_GamePreBattle.TryCommitMineDeployment(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                Coordinate,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        _GameKnowledge.Refresh(_CurrentPhase, out _);
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' deployed a Mine at {Coordinate}.",
+            this
+        );
+
+        return true;
+    }
+
+
+    internal bool TryGetUnitDeploymentArea(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        int SystemSlotIndex,
+        int CarriedUnitIndex,
+        UnitFacing Facing,
+        out Vector2Int[] Coordinates,
+        out string ValidationMessage
+    )
+    {
+        Coordinates = Array.Empty<Vector2Int>();
+
+        if (!CanAcceptPreBattleInput(Participant, out ValidationMessage))
+            return false;
+
+        return _GamePreBattle.TryGetUnitDeploymentArea(
+            Participant,
+            RuntimeUnitID,
+            SystemSlotIndex,
+            CarriedUnitIndex,
+            Facing,
+            out Coordinates,
+            out ValidationMessage
+        );
+    }
+
+
+    internal bool ValidateUnitDeployment(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        int SystemSlotIndex,
+        int CarriedUnitIndex,
+        Vector2Int MovementPivotCoordinate,
+        UnitFacing Facing,
+        out string ValidationMessage
+    )
+    {
+        return CanAcceptPreBattleInput(Participant, out ValidationMessage) &&
+            _GamePreBattle.ValidateUnitDeployment(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                CarriedUnitIndex,
+                MovementPivotCoordinate,
+                Facing,
+                out ValidationMessage
+            );
+    }
+
+
+    internal bool TryDeployCarriedUnit(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        int SystemSlotIndex,
+        int CarriedUnitIndex,
+        Vector2Int MovementPivotCoordinate,
+        UnitFacing Facing,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptPreBattleInput(Participant, out ValidationMessage) ||
+            !_GamePreBattle.TryCommitUnitDeployment(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                CarriedUnitIndex,
+                MovementPivotCoordinate,
+                Facing,
+                out RuntimeUnit DeployedUnit,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        _GameKnowledge.Refresh(_CurrentPhase, out _);
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' deployed '{DeployedUnit.InstanceName}' at {MovementPivotCoordinate}.",
+            this
+        );
+
+        return true;
+    }
+
+
+    internal bool TryEndPreBattle(
+        RuntimeParticipant Participant,
+        out string ValidationMessage
+    )
+    {
+        if (!CanAcceptPreBattleInput(Participant, out ValidationMessage) ||
+            !_GamePreBattle.TryEndPreBattle(
+                Participant,
+                out bool AllParticipantsEnded,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' ended Pre-Battle for Turn {_TurnNumber}.",
+            this
+        );
+
+
+        if (AllParticipantsEnded)
+            CompletePreBattlePhase();
+
+
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
     private void Update()
     {
-        if (!_InitializationComplete ||
-            _CurrentPhase != GameplayPhase.Movement ||
-            _GameMovement == null ||
-            !_GameMovement.Tick(
+        if (!_InitializationComplete)
+        {
+            return;
+        }
+
+
+        RuntimeParticipant TimedOutParticipant;
+        bool AllParticipantsEnded;
+
+
+        if (_CurrentPhase == GameplayPhase.Movement &&
+            _GameMovement != null &&
+            _GameMovement.Tick(
                 Time.deltaTime,
-                out RuntimeParticipant TimedOutParticipant,
-                out bool AllParticipantsEnded))
+                out TimedOutParticipant,
+                out AllParticipantsEnded))
+        {
+            Debug.Log(
+                $"'{TimedOutParticipant.Participant.DisplayName}' ran out of Movement time on Turn {_TurnNumber}.",
+                this
+            );
+
+
+            if (AllParticipantsEnded)
+                CompleteMovementPhase();
+
+
+            _ParticipantAPI?.NotifySnapshotsChanged();
+            return;
+        }
+
+
+        if (_CurrentPhase != GameplayPhase.PreBattle ||
+            _GamePreBattle == null ||
+            !_GamePreBattle.Tick(
+                Time.deltaTime,
+                out TimedOutParticipant,
+                out AllParticipantsEnded))
         {
             return;
         }
 
 
         Debug.Log(
-            $"'{TimedOutParticipant.Participant.DisplayName}' ran out of Movement time on Turn {_TurnNumber}.",
+            $"'{TimedOutParticipant.Participant.DisplayName}' ran out of Pre-Battle time on Turn {_TurnNumber}.",
             this
         );
 
 
         if (AllParticipantsEnded)
         {
-            CompleteMovementPhase();
+            CompletePreBattlePhase();
         }
 
 
@@ -932,6 +1201,29 @@ public class GameMaster :
     private void CompleteMovementPhase()
     {
         _CurrentPhase = GameplayPhase.PreBattle;
+
+
+        float PreBattleSeconds = 60f;
+
+
+        if (_GameMode.TryGetPhaseTimeLimit(
+                GameplayPhase.PreBattle,
+                out float AuthoredPreBattleSeconds))
+        {
+            PreBattleSeconds = AuthoredPreBattleSeconds;
+        }
+
+
+        if (!_GamePreBattle.BeginPhase(
+                _FirstPlayer,
+                PreBattleSeconds,
+                out string PreBattleMessage))
+        {
+            Debug.LogError(
+                $"Pre-Battle phase initialization failed: {PreBattleMessage}",
+                this
+            );
+        }
 
 
         if (!_GameKnowledge.Refresh(
@@ -947,6 +1239,29 @@ public class GameMaster :
 
         Debug.Log(
             $"Both participants ended Movement. Turn {_TurnNumber} entered Pre-Battle.",
+            this
+        );
+    }
+
+
+    private void CompletePreBattlePhase()
+    {
+        _CurrentPhase = GameplayPhase.Search;
+
+
+        if (!_GameKnowledge.Refresh(
+                _CurrentPhase,
+                out string KnowledgeMessage))
+        {
+            Debug.LogError(
+                $"GameKnowledge refresh failed after Pre-Battle: {KnowledgeMessage}",
+                this
+            );
+        }
+
+
+        Debug.Log(
+            $"Both participants ended Pre-Battle. Turn {_TurnNumber} entered Search.",
             this
         );
     }
@@ -1026,6 +1341,30 @@ public class GameMaster :
         ValidationMessage = string.Empty;
 
         return true;
+    }
+
+
+    private bool CanAcceptPreBattleInput(
+        RuntimeParticipant Participant,
+        out string ValidationMessage
+    )
+    {
+        if (!_InitializationComplete ||
+            !_MatchStarted ||
+            _CurrentPhase != GameplayPhase.PreBattle ||
+            _GamePreBattle == null)
+        {
+            ValidationMessage =
+                "The Match is not accepting Pre-Battle input.";
+
+            return false;
+        }
+
+
+        return _GamePreBattle.CanAcceptParticipantAction(
+            Participant,
+            out ValidationMessage
+        );
     }
 
 
@@ -1224,6 +1563,7 @@ public class GameMaster :
 
         if (!_GameUnitEffects.Initialize(
                 _GameMap,
+                _GameUnits,
                 out string ValidationMessage))
         {
             _GameUnitEffects =
@@ -1301,6 +1641,7 @@ public class GameMaster :
                 _GameMap,
                 _GameUnits,
                 _GameKnowledge,
+                _GameUnitEffects,
                 _ParticipantA,
                 _ParticipantB,
                 out string ValidationMessage))
@@ -1311,6 +1652,31 @@ public class GameMaster :
                 $"Movement State initialization failed: {ValidationMessage}"
             );
 
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    private bool InitializePreBattleState()
+    {
+        _GamePreBattle = new GamePreBattle();
+
+
+        if (!_GamePreBattle.Initialize(
+                _GameMap,
+                _GameUnits,
+                _GameUnitEffects,
+                _ParticipantA,
+                _ParticipantB,
+                out string ValidationMessage))
+        {
+            _GamePreBattle = null;
+            FailInitialization(
+                $"Pre-Battle State initialization failed: {ValidationMessage}"
+            );
             return false;
         }
 
@@ -1336,10 +1702,19 @@ public class GameMaster :
         GameMovement.ParticipantView MovementView =
             null;
 
+        GamePreBattle.ParticipantView PreBattleView =
+            null;
+
 
         _GameMovement?.TryGetView(
             Participant,
             out MovementView
+        );
+
+
+        _GamePreBattle?.TryGetView(
+            Participant,
+            out PreBattleView
         );
 
 
@@ -1350,6 +1725,7 @@ public class GameMaster :
             _MatchStarted,
             _FirstPlayer,
             MovementView,
+            PreBattleView,
             out Snapshot,
             out ValidationMessage);
     }

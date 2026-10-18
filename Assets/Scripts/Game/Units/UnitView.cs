@@ -44,6 +44,11 @@ public sealed class UnitView :
             "Facing"
         );
 
+    private static readonly int EmbarkedParameter =
+        Animator.StringToHash(
+            "Embarked"
+        );
+
 
     [SerializeField]
     private UnitFacing _Facing =
@@ -138,6 +143,43 @@ public sealed class UnitView :
 
 
         ApplyTags();
+    }
+
+
+    public void SetEmbarkedPresentationLevel(int Level)
+    {
+        if (_Animator == null)
+            CacheComponents();
+
+        if (_Animator == null ||
+            !HasAnimatorParameter(EmbarkedParameter, AnimatorControllerParameterType.Int))
+        {
+            return;
+        }
+
+        _Animator.SetInteger(
+            EmbarkedParameter,
+            Mathf.Clamp(Level, 0, 3)
+        );
+    }
+
+
+    private bool HasAnimatorParameter(
+        int NameHash,
+        AnimatorControllerParameterType Type)
+    {
+        AnimatorControllerParameter[] Parameters = _Animator.parameters;
+
+        for (int i = 0; i < Parameters.Length; i++)
+        {
+            if (Parameters[i].nameHash == NameHash &&
+                Parameters[i].type == Type)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

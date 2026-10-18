@@ -117,9 +117,25 @@ public sealed class RuntimeMineOccupancy
     }
 
 
+    public Definition_System SourceSystem
+    {
+        get;
+        private set;
+    }
+
+
+    public Domain TriggerDomains
+    {
+        get;
+        private set;
+    }
+
+
     internal RuntimeMineOccupancy(
         string MineInstanceID,
-        RuntimeParticipant Owner
+        RuntimeParticipant Owner,
+        Definition_System SourceSystem,
+        Domain TriggerDomains
     )
     {
         this.MineInstanceID =
@@ -127,6 +143,29 @@ public sealed class RuntimeMineOccupancy
 
         this.Owner =
             Owner;
+
+        this.SourceSystem =
+            SourceSystem;
+
+        this.TriggerDomains =
+            TriggerDomains;
+    }
+}
+
+
+public sealed class RuntimeMineMapRecord
+{
+    public Vector2Int Coordinate { get; }
+    public RuntimeMineOccupancy Mine { get; }
+
+
+    internal RuntimeMineMapRecord(
+        Vector2Int Coordinate,
+        RuntimeMineOccupancy Mine
+    )
+    {
+        this.Coordinate = Coordinate;
+        this.Mine = Mine;
     }
 }
 
@@ -1091,8 +1130,7 @@ public class GameMap :
 
 
             bool MineRelevantDomain =
-                UnitDomain == Domain.Surface ||
-                UnitDomain == Domain.Subsurface;
+                (Tile.Mine.TriggerDomains & UnitDomain) != 0;
 
 
             if (!MineRelevantDomain)
@@ -1857,6 +1895,56 @@ public class GameMap :
     public bool TryPlaceMine(
         string MineInstanceID,
         RuntimeParticipant Owner,
+        Definition_System SourceSystem,
+        Domain TriggerDomains,
+        Vector2Int Coordinate,
+        out string ValidationMessage
+    )
+    {
+        if (!ValidateMinePlacement(
+                MineInstanceID,
+                Owner,
+                SourceSystem,
+                TriggerDomains,
+                Coordinate,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        RuntimeMapTile Tile;
+        TryGetTile(Coordinate, out Tile);
+
+
+        Tile.SetMine(
+            new RuntimeMineOccupancy(
+                MineInstanceID,
+                Owner,
+                SourceSystem,
+                TriggerDomains
+            )
+        );
+
+
+        _MineCoordinates.Add(
+            MineInstanceID,
+            Coordinate
+        );
+
+
+        ValidationMessage =
+            string.Empty;
+
+        return true;
+    }
+
+
+    public bool ValidateMinePlacement(
+        string MineInstanceID,
+        RuntimeParticipant Owner,
+        Definition_System SourceSystem,
+        Domain TriggerDomains,
         Vector2Int Coordinate,
         out string ValidationMessage
     )
@@ -1875,6 +1963,27 @@ public class GameMap :
         {
             ValidationMessage =
                 $"Mine '{MineInstanceID}' has no owning Participant.";
+
+            return false;
+        }
+
+
+        if (SourceSystem == null ||
+            SourceSystem.MineDeployment == null ||
+            !SourceSystem.MineDeployment.Enabled)
+        {
+            ValidationMessage =
+                $"Mine '{MineInstanceID}' has no enabled source Mine Deployment System.";
+
+            return false;
+        }
+
+
+        if ((TriggerDomains &
+                (Domain.Surface | Domain.Subsurface)) == 0)
+        {
+            ValidationMessage =
+                $"Mine '{MineInstanceID}' has no valid naval trigger Domain.";
 
             return false;
         }
@@ -1911,6 +2020,25 @@ public class GameMap :
         }
 
 
+        if (Tile.Terrain != MapTerrain.Deep_Water &&
+            Tile.Terrain != MapTerrain.Shallow_Water)
+        {
+            ValidationMessage =
+                $"Mine '{MineInstanceID}' must be placed in water.";
+
+            return false;
+        }
+
+
+        if (Tile.UnitOccupancy != null)
+        {
+            ValidationMessage =
+                $"Tile {Coordinate} is occupied by a Unit.";
+
+            return false;
+        }
+
+
         if (Tile.Mine !=
             null)
         {
@@ -1921,24 +2049,39 @@ public class GameMap :
         }
 
 
-        Tile.SetMine(
-            new RuntimeMineOccupancy(
-                MineInstanceID,
-                Owner
-            )
-        );
-
-
-        _MineCoordinates.Add(
-            MineInstanceID,
-            Coordinate
-        );
-
-
         ValidationMessage =
             string.Empty;
 
         return true;
+    }
+
+
+    public RuntimeMineMapRecord[] GetMines()
+    {
+        List<RuntimeMineMapRecord> Records =
+            new List<RuntimeMineMapRecord>();
+
+
+        foreach (KeyValuePair<string, Vector2Int> Entry
+            in _MineCoordinates)
+        {
+            if (TryGetTile(
+                    Entry.Value,
+                    out RuntimeMapTile Tile) &&
+                Tile.Mine != null &&
+                Tile.Mine.MineInstanceID == Entry.Key)
+            {
+                Records.Add(
+                    new RuntimeMineMapRecord(
+                        Entry.Value,
+                        Tile.Mine
+                    )
+                );
+            }
+        }
+
+
+        return Records.ToArray();
     }
 
 
