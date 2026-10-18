@@ -26,6 +26,8 @@ MonoBehaviour:
     _Seconds: 60
   - _Phase: 4
     _Seconds: 60
+  - _Phase: 8
+    _Seconds: 90
   _VictoryGroups: []
   _DefeatGroups:
   - _Name: Annihilated

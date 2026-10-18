@@ -103,6 +103,8 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
     private GameplayPhase _Phase;
     private Action<int, int> _UseSystem;
     private Action<int> _UseAbility;
+    private Action<int> _SelectSensor;
+    private int _SelectedSensorSlotIndex = -1;
     private string _BoundRuntimeUnitID = string.Empty;
     private Tab _CurrentTab;
     private bool _ButtonsBound;
@@ -392,7 +394,9 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         GameplayPhase Phase,
         bool CanAct,
         Action<int, int> UseSystem,
-        Action<int> UseAbility)
+        Action<int> UseAbility,
+        Action<int> SelectSensor = null,
+        int SelectedSensorSlotIndex = -1)
     {
         bool SelectionChanged =
             Unit == null ||
@@ -406,6 +410,8 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         _Phase = Phase;
         _UseSystem = UseSystem;
         _UseAbility = UseAbility;
+        _SelectSensor = SelectSensor;
+        _SelectedSensorSlotIndex = SelectedSensorSlotIndex;
         _BoundRuntimeUnitID = Unit?.RuntimeUnitID ?? string.Empty;
 
         if (_Unit == null || _Definition == null)
@@ -434,6 +440,8 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         _Phase = GameplayPhase.None;
         _UseSystem = null;
         _UseAbility = null;
+        _SelectSensor = null;
+        _SelectedSensorSlotIndex = -1;
         _BoundRuntimeUnitID = string.Empty;
 
         ClearGenerated(_UnitTypeBadges, null);
@@ -586,11 +594,23 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             if (Snapshot == null)
                 continue;
 
+            Definition_System Definition = TryGetSystemDefinition(Snapshot.SlotIndex);
+
+            bool IsSearchSensor =
+                Definition != null &&
+                (Definition.OperationalPhases & GameplayPhase.Search) != 0 &&
+                Definition.Search != null && Definition.Search.Enabled &&
+                Definition.Pattern != null &&
+                Definition.Pattern.Mode == PatternMode.OriginPoint &&
+                Definition.Domains != Domain.None;
+
+            if (_Phase == GameplayPhase.Search && !IsSearchSensor)
+                continue;
+
             GameObject Card = CreateCard(_SystemCardTemplate, _SystemsContent);
             SetText(Card, "Text_Name", Snapshot.Name);
             BindCharges(Card, Snapshot.CurrentCharges, Snapshot.MaxCharges);
 
-            Definition_System Definition = TryGetSystemDefinition(Snapshot.SlotIndex);
             SetText(Card, "Text_Replenish", FormatReplenishment(
                 Definition?.ReplenishRate ?? 0,
                 Definition?.ReplenishInterval ?? 0,
@@ -652,6 +672,26 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
 
             bool SupportsUse =
                 SupportsMineDeployment || SupportsUnitDeployment;
+
+            if (_Phase == GameplayPhase.Search && IsSearchSensor)
+            {
+                Button SelectButton = CreateSystemUseButton(Card);
+                if (SelectButton != null)
+                {
+                    bool Selected = Snapshot.SlotIndex == _SelectedSensorSlotIndex;
+                    SetText(SelectButton.gameObject, "Text_Label",
+                        Selected ? "Selected" : "Select");
+                    SelectButton.interactable = CanAct && !Selected &&
+                        (!Definition.UsesCharges || Snapshot.CurrentCharges > 0);
+                    int SlotIndex = Snapshot.SlotIndex;
+                    SelectButton.onClick.AddListener(() =>
+                    {
+                        if (SelectButton.interactable)
+                            _SelectSensor?.Invoke(SlotIndex);
+                    });
+                }
+                continue;
+            }
 
 
             if (SupportsUse)
@@ -1030,9 +1070,34 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
     private void RefreshTabLabels()
     {
         _StatusTabText.text = "STATUS";
-        _SystemsTabText.text = $"SYSTEMS: {_Unit.Systems?.Length ?? 0}";
+        _SystemsTabText.text = _Phase == GameplayPhase.Search
+            ? $"SENSORS: {CountSearchSensors()}"
+            : $"SYSTEMS: {_Unit.Systems?.Length ?? 0}";
         _WeaponsTabText.text = $"WEAPONS: {_Unit.Weapons?.Length ?? 0}";
         _AbilitiesTabText.text = $"ABILITIES: {_Unit.Abilities?.Length ?? 0}";
+    }
+
+
+    private int CountSearchSensors()
+    {
+        if (_Unit?.Systems == null)
+            return 0;
+        int Count = 0;
+        for (int i = 0; i < _Unit.Systems.Length; i++)
+        {
+            ParticipantSystemSnapshot Snapshot = _Unit.Systems[i];
+            Definition_System Definition = Snapshot != null
+                ? TryGetSystemDefinition(Snapshot.SlotIndex)
+                : null;
+            if (Definition != null &&
+                (Definition.OperationalPhases & GameplayPhase.Search) != 0 &&
+                Definition.Search != null && Definition.Search.Enabled &&
+                Definition.Pattern != null &&
+                Definition.Pattern.Mode == PatternMode.OriginPoint &&
+                Definition.Domains != Domain.None)
+                Count++;
+        }
+        return Count;
     }
 
 

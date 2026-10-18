@@ -161,8 +161,28 @@ public sealed class GameplayHUD :
     private MovementUnitDetailsUI _PreBattleUnitDetails;
 
 
+    [Header("Search - Top")]
+    [SerializeField] private GameObject _SearchTopRoot;
+    [SerializeField] private TMP_Text _SearchPlayerNameText;
+    [SerializeField] private TMP_Text _SearchPhaseText;
+    [SerializeField] private TMP_Text _SearchCountText;
+    [SerializeField] private TMP_Text _SearchTimerText;
+    [SerializeField] private Button _EndSearchButton;
+
+    [Header("Search - Overlay")]
+    [SerializeField] private GameObject _SearchOverlayRoot;
+    [SerializeField] private Button _SearchRotateLeftButton;
+    [SerializeField] private Button _SearchRotateRightButton;
+    [SerializeField] private Button _CommitSearchButton;
+
+    [Header("Search - Bottom")]
+    [SerializeField] private GameObject _SearchBottomRoot;
+    [SerializeField] private MovementUnitDetailsUI _SearchUnitDetails;
+
+
     private bool _ShowingMovement;
     private bool _ShowingPreBattle;
+    private bool _ShowingSearch;
     private bool _MovementSelectionVisible;
     private bool _PreBattleTargetingVisible;
 
@@ -226,6 +246,10 @@ public sealed class GameplayHUD :
     public Button ConfirmPreBattleActionButton => _ConfirmPreBattleActionButton;
     public Button CancelPreBattleActionButton => _CancelPreBattleActionButton;
     public Button EndPreBattleButton => _EndPreBattleButton;
+    public Button SearchRotateLeftButton => _SearchRotateLeftButton;
+    public Button SearchRotateRightButton => _SearchRotateRightButton;
+    public Button CommitSearchButton => _CommitSearchButton;
+    public Button EndSearchButton => _EndSearchButton;
 
 
     public void BindMovementUnitDetails(
@@ -235,12 +259,14 @@ public sealed class GameplayHUD :
         GameplayPhase Phase,
         bool CanAct,
         Action<int, int> UseSystem,
-        Action<int> UseAbility)
+        Action<int> UseAbility,
+        Action<int> SelectSensor = null,
+        int SelectedSensorSlotIndex = -1)
     {
         MovementUnitDetailsUI Details =
-            Phase == GameplayPhase.PreBattle
-                ? _PreBattleUnitDetails
-                : _MovementUnitDetails;
+            Phase == GameplayPhase.PreBattle ? _PreBattleUnitDetails :
+            Phase == GameplayPhase.Search ? _SearchUnitDetails :
+            _MovementUnitDetails;
 
         if (Details != null)
         {
@@ -251,7 +277,9 @@ public sealed class GameplayHUD :
                 Phase,
                 CanAct,
                 UseSystem,
-                UseAbility
+                UseAbility,
+                SelectSensor,
+                SelectedSensorSlotIndex
             );
         }
     }
@@ -268,6 +296,9 @@ public sealed class GameplayHUD :
         {
             _PreBattleUnitDetails.Clear();
         }
+
+        if (_SearchUnitDetails != null)
+            _SearchUnitDetails.Clear();
     }
 
 
@@ -299,6 +330,9 @@ public sealed class GameplayHUD :
         {
             _PreBattlePlayerNameText.text = DisplayName;
         }
+
+        if (_SearchPlayerNameText != null)
+            _SearchPlayerNameText.text = DisplayName;
     }
 
 
@@ -309,6 +343,8 @@ public sealed class GameplayHUD :
 
         _ShowingPreBattle =
             false;
+
+        _ShowingSearch = false;
 
         _MovementSelectionVisible =
             false;
@@ -322,6 +358,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_PreBattleTopRoot, false);
         SetObjectVisible(_PreBattleOverlayRoot, false);
         SetObjectVisible(_PreBattleBottomRoot, false);
+        HideSearchRoots();
         SetObjectVisible(_BottomBarRoot, true);
 
         SetDeploymentObjectsVisible(
@@ -345,6 +382,8 @@ public sealed class GameplayHUD :
         _ShowingPreBattle =
             false;
 
+        _ShowingSearch = false;
+
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
         SetObjectVisible(_DeploymentBottomRoot, false);
@@ -352,6 +391,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_PreBattleTopRoot, false);
         SetObjectVisible(_PreBattleOverlayRoot, false);
         SetObjectVisible(_PreBattleBottomRoot, false);
+        HideSearchRoots();
         ApplyMovementSelectionVisibility();
 
         SetDeploymentObjectsVisible(
@@ -399,6 +439,7 @@ public sealed class GameplayHUD :
     {
         _ShowingMovement = false;
         _ShowingPreBattle = true;
+        _ShowingSearch = false;
 
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
@@ -407,6 +448,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_MovementOverlayRoot, false);
         SetObjectVisible(_MovementBottomRoot, false);
         SetObjectVisible(_PreBattleTopRoot, true);
+        HideSearchRoots();
         SetDeploymentObjectsVisible(false);
         ApplyMovementSelectionVisibility();
 
@@ -415,9 +457,92 @@ public sealed class GameplayHUD :
 
         SetButtonLabel(_EndPreBattleButton, "END PRE-BATTLE");
         SetButtonLabel(_ConfirmPreBattleActionButton, "Deploy");
+        ConfigureSingleLineTopText(_PreBattlePhaseText);
+        ConfigureSingleLineTopText(_PreBattleActionCountText);
+        ConfigureSingleLineTopText(_PreBattleTimerText);
+        ConfigureTopBarRightSpacing(_PreBattleActionCountText);
+        ConfigureContentWidthButton(_EndPreBattleButton);
         SetObjectVisible(_PreBattleActionCountText, true);
         SetObjectVisible(_PreBattleTimerText, true);
         SetObjectVisible(_EndPreBattleButton, true);
+    }
+
+
+    public void ShowSearchPhase()
+    {
+        _ShowingMovement = false;
+        _ShowingPreBattle = false;
+        _ShowingSearch = true;
+
+        SetObjectVisible(_DeploymentTopRoot, false);
+        SetObjectVisible(_DeploymentOverlayRoot, false);
+        SetObjectVisible(_DeploymentBottomRoot, false);
+        SetObjectVisible(_MovementTopRoot, false);
+        SetObjectVisible(_MovementOverlayRoot, false);
+        SetObjectVisible(_MovementBottomRoot, false);
+        SetObjectVisible(_PreBattleTopRoot, false);
+        SetObjectVisible(_PreBattleOverlayRoot, false);
+        SetObjectVisible(_PreBattleBottomRoot, false);
+        SetObjectVisible(_SearchTopRoot, true);
+        SetObjectVisible(_SearchOverlayRoot, false);
+        SetObjectVisible(_SearchBottomRoot, false);
+        SetObjectVisible(_BottomBarRoot, false);
+        SetDeploymentObjectsVisible(false);
+
+        if (_SearchPhaseText != null)
+            _SearchPhaseText.text = "3 Search";
+        SetButtonLabel(_EndSearchButton, "END SEARCH");
+        SetButtonLabel(_CommitSearchButton, "SEARCH");
+        ConfigureSingleLineTopText(_SearchPhaseText);
+        ConfigureSingleLineTopText(_SearchCountText);
+        ConfigureSingleLineTopText(_SearchTimerText);
+        ConfigureTopBarRightSpacing(_SearchCountText);
+        ConfigureContentWidthButton(_EndSearchButton);
+    }
+
+
+    public void SetSearchStatus(int SearchesCommitted, int SearchLimit,
+        float SecondsRemaining, bool CanEndSearch)
+    {
+        if (_SearchCountText != null)
+        {
+            _SearchCountText.text =
+                $"Searched {Mathf.Max(0, SearchesCommitted)} / {Mathf.Max(0, SearchLimit)}";
+            ConfigureSingleLineTopText(_SearchCountText);
+        }
+        if (_SearchTimerText != null)
+        {
+            int TotalSeconds = Mathf.Max(0, Mathf.CeilToInt(SecondsRemaining));
+            _SearchTimerText.text = $"{TotalSeconds / 60:00}:{TotalSeconds % 60:00}";
+            ConfigureSingleLineTopText(_SearchTimerText);
+        }
+        SetButtonInteractable(_EndSearchButton, CanEndSearch);
+    }
+
+
+    public void SetSearchSelectionVisible(bool UnitSelected, bool SensorSelected)
+    {
+        if (!_ShowingSearch)
+            return;
+        SetObjectVisible(_SearchBottomRoot, UnitSelected);
+        SetObjectVisible(_SearchOverlayRoot, SensorSelected);
+        SetObjectVisible(_BottomBarRoot, UnitSelected);
+    }
+
+
+    public void SetSearchControls(bool CanAdjust, bool CanCommit)
+    {
+        SetButtonInteractable(_SearchRotateLeftButton, CanAdjust);
+        SetButtonInteractable(_SearchRotateRightButton, CanAdjust);
+        SetButtonInteractable(_CommitSearchButton, CanCommit);
+    }
+
+
+    private void HideSearchRoots()
+    {
+        SetObjectVisible(_SearchTopRoot, false);
+        SetObjectVisible(_SearchOverlayRoot, false);
+        SetObjectVisible(_SearchBottomRoot, false);
     }
 
 
@@ -428,12 +553,16 @@ public sealed class GameplayHUD :
     )
     {
         if (_PreBattleActionCountText != null)
+        {
             _PreBattleActionCountText.text = $"Actions {Mathf.Max(0, ActionsCommitted)}";
+            ConfigureSingleLineTopText(_PreBattleActionCountText);
+        }
 
         if (_PreBattleTimerText != null)
         {
             int TotalSeconds = Mathf.Max(0, Mathf.CeilToInt(SecondsRemaining));
             _PreBattleTimerText.text = $"{TotalSeconds / 60:00}:{TotalSeconds % 60:00}";
+            ConfigureSingleLineTopText(_PreBattleTimerText);
         }
 
         if (_EndPreBattleButton != null)
@@ -556,6 +685,83 @@ public sealed class GameplayHUD :
         TMP_Text Text = Button.GetComponentInChildren<TMP_Text>(true);
         if (Text != null)
             Text.text = Label;
+    }
+
+
+    private static void ConfigureSingleLineTopText(TMP_Text Text)
+    {
+        if (Text == null)
+            return;
+
+        Text.textWrappingMode = TextWrappingModes.NoWrap;
+        Text.overflowMode = TextOverflowModes.Overflow;
+
+        LayoutElement Layout = Text.GetComponent<LayoutElement>();
+        if (Layout == null)
+            return;
+
+        float PreferredWidth = Mathf.Ceil(Text.GetPreferredValues(Text.text).x);
+        bool LayoutChanged =
+            !Mathf.Approximately(Layout.minWidth, PreferredWidth) ||
+            !Mathf.Approximately(Layout.preferredWidth, PreferredWidth) ||
+            !Mathf.Approximately(Layout.flexibleWidth, 0f);
+        Layout.minWidth = PreferredWidth;
+        Layout.preferredWidth = PreferredWidth;
+        Layout.flexibleWidth = 0f;
+
+        RectTransform Parent = Text.rectTransform.parent as RectTransform;
+        if (LayoutChanged && Parent != null)
+            LayoutRebuilder.MarkLayoutForRebuild(Parent);
+    }
+
+
+    private static void ConfigureContentWidthButton(Button Button)
+    {
+        if (Button == null)
+            return;
+
+        TMP_Text Label = Button.GetComponentInChildren<TMP_Text>(true);
+        if (Label == null)
+            return;
+
+        Label.textWrappingMode = TextWrappingModes.NoWrap;
+        Label.overflowMode = TextOverflowModes.Overflow;
+
+        LayoutElement Layout = Button.GetComponent<LayoutElement>();
+        if (Layout == null)
+            Layout = Button.gameObject.AddComponent<LayoutElement>();
+
+        const float HorizontalPadding = 32f;
+        float PreferredWidth =
+            Mathf.Ceil(Label.GetPreferredValues(Label.text).x) + HorizontalPadding;
+        bool LayoutChanged =
+            !Mathf.Approximately(Layout.minWidth, PreferredWidth) ||
+            !Mathf.Approximately(Layout.preferredWidth, PreferredWidth) ||
+            !Mathf.Approximately(Layout.flexibleWidth, 0f);
+        Layout.minWidth = PreferredWidth;
+        Layout.preferredWidth = PreferredWidth;
+        Layout.flexibleWidth = 0f;
+
+        RectTransform Parent = Button.transform.parent as RectTransform;
+        if (LayoutChanged && Parent != null)
+            LayoutRebuilder.MarkLayoutForRebuild(Parent);
+    }
+
+
+    private static void ConfigureTopBarRightSpacing(TMP_Text CountText)
+    {
+        if (CountText == null)
+            return;
+
+        HorizontalLayoutGroup Layout =
+            CountText.transform.parent != null
+                ? CountText.transform.parent.GetComponent<HorizontalLayoutGroup>()
+                : null;
+        if (Layout == null || Mathf.Approximately(Layout.spacing, 24f))
+            return;
+
+        Layout.spacing = 24f;
+        LayoutRebuilder.MarkLayoutForRebuild(Layout.transform as RectTransform);
     }
 
 

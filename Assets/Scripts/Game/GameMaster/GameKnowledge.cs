@@ -362,6 +362,19 @@ public sealed class ParticipantMineSnapshot
 }
 
 
+public sealed class ParticipantContactSnapshot
+{
+    public Vector2Int Coordinate { get; }
+    public Domain Domain { get; }
+
+    internal ParticipantContactSnapshot(Vector2Int Coordinate, Domain Domain)
+    {
+        this.Coordinate = Coordinate;
+        this.Domain = Domain;
+    }
+}
+
+
 public sealed class ParticipantGameSnapshot
 {
     public GameplayPhase CurrentPhase { get; }
@@ -371,10 +384,12 @@ public sealed class ParticipantGameSnapshot
     public bool DeploymentLocked { get; }
     public GameMovement.ParticipantView Movement { get; }
     public GamePreBattle.ParticipantView PreBattle { get; }
+    public GameSearch.ParticipantView Search { get; }
     public ParticipantTileSnapshot[] Tiles { get; }
     public ParticipantUnitSnapshot[] OwnUnits { get; }
     public VisibleEnemyUnitSnapshot[] VisibleEnemies { get; }
     public ParticipantMineSnapshot[] Mines { get; }
+    public ParticipantContactSnapshot[] Contacts { get; }
 
     internal ParticipantGameSnapshot(
         GameplayPhase CurrentPhase,
@@ -384,10 +399,12 @@ public sealed class ParticipantGameSnapshot
         bool DeploymentLocked,
         GameMovement.ParticipantView Movement,
         GamePreBattle.ParticipantView PreBattle,
+        GameSearch.ParticipantView Search,
         ParticipantTileSnapshot[] Tiles,
         ParticipantUnitSnapshot[] OwnUnits,
         VisibleEnemyUnitSnapshot[] VisibleEnemies,
-        ParticipantMineSnapshot[] Mines)
+        ParticipantMineSnapshot[] Mines,
+        ParticipantContactSnapshot[] Contacts)
     {
         this.CurrentPhase = CurrentPhase;
         this.TurnNumber = TurnNumber;
@@ -396,10 +413,12 @@ public sealed class ParticipantGameSnapshot
         this.DeploymentLocked = DeploymentLocked;
         this.Movement = Movement;
         this.PreBattle = PreBattle;
+        this.Search = Search;
         this.Tiles = Tiles ?? Array.Empty<ParticipantTileSnapshot>();
         this.OwnUnits = OwnUnits ?? Array.Empty<ParticipantUnitSnapshot>();
         this.VisibleEnemies = VisibleEnemies ?? Array.Empty<VisibleEnemyUnitSnapshot>();
         this.Mines = Mines ?? Array.Empty<ParticipantMineSnapshot>();
+        this.Contacts = Contacts ?? Array.Empty<ParticipantContactSnapshot>();
     }
 }
 
@@ -408,6 +427,20 @@ public sealed class ParticipantGameSnapshot
 // Physical truth remains in GameMap and mutable Unit truth remains in GameUnits.
 internal sealed class GameKnowledge
 {
+    internal sealed class SearchContactRecord
+    {
+        public RuntimeUnit Unit { get; }
+        public Vector2Int Coordinate { get; }
+        public Domain Domain { get; }
+
+        public SearchContactRecord(RuntimeUnit Unit, Vector2Int Coordinate, Domain Domain)
+        {
+            this.Unit = Unit;
+            this.Coordinate = Coordinate;
+            this.Domain = Domain;
+        }
+    }
+
     private readonly Dictionary<Vector2Int, ParticipantTileVisibility>
         _ParticipantAVisibility = new Dictionary<Vector2Int, ParticipantTileVisibility>();
     private readonly Dictionary<Vector2Int, ParticipantTileVisibility>
@@ -418,6 +451,15 @@ internal sealed class GameKnowledge
 
     private readonly HashSet<Vector2Int>
         _ParticipantBKnownTerrain = new HashSet<Vector2Int>();
+
+    private readonly HashSet<Vector2Int>
+        _ParticipantASearchedTiles = new HashSet<Vector2Int>();
+    private readonly HashSet<Vector2Int>
+        _ParticipantBSearchedTiles = new HashSet<Vector2Int>();
+    private readonly Dictionary<Vector2Int, SearchContactRecord>
+        _ParticipantAContacts = new Dictionary<Vector2Int, SearchContactRecord>();
+    private readonly Dictionary<Vector2Int, SearchContactRecord>
+        _ParticipantBContacts = new Dictionary<Vector2Int, SearchContactRecord>();
 
     private GameMap _GameMap;
     private GameUnits _GameUnits;
@@ -499,6 +541,7 @@ internal sealed class GameKnowledge
         RuntimeParticipant FirstPlayer,
         GameMovement.ParticipantView Movement,
         GamePreBattle.ParticipantView PreBattle,
+        GameSearch.ParticipantView Search,
         out ParticipantGameSnapshot Snapshot,
         out string ValidationMessage)
     {
@@ -527,10 +570,12 @@ internal sealed class GameKnowledge
             Participant.DeploymentLocked,
             Movement,
             PreBattle,
+            Search,
             BuildTileSnapshots(Visibility),
             BuildOwnUnitSnapshots(OwnRoster),
             BuildVisibleEnemySnapshots(EnemyRoster, Visibility),
-            BuildMineSnapshots(Participant, Visibility));
+            BuildMineSnapshots(Participant, Visibility),
+            BuildContactSnapshots(Participant));
 
         ValidationMessage = string.Empty;
         return true;
@@ -583,6 +628,15 @@ internal sealed class GameKnowledge
                     Visibility[Coordinate] =
                         ParticipantTileVisibility.Obscured;
                 }
+            }
+        }
+
+        if (TryGetSearchedTiles(Participant, out HashSet<Vector2Int> SearchedTiles))
+        {
+            foreach (Vector2Int Coordinate in SearchedTiles)
+            {
+                if (_GameMap.IsInsideBounds(Coordinate))
+                    Visibility[Coordinate] = ParticipantTileVisibility.Obscured;
             }
         }
 
@@ -784,6 +838,85 @@ internal sealed class GameKnowledge
 
 
         return Result.ToArray();
+    }
+
+
+    private ParticipantContactSnapshot[] BuildContactSnapshots(
+        RuntimeParticipant Participant)
+    {
+        if (!TryGetContacts(Participant,
+                out Dictionary<Vector2Int, SearchContactRecord> Contacts))
+            return Array.Empty<ParticipantContactSnapshot>();
+
+        List<ParticipantContactSnapshot> Result =
+            new List<ParticipantContactSnapshot>();
+        foreach (KeyValuePair<Vector2Int, SearchContactRecord> Entry in Contacts)
+        {
+            SearchContactRecord Contact = Entry.Value;
+            if (Contact?.Unit != null && Contact.Unit.IsActive)
+                Result.Add(new ParticipantContactSnapshot(
+                    Entry.Key, Contact.Domain));
+        }
+        return Result.ToArray();
+    }
+
+
+    internal void RecordSearchOutcome(RuntimeParticipant Participant,
+        IReadOnlyList<Vector2Int> SearchedCoordinates,
+        IReadOnlyList<SearchContactRecord> Contacts)
+    {
+        if (!TryGetSearchedTiles(Participant, out HashSet<Vector2Int> Tiles) ||
+            !TryGetContacts(Participant,
+                out Dictionary<Vector2Int, SearchContactRecord> KnownContacts))
+            return;
+
+        if (SearchedCoordinates != null)
+        {
+            for (int i = 0; i < SearchedCoordinates.Count; i++)
+                if (_GameMap.IsInsideBounds(SearchedCoordinates[i]))
+                    Tiles.Add(SearchedCoordinates[i]);
+        }
+        if (Contacts != null)
+        {
+            for (int i = 0; i < Contacts.Count; i++)
+            {
+                SearchContactRecord Contact = Contacts[i];
+                if (Contact != null)
+                    KnownContacts[Contact.Coordinate] = Contact;
+            }
+        }
+    }
+
+
+    // Called when the End phase concludes and a new turn begins.
+    internal void ClearTurnSearchKnowledge()
+    {
+        _ParticipantASearchedTiles.Clear();
+        _ParticipantBSearchedTiles.Clear();
+        _ParticipantAContacts.Clear();
+        _ParticipantBContacts.Clear();
+    }
+
+
+    private bool TryGetSearchedTiles(RuntimeParticipant Participant,
+        out HashSet<Vector2Int> Tiles)
+    {
+        Tiles = ReferenceEquals(Participant, _ParticipantA)
+            ? _ParticipantASearchedTiles
+            : ReferenceEquals(Participant, _ParticipantB)
+                ? _ParticipantBSearchedTiles : null;
+        return Tiles != null;
+    }
+
+
+    private bool TryGetContacts(RuntimeParticipant Participant,
+        out Dictionary<Vector2Int, SearchContactRecord> Contacts)
+    {
+        Contacts = ReferenceEquals(Participant, _ParticipantA)
+            ? _ParticipantAContacts
+            : ReferenceEquals(Participant, _ParticipantB)
+                ? _ParticipantBContacts : null;
+        return Contacts != null;
     }
 
 

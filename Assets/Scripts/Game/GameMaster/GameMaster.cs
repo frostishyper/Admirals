@@ -46,6 +46,8 @@ public class GameMaster :
 
     private GamePreBattle _GamePreBattle;
 
+    private GameSearch _GameSearch;
+
     private GameParticipantAPI _ParticipantAPI;
 
 
@@ -108,6 +110,10 @@ public class GameMaster :
 
     public GamePreBattle GamePreBattle =>
         _GamePreBattle;
+
+
+    public GameSearch GameSearch =>
+        _GameSearch;
 
 
     public GameParticipantAPI ParticipantAPI =>
@@ -199,6 +205,7 @@ public class GameMaster :
             !InitializeKnowledgeState() ||
             !InitializeMovementState() ||
             !InitializePreBattleState() ||
+            !InitializeSearchState() ||
             !InitializeParticipantAPI())
         {
             return false;
@@ -622,8 +629,28 @@ public class GameMaster :
         }
 
 
+        if (_CurrentPhase == GameplayPhase.Search &&
+            _GameSearch == null)
+        {
+            ValidationMessage =
+                "Search state is unavailable.";
+            return false;
+        }
+
+
         if (_CurrentPhase == GameplayPhase.PreBattle &&
             !_GamePreBattle.CanUseAbility(
+                Participant,
+                RuntimeUnitID,
+                AbilitySlotIndex,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        if (_CurrentPhase == GameplayPhase.Search &&
+            !_GameSearch.CanUseAbility(
                 Participant,
                 RuntimeUnitID,
                 AbilitySlotIndex,
@@ -750,6 +777,16 @@ public class GameMaster :
         if (_CurrentPhase == GameplayPhase.PreBattle)
         {
             _GamePreBattle.CommitAbilityUse(
+                Participant,
+                RuntimeUnitID,
+                AbilitySlotIndex
+            );
+        }
+
+
+        if (_CurrentPhase == GameplayPhase.Search)
+        {
+            _GameSearch.CommitAbilityUse(
                 Participant,
                 RuntimeUnitID,
                 AbilitySlotIndex
@@ -1137,6 +1174,90 @@ public class GameMaster :
     }
 
 
+    internal bool TryGetSearchView(
+        RuntimeParticipant Participant,
+        out GameSearch.ParticipantView View)
+    {
+        View = null;
+        return _GameSearch != null &&
+            _GameSearch.TryGetView(Participant, out View);
+    }
+
+
+    internal bool TryGetSearchPattern(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        int SystemSlotIndex,
+        UnitFacing SearchFacing,
+        out GameSearch.SearchTile[] Tiles,
+        out string ValidationMessage)
+    {
+        Tiles = Array.Empty<GameSearch.SearchTile>();
+        if (!CanAcceptSearchInput(Participant, out ValidationMessage))
+            return false;
+
+        return _GameSearch.TryGetPattern(
+            Participant,
+            RuntimeUnitID,
+            SystemSlotIndex,
+            SearchFacing,
+            out Tiles,
+            out ValidationMessage);
+    }
+
+
+    internal bool TryCommitSearch(
+        RuntimeParticipant Participant,
+        string RuntimeUnitID,
+        int SystemSlotIndex,
+        UnitFacing SearchFacing,
+        out GameSearch.CommitResult Result,
+        out string ValidationMessage)
+    {
+        Result = null;
+        if (!CanAcceptSearchInput(Participant, out ValidationMessage) ||
+            !_GameSearch.TryCommitSearch(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                SearchFacing,
+                out Result,
+                out ValidationMessage))
+            return false;
+
+        if (!_GameKnowledge.Refresh(_CurrentPhase, out string KnowledgeMessage))
+            Debug.LogError(
+                $"GameKnowledge refresh failed after Search: {KnowledgeMessage}",
+                this);
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' committed a Search with " +
+            $"Unit '{RuntimeUnitID}', System slot {SystemSlotIndex}.",
+            this);
+        return true;
+    }
+
+
+    internal bool TryEndSearch(
+        RuntimeParticipant Participant,
+        out string ValidationMessage)
+    {
+        if (!CanAcceptSearchInput(Participant, out ValidationMessage) ||
+            !_GameSearch.TryEndSearch(
+                Participant,
+                out bool AllParticipantsEnded,
+                out ValidationMessage))
+            return false;
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' ended Search for Turn {_TurnNumber}.",
+            this);
+        if (AllParticipantsEnded)
+            CompleteSearchPhase();
+        return true;
+    }
+
+
     private void Update()
     {
         if (!_InitializationComplete)
@@ -1165,6 +1286,25 @@ public class GameMaster :
             if (AllParticipantsEnded)
                 CompleteMovementPhase();
 
+
+            _ParticipantAPI?.NotifySnapshotsChanged();
+            return;
+        }
+
+
+        if (_CurrentPhase == GameplayPhase.Search &&
+            _GameSearch != null &&
+            _GameSearch.Tick(
+                Time.deltaTime,
+                out TimedOutParticipant,
+                out AllParticipantsEnded))
+        {
+            Debug.Log(
+                $"'{TimedOutParticipant.Participant.DisplayName}' ran out of Search time on Turn {_TurnNumber}.",
+                this);
+
+            if (AllParticipantsEnded)
+                CompleteSearchPhase();
 
             _ParticipantAPI?.NotifySnapshotsChanged();
             return;
@@ -1249,6 +1389,26 @@ public class GameMaster :
         _CurrentPhase = GameplayPhase.Search;
 
 
+        float SearchSeconds = 90f;
+
+        if (_GameMode.TryGetPhaseTimeLimit(
+                GameplayPhase.Search,
+                out float AuthoredSearchSeconds))
+        {
+            SearchSeconds = AuthoredSearchSeconds;
+        }
+
+        if (!_GameSearch.BeginPhase(
+                _FirstPlayer,
+                SearchSeconds,
+                out string SearchMessage))
+        {
+            Debug.LogError(
+                $"Search phase initialization failed: {SearchMessage}",
+                this);
+        }
+
+
         if (!_GameKnowledge.Refresh(
                 _CurrentPhase,
                 out string KnowledgeMessage))
@@ -1264,6 +1424,25 @@ public class GameMaster :
             $"Both participants ended Pre-Battle. Turn {_TurnNumber} entered Search.",
             this
         );
+    }
+
+
+    private void CompleteSearchPhase()
+    {
+        _CurrentPhase = GameplayPhase.Battle;
+
+        if (!_GameKnowledge.Refresh(
+                _CurrentPhase,
+                out string KnowledgeMessage))
+        {
+            Debug.LogError(
+                $"GameKnowledge refresh failed after Search: {KnowledgeMessage}",
+                this);
+        }
+
+        Debug.Log(
+            $"Both participants ended Search. Turn {_TurnNumber} entered Battle.",
+            this);
     }
 
 
@@ -1365,6 +1544,26 @@ public class GameMaster :
             Participant,
             out ValidationMessage
         );
+    }
+
+
+    private bool CanAcceptSearchInput(
+        RuntimeParticipant Participant,
+        out string ValidationMessage)
+    {
+        if (!_InitializationComplete ||
+            !_MatchStarted ||
+            _CurrentPhase != GameplayPhase.Search ||
+            _GameSearch == null)
+        {
+            ValidationMessage =
+                "The Match is not accepting Search input.";
+            return false;
+        }
+
+        return _GameSearch.CanAcceptParticipantAction(
+            Participant,
+            out ValidationMessage);
     }
 
 
@@ -1685,6 +1884,28 @@ public class GameMaster :
     }
 
 
+    private bool InitializeSearchState()
+    {
+        _GameSearch = new GameSearch();
+
+        if (!_GameSearch.Initialize(
+                _GameMap,
+                _GameUnits,
+                _GameKnowledge,
+                _ParticipantA,
+                _ParticipantB,
+                out string ValidationMessage))
+        {
+            _GameSearch = null;
+            FailInitialization(
+                $"Search State initialization failed: {ValidationMessage}");
+            return false;
+        }
+
+        return true;
+    }
+
+
     internal bool TryGetParticipantSnapshot(
         RuntimeParticipant Participant,
         out ParticipantGameSnapshot Snapshot,
@@ -1705,6 +1926,9 @@ public class GameMaster :
         GamePreBattle.ParticipantView PreBattleView =
             null;
 
+        GameSearch.ParticipantView SearchView =
+            null;
+
 
         _GameMovement?.TryGetView(
             Participant,
@@ -1717,6 +1941,11 @@ public class GameMaster :
             out PreBattleView
         );
 
+        _GameSearch?.TryGetView(
+            Participant,
+            out SearchView
+        );
+
 
         return _GameKnowledge.TryCreateSnapshot(
             Participant,
@@ -1726,6 +1955,7 @@ public class GameMaster :
             _FirstPlayer,
             MovementView,
             PreBattleView,
+            SearchView,
             out Snapshot,
             out ValidationMessage);
     }
@@ -1881,6 +2111,12 @@ public class GameMaster :
             null;
 
         _GameMovement =
+            null;
+
+        _GamePreBattle =
+            null;
+
+        _GameSearch =
             null;
 
         _ParticipantAPI =

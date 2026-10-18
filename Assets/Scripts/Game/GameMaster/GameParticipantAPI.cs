@@ -77,6 +77,7 @@ public sealed class GameParticipantAPI
 
         public event Action SnapshotChanged;
         public event Action<MovementPresentation> MovementPresented;
+        public event Action<GameSearch.CommitResult> SearchPresented;
 
         public RuntimeParticipant Participant { get; }
 
@@ -108,6 +109,13 @@ public sealed class GameParticipantAPI
                     Presentation
                 );
             }
+        }
+
+
+        internal void NotifySearchPresented(GameSearch.CommitResult Result)
+        {
+            if (Result != null)
+                SearchPresented?.Invoke(Result);
         }
 
         public bool TryGetSnapshot(
@@ -359,6 +367,89 @@ public sealed class GameParticipantAPI
                 Participant,
                 out View
             );
+        }
+
+
+        public bool TryGetSearchView(out GameSearch.ParticipantView View)
+        {
+            View = null;
+            return _API.IsInitialized &&
+                _API._GameMaster.TryGetSearchView(Participant, out View);
+        }
+
+
+        public bool TryGetSearchPattern(
+            string RuntimeUnitID,
+            int SystemSlotIndex,
+            UnitFacing SearchFacing,
+            out GameSearch.SearchTile[] Tiles,
+            out string ValidationMessage)
+        {
+            Tiles = Array.Empty<GameSearch.SearchTile>();
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            return _API._GameMaster.TryGetSearchPattern(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                SearchFacing,
+                out Tiles,
+                out ValidationMessage);
+        }
+
+
+        public bool TryCommitSearch(
+            string RuntimeUnitID,
+            int SystemSlotIndex,
+            UnitFacing SearchFacing,
+            out GameSearch.CommitResult Result,
+            out string ValidationMessage)
+        {
+            Result = null;
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            bool Committed = _API._GameMaster.TryCommitSearch(
+                Participant,
+                RuntimeUnitID,
+                SystemSlotIndex,
+                SearchFacing,
+                out Result,
+                out ValidationMessage);
+
+            if (Committed)
+            {
+                NotifySearchPresented(Result);
+                _API.NotifySnapshotsChanged();
+            }
+            return Committed;
+        }
+
+
+        public bool TryEndSearch(out string ValidationMessage)
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            bool Ended = _API._GameMaster.TryEndSearch(
+                Participant,
+                out ValidationMessage);
+            if (Ended)
+                _API.NotifySnapshotsChanged();
+            return Ended;
         }
 
 
