@@ -116,6 +116,51 @@ public sealed class GameplayHUD :
     private MovementUnitDetailsUI _MovementUnitDetails;
 
 
+    [Header("Pre-Battle - Top")]
+    [SerializeField]
+    private GameObject _PreBattleTopRoot;
+
+    [SerializeField]
+    private TMP_Text _PreBattlePlayerNameText;
+
+    [SerializeField]
+    private TMP_Text _PreBattlePhaseText;
+
+    [SerializeField]
+    private TMP_Text _PreBattleActionCountText;
+
+    [SerializeField]
+    private TMP_Text _PreBattleTimerText;
+
+    [SerializeField]
+    private Button _EndPreBattleButton;
+
+
+    [Header("Pre-Battle - Overlay")]
+    [SerializeField]
+    private GameObject _PreBattleOverlayRoot;
+
+    [SerializeField]
+    private Button _PreBattleRotateLeftButton;
+
+    [SerializeField]
+    private Button _PreBattleRotateRightButton;
+
+    [SerializeField]
+    private Button _ConfirmPreBattleActionButton;
+
+    [SerializeField]
+    private Button _CancelPreBattleActionButton;
+
+
+    [Header("Pre-Battle - Bottom")]
+    [SerializeField]
+    private GameObject _PreBattleBottomRoot;
+
+    [SerializeField]
+    private MovementUnitDetailsUI _PreBattleUnitDetails;
+
+
     private bool _ShowingMovement;
     private bool _ShowingPreBattle;
     private bool _MovementSelectionVisible;
@@ -176,6 +221,11 @@ public sealed class GameplayHUD :
     public Button ConfirmMovementButton => _ConfirmMovementButton;
     public Button CancelMovementButton => _CancelMovementButton;
     public Button EndMovementButton => _EndMovementButton;
+    public Button PreBattleRotateLeftButton => _PreBattleRotateLeftButton;
+    public Button PreBattleRotateRightButton => _PreBattleRotateRightButton;
+    public Button ConfirmPreBattleActionButton => _ConfirmPreBattleActionButton;
+    public Button CancelPreBattleActionButton => _CancelPreBattleActionButton;
+    public Button EndPreBattleButton => _EndPreBattleButton;
 
 
     public void BindMovementUnitDetails(
@@ -187,9 +237,14 @@ public sealed class GameplayHUD :
         Action<int, int> UseSystem,
         Action<int> UseAbility)
     {
-        if (_MovementUnitDetails != null)
+        MovementUnitDetailsUI Details =
+            Phase == GameplayPhase.PreBattle
+                ? _PreBattleUnitDetails
+                : _MovementUnitDetails;
+
+        if (Details != null)
         {
-            _MovementUnitDetails.Bind(
+            Details.Bind(
                 Unit,
                 Definition,
                 PresentationCatalog,
@@ -207,6 +262,11 @@ public sealed class GameplayHUD :
         if (_MovementUnitDetails != null)
         {
             _MovementUnitDetails.Clear();
+        }
+
+        if (_PreBattleUnitDetails != null)
+        {
+            _PreBattleUnitDetails.Clear();
         }
     }
 
@@ -234,6 +294,11 @@ public sealed class GameplayHUD :
             _MovementPlayerNameText.text =
                 DisplayName;
         }
+
+        if (_PreBattlePlayerNameText != null)
+        {
+            _PreBattlePlayerNameText.text = DisplayName;
+        }
     }
 
 
@@ -254,6 +319,9 @@ public sealed class GameplayHUD :
         SetObjectVisible(_MovementTopRoot, false);
         SetObjectVisible(_MovementOverlayRoot, false);
         SetObjectVisible(_MovementBottomRoot, false);
+        SetObjectVisible(_PreBattleTopRoot, false);
+        SetObjectVisible(_PreBattleOverlayRoot, false);
+        SetObjectVisible(_PreBattleBottomRoot, false);
         SetObjectVisible(_BottomBarRoot, true);
 
         SetDeploymentObjectsVisible(
@@ -281,6 +349,9 @@ public sealed class GameplayHUD :
         SetObjectVisible(_DeploymentOverlayRoot, false);
         SetObjectVisible(_DeploymentBottomRoot, false);
         SetObjectVisible(_MovementTopRoot, true);
+        SetObjectVisible(_PreBattleTopRoot, false);
+        SetObjectVisible(_PreBattleOverlayRoot, false);
+        SetObjectVisible(_PreBattleBottomRoot, false);
         ApplyMovementSelectionVisibility();
 
         SetDeploymentObjectsVisible(
@@ -332,19 +403,21 @@ public sealed class GameplayHUD :
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
         SetObjectVisible(_DeploymentBottomRoot, false);
-        SetObjectVisible(_MovementTopRoot, true);
+        SetObjectVisible(_MovementTopRoot, false);
+        SetObjectVisible(_MovementOverlayRoot, false);
+        SetObjectVisible(_MovementBottomRoot, false);
+        SetObjectVisible(_PreBattleTopRoot, true);
         SetDeploymentObjectsVisible(false);
         ApplyMovementSelectionVisibility();
 
-        if (_MovementPhaseText != null)
-            _MovementPhaseText.text = "2 Pre-Battle";
+        if (_PreBattlePhaseText != null)
+            _PreBattlePhaseText.text = "2 Pre-Battle";
 
-        SetEndButtonLabel("END PRE-BATTLE");
-        SetButtonLabel(_ConfirmMovementButton, "Deploy");
-        SetMovementOverlayColumnsVisible(false);
-        SetObjectVisible(_MovementCountText, true);
-        SetObjectVisible(_MovementTimerText, true);
-        SetObjectVisible(_EndMovementButton, true);
+        SetButtonLabel(_EndPreBattleButton, "END PRE-BATTLE");
+        SetButtonLabel(_ConfirmPreBattleActionButton, "Deploy");
+        SetObjectVisible(_PreBattleActionCountText, true);
+        SetObjectVisible(_PreBattleTimerText, true);
+        SetObjectVisible(_EndPreBattleButton, true);
     }
 
 
@@ -354,17 +427,17 @@ public sealed class GameplayHUD :
         bool CanAct
     )
     {
-        if (_MovementCountText != null)
-            _MovementCountText.text = $"Actions {Mathf.Max(0, ActionsCommitted)}";
+        if (_PreBattleActionCountText != null)
+            _PreBattleActionCountText.text = $"Actions {Mathf.Max(0, ActionsCommitted)}";
 
-        if (_MovementTimerText != null)
+        if (_PreBattleTimerText != null)
         {
             int TotalSeconds = Mathf.Max(0, Mathf.CeilToInt(SecondsRemaining));
-            _MovementTimerText.text = $"{TotalSeconds / 60:00}:{TotalSeconds % 60:00}";
+            _PreBattleTimerText.text = $"{TotalSeconds / 60:00}:{TotalSeconds % 60:00}";
         }
 
-        if (_EndMovementButton != null)
-            _EndMovementButton.interactable = CanAct;
+        if (_EndPreBattleButton != null)
+            _EndPreBattleButton.interactable = CanAct;
     }
 
 
@@ -382,13 +455,13 @@ public sealed class GameplayHUD :
         SetObjectVisible(_MoveDownButton, !_ShowingPreBattle);
         SetObjectVisible(_MoveLeftButton, !_ShowingPreBattle);
         SetObjectVisible(_MoveRightButton, !_ShowingPreBattle);
-        SetObjectVisible(_MovementRotateLeftButton, !_ShowingPreBattle || AllowRotation);
-        SetObjectVisible(_MovementRotateRightButton, !_ShowingPreBattle || AllowRotation);
+        SetObjectVisible(_PreBattleRotateLeftButton, AllowRotation);
+        SetObjectVisible(_PreBattleRotateRightButton, AllowRotation);
 
-        if (_ShowingPreBattle && _MovementOverlayRoot != null)
+        if (_ShowingPreBattle && _PreBattleOverlayRoot != null)
         {
             Transform RotateColumn = FindDescendant(
-                _MovementOverlayRoot.transform,
+                _PreBattleOverlayRoot.transform,
                 "RotateColumn"
             );
 
@@ -457,13 +530,11 @@ public sealed class GameplayHUD :
         bool Visible =
             _MovementSelectionVisible;
 
-        SetObjectVisible(
-            _MovementOverlayRoot,
-            _ShowingPreBattle
-                ? _PreBattleTargetingVisible
-                : Visible
-        );
-        SetObjectVisible(_MovementBottomRoot, Visible);
+        SetObjectVisible(_MovementOverlayRoot, _ShowingMovement && Visible);
+        SetObjectVisible(_MovementBottomRoot, _ShowingMovement && Visible);
+        SetObjectVisible(_PreBattleOverlayRoot,
+            _ShowingPreBattle && _PreBattleTargetingVisible);
+        SetObjectVisible(_PreBattleBottomRoot, _ShowingPreBattle && Visible);
         SetObjectVisible(_BottomBarRoot, Visible);
     }
 
@@ -536,6 +607,15 @@ public sealed class GameplayHUD :
         bool CanConfirm
     )
     {
+        if (_ShowingPreBattle)
+        {
+            SetButtonInteractable(_PreBattleRotateLeftButton, CanAdjust);
+            SetButtonInteractable(_PreBattleRotateRightButton, CanAdjust);
+            SetButtonInteractable(_CancelPreBattleActionButton, CanAdjust);
+            SetButtonInteractable(_ConfirmPreBattleActionButton, CanConfirm);
+            return;
+        }
+
         SetButtonInteractable(_MoveUpButton, CanAdjust);
         SetButtonInteractable(_MoveDownButton, CanAdjust);
         SetButtonInteractable(_MoveLeftButton, CanAdjust);
@@ -692,12 +772,16 @@ public sealed class GameplayHUD :
         );
 
 
-        bool ShowingGameplayPhase =
-            !Visible && (_ShowingMovement || _ShowingPreBattle);
+        bool ShowingGameplayPhase = !Visible && _ShowingMovement;
 
         SetObjectVisible(_MovementCountText, ShowingGameplayPhase);
         SetObjectVisible(_MovementTimerText, ShowingGameplayPhase);
         SetObjectVisible(_EndMovementButton, ShowingGameplayPhase);
+
+        bool ShowingPreBattle = !Visible && _ShowingPreBattle;
+        SetObjectVisible(_PreBattleActionCountText, ShowingPreBattle);
+        SetObjectVisible(_PreBattleTimerText, ShowingPreBattle);
+        SetObjectVisible(_EndPreBattleButton, ShowingPreBattle);
     }
 
 

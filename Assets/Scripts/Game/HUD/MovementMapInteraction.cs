@@ -1590,6 +1590,11 @@ public sealed class MovementMapInteraction : MonoBehaviour
         AddButtonListener(_GameplayHUD.ConfirmMovementButton, ConfirmMovement);
         AddButtonListener(_GameplayHUD.CancelMovementButton, ClearSelection);
         AddButtonListener(_GameplayHUD.EndMovementButton, EndMovement);
+        AddButtonListener(_GameplayHUD.PreBattleRotateLeftButton, RotateLeft);
+        AddButtonListener(_GameplayHUD.PreBattleRotateRightButton, RotateRight);
+        AddButtonListener(_GameplayHUD.ConfirmPreBattleActionButton, ConfirmMovement);
+        AddButtonListener(_GameplayHUD.CancelPreBattleActionButton, ClearSelection);
+        AddButtonListener(_GameplayHUD.EndPreBattleButton, EndMovement);
 
         _ButtonsBound =
             true;
@@ -1614,6 +1619,11 @@ public sealed class MovementMapInteraction : MonoBehaviour
         RemoveButtonListener(_GameplayHUD.ConfirmMovementButton, ConfirmMovement);
         RemoveButtonListener(_GameplayHUD.CancelMovementButton, ClearSelection);
         RemoveButtonListener(_GameplayHUD.EndMovementButton, EndMovement);
+        RemoveButtonListener(_GameplayHUD.PreBattleRotateLeftButton, RotateLeft);
+        RemoveButtonListener(_GameplayHUD.PreBattleRotateRightButton, RotateRight);
+        RemoveButtonListener(_GameplayHUD.ConfirmPreBattleActionButton, ConfirmMovement);
+        RemoveButtonListener(_GameplayHUD.CancelPreBattleActionButton, ClearSelection);
+        RemoveButtonListener(_GameplayHUD.EndPreBattleButton, EndMovement);
 
         _ButtonsBound =
             false;
