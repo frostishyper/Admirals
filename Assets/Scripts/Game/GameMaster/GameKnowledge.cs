@@ -35,6 +35,9 @@ public sealed class ParticipantTileSnapshot
 public sealed class ParticipantWeaponSnapshot
 {
     public int SlotIndex { get; }
+    // Authored/static data is intentionally readable by participant controllers.
+    // Runtime charge state remains copied into this snapshot.
+    public Definition_Weapon Definition { get; }
     public string DefinitionID { get; }
     public string Name { get; }
     public int CurrentCharges { get; }
@@ -44,6 +47,7 @@ public sealed class ParticipantWeaponSnapshot
     internal ParticipantWeaponSnapshot(RuntimeWeaponSlotState Slot)
     {
         SlotIndex = Slot.SlotIndex;
+        Definition = Slot.Weapon;
         DefinitionID = Slot.Weapon != null ? Slot.Weapon.ID : string.Empty;
         Name = Slot.Weapon != null ? Slot.Weapon.Name : string.Empty;
         CurrentCharges = Slot.CurrentCharges;
@@ -56,6 +60,7 @@ public sealed class ParticipantWeaponSnapshot
 public sealed class ParticipantCarriedUnitSnapshot
 {
     public int CarriedUnitIndex { get; }
+    public Definition_Unit Definition { get; }
     public string DefinitionID { get; }
     public string Name { get; }
     public RuntimeCarriedUnitState State { get; }
@@ -65,6 +70,7 @@ public sealed class ParticipantCarriedUnitSnapshot
         int CarriedUnitIndex)
     {
         this.CarriedUnitIndex = CarriedUnitIndex;
+        Definition = Unit?.Unit;
         DefinitionID = Unit?.Unit != null ? Unit.Unit.ID : string.Empty;
         Name = Unit?.Unit != null ? Unit.Unit.Name : string.Empty;
         State = Unit != null ? Unit.State : RuntimeCarriedUnitState.Lost;
@@ -76,6 +82,7 @@ public sealed class ParticipantSystemSnapshot
 {
     public int SlotIndex { get; }
     public SystemSlotType SlotType { get; }
+    public Definition_System Definition { get; }
     public string DefinitionID { get; }
     public string Name { get; }
     public int CurrentCharges { get; }
@@ -87,6 +94,7 @@ public sealed class ParticipantSystemSnapshot
     {
         SlotIndex = Slot.SlotIndex;
         SlotType = Slot.SlotType;
+        Definition = Slot.System;
         DefinitionID = Slot.System != null ? Slot.System.ID : string.Empty;
         Name = Slot.System != null ? Slot.System.Name : string.Empty;
         CurrentCharges = Slot.CurrentCharges;
@@ -103,12 +111,14 @@ public sealed class ParticipantSystemSnapshot
 public sealed class ParticipantAbilitySnapshot
 {
     public int SlotIndex { get; }
+    public Definition_Ability Definition { get; }
     public string DefinitionID { get; }
     public string Name { get; }
 
     internal ParticipantAbilitySnapshot(RuntimeAbilityState Ability)
     {
         SlotIndex = Ability.SlotIndex;
+        Definition = Ability.Ability;
         DefinitionID = Ability.Ability != null ? Ability.Ability.ID : string.Empty;
         Name = Ability.Ability != null ? Ability.Ability.Name : string.Empty;
     }
@@ -117,6 +127,7 @@ public sealed class ParticipantAbilitySnapshot
 
 public sealed class ParticipantStatusSnapshot
 {
+    public Definition_Status Definition { get; }
     public string DefinitionID { get; }
     public string Name { get; }
     public int RemainingTurns { get; }
@@ -124,6 +135,7 @@ public sealed class ParticipantStatusSnapshot
 
     internal ParticipantStatusSnapshot(RuntimeStatusState Status)
     {
+        Definition = Status.Status;
         DefinitionID = Status.Status != null ? Status.Status.ID : string.Empty;
         Name = Status.Status != null ? Status.Status.Name : string.Empty;
         RemainingTurns = Status.RemainingTurns;
@@ -134,6 +146,7 @@ public sealed class ParticipantStatusSnapshot
 
 public sealed class ParticipantModifierSnapshot
 {
+    public GameplayModifier Definition { get; }
     public ModifierType Type { get; }
     public int Value { get; }
     public GameplayPhase ApplicablePhases { get; }
@@ -142,6 +155,7 @@ public sealed class ParticipantModifierSnapshot
 
     internal ParticipantModifierSnapshot(RuntimeModifierState State)
     {
+        Definition = State.Modifier;
         Type = State.Modifier != null ? State.Modifier.Type : ModifierType.None;
         Value = State.Modifier != null ? State.Modifier.Value : 0;
         ApplicablePhases = State.Modifier != null
@@ -155,6 +169,7 @@ public sealed class ParticipantModifierSnapshot
 
 public sealed class ParticipantUnitTagSnapshot
 {
+    public Definition_UnitTag Definition { get; }
     public string DefinitionID { get; }
     public string Name { get; }
 
@@ -163,6 +178,7 @@ public sealed class ParticipantUnitTagSnapshot
         Definition_UnitTag Tag
     )
     {
+        Definition = Tag;
         DefinitionID =
             Tag != null
                 ? Tag.ID
@@ -181,6 +197,7 @@ public sealed class ParticipantUnitSnapshot
     public string RuntimeUnitID { get; }
     public string FleetEntryID { get; }
     public string InstanceName { get; }
+    public Definition_Unit Definition { get; }
     public string DefinitionID { get; }
     public string DefinitionName { get; }
     public RuntimeUnitLifeState LifeState { get; }
@@ -209,6 +226,7 @@ public sealed class ParticipantUnitSnapshot
         RuntimeUnitID = Unit.RuntimeID;
         FleetEntryID = Unit.SourceFleetEntryID;
         InstanceName = Unit.InstanceName;
+        Definition = Unit.Definition;
         DefinitionID = Unit.Definition != null ? Unit.Definition.ID : string.Empty;
         DefinitionName = Unit.Definition != null ? Unit.Definition.Name : string.Empty;
         LifeState = Unit.LifeState;
@@ -284,6 +302,7 @@ public sealed class ParticipantUnitSnapshot
 public sealed class VisibleEnemyUnitSnapshot
 {
     public string InstanceName { get; }
+    public Definition_Unit Definition { get; }
     public string DefinitionID { get; }
     public string DefinitionName { get; }
     public Domain CurrentDomain { get; }
@@ -299,6 +318,7 @@ public sealed class VisibleEnemyUnitSnapshot
         Vector2Int MovementPivotCoordinate)
     {
         InstanceName = Unit.InstanceName;
+        Definition = Unit.Definition;
         DefinitionID = Unit.Definition != null ? Unit.Definition.ID : string.Empty;
         DefinitionName = Unit.Definition != null ? Unit.Definition.Name : string.Empty;
         CurrentDomain = Unit.CurrentDomain;
@@ -385,6 +405,7 @@ public sealed class ParticipantGameSnapshot
     public GameMovement.ParticipantView Movement { get; }
     public GamePreBattle.ParticipantView PreBattle { get; }
     public GameSearch.ParticipantView Search { get; }
+    public GameBattle.ParticipantView Battle { get; }
     public ParticipantTileSnapshot[] Tiles { get; }
     public ParticipantUnitSnapshot[] OwnUnits { get; }
     public VisibleEnemyUnitSnapshot[] VisibleEnemies { get; }
@@ -400,6 +421,7 @@ public sealed class ParticipantGameSnapshot
         GameMovement.ParticipantView Movement,
         GamePreBattle.ParticipantView PreBattle,
         GameSearch.ParticipantView Search,
+        GameBattle.ParticipantView Battle,
         ParticipantTileSnapshot[] Tiles,
         ParticipantUnitSnapshot[] OwnUnits,
         VisibleEnemyUnitSnapshot[] VisibleEnemies,
@@ -414,6 +436,7 @@ public sealed class ParticipantGameSnapshot
         this.Movement = Movement;
         this.PreBattle = PreBattle;
         this.Search = Search;
+        this.Battle = Battle;
         this.Tiles = Tiles ?? Array.Empty<ParticipantTileSnapshot>();
         this.OwnUnits = OwnUnits ?? Array.Empty<ParticipantUnitSnapshot>();
         this.VisibleEnemies = VisibleEnemies ?? Array.Empty<VisibleEnemyUnitSnapshot>();
@@ -542,6 +565,7 @@ internal sealed class GameKnowledge
         GameMovement.ParticipantView Movement,
         GamePreBattle.ParticipantView PreBattle,
         GameSearch.ParticipantView Search,
+        GameBattle.ParticipantView Battle,
         out ParticipantGameSnapshot Snapshot,
         out string ValidationMessage)
     {
@@ -571,6 +595,7 @@ internal sealed class GameKnowledge
             Movement,
             PreBattle,
             Search,
+            Battle,
             BuildTileSnapshots(Visibility),
             BuildOwnUnitSnapshots(OwnRoster),
             BuildVisibleEnemySnapshots(EnemyRoster, Visibility),
@@ -895,6 +920,44 @@ internal sealed class GameKnowledge
         _ParticipantBSearchedTiles.Clear();
         _ParticipantAContacts.Clear();
         _ParticipantBContacts.Clear();
+    }
+
+
+    // Resolves a participant-known target without exposing hidden RuntimeUnit
+    // identity through the participant-facing snapshot/API.
+    internal bool TryResolveKnownEnemyAtCoordinate(
+        RuntimeParticipant Participant,
+        Vector2Int Coordinate,
+        out RuntimeUnit Unit,
+        out bool IsAbsoluteVisible)
+    {
+        Unit = null;
+        IsAbsoluteVisible = false;
+        if (!IsInitialized || Participant == null ||
+            !_GameMap.IsInsideBounds(Coordinate))
+            return false;
+
+        if (_GameMap.TryGetUnitOccupancy(Coordinate,
+                out RuntimeUnitOccupancy Occupancy) &&
+            Occupancy?.Unit != null && Occupancy.Unit.IsActive &&
+            !ReferenceEquals(Occupancy.Owner, Participant) &&
+            IsUnitVisibleToParticipant(Participant, Occupancy.Unit))
+        {
+            Unit = Occupancy.Unit;
+            IsAbsoluteVisible = true;
+            return true;
+        }
+
+        if (TryGetContacts(Participant,
+                out Dictionary<Vector2Int, SearchContactRecord> Contacts) &&
+            Contacts.TryGetValue(Coordinate, out SearchContactRecord Contact) &&
+            Contact?.Unit != null && Contact.Unit.IsActive)
+        {
+            Unit = Contact.Unit;
+            return true;
+        }
+
+        return false;
     }
 
 

@@ -179,10 +179,35 @@ public sealed class GameplayHUD :
     [SerializeField] private GameObject _SearchBottomRoot;
     [SerializeField] private MovementUnitDetailsUI _SearchUnitDetails;
 
+    [Header("Battle - Top")]
+    [SerializeField] private GameObject _BattleTopRoot;
+    [SerializeField] private TMP_Text _BattlePlayerNameText;
+    [SerializeField] private TMP_Text _BattlePhaseText;
+    [SerializeField] private TMP_Text _BattleCountText;
+    [SerializeField] private TMP_Text _BattleTimerText;
+    [SerializeField] private Button _EndBattleButton;
+
+    [Header("Battle - Overlay")]
+    [SerializeField] private GameObject _BattleOverlayRoot;
+    [SerializeField] private Button _BattlePreviousDomainButton;
+    [SerializeField] private Button _BattleNextDomainButton;
+    [SerializeField] private Button _BattleAirDomainButton;
+    [SerializeField] private Button _BattleSurfaceDomainButton;
+    [SerializeField] private Button _BattleSubsurfaceDomainButton;
+    [SerializeField] private Button _BattleDeselectButton;
+    [SerializeField] private Button _EngageButton;
+    [SerializeField] private TMP_Text _BattleDomainText;
+    [SerializeField] private TMP_Text _BattleTargetText;
+
+    [Header("Battle - Bottom")]
+    [SerializeField] private GameObject _BattleBottomRoot;
+    [SerializeField] private MovementUnitDetailsUI _BattleUnitDetails;
+
 
     private bool _ShowingMovement;
     private bool _ShowingPreBattle;
     private bool _ShowingSearch;
+    private bool _ShowingBattle;
     private bool _MovementSelectionVisible;
     private bool _PreBattleTargetingVisible;
 
@@ -250,6 +275,14 @@ public sealed class GameplayHUD :
     public Button SearchRotateRightButton => _SearchRotateRightButton;
     public Button CommitSearchButton => _CommitSearchButton;
     public Button EndSearchButton => _EndSearchButton;
+    public Button BattlePreviousDomainButton => _BattlePreviousDomainButton;
+    public Button BattleNextDomainButton => _BattleNextDomainButton;
+    public Button BattleAirDomainButton => _BattleAirDomainButton;
+    public Button BattleSurfaceDomainButton => _BattleSurfaceDomainButton;
+    public Button BattleSubsurfaceDomainButton => _BattleSubsurfaceDomainButton;
+    public Button BattleDeselectButton => _BattleDeselectButton;
+    public Button EngageButton => _EngageButton;
+    public Button EndBattleButton => _EndBattleButton;
 
 
     public void BindMovementUnitDetails(
@@ -266,6 +299,7 @@ public sealed class GameplayHUD :
         MovementUnitDetailsUI Details =
             Phase == GameplayPhase.PreBattle ? _PreBattleUnitDetails :
             Phase == GameplayPhase.Search ? _SearchUnitDetails :
+            Phase == GameplayPhase.Battle ? _BattleUnitDetails :
             _MovementUnitDetails;
 
         if (Details != null)
@@ -299,6 +333,9 @@ public sealed class GameplayHUD :
 
         if (_SearchUnitDetails != null)
             _SearchUnitDetails.Clear();
+
+        if (_BattleUnitDetails != null)
+            _BattleUnitDetails.Clear();
     }
 
 
@@ -333,6 +370,9 @@ public sealed class GameplayHUD :
 
         if (_SearchPlayerNameText != null)
             _SearchPlayerNameText.text = DisplayName;
+
+        if (_BattlePlayerNameText != null)
+            _BattlePlayerNameText.text = DisplayName;
     }
 
 
@@ -345,6 +385,7 @@ public sealed class GameplayHUD :
             false;
 
         _ShowingSearch = false;
+        _ShowingBattle = false;
 
         _MovementSelectionVisible =
             false;
@@ -359,6 +400,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_PreBattleOverlayRoot, false);
         SetObjectVisible(_PreBattleBottomRoot, false);
         HideSearchRoots();
+        HideBattleRoots();
         SetObjectVisible(_BottomBarRoot, true);
 
         SetDeploymentObjectsVisible(
@@ -383,6 +425,7 @@ public sealed class GameplayHUD :
             false;
 
         _ShowingSearch = false;
+        _ShowingBattle = false;
 
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
@@ -392,6 +435,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_PreBattleOverlayRoot, false);
         SetObjectVisible(_PreBattleBottomRoot, false);
         HideSearchRoots();
+        HideBattleRoots();
         ApplyMovementSelectionVisibility();
 
         SetDeploymentObjectsVisible(
@@ -440,6 +484,7 @@ public sealed class GameplayHUD :
         _ShowingMovement = false;
         _ShowingPreBattle = true;
         _ShowingSearch = false;
+        _ShowingBattle = false;
 
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
@@ -449,6 +494,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_MovementBottomRoot, false);
         SetObjectVisible(_PreBattleTopRoot, true);
         HideSearchRoots();
+        HideBattleRoots();
         SetDeploymentObjectsVisible(false);
         ApplyMovementSelectionVisibility();
 
@@ -473,6 +519,7 @@ public sealed class GameplayHUD :
         _ShowingMovement = false;
         _ShowingPreBattle = false;
         _ShowingSearch = true;
+        _ShowingBattle = false;
 
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
@@ -487,6 +534,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_SearchOverlayRoot, false);
         SetObjectVisible(_SearchBottomRoot, false);
         SetObjectVisible(_BottomBarRoot, false);
+        HideBattleRoots();
         SetDeploymentObjectsVisible(false);
 
         if (_SearchPhaseText != null)
@@ -543,6 +591,114 @@ public sealed class GameplayHUD :
         SetObjectVisible(_SearchTopRoot, false);
         SetObjectVisible(_SearchOverlayRoot, false);
         SetObjectVisible(_SearchBottomRoot, false);
+    }
+
+
+    public void ShowBattlePhase()
+    {
+        _ShowingMovement = false;
+        _ShowingPreBattle = false;
+        _ShowingSearch = false;
+        _ShowingBattle = true;
+
+        SetObjectVisible(_DeploymentTopRoot, false);
+        SetObjectVisible(_DeploymentOverlayRoot, false);
+        SetObjectVisible(_DeploymentBottomRoot, false);
+        SetObjectVisible(_MovementTopRoot, false);
+        SetObjectVisible(_MovementOverlayRoot, false);
+        SetObjectVisible(_MovementBottomRoot, false);
+        SetObjectVisible(_PreBattleTopRoot, false);
+        SetObjectVisible(_PreBattleOverlayRoot, false);
+        SetObjectVisible(_PreBattleBottomRoot, false);
+        HideSearchRoots();
+        SetObjectVisible(_BattleTopRoot, true);
+        SetObjectVisible(_BattleOverlayRoot, false);
+        SetObjectVisible(_BattleBottomRoot, false);
+        SetObjectVisible(_BottomBarRoot, false);
+        SetDeploymentObjectsVisible(false);
+
+        if (_BattlePhaseText != null)
+            _BattlePhaseText.text = "4 Battle";
+        SetButtonLabel(_EndBattleButton, "END BATTLE");
+        SetButtonLabel(_EngageButton, "ENGAGE");
+        ConfigureSingleLineTopText(_BattlePhaseText);
+        ConfigureSingleLineTopText(_BattleCountText);
+        ConfigureSingleLineTopText(_BattleTimerText);
+        ConfigureTopBarRightSpacing(_BattleCountText);
+        ConfigureContentWidthButton(_EndBattleButton);
+    }
+
+
+    public void SetBattleStatus(int AttacksCommitted, float SecondsRemaining,
+        bool CanEndBattle)
+    {
+        if (_BattleCountText != null)
+        {
+            _BattleCountText.text = $"Engagements {Mathf.Max(0, AttacksCommitted)}";
+            ConfigureSingleLineTopText(_BattleCountText);
+        }
+        if (_BattleTimerText != null)
+        {
+            int TotalSeconds = Mathf.Max(0, Mathf.CeilToInt(SecondsRemaining));
+            _BattleTimerText.text = $"{TotalSeconds / 60:00}:{TotalSeconds % 60:00}";
+            ConfigureSingleLineTopText(_BattleTimerText);
+        }
+        SetButtonInteractable(_EndBattleButton, CanEndBattle);
+    }
+
+
+    public void SetBattleSelectionVisible(bool UnitSelected)
+    {
+        if (!_ShowingBattle)
+            return;
+        SetObjectVisible(_BattleOverlayRoot, UnitSelected);
+        SetObjectVisible(_BattleBottomRoot, UnitSelected);
+        SetObjectVisible(_BottomBarRoot, UnitSelected);
+    }
+
+
+    public void SetBattleEngagementVisible(bool Visible)
+    {
+        if (!_ShowingBattle || !Visible)
+            return;
+        SetObjectVisible(_BattleOverlayRoot, false);
+        SetObjectVisible(_BattleBottomRoot, false);
+        SetObjectVisible(_BottomBarRoot, false);
+    }
+
+
+    public void SetBattleControls(Domain Domain, bool CanChangeDomain,
+        GameBattle.TargetView Target)
+    {
+        if (_BattleDomainText != null)
+            _BattleDomainText.text = Domain == Domain.None
+                ? "NO FIRE CONTROL" : Domain.ToString().ToUpperInvariant();
+        if (_BattleTargetText != null)
+            _BattleTargetText.text = Target == null
+                ? "TARGET\nSelect a valid contact or visible enemy"
+                : $"TARGET - {Target.Domain.ToString().ToUpperInvariant()}\n" +
+                  $"{(Target.IsAbsoluteVisible ? "Enemy in absolute vision" : "Acquired contact")}\n" +
+                  $"Weapons able to engage: {Target.LegalWeaponCount}" +
+                  (Target.LegalAbilityCount > 0
+                      ? $" - Abilities: {Target.LegalAbilityCount}" : string.Empty);
+        SetButtonInteractable(_BattlePreviousDomainButton, CanChangeDomain);
+        SetButtonInteractable(_BattleNextDomainButton, CanChangeDomain);
+        SetButtonInteractable(_BattleAirDomainButton,
+            CanChangeDomain && Domain != Domain.Air);
+        SetButtonInteractable(_BattleSurfaceDomainButton,
+            CanChangeDomain && Domain != Domain.Surface);
+        SetButtonInteractable(_BattleSubsurfaceDomainButton,
+            CanChangeDomain && Domain != Domain.Subsurface);
+        SetButtonInteractable(_BattleDeselectButton, Target != null);
+        SetButtonInteractable(_EngageButton, Target != null);
+    }
+
+
+    private void HideBattleRoots()
+    {
+        SetObjectVisible(_BattleTopRoot, false);
+        SetObjectVisible(_BattleOverlayRoot, false);
+        SetObjectVisible(_BattleBottomRoot, false);
     }
 
 

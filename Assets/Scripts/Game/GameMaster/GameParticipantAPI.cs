@@ -7,6 +7,221 @@ using UnityEngine;
 // Owns no gameplay truth; GameMaster remains authoritative.
 public sealed class GameParticipantAPI
 {
+    public enum ParticipantCommandKind
+    {
+        None = 0,
+        PlaceDeployment = 1,
+        ResetDeployment = 2,
+        ConfirmDeployment = 3,
+        UseAbility = 4,
+        CommitMovement = 5,
+        EndMovement = 6,
+        DeployMine = 7,
+        DeployCarriedUnit = 8,
+        EndPreBattle = 9,
+        CommitSearch = 10,
+        EndSearch = 11,
+        BeginEngagement = 12,
+        CancelEngagement = 13,
+        LockBattleAttack = 14,
+        LockBattleDefense = 15,
+        ContinueEngagement = 16,
+        EndBattle = 17
+    }
+
+
+    // Plain participant input produced from one observed snapshot. It contains
+    // no participant identity: the ParticipantAccess receiving it supplies the
+    // actor, and GameMaster remains responsible for authoritative validation.
+    public sealed class ParticipantCommand
+    {
+        public ParticipantCommandKind Kind { get; }
+        public GameplayPhase ExpectedPhase { get; }
+        public int ExpectedTurnNumber { get; }
+        public string RuntimeUnitID { get; }
+        public string FleetEntryID { get; }
+        public Vector2Int Coordinate { get; }
+        public UnitFacing Facing { get; }
+        public int SlotIndex { get; }
+        public int CarriedUnitIndex { get; }
+        public GameBattle.CombatActionKind ActionKind { get; }
+        public string SupportRuntimeUnitID { get; }
+        public GameBattle.CombatActionKind SupportActionKind { get; }
+        public int SupportSlotIndex { get; }
+
+        private ParticipantCommand(ParticipantCommandKind Kind,
+            ParticipantGameSnapshot Observation, string RuntimeUnitID = "",
+            string FleetEntryID = "", Vector2Int Coordinate = default,
+            UnitFacing Facing = default, int SlotIndex = -1,
+            int CarriedUnitIndex = -1,
+            GameBattle.CombatActionKind ActionKind =
+                GameBattle.CombatActionKind.None,
+            string SupportRuntimeUnitID = "",
+            GameBattle.CombatActionKind SupportActionKind =
+                GameBattle.CombatActionKind.None,
+            int SupportSlotIndex = -1)
+        {
+            this.Kind = Kind;
+            ExpectedPhase = Observation?.CurrentPhase ?? GameplayPhase.None;
+            ExpectedTurnNumber = Observation?.TurnNumber ?? -1;
+            this.RuntimeUnitID = RuntimeUnitID ?? string.Empty;
+            this.FleetEntryID = FleetEntryID ?? string.Empty;
+            this.Coordinate = Coordinate;
+            this.Facing = Facing;
+            this.SlotIndex = SlotIndex;
+            this.CarriedUnitIndex = CarriedUnitIndex;
+            this.ActionKind = ActionKind;
+            this.SupportRuntimeUnitID = SupportRuntimeUnitID ?? string.Empty;
+            this.SupportActionKind = SupportActionKind;
+            this.SupportSlotIndex = SupportSlotIndex;
+        }
+
+        public static ParticipantCommand PlaceDeployment(
+            ParticipantGameSnapshot Observation, string FleetEntryID,
+            Vector2Int MovementPivotCoordinate, UnitFacing Facing) =>
+            new ParticipantCommand(ParticipantCommandKind.PlaceDeployment,
+                Observation, FleetEntryID: FleetEntryID,
+                Coordinate: MovementPivotCoordinate, Facing: Facing);
+
+        public static ParticipantCommand ResetDeployment(
+            ParticipantGameSnapshot Observation) =>
+            new ParticipantCommand(ParticipantCommandKind.ResetDeployment,
+                Observation);
+
+        public static ParticipantCommand ConfirmDeployment(
+            ParticipantGameSnapshot Observation) =>
+            new ParticipantCommand(ParticipantCommandKind.ConfirmDeployment,
+                Observation);
+
+        public static ParticipantCommand UseAbility(
+            ParticipantGameSnapshot Observation, string RuntimeUnitID,
+            int AbilitySlotIndex) =>
+            new ParticipantCommand(ParticipantCommandKind.UseAbility,
+                Observation, RuntimeUnitID: RuntimeUnitID,
+                SlotIndex: AbilitySlotIndex);
+
+        public static ParticipantCommand CommitMovement(
+            ParticipantGameSnapshot Observation, string RuntimeUnitID,
+            Vector2Int DestinationMovementPivotCoordinate,
+            UnitFacing DestinationFacing) =>
+            new ParticipantCommand(ParticipantCommandKind.CommitMovement,
+                Observation, RuntimeUnitID: RuntimeUnitID,
+                Coordinate: DestinationMovementPivotCoordinate,
+                Facing: DestinationFacing);
+
+        public static ParticipantCommand EndMovement(
+            ParticipantGameSnapshot Observation) =>
+            new ParticipantCommand(ParticipantCommandKind.EndMovement,
+                Observation);
+
+        public static ParticipantCommand DeployMine(
+            ParticipantGameSnapshot Observation, string RuntimeUnitID,
+            int SystemSlotIndex, Vector2Int Coordinate) =>
+            new ParticipantCommand(ParticipantCommandKind.DeployMine,
+                Observation, RuntimeUnitID: RuntimeUnitID,
+                Coordinate: Coordinate, SlotIndex: SystemSlotIndex);
+
+        public static ParticipantCommand DeployCarriedUnit(
+            ParticipantGameSnapshot Observation, string RuntimeUnitID,
+            int SystemSlotIndex, int CarriedUnitIndex,
+            Vector2Int MovementPivotCoordinate, UnitFacing Facing) =>
+            new ParticipantCommand(ParticipantCommandKind.DeployCarriedUnit,
+                Observation, RuntimeUnitID: RuntimeUnitID,
+                Coordinate: MovementPivotCoordinate, Facing: Facing,
+                SlotIndex: SystemSlotIndex,
+                CarriedUnitIndex: CarriedUnitIndex);
+
+        public static ParticipantCommand EndPreBattle(
+            ParticipantGameSnapshot Observation) =>
+            new ParticipantCommand(ParticipantCommandKind.EndPreBattle,
+                Observation);
+
+        public static ParticipantCommand CommitSearch(
+            ParticipantGameSnapshot Observation, string RuntimeUnitID,
+            int SystemSlotIndex, UnitFacing SearchFacing) =>
+            new ParticipantCommand(ParticipantCommandKind.CommitSearch,
+                Observation, RuntimeUnitID: RuntimeUnitID,
+                Facing: SearchFacing, SlotIndex: SystemSlotIndex);
+
+        public static ParticipantCommand EndSearch(
+            ParticipantGameSnapshot Observation) =>
+            new ParticipantCommand(ParticipantCommandKind.EndSearch,
+                Observation);
+
+        public static ParticipantCommand BeginEngagement(
+            ParticipantGameSnapshot Observation, string RuntimeUnitID,
+            Vector2Int TargetCoordinate) =>
+            new ParticipantCommand(ParticipantCommandKind.BeginEngagement,
+                Observation, RuntimeUnitID: RuntimeUnitID,
+                Coordinate: TargetCoordinate);
+
+        public static ParticipantCommand CancelEngagement(
+            ParticipantGameSnapshot Observation) =>
+            new ParticipantCommand(ParticipantCommandKind.CancelEngagement,
+                Observation);
+
+        public static ParticipantCommand LockBattleAttack(
+            ParticipantGameSnapshot Observation,
+            GameBattle.CombatActionKind Kind, int SlotIndex) =>
+            new ParticipantCommand(ParticipantCommandKind.LockBattleAttack,
+                Observation, ActionKind: Kind, SlotIndex: SlotIndex);
+
+        public static ParticipantCommand LockBattleDefense(
+            ParticipantGameSnapshot Observation,
+            GameBattle.CombatActionKind DefenseKind, int DefenseSlotIndex,
+            string SupportRuntimeUnitID,
+            GameBattle.CombatActionKind SupportKind, int SupportSlotIndex) =>
+            new ParticipantCommand(ParticipantCommandKind.LockBattleDefense,
+                Observation, ActionKind: DefenseKind,
+                SlotIndex: DefenseSlotIndex,
+                SupportRuntimeUnitID: SupportRuntimeUnitID,
+                SupportActionKind: SupportKind,
+                SupportSlotIndex: SupportSlotIndex);
+
+        public static ParticipantCommand ContinueEngagement(
+            ParticipantGameSnapshot Observation) =>
+            new ParticipantCommand(ParticipantCommandKind.ContinueEngagement,
+                Observation);
+
+        public static ParticipantCommand EndBattle(
+            ParticipantGameSnapshot Observation) =>
+            new ParticipantCommand(ParticipantCommandKind.EndBattle,
+                Observation);
+    }
+
+
+    public sealed class ParticipantCommandResult
+    {
+        public ParticipantCommand Command { get; }
+        public bool Accepted { get; }
+        public bool RejectedAsStale { get; }
+        public string ValidationMessage { get; }
+        public GameplayPhase CurrentPhase { get; }
+        public int CurrentTurnNumber { get; }
+        public GameMovement.CommitResult Movement { get; }
+        public GameSearch.CommitResult Search { get; }
+        public GameBattle.ResolutionView BattleResolution { get; }
+
+        internal ParticipantCommandResult(ParticipantCommand Command,
+            bool Accepted, bool RejectedAsStale, string ValidationMessage,
+            GameplayPhase CurrentPhase, int CurrentTurnNumber,
+            GameMovement.CommitResult Movement = null,
+            GameSearch.CommitResult Search = null,
+            GameBattle.ResolutionView BattleResolution = null)
+        {
+            this.Command = Command;
+            this.Accepted = Accepted;
+            this.RejectedAsStale = RejectedAsStale;
+            this.ValidationMessage = ValidationMessage ?? string.Empty;
+            this.CurrentPhase = CurrentPhase;
+            this.CurrentTurnNumber = CurrentTurnNumber;
+            this.Movement = Movement;
+            this.Search = Search;
+            this.BattleResolution = BattleResolution;
+        }
+    }
+
+
     public sealed class MovementPresentationSegment
     {
         public GameMovement.RouteStep[] Steps { get; }
@@ -81,6 +296,14 @@ public sealed class GameParticipantAPI
 
         public RuntimeParticipant Participant { get; }
 
+        public ParticipantType ParticipantType =>
+            Participant?.Participant != null
+                ? Participant.Participant.ParticipantType
+                : default;
+
+        public Definition_Fleet Fleet =>
+            Participant?.Fleet;
+
         public string DisplayName =>
             Participant?.Participant != null
                 ? Participant.Participant.DisplayName
@@ -135,6 +358,145 @@ public sealed class GameParticipantAPI
                 Participant,
                 out Snapshot,
                 out ValidationMessage);
+        }
+
+
+        // Unified command entry point for AI, networking, and other non-UI
+        // controllers. Dispatches into the same typed methods used by the human
+        // controller, so no command has a separate validation/rules path.
+        public ParticipantCommandResult SubmitCommand(
+            ParticipantCommand Command)
+        {
+            if (Command == null)
+            {
+                return new ParticipantCommandResult(null, false, false,
+                    "Participant command is required.", GameplayPhase.None,
+                    -1);
+            }
+
+            if (!TryGetSnapshot(out ParticipantGameSnapshot Before,
+                    out string SnapshotMessage))
+            {
+                return new ParticipantCommandResult(Command, false, false,
+                    SnapshotMessage, GameplayPhase.None, -1);
+            }
+
+            if (Command.ExpectedPhase != Before.CurrentPhase ||
+                Command.ExpectedTurnNumber != Before.TurnNumber)
+            {
+                return new ParticipantCommandResult(Command, false, true,
+                    "The command was produced from a stale phase or turn observation.",
+                    Before.CurrentPhase, Before.TurnNumber);
+            }
+
+            bool Accepted;
+            string Message;
+            GameMovement.CommitResult Movement = null;
+            GameSearch.CommitResult Search = null;
+            GameBattle.ResolutionView BattleResolution = null;
+
+            switch (Command.Kind)
+            {
+                case ParticipantCommandKind.PlaceDeployment:
+                    Accepted = TrySubmitDeploymentPlacement(
+                        Command.FleetEntryID, Command.Coordinate,
+                        Command.Facing, out Message);
+                    break;
+
+                case ParticipantCommandKind.ResetDeployment:
+                    Accepted = TryResetDeployment(out Message);
+                    break;
+
+                case ParticipantCommandKind.ConfirmDeployment:
+                    Accepted = TryConfirmDeployment(out Message);
+                    break;
+
+                case ParticipantCommandKind.UseAbility:
+                    Accepted = TryUseAbility(Command.RuntimeUnitID,
+                        Command.SlotIndex, out Message);
+                    break;
+
+                case ParticipantCommandKind.CommitMovement:
+                    Accepted = TryCommitMovement(Command.RuntimeUnitID,
+                        Command.Coordinate, Command.Facing, out Movement,
+                        out Message);
+                    break;
+
+                case ParticipantCommandKind.EndMovement:
+                    Accepted = TryEndMovement(out Message);
+                    break;
+
+                case ParticipantCommandKind.DeployMine:
+                    Accepted = TryDeployMine(Command.RuntimeUnitID,
+                        Command.SlotIndex, Command.Coordinate, out Message);
+                    break;
+
+                case ParticipantCommandKind.DeployCarriedUnit:
+                    Accepted = TryDeployCarriedUnit(Command.RuntimeUnitID,
+                        Command.SlotIndex, Command.CarriedUnitIndex,
+                        Command.Coordinate, Command.Facing, out Message);
+                    break;
+
+                case ParticipantCommandKind.EndPreBattle:
+                    Accepted = TryEndPreBattle(out Message);
+                    break;
+
+                case ParticipantCommandKind.CommitSearch:
+                    Accepted = TryCommitSearch(Command.RuntimeUnitID,
+                        Command.SlotIndex, Command.Facing, out Search,
+                        out Message);
+                    break;
+
+                case ParticipantCommandKind.EndSearch:
+                    Accepted = TryEndSearch(out Message);
+                    break;
+
+                case ParticipantCommandKind.BeginEngagement:
+                    Accepted = TryBeginEngagement(Command.RuntimeUnitID,
+                        Command.Coordinate, out Message);
+                    break;
+
+                case ParticipantCommandKind.CancelEngagement:
+                    Accepted = TryCancelEngagement(out Message);
+                    break;
+
+                case ParticipantCommandKind.LockBattleAttack:
+                    Accepted = TryLockBattleAttack(Command.ActionKind,
+                        Command.SlotIndex, out Message);
+                    break;
+
+                case ParticipantCommandKind.LockBattleDefense:
+                    Accepted = TryLockBattleDefense(Command.ActionKind,
+                        Command.SlotIndex, Command.SupportRuntimeUnitID,
+                        Command.SupportActionKind, Command.SupportSlotIndex,
+                        out BattleResolution, out Message);
+                    break;
+
+                case ParticipantCommandKind.ContinueEngagement:
+                    Accepted = TryContinueEngagement(out Message);
+                    break;
+
+                case ParticipantCommandKind.EndBattle:
+                    Accepted = TryEndBattle(out Message);
+                    break;
+
+                default:
+                    Accepted = false;
+                    Message = "Participant command kind is not supported.";
+                    break;
+            }
+
+            GameplayPhase PhaseAfter = Before.CurrentPhase;
+            int TurnAfter = Before.TurnNumber;
+            if (TryGetSnapshot(out ParticipantGameSnapshot After, out _))
+            {
+                PhaseAfter = After.CurrentPhase;
+                TurnAfter = After.TurnNumber;
+            }
+
+            return new ParticipantCommandResult(Command, Accepted, false,
+                Message, PhaseAfter, TurnAfter, Movement, Search,
+                BattleResolution);
         }
 
 
@@ -209,7 +571,12 @@ public sealed class GameParticipantAPI
                 return false;
             }
 
-            return _API._GameMaster.TrySubmitDeploymentPlacement(Participant, FleetEntryID, MovementPivotCoordinate, Facing, out ValidationMessage);
+            bool Submitted = _API._GameMaster.TrySubmitDeploymentPlacement(
+                Participant, FleetEntryID, MovementPivotCoordinate, Facing,
+                out ValidationMessage);
+            if (Submitted)
+                _API.NotifySnapshotsChanged();
+            return Submitted;
         }
 
 
@@ -222,7 +589,11 @@ public sealed class GameParticipantAPI
                 return false;
             }
 
-            return _API._GameMaster.TrySelectDeploymentPlacement(Participant, FleetEntryID, out ValidationMessage);
+            bool Selected = _API._GameMaster.TrySelectDeploymentPlacement(
+                Participant, FleetEntryID, out ValidationMessage);
+            if (Selected)
+                _API.NotifySnapshotsChanged();
+            return Selected;
         }
 
 
@@ -235,7 +606,11 @@ public sealed class GameParticipantAPI
                 return false;
             }
 
-            return _API._GameMaster.TryClearDeploymentSelection(Participant, out ValidationMessage);
+            bool Cleared = _API._GameMaster.TryClearDeploymentSelection(
+                Participant, out ValidationMessage);
+            if (Cleared)
+                _API.NotifySnapshotsChanged();
+            return Cleared;
         }
 
 
@@ -248,7 +623,11 @@ public sealed class GameParticipantAPI
                 return false;
             }
 
-            return _API._GameMaster.TryRotateDeploymentPlacementClockwise(Participant, FleetEntryID, out ValidationMessage);
+            bool Rotated = _API._GameMaster.TryRotateDeploymentPlacementClockwise(
+                Participant, FleetEntryID, out ValidationMessage);
+            if (Rotated)
+                _API.NotifySnapshotsChanged();
+            return Rotated;
         }
 
 
@@ -261,7 +640,11 @@ public sealed class GameParticipantAPI
                 return false;
             }
 
-            return _API._GameMaster.TryRotateDeploymentPlacementCounterClockwise(Participant, FleetEntryID, out ValidationMessage);
+            bool Rotated = _API._GameMaster.TryRotateDeploymentPlacementCounterClockwise(
+                Participant, FleetEntryID, out ValidationMessage);
+            if (Rotated)
+                _API.NotifySnapshotsChanged();
+            return Rotated;
         }
 
 
@@ -274,7 +657,11 @@ public sealed class GameParticipantAPI
                 return false;
             }
 
-            return _API._GameMaster.TryResetDeployment(Participant, out ValidationMessage);
+            bool Reset = _API._GameMaster.TryResetDeployment(
+                Participant, out ValidationMessage);
+            if (Reset)
+                _API.NotifySnapshotsChanged();
+            return Reset;
         }
 
 
@@ -782,6 +1169,147 @@ public sealed class GameParticipantAPI
             return Ended;
         }
 
+
+        public bool TryGetBattleView(out GameBattle.ParticipantView View)
+        {
+            View = null;
+            return _API.IsInitialized &&
+                _API._GameMaster.TryGetBattleView(Participant, out View);
+        }
+
+
+        public bool TryGetFireControlArea(string RuntimeUnitID, Domain Domain,
+            out Vector2Int[] Coordinates, out string ValidationMessage)
+        {
+            Coordinates = Array.Empty<Vector2Int>();
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+            return _API._GameMaster.TryGetFireControlArea(Participant,
+                RuntimeUnitID, Domain, out Coordinates, out ValidationMessage);
+        }
+
+
+        public bool TryGetBattleTarget(string RuntimeUnitID,
+            Vector2Int Coordinate, out GameBattle.TargetView Target,
+            out string ValidationMessage)
+        {
+            Target = null;
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+            return _API._GameMaster.TryGetBattleTarget(Participant,
+                RuntimeUnitID, Coordinate, out Target, out ValidationMessage);
+        }
+
+
+        public bool TryBeginEngagement(string RuntimeUnitID,
+            Vector2Int TargetCoordinate, out string ValidationMessage)
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+            bool Began = _API._GameMaster.TryBeginEngagement(Participant,
+                RuntimeUnitID, TargetCoordinate, out ValidationMessage);
+            if (Began)
+                _API.NotifySnapshotsChanged();
+            return Began;
+        }
+
+
+        public bool TryCancelEngagement(out string ValidationMessage)
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+            bool Cancelled = _API._GameMaster.TryCancelEngagement(
+                Participant, out ValidationMessage);
+            if (Cancelled)
+                _API.NotifySnapshotsChanged();
+            return Cancelled;
+        }
+
+
+        public bool TryLockBattleAttack(GameBattle.CombatActionKind Kind,
+            int SlotIndex, out string ValidationMessage)
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage = "Participant gameplay access is not initialized.";
+                return false;
+            }
+            bool Locked = _API._GameMaster.TryLockBattleAttack(
+                Participant, Kind, SlotIndex, out ValidationMessage);
+            if (Locked)
+                _API.NotifySnapshotsChanged();
+            return Locked;
+        }
+
+
+        public bool TryLockBattleDefense(GameBattle.CombatActionKind DefenseKind,
+            int DefenseSlotIndex, string SupportRuntimeUnitID,
+            GameBattle.CombatActionKind SupportKind, int SupportSlotIndex,
+            out GameBattle.ResolutionView Resolution,
+            out string ValidationMessage)
+        {
+            Resolution = null;
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage = "Participant gameplay access is not initialized.";
+                return false;
+            }
+            bool Locked = _API._GameMaster.TryLockBattleDefense(Participant,
+                DefenseKind, DefenseSlotIndex, SupportRuntimeUnitID,
+                SupportKind, SupportSlotIndex, out Resolution,
+                out ValidationMessage);
+            if (Locked)
+                _API.NotifySnapshotsChanged();
+            return Locked;
+        }
+
+
+        public bool TryContinueEngagement(out string ValidationMessage)
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage = "Participant gameplay access is not initialized.";
+                return false;
+            }
+            bool Continued = _API._GameMaster.TryContinueEngagement(
+                Participant, out ValidationMessage);
+            if (Continued)
+                _API.NotifySnapshotsChanged();
+            return Continued;
+        }
+
+
+        public bool TryEndBattle(out string ValidationMessage)
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+            bool Ended = _API._GameMaster.TryEndBattle(
+                Participant, out ValidationMessage);
+            if (Ended)
+                _API.NotifySnapshotsChanged();
+            return Ended;
+        }
+
     }
 
     private GameMaster _GameMaster;
@@ -840,6 +1368,38 @@ public sealed class GameParticipantAPI
             ValidationMessage = A
                 ? "More than one LocalPlayer participant exists."
                 : "No LocalPlayer participant exists.";
+            return false;
+        }
+
+        Access = A ? _ParticipantAAccess : _ParticipantBAccess;
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
+    // Controller bootstrap for the currently supported local-vs-AI match.
+    // Once acquired, AI code should retain only this participant-bound access
+    // object and must not select a participant on individual gameplay calls.
+    public bool TryGetAIPlayerAccess(
+        out ParticipantAccess Access,
+        out string ValidationMessage)
+    {
+        Access = null;
+
+        if (!IsInitialized)
+        {
+            ValidationMessage = "Game Participant API is not initialized.";
+            return false;
+        }
+
+        bool A = IsAIPlayer(_ParticipantA);
+        bool B = IsAIPlayer(_ParticipantB);
+
+        if (A == B)
+        {
+            ValidationMessage = A
+                ? "More than one AI participant exists; the controller host must bind an exact participant."
+                : "No AI participant exists.";
             return false;
         }
 
@@ -1009,6 +1569,15 @@ public sealed class GameParticipantAPI
         return Participant?.Participant != null &&
             Participant.Participant.ParticipantType ==
                 ParticipantType.LocalPlayer;
+    }
+
+
+    private static bool IsAIPlayer(RuntimeParticipant Participant)
+    {
+        return Participant != null &&
+            Participant.Participant != null &&
+            Participant.Participant.ParticipantType ==
+                ParticipantType.AI;
     }
 }
 

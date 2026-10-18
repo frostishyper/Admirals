@@ -14,6 +14,12 @@ public sealed class HumanGameplayInput : MonoBehaviour
     private GameParticipantAPI.ParticipantAccess _ParticipantAccess;
     private bool _Initialized;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    [Header("Development Testing")]
+    [SerializeField]
+    private bool _AutomaticallyFollowActionParticipant = true;
+#endif
+
     public event Action ParticipantChanged;
 
     public GameMaster GameMaster => _GameMaster;
@@ -43,6 +49,20 @@ public sealed class HumanGameplayInput : MonoBehaviour
 
         Initialize();
     }
+
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    private void LateUpdate()
+    {
+        if (!_AutomaticallyFollowActionParticipant || !_Initialized ||
+            _GameMaster?.ParticipantAPI == null)
+            return;
+
+        RuntimeParticipant Desired = ResolveDevelopmentActionParticipant();
+        if (Desired != null && !ReferenceEquals(Desired, Participant))
+            SetDevelopmentParticipant(Desired);
+    }
+#endif
 
     public bool Initialize()
     {
@@ -498,6 +518,83 @@ public sealed class HumanGameplayInput : MonoBehaviour
         Debug.Log(
             $"Development control switched to '{Access.DisplayName}'.",
             this);
+    }
+
+
+    private RuntimeParticipant ResolveDevelopmentActionParticipant()
+    {
+        RuntimeParticipant A = _GameMaster?.ParticipantA;
+        RuntimeParticipant B = _GameMaster?.ParticipantB;
+        if (A == null || B == null ||
+            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(A, out var AAccess) ||
+            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(B, out var BAccess) ||
+            !AAccess.TryGetSnapshot(out ParticipantGameSnapshot ASnapshot, out _) ||
+            !BAccess.TryGetSnapshot(out ParticipantGameSnapshot BSnapshot, out _) ||
+            ASnapshot == null || BSnapshot == null ||
+            ASnapshot.CurrentPhase != BSnapshot.CurrentPhase)
+            return null;
+
+        switch (ASnapshot.CurrentPhase)
+        {
+            case GameplayPhase.Deployment:
+                if (ASnapshot.DeploymentLocked != BSnapshot.DeploymentLocked)
+                    return ASnapshot.DeploymentLocked ? B : A;
+                return Participant;
+
+            case GameplayPhase.Movement:
+                return ResolveCanActParticipant(
+                    ASnapshot.Movement?.CanAct == true,
+                    BSnapshot.Movement?.CanAct == true, A, B);
+
+            case GameplayPhase.PreBattle:
+                return ResolveCanActParticipant(
+                    ASnapshot.PreBattle?.CanAct == true,
+                    BSnapshot.PreBattle?.CanAct == true, A, B);
+
+            case GameplayPhase.Search:
+                return ResolveCanActParticipant(
+                    ASnapshot.Search?.CanAct == true,
+                    BSnapshot.Search?.CanAct == true, A, B);
+
+            case GameplayPhase.Battle:
+                RuntimeParticipant EngagementParticipant =
+                    ResolveDevelopmentEngagementParticipant(
+                        ASnapshot.Battle?.Engagement,
+                        BSnapshot.Battle?.Engagement, A, B);
+                return EngagementParticipant ?? ResolveCanActParticipant(
+                    ASnapshot.Battle?.CanAct == true,
+                    BSnapshot.Battle?.CanAct == true, A, B);
+
+            default:
+                return Participant;
+        }
+    }
+
+
+    private static RuntimeParticipant ResolveDevelopmentEngagementParticipant(
+        GameBattle.EngagementView AView, GameBattle.EngagementView BView,
+        RuntimeParticipant A, RuntimeParticipant B)
+    {
+        if (AView == null || BView == null ||
+            !AView.IsActive || !BView.IsActive)
+            return null;
+
+        RuntimeParticipant Attacker = AView.IsAttacker ? A : B;
+        RuntimeParticipant Defender = AView.IsAttacker ? B : A;
+        if (!AView.AttackerLocked)
+            return Attacker;
+        if (!AView.Resolved)
+            return Defender;
+        return Attacker;
+    }
+
+
+    private static RuntimeParticipant ResolveCanActParticipant(
+        bool ACanAct, bool BCanAct, RuntimeParticipant A, RuntimeParticipant B)
+    {
+        if (ACanAct == BCanAct)
+            return null;
+        return ACanAct ? A : B;
     }
 #endif
 

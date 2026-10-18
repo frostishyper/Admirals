@@ -345,6 +345,94 @@ internal sealed class GameUnitEffects
     }
 
 
+    internal bool TryApplyActions(RuntimeUnit Unit,
+        IReadOnlyList<GameplayAction> Actions,
+        out bool UnitDestroyed, out string ValidationMessage)
+    {
+        UnitDestroyed = false;
+        ValidationMessage = string.Empty;
+        if (!Initialized || Unit == null || !Unit.IsActive ||
+            Actions == null)
+        {
+            ValidationMessage = "Gameplay actions require initialized effects and an active Unit.";
+            return false;
+        }
+
+        List<GameplayAction> TagActions = new List<GameplayAction>();
+        for (int i = 0; i < Actions.Count; i++)
+        {
+            GameplayAction Action = Actions[i];
+            if (Action == null)
+                continue;
+            switch (Action.Type)
+            {
+                case GameplayActionType.Damage:
+                    Unit.SetHealth(Unit.CurrentHealth - Mathf.Max(0, Action.Amount));
+                    break;
+                case GameplayActionType.Health:
+                    Unit.SetHealth(Unit.CurrentHealth + Mathf.Max(0, Action.Amount));
+                    break;
+                case GameplayActionType.AddTag:
+                case GameplayActionType.RemoveTag:
+                    TagActions.Add(Action);
+                    break;
+                case GameplayActionType.ApplyStatus:
+                    Unit.ApplyStatus(Action.Status);
+                    break;
+                case GameplayActionType.RemoveStatus:
+                    Unit.RemoveStatus(Action.Status);
+                    break;
+                case GameplayActionType.ApplyModifier:
+                    Unit.ApplyModifier(Action.Modifier,
+                        Action.ModifierDurationMode, Action.ModifierDurationTurns);
+                    break;
+            }
+        }
+
+        if (TagActions.Count > 0 && Unit.IsActive &&
+            !TryApplyTagActions(Unit, TagActions, out ValidationMessage))
+            return false;
+
+        if (Unit.CurrentHealth <= 0 && Unit.IsActive)
+        {
+            if (!_GameUnits.TryGetRoster(Unit.Owner,
+                    out ParticipantUnitRoster Roster) ||
+                !_GameMap.TryRemoveUnit(Unit, out ValidationMessage) ||
+                !Roster.TryMarkDestroyed(Unit, out _, out ValidationMessage))
+                return false;
+            UnitDestroyed = true;
+        }
+
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
+    internal bool TryApplyDamage(RuntimeUnit Unit, int Damage,
+        out bool UnitDestroyed, out string ValidationMessage)
+    {
+        UnitDestroyed = false;
+        ValidationMessage = string.Empty;
+        if (!Initialized || Unit == null || !Unit.IsActive)
+        {
+            ValidationMessage = "Damage requires initialized effects and an active Unit.";
+            return false;
+        }
+        Unit.SetHealth(Unit.CurrentHealth - Mathf.Max(0, Damage));
+        if (Unit.CurrentHealth <= 0)
+        {
+            if (!_GameUnits.TryGetRoster(Unit.Owner,
+                    out ParticipantUnitRoster Roster) ||
+                !_GameMap.TryRemoveUnit(Unit, out ValidationMessage) ||
+                !Roster.TryMarkDestroyed(Unit, out _, out ValidationMessage))
+                return false;
+            UnitDestroyed = true;
+        }
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
     private bool TryResolveDomainOverride(
         HashSet<Definition_UnitTag> Tags,
         out bool HasOverride,

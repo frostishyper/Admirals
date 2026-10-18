@@ -96,6 +96,7 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
     [SerializeField, Min(1f)] private float _ChargeCountFontSize = 18f;
     [SerializeField, Min(1f)] private float _AbilityButtonFontSize = 18f;
     [SerializeField, Min(0f)] private float _BadgeSpacing = 6f;
+    [SerializeField, Min(1f)] private float _MinimumCardWidth = 240f;
 
 
     private ParticipantUnitSnapshot _Unit;
@@ -230,15 +231,14 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         ClearFixedChildWidths(Template.transform);
 
         LayoutElement CardLayout = Template.GetComponent<LayoutElement>();
-        if (CardLayout != null)
-        {
-            CardLayout.minWidth = -1f;
-            CardLayout.preferredWidth = -1f;
-            CardLayout.flexibleWidth = 0f;
-            CardLayout.minHeight = 0f;
-            CardLayout.preferredHeight = 0f;
-            CardLayout.flexibleHeight = 1f;
-        }
+        if (CardLayout == null)
+            CardLayout = Template.AddComponent<LayoutElement>();
+        CardLayout.minWidth = _MinimumCardWidth;
+        CardLayout.preferredWidth = -1f;
+        CardLayout.flexibleWidth = 0f;
+        CardLayout.minHeight = 0f;
+        CardLayout.preferredHeight = 0f;
+        CardLayout.flexibleHeight = 1f;
 
         ContentSizeFitter CardFitter =
             Template.GetComponent<ContentSizeFitter>();
@@ -423,6 +423,12 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         if (SelectionChanged)
             ShowTab(Tab.Status);
 
+        bool BattleOverview = _Phase == GameplayPhase.Battle;
+        _WeaponsTabButton.gameObject.SetActive(!BattleOverview);
+        _AbilitiesTabButton.gameObject.SetActive(!BattleOverview);
+        if (BattleOverview && (_CurrentTab == Tab.Weapons || _CurrentTab == Tab.Abilities))
+            ShowTab(Tab.Status);
+
         BindIdentity(PresentationCatalog);
         RebuildHealth();
         RebuildEffects();
@@ -604,7 +610,17 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
                 Definition.Pattern.Mode == PatternMode.OriginPoint &&
                 Definition.Domains != Domain.None;
 
+            bool IsFireControl =
+                Definition != null &&
+                (Definition.OperationalPhases & GameplayPhase.Battle) != 0 &&
+                Definition.FireControl != null && Definition.FireControl.Enabled &&
+                Definition.Pattern != null &&
+                Definition.Pattern.Mode == PatternMode.OriginPoint &&
+                Definition.Domains != Domain.None;
+
             if (_Phase == GameplayPhase.Search && !IsSearchSensor)
+                continue;
+            if (_Phase == GameplayPhase.Battle && !IsFireControl)
                 continue;
 
             GameObject Card = CreateCard(_SystemCardTemplate, _SystemsContent);
@@ -624,6 +640,9 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             {
                 CreateBadge(Badges, Definition.Type.Badge, Definition.Type.Name);
             }
+
+            if (_Phase == GameplayPhase.Battle && Definition != null)
+                AddDomainBadges(Badges, Definition.Domains);
 
             ConfigureBadgeStrip(Badges);
 
@@ -1072,7 +1091,9 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         _StatusTabText.text = "STATUS";
         _SystemsTabText.text = _Phase == GameplayPhase.Search
             ? $"SENSORS: {CountSearchSensors()}"
-            : $"SYSTEMS: {_Unit.Systems?.Length ?? 0}";
+            : _Phase == GameplayPhase.Battle
+                ? $"FIRE CONTROL: {CountFireControlSystems()}"
+                : $"SYSTEMS: {_Unit.Systems?.Length ?? 0}";
         _WeaponsTabText.text = $"WEAPONS: {_Unit.Weapons?.Length ?? 0}";
         _AbilitiesTabText.text = $"ABILITIES: {_Unit.Abilities?.Length ?? 0}";
     }
@@ -1092,6 +1113,29 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             if (Definition != null &&
                 (Definition.OperationalPhases & GameplayPhase.Search) != 0 &&
                 Definition.Search != null && Definition.Search.Enabled &&
+                Definition.Pattern != null &&
+                Definition.Pattern.Mode == PatternMode.OriginPoint &&
+                Definition.Domains != Domain.None)
+                Count++;
+        }
+        return Count;
+    }
+
+
+    private int CountFireControlSystems()
+    {
+        if (_Unit?.Systems == null)
+            return 0;
+        int Count = 0;
+        for (int i = 0; i < _Unit.Systems.Length; i++)
+        {
+            ParticipantSystemSnapshot Snapshot = _Unit.Systems[i];
+            Definition_System Definition = Snapshot != null
+                ? TryGetSystemDefinition(Snapshot.SlotIndex)
+                : null;
+            if (Definition != null &&
+                (Definition.OperationalPhases & GameplayPhase.Battle) != 0 &&
+                Definition.FireControl != null && Definition.FireControl.Enabled &&
                 Definition.Pattern != null &&
                 Definition.Pattern.Mode == PatternMode.OriginPoint &&
                 Definition.Domains != Domain.None)

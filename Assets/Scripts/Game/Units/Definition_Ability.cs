@@ -218,6 +218,54 @@ public class Definition_Ability :
 
     public AbilityOutcome AbilityOutcome => _AbilityOutcome;
 
+    public AbilityD20Outcome[] AbilityD20Outcomes => _AbilityD20Outcomes;
+
+    public AttackOutcome AttackOutcome => _AttackOutcome;
+
+    public AttackD20Outcome[] AttackD20Outcomes => _AttackD20Outcomes;
+
+    public DefenseOutcome DefenseOutcome => _DefenseOutcome;
+
+    public DefenseD20Outcome[] DefenseD20Outcomes => _DefenseD20Outcomes;
+
+
+    public bool TryGetAttackOutcome(int RawRoll,
+        out AttackOutcome FoundOutcome, int RollModifier = 0)
+    {
+        FoundOutcome = null;
+        if (_OutcomeType != AbilityOutcomeType.Attack)
+            return false;
+        if (!_UsesD20Roll)
+        {
+            FoundOutcome = _AttackOutcome;
+            return FoundOutcome != null;
+        }
+        if (!D20Roll.TryGetOutcome(_AttackD20Outcomes, RawRoll,
+                out AttackD20Outcome D20Outcome, RollModifier))
+            return false;
+        FoundOutcome = D20Outcome?.Outcome;
+        return FoundOutcome != null;
+    }
+
+
+    public bool TryGetDefenseOutcome(int RawRoll,
+        out DefenseOutcome FoundOutcome, int RollModifier = 0)
+    {
+        FoundOutcome = null;
+        if (_OutcomeType != AbilityOutcomeType.Defense)
+            return false;
+        if (!_UsesD20Roll)
+        {
+            FoundOutcome = _DefenseOutcome;
+            return FoundOutcome != null;
+        }
+        if (!D20Roll.TryGetOutcome(_DefenseD20Outcomes, RawRoll,
+                out DefenseD20Outcome D20Outcome, RollModifier))
+            return false;
+        FoundOutcome = D20Outcome?.Outcome;
+        return FoundOutcome != null;
+    }
+
 
     public bool Validate(
         out string ValidationMessage

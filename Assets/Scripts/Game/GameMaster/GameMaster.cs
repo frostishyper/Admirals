@@ -48,6 +48,8 @@ public class GameMaster :
 
     private GameSearch _GameSearch;
 
+    private GameBattle _GameBattle;
+
     private GameParticipantAPI _ParticipantAPI;
 
 
@@ -114,6 +116,10 @@ public class GameMaster :
 
     public GameSearch GameSearch =>
         _GameSearch;
+
+
+    public GameBattle GameBattle =>
+        _GameBattle;
 
 
     public GameParticipantAPI ParticipantAPI =>
@@ -206,6 +212,7 @@ public class GameMaster :
             !InitializeMovementState() ||
             !InitializePreBattleState() ||
             !InitializeSearchState() ||
+            !InitializeBattleState() ||
             !InitializeParticipantAPI())
         {
             return false;
@@ -1258,6 +1265,114 @@ public class GameMaster :
     }
 
 
+    internal bool TryGetBattleView(RuntimeParticipant Participant,
+        out GameBattle.ParticipantView View)
+    {
+        View = null;
+        return _GameBattle != null &&
+            _GameBattle.TryGetView(Participant, out View);
+    }
+
+
+    internal bool TryGetFireControlArea(RuntimeParticipant Participant,
+        string RuntimeUnitID, Domain Domain,
+        out Vector2Int[] Coordinates, out string ValidationMessage)
+    {
+        Coordinates = Array.Empty<Vector2Int>();
+        if (!CanAcceptBattleInput(Participant, out ValidationMessage))
+            return false;
+        return _GameBattle.TryGetFireControlArea(Participant,
+            RuntimeUnitID, Domain, out Coordinates, out ValidationMessage);
+    }
+
+
+    internal bool TryGetBattleTarget(RuntimeParticipant Participant,
+        string RuntimeUnitID, Vector2Int Coordinate,
+        out GameBattle.TargetView Target, out string ValidationMessage)
+    {
+        Target = null;
+        if (!CanAcceptBattleInput(Participant, out ValidationMessage))
+            return false;
+        return _GameBattle.TryGetTarget(Participant,
+            RuntimeUnitID, Coordinate, out Target, out ValidationMessage);
+    }
+
+
+    internal bool TryBeginEngagement(RuntimeParticipant Participant,
+        string RuntimeUnitID, Vector2Int TargetCoordinate,
+        out string ValidationMessage)
+    {
+        if (!CanAcceptBattleInput(Participant, out ValidationMessage) ||
+            !_GameBattle.TryBeginEngagement(Participant,
+                RuntimeUnitID, TargetCoordinate, out ValidationMessage))
+            return false;
+        return true;
+    }
+
+
+    internal bool TryCancelEngagement(RuntimeParticipant Participant,
+        out string ValidationMessage)
+    {
+        ValidationMessage = "The Match is not accepting engagement cancellation.";
+        if (_CurrentPhase != GameplayPhase.Battle || _GameBattle == null ||
+            !_GameBattle.TryCancelEngagement(Participant, out ValidationMessage))
+            return false;
+        return true;
+    }
+
+
+    internal bool TryLockBattleAttack(RuntimeParticipant Participant,
+        GameBattle.CombatActionKind Kind, int SlotIndex,
+        out string ValidationMessage)
+    {
+        ValidationMessage = "Battle is not accepting an attack lock-in.";
+        return _CurrentPhase == GameplayPhase.Battle && _GameBattle != null &&
+            _GameBattle.TryLockAttack(Participant, Kind, SlotIndex,
+                out ValidationMessage);
+    }
+
+
+    internal bool TryLockBattleDefense(RuntimeParticipant Participant,
+        GameBattle.CombatActionKind DefenseKind, int DefenseSlotIndex,
+        string SupportRuntimeUnitID, GameBattle.CombatActionKind SupportKind,
+        int SupportSlotIndex, out GameBattle.ResolutionView Resolution,
+        out string ValidationMessage)
+    {
+        Resolution = null;
+        ValidationMessage = "Battle is not accepting a defense lock-in.";
+        if (_CurrentPhase != GameplayPhase.Battle || _GameBattle == null ||
+            !_GameBattle.TryLockDefense(Participant, DefenseKind,
+                DefenseSlotIndex, SupportRuntimeUnitID, SupportKind,
+                SupportSlotIndex, out Resolution, out ValidationMessage))
+            return false;
+        if (!_GameKnowledge.Refresh(_CurrentPhase, out string KnowledgeMessage))
+            Debug.LogError($"Knowledge refresh failed after combat: {KnowledgeMessage}", this);
+        return true;
+    }
+
+
+    internal bool TryContinueEngagement(RuntimeParticipant Participant,
+        out string ValidationMessage)
+    {
+        ValidationMessage = "The engagement is not ready to continue.";
+        return _CurrentPhase == GameplayPhase.Battle && _GameBattle != null &&
+            _GameBattle.TryContinueEngagement(Participant, out ValidationMessage);
+    }
+
+
+    internal bool TryEndBattle(RuntimeParticipant Participant,
+        out string ValidationMessage)
+    {
+        if (!CanAcceptBattleInput(Participant, out ValidationMessage) ||
+            !_GameBattle.TryEndBattle(Participant,
+                out bool AllParticipantsEnded, out ValidationMessage))
+            return false;
+        if (AllParticipantsEnded)
+            CompleteBattlePhase();
+        return true;
+    }
+
+
     private void Update()
     {
         if (!_InitializationComplete)
@@ -1305,6 +1420,25 @@ public class GameMaster :
 
             if (AllParticipantsEnded)
                 CompleteSearchPhase();
+
+            _ParticipantAPI?.NotifySnapshotsChanged();
+            return;
+        }
+
+
+        if (_CurrentPhase == GameplayPhase.Battle &&
+            _GameBattle != null &&
+            _GameBattle.Tick(
+                Time.deltaTime,
+                out TimedOutParticipant,
+                out AllParticipantsEnded))
+        {
+            Debug.Log(
+                $"'{TimedOutParticipant.Participant.DisplayName}' ran out of Battle time on Turn {_TurnNumber}.",
+                this);
+
+            if (AllParticipantsEnded)
+                CompleteBattlePhase();
 
             _ParticipantAPI?.NotifySnapshotsChanged();
             return;
@@ -1431,6 +1565,22 @@ public class GameMaster :
     {
         _CurrentPhase = GameplayPhase.Battle;
 
+        float BattleSeconds = 90f;
+        if (_GameMode.TryGetPhaseTimeLimit(
+                GameplayPhase.Battle,
+                out float AuthoredBattleSeconds))
+            BattleSeconds = AuthoredBattleSeconds;
+
+        if (!_GameBattle.BeginPhase(
+                _FirstPlayer,
+                BattleSeconds,
+                out string BattleMessage))
+        {
+            Debug.LogError(
+                $"Battle phase initialization failed: {BattleMessage}",
+                this);
+        }
+
         if (!_GameKnowledge.Refresh(
                 _CurrentPhase,
                 out string KnowledgeMessage))
@@ -1442,6 +1592,19 @@ public class GameMaster :
 
         Debug.Log(
             $"Both participants ended Search. Turn {_TurnNumber} entered Battle.",
+            this);
+    }
+
+
+    private void CompleteBattlePhase()
+    {
+        _CurrentPhase = GameplayPhase.End;
+        if (!_GameKnowledge.Refresh(_CurrentPhase, out string KnowledgeMessage))
+            Debug.LogError(
+                $"GameKnowledge refresh failed after Battle: {KnowledgeMessage}",
+                this);
+        Debug.Log(
+            $"Both participants ended Battle. Turn {_TurnNumber} entered End.",
             this);
     }
 
@@ -1564,6 +1727,20 @@ public class GameMaster :
         return _GameSearch.CanAcceptParticipantAction(
             Participant,
             out ValidationMessage);
+    }
+
+
+    private bool CanAcceptBattleInput(RuntimeParticipant Participant,
+        out string ValidationMessage)
+    {
+        if (!_InitializationComplete || !_MatchStarted ||
+            _CurrentPhase != GameplayPhase.Battle || _GameBattle == null)
+        {
+            ValidationMessage = "The Match is not accepting Battle input.";
+            return false;
+        }
+        return _GameBattle.CanAcceptParticipantAction(
+            Participant, out ValidationMessage);
     }
 
 
@@ -1906,6 +2083,27 @@ public class GameMaster :
     }
 
 
+    private bool InitializeBattleState()
+    {
+        _GameBattle = new GameBattle();
+        if (!_GameBattle.Initialize(
+                _GameMap,
+                _GameUnits,
+                _GameKnowledge,
+                _GameUnitEffects,
+                _ParticipantA,
+                _ParticipantB,
+                out string ValidationMessage))
+        {
+            _GameBattle = null;
+            FailInitialization(
+                $"Battle State initialization failed: {ValidationMessage}");
+            return false;
+        }
+        return true;
+    }
+
+
     internal bool TryGetParticipantSnapshot(
         RuntimeParticipant Participant,
         out ParticipantGameSnapshot Snapshot,
@@ -1929,6 +2127,9 @@ public class GameMaster :
         GameSearch.ParticipantView SearchView =
             null;
 
+        GameBattle.ParticipantView BattleView =
+            null;
+
 
         _GameMovement?.TryGetView(
             Participant,
@@ -1946,6 +2147,11 @@ public class GameMaster :
             out SearchView
         );
 
+        _GameBattle?.TryGetView(
+            Participant,
+            out BattleView
+        );
+
 
         return _GameKnowledge.TryCreateSnapshot(
             Participant,
@@ -1956,6 +2162,7 @@ public class GameMaster :
             MovementView,
             PreBattleView,
             SearchView,
+            BattleView,
             out Snapshot,
             out ValidationMessage);
     }
@@ -2117,6 +2324,9 @@ public class GameMaster :
             null;
 
         _GameSearch =
+            null;
+
+        _GameBattle =
             null;
 
         _ParticipantAPI =

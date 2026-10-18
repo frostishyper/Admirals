@@ -1175,6 +1175,45 @@ public sealed class RuntimeUnit
     }
 
 
+    internal void ApplyStatus(Definition_Status Status)
+    {
+        if (Status == null)
+            return;
+
+        for (int i = 0; i < _ActiveStatuses.Count; i++)
+        {
+            RuntimeStatusState Existing = _ActiveStatuses[i];
+            if (Existing?.Status != Status)
+                continue;
+            if (Status.DurationMode == DurationMode.Turns)
+                Existing.RemainingTurns += Mathf.Max(1, Status.DurationTurns);
+            return;
+        }
+
+        _ActiveStatuses.Add(new RuntimeStatusState(Status,
+            Status.DurationMode == DurationMode.Turns
+                ? Mathf.Max(1, Status.DurationTurns) : 0));
+    }
+
+
+    internal void RemoveStatus(Definition_Status Status)
+    {
+        for (int i = _ActiveStatuses.Count - 1; i >= 0; i--)
+            if (_ActiveStatuses[i]?.Status == Status)
+                _ActiveStatuses.RemoveAt(i);
+    }
+
+
+    internal void ApplyModifier(GameplayModifier Modifier,
+        DurationMode DurationMode, int DurationTurns)
+    {
+        if (Modifier == null)
+            return;
+        _ActiveModifiers.Add(new RuntimeModifierState(Modifier, DurationMode,
+            DurationMode == DurationMode.Turns ? Mathf.Max(1, DurationTurns) : 0));
+    }
+
+
     internal RuntimeCarriedUnit[] MarkDestroyed()
     {
         if (LifeState ==
