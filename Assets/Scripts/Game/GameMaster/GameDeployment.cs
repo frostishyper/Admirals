@@ -581,6 +581,31 @@ public sealed class GameDeployment
         public bool AllPlaced =>
             _Plan.AllPlaced;
 
+        public List<Vector2Int> DeploymentZone
+        {
+            get
+            {
+                // Get deployment zone coordinates using GameDeployment's method
+                if (_Plan == null || _Plan.Participant == null)
+                {
+                    return new List<Vector2Int>();
+                }
+
+                // Access parent GameDeployment through a field we'll add
+                if (_GameDeployment != null &&
+                    _GameDeployment.TryGetDeploymentZoneCoordinates(
+                        _Plan.Participant,
+                        out Vector2Int[] coordinates))
+                {
+                    return new List<Vector2Int>(coordinates);
+                }
+
+                return new List<Vector2Int>();
+            }
+        }
+
+        private GameDeployment _GameDeployment;
+
 
         internal ParticipantView(
             ParticipantPlan Plan
@@ -588,6 +613,9 @@ public sealed class GameDeployment
         {
             _Plan =
                 Plan;
+
+            _GameDeployment =
+                GameDeployment;
 
 
             for (int Index = 0;
@@ -830,11 +858,13 @@ public sealed class GameDeployment
             new ParticipantView(
                 ParticipantA
             );
+                this
 
         _ParticipantBView =
             new ParticipantView(
                 ParticipantB
             );
+                this
 
         IsInitialized =
             true;
