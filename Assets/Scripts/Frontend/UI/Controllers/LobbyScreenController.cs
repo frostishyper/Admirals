@@ -15,6 +15,7 @@ public class LobbyScreenController : MonoBehaviour
     // Match Setting Selectors
     [SerializeField] private CycleSelector _MapSelector;
     [SerializeField] private CycleSelector _GameModeSelector;
+    [SerializeField] private CycleSelector _AISelector;
 
     // Ready Controls
     [SerializeField] private Button _ReadyBTN;
@@ -23,6 +24,8 @@ public class LobbyScreenController : MonoBehaviour
 
     private void OnEnable()
     {
+        FindOptionalAISelector();
+
         // Map Selector
         _MapSelector.PreviousClicked += OnPreviousMap;
         _MapSelector.NextClicked += OnNextMap;
@@ -30,6 +33,12 @@ public class LobbyScreenController : MonoBehaviour
         // Game Mode Selector
         _GameModeSelector.PreviousClicked += OnPreviousGameMode;
         _GameModeSelector.NextClicked += OnNextGameMode;
+
+        if (_AISelector != null)
+        {
+            _AISelector.PreviousClicked += OnPreviousAI;
+            _AISelector.NextClicked += OnNextAI;
+        }
 
         // Ready Controls
         _ReadyBTN.onClick.AddListener(OnReady);
@@ -54,6 +63,12 @@ public class LobbyScreenController : MonoBehaviour
         // Game Mode Selector
         _GameModeSelector.PreviousClicked -= OnPreviousGameMode;
         _GameModeSelector.NextClicked -= OnNextGameMode;
+
+        if (_AISelector != null)
+        {
+            _AISelector.PreviousClicked -= OnPreviousAI;
+            _AISelector.NextClicked -= OnNextAI;
+        }
 
         // Ready Controls
         _ReadyBTN.onClick.RemoveListener(OnReady);
@@ -99,6 +114,24 @@ public class LobbyScreenController : MonoBehaviour
     {
         _LobbyController.SelectNextGameMode();
 
+        RefreshScreen();
+    }
+
+
+    // --------------------
+    // AI OPPONENT
+    // --------------------
+
+    private void OnPreviousAI()
+    {
+        _LobbyController.SelectPreviousAI();
+        RefreshScreen();
+    }
+
+
+    private void OnNextAI()
+    {
+        _LobbyController.SelectNextAI();
         RefreshScreen();
     }
 
@@ -171,6 +204,23 @@ public class LobbyScreenController : MonoBehaviour
         }
 
 
+        if (_AISelector != null)
+        {
+            bool ShowAISelector =
+                _LobbyController.SupportsAISelection;
+
+            _AISelector.gameObject.SetActive(ShowAISelector);
+
+            if (ShowAISelector &&
+                _LobbyController.SelectedAIInfo != null)
+            {
+                _AISelector.SetValue(
+                    _LobbyController.SelectedAIInfo.DisplayName
+                );
+            }
+        }
+
+
         // Ready / Cancel Buttons
         bool PlayerIsReady =
             Lobby.PlayerSlot1.IsReady;
@@ -182,5 +232,26 @@ public class LobbyScreenController : MonoBehaviour
         // If Player IS Ready:
         // Hide Ready, Show Cancel
         _CancelBTN.gameObject.SetActive(PlayerIsReady);
+    }
+
+
+    private void FindOptionalAISelector()
+    {
+        if (_AISelector != null)
+        {
+            return;
+        }
+
+        CycleSelector[] Selectors =
+            GetComponentsInChildren<CycleSelector>(true);
+
+        for (int i = 0; i < Selectors.Length; i++)
+        {
+            if (Selectors[i].name == "Selector_AI")
+            {
+                _AISelector = Selectors[i];
+                return;
+            }
+        }
     }
 }

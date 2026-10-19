@@ -12,14 +12,34 @@ public class LobbyController : MonoBehaviour
     [SerializeField] private ParticipantInfo _PlayerInfo;
     [SerializeField] private ParticipantInfo _AIInfo;
 
+    [Header("Singleplayer AI Selection")]
+    [SerializeField] private ParticipantInfo[] _AvailableAIInfos;
+
 
     // Current Selection Indexes
     private int _MapIndex;
     private int _GameModeIndex;
+    private int _AIIndex;
 
 
     // Current Runtime Lobby State
     public LobbyState CurrentLobby { get; private set; }
+
+    public bool SupportsAISelection =>
+        FindFirstValidAIIndex() >= 0;
+
+    public ParticipantInfo SelectedAIInfo
+    {
+        get
+        {
+            if (IsValidAIIndex(_AIIndex))
+            {
+                return _AvailableAIInfos[_AIIndex];
+            }
+
+            return _AIInfo;
+        }
+    }
 
 
     private void Awake()
@@ -44,18 +64,14 @@ public class LobbyController : MonoBehaviour
             _PlayerInfo.DisplayName,
             _PlayerInfo.DefaultRank,
             _PlayerInfo.PortraitLeft,
-            _PlayerInfo.PortraitRight
+            _PlayerInfo.PortraitRight,
+            _PlayerInfo
         );
 
 
-        // Fill Player 2 Slot From EXISTING AI ParticipantInfo Asset
-        CurrentLobby.PlayerSlot2.InitializeSlot(
-            _AIInfo.ParticipantType,
-            _AIInfo.DisplayName,
-            _AIInfo.DefaultRank,
-            _AIInfo.PortraitLeft,
-            _AIInfo.PortraitRight
-        );
+        // Resolve The Initial AI Selection, Then Fill Player 2 From It.
+        InitializeAISelection();
+        ApplySelectedOpponent();
 
 
         // Start At First Available Map
@@ -80,6 +96,20 @@ public class LobbyController : MonoBehaviour
 
         // AI Is Automatically Ready In Singleplayer
         CurrentLobby.SetPlayer2Ready(true);
+    }
+
+
+    // Select Next Authored AI Participant
+    public void SelectNextAI()
+    {
+        SelectAI(1);
+    }
+
+
+    // Select Previous Authored AI Participant
+    public void SelectPreviousAI()
+    {
+        SelectAI(-1);
     }
 
 
@@ -203,5 +233,112 @@ public class LobbyController : MonoBehaviour
     public void SetPlayerReady(bool IsReady)
     {
         CurrentLobby.SetPlayer1Ready(IsReady);
+    }
+
+
+    private void InitializeAISelection()
+    {
+        _AIIndex = -1;
+
+        if (_AvailableAIInfos == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < _AvailableAIInfos.Length; i++)
+        {
+            if (_AvailableAIInfos[i] == _AIInfo &&
+                IsValidAIIndex(i))
+            {
+                _AIIndex = i;
+                return;
+            }
+        }
+
+        _AIIndex = FindFirstValidAIIndex();
+    }
+
+
+    private void SelectAI(int Direction)
+    {
+        if (!SupportsAISelection)
+        {
+            return;
+        }
+
+        int StartIndex = IsValidAIIndex(_AIIndex)
+            ? _AIIndex
+            : FindFirstValidAIIndex();
+
+        int CandidateIndex = StartIndex;
+
+        for (int i = 0; i < _AvailableAIInfos.Length; i++)
+        {
+            CandidateIndex =
+                (CandidateIndex + Direction + _AvailableAIInfos.Length) %
+                _AvailableAIInfos.Length;
+
+            if (IsValidAIIndex(CandidateIndex))
+            {
+                _AIIndex = CandidateIndex;
+                ApplySelectedOpponent();
+                return;
+            }
+        }
+    }
+
+
+    private void ApplySelectedOpponent()
+    {
+        ParticipantInfo OpponentInfo = SelectedAIInfo;
+
+        if (OpponentInfo == null)
+        {
+            return;
+        }
+
+        CurrentLobby.CancelAllReady();
+
+        CurrentLobby.PlayerSlot2.InitializeSlot(
+            OpponentInfo.ParticipantType,
+            OpponentInfo.DisplayName,
+            OpponentInfo.DefaultRank,
+            OpponentInfo.PortraitLeft,
+            OpponentInfo.PortraitRight,
+            OpponentInfo
+        );
+
+        // The computer-controlled seat does not wait on a lobby ready action.
+        CurrentLobby.SetPlayer2Ready(true);
+    }
+
+
+    private int FindFirstValidAIIndex()
+    {
+        if (_AvailableAIInfos == null)
+        {
+            return -1;
+        }
+
+        for (int i = 0; i < _AvailableAIInfos.Length; i++)
+        {
+            if (IsValidAIIndex(i))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+
+    private bool IsValidAIIndex(int Index)
+    {
+        return
+            _AvailableAIInfos != null &&
+            Index >= 0 &&
+            Index < _AvailableAIInfos.Length &&
+            _AvailableAIInfos[Index] != null &&
+            _AvailableAIInfos[Index].ParticipantType == ParticipantType.AI;
     }
 }

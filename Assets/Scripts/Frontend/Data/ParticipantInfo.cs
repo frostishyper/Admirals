@@ -22,6 +22,10 @@ public class ParticipantInfo : ScriptableObject
     // Portrait Facing Right
     [SerializeField] private Sprite _PortraitRight;
 
+    // Runtime controller selected for this authored AI identity. Human
+    // participants leave this empty.
+    [SerializeField] private GameObject _AIControllerPrefab;
+
 
     // Read-Only Access For Other Systems
 
@@ -48,5 +52,10 @@ public class ParticipantInfo : ScriptableObject
     public Sprite PortraitRight
     {
         get { return _PortraitRight; }
+    }
+
+    public GameObject AIControllerPrefab
+    {
+        get { return _AIControllerPrefab; }
     }
 }

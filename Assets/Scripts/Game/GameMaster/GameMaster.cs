@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -61,6 +62,9 @@ public class GameMaster :
 
     private GameParticipantAPI _ParticipantAPI;
 
+    private readonly List<GameObject> _AIControllerInstances =
+        new List<GameObject>();
+
 
     private GameplayPhase _CurrentPhase =
         GameplayPhase.None;
@@ -83,6 +87,10 @@ public class GameMaster :
     private RuntimeParticipant _WinningParticipant;
     private bool _MatchDraw;
     private string _MatchResolutionReason = string.Empty;
+
+    // Local privacy handoffs pause phase clocks without changing global
+    // Time.timeScale or affecting ordinary Singleplayer matches.
+    private bool _PassAndPlayHandoffPaused;
 
 
     public MatchConfig MatchConfig =>
@@ -181,6 +189,15 @@ public class GameMaster :
         _MatchDraw;
 
 
+    internal void SetPassAndPlayHandoffPaused(bool Paused)
+    {
+        _PassAndPlayHandoffPaused =
+            _MatchConfig != null &&
+            _MatchConfig.IsPassAndPlay &&
+            Paused;
+    }
+
+
     private void Start()
     {
         InitializeMatch();
@@ -259,6 +276,14 @@ public class GameMaster :
 
         _InitializationComplete =
             true;
+
+
+        if (!InitializeAIControllers(
+                out string AIControllerMessage))
+        {
+            FailInitialization(AIControllerMessage);
+            return false;
+        }
 
 
         Debug.Log(
@@ -1501,7 +1526,8 @@ public class GameMaster :
 
     private void Update()
     {
-        if (!_InitializationComplete)
+        if (!_InitializationComplete ||
+            _PassAndPlayHandoffPaused)
         {
             return;
         }
@@ -2989,6 +3015,90 @@ public class GameMaster :
     }
 
 
+    private bool InitializeAIControllers(
+        out string ValidationMessage)
+    {
+        _AIControllerInstances.Clear();
+
+        if (!InitializeAIController(
+                _ParticipantA,
+                out ValidationMessage) ||
+            !InitializeAIController(
+                _ParticipantB,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
+    private bool InitializeAIController(
+        RuntimeParticipant Participant,
+        out string ValidationMessage)
+    {
+        if (Participant?.Participant == null ||
+            Participant.Participant.ParticipantType != ParticipantType.AI)
+        {
+            ValidationMessage = string.Empty;
+            return true;
+        }
+
+        ParticipantInfo SourceInfo =
+            Participant.Participant.SourceInfo;
+        GameObject ControllerPrefab =
+            SourceInfo != null
+                ? SourceInfo.AIControllerPrefab
+                : null;
+
+        if (ControllerPrefab == null)
+        {
+            ValidationMessage =
+                $"AI participant '{Participant.Participant.DisplayName}' has no controller prefab.";
+            return false;
+        }
+
+        if (!_ParticipantAPI.TryGetParticipantAccess(
+                Participant,
+                out GameParticipantAPI.ParticipantAccess Access))
+        {
+            ValidationMessage =
+                $"AI participant '{Participant.Participant.DisplayName}' has no participant API access.";
+            return false;
+        }
+
+        GameObject ControllerInstance = Instantiate(
+            ControllerPrefab,
+            transform,
+            false);
+        ControllerInstance.name =
+            $"AI_{Participant.Participant.DisplayName}";
+
+        ParticipantAIController Controller =
+            ControllerInstance.GetComponent<ParticipantAIController>();
+
+        if (Controller == null)
+        {
+            ValidationMessage =
+                $"AI controller prefab '{ControllerPrefab.name}' has no ParticipantAIController component.";
+            Destroy(ControllerInstance);
+            return false;
+        }
+
+        if (!Controller.Initialize(Access, out ValidationMessage))
+        {
+            Destroy(ControllerInstance);
+            return false;
+        }
+
+        _AIControllerInstances.Add(ControllerInstance);
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
     private void PrepareDeployment()
     {
         _CurrentPhase =
@@ -3116,6 +3226,15 @@ public class GameMaster :
             $"GameMaster initialization failed: {Message}",
             this
         );
+
+
+        for (int i = 0; i < _AIControllerInstances.Count; i++)
+        {
+            if (_AIControllerInstances[i] != null)
+                Destroy(_AIControllerInstances[i]);
+        }
+
+        _AIControllerInstances.Clear();
 
 
         _GameDeployment =

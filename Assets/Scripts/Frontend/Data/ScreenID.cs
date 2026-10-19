@@ -8,5 +8,6 @@ public enum ScreenID
     Screen_Fleet,
     Screen_SP,
     Screen_MP,
-    Screen_Login
+    Screen_Login,
+    Screen_PassPlay
 }

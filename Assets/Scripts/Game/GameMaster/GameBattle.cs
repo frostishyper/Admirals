@@ -804,7 +804,7 @@ public sealed class GameBattle
                 GetDefenseActionName(_EngagementDefender,
                     _DefenseKind, _DefenseSlotIndex)));
         Events.Add(new ResolutionEvent("ROLL",
-            $"Attacker {FormatRoll(AttackRoll)} · Ally {FormatRoll(AllyRoll)} · " +
+            $"Attacker {FormatRoll(AttackRoll)} | Ally {FormatRoll(AllyRoll)} | " +
             $"Defender {FormatRoll(DefenderRoll)}"));
         if (AllyOutcome != null)
             Events.Add(new ResolutionEvent("ALLY OUTCOME", AllyOutcome.Name));
@@ -855,7 +855,7 @@ public sealed class GameBattle
 
         string ResultName = Negated ? "NEGATED" : AttackOutcome.Name;
         Events.Add(new ResolutionEvent("RESULT",
-            $"{ResultName} · {Damage} damage · " +
+            $"{ResultName} | {Damage} damage | " +
             $"{_EngagementDefender.CurrentHealth}/{_EngagementDefender.MaxHealth} HP"));
         if (Destroyed)
             Events.Add(new ResolutionEvent("DESTROYED", _EngagementDefender.InstanceName));

@@ -105,6 +105,22 @@ public class MatchConfig
     }
 
 
+    // Pass & Play is identified by the finalized match itself. No separate
+    // gameplay scene or mode flag is needed: both seats are local humans.
+    public bool IsPassAndPlay =>
+        _PlayerSlot1 != null &&
+        _PlayerSlot2 != null &&
+        _PlayerSlot1.ParticipantType == ParticipantType.LocalPlayer &&
+        _PlayerSlot2.ParticipantType == ParticipantType.LocalPlayer;
+
+
+    public bool HasAIPlayer =>
+        (_PlayerSlot1 != null &&
+            _PlayerSlot1.ParticipantType == ParticipantType.AI) ||
+        (_PlayerSlot2 != null &&
+            _PlayerSlot2.ParticipantType == ParticipantType.AI);
+
+
     // Takes the frontend Lobby snapshot and resolves the gameplay-side
     // assets the Game will actually consume.
     public void InitializeMatch(
@@ -199,6 +215,19 @@ public class MatchConfig
             ValidationMessage =
                 "Player Slot 2 is missing.";
 
+            return false;
+        }
+
+
+        if (!ValidateParticipantController(
+                _PlayerSlot1,
+                "Player 1",
+                out ValidationMessage) ||
+            !ValidateParticipantController(
+                _PlayerSlot2,
+                "Player 2",
+                out ValidationMessage))
+        {
             return false;
         }
 
@@ -332,5 +361,45 @@ public class MatchConfig
 
         _Player2Fleet =
             null;
+    }
+
+
+    private static bool ValidateParticipantController(
+        ParticipantSlot Slot,
+        string SlotLabel,
+        out string ValidationMessage)
+    {
+        if (Slot.ParticipantType != ParticipantType.AI)
+        {
+            ValidationMessage = string.Empty;
+            return true;
+        }
+
+        if (Slot.SourceInfo == null)
+        {
+            ValidationMessage =
+                $"{SlotLabel} is an AI but has no source ParticipantInfo.";
+            return false;
+        }
+
+        GameObject ControllerPrefab =
+            Slot.SourceInfo.AIControllerPrefab;
+
+        if (ControllerPrefab == null)
+        {
+            ValidationMessage =
+                $"AI participant '{Slot.DisplayName}' has no controller prefab.";
+            return false;
+        }
+
+        if (ControllerPrefab.GetComponent<ParticipantAIController>() == null)
+        {
+            ValidationMessage =
+                $"AI controller prefab '{ControllerPrefab.name}' has no ParticipantAIController component.";
+            return false;
+        }
+
+        ValidationMessage = string.Empty;
+        return true;
     }
 }

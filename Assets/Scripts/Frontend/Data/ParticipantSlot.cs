@@ -5,6 +5,10 @@ using UnityEngine;
 [Serializable]
 public class ParticipantSlot
 {
+    // Authored participant selected by the lobby. Kept in the finalized
+    // MatchConfig so gameplay can create the correct human/AI controller.
+    [SerializeField] private ParticipantInfo _SourceInfo;
+
     // What Kind Of Participant Is In This Slot
     [SerializeField] private ParticipantType _ParticipantType;
 
@@ -28,6 +32,11 @@ public class ParticipantSlot
 
 
     // Read-Only Access For Other Systems
+
+    public ParticipantInfo SourceInfo
+    {
+        get { return _SourceInfo; }
+    }
 
     public ParticipantType ParticipantType
     {
@@ -71,8 +80,10 @@ public class ParticipantSlot
         string DisplayName,
         PlayerRank Rank,
         Sprite PortraitLeft,
-        Sprite PortraitRight)
+        Sprite PortraitRight,
+        ParticipantInfo SourceInfo = null)
     {
+        _SourceInfo = SourceInfo;
         _ParticipantType = ParticipantType;
         _DisplayName = DisplayName;
         _Rank = Rank;
@@ -95,7 +106,8 @@ public class ParticipantSlot
             _DisplayName,
             _Rank,
             _PortraitLeft,
-            _PortraitRight
+            _PortraitRight,
+            _SourceInfo
         );
 
         // Copy Current Ready State
@@ -115,6 +127,7 @@ public class ParticipantSlot
     // Empty The Slot
     public void ClearSlot()
     {
+        _SourceInfo = null;
         _DisplayName = "";
         _Rank = null;
         _PortraitLeft = null;

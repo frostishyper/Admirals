@@ -11,7 +11,15 @@ public sealed class HumanGameplayInput : MonoBehaviour
     [SerializeField]
     private GameMaster _GameMaster;
 
+    [Header("Pass And Play")]
+    [SerializeField]
+    private PassAndPlayHandoffUI _PassAndPlayHandoffPrefab;
+
+    [SerializeField]
+    private Transform _PassAndPlayHandoffParent;
+
     private GameParticipantAPI.ParticipantAccess _ParticipantAccess;
+    private PassAndPlayHandoffUI _PassAndPlayHandoff;
     private bool _Initialized;
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
@@ -28,6 +36,8 @@ public sealed class HumanGameplayInput : MonoBehaviour
     public RuntimeParticipant Participant =>
         _ParticipantAccess?.Participant;
     public bool Initialized => _Initialized;
+    public bool IsPassAndPlay =>
+        _GameMaster?.MatchConfig?.IsPassAndPlay == true;
 
     private IEnumerator Start()
     {
@@ -47,18 +57,23 @@ public sealed class HumanGameplayInput : MonoBehaviour
             yield return null;
         }
 
-        Initialize();
+        if (!Initialize())
+            yield break;
+
+        InitializePassAndPlayHandoff();
     }
 
 
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
     private void LateUpdate()
     {
-        if (!_AutomaticallyFollowActionParticipant || !_Initialized ||
+        if (IsPassAndPlay ||
+            _GameMaster?.MatchConfig?.HasAIPlayer == true ||
+            !_AutomaticallyFollowActionParticipant || !_Initialized ||
             _GameMaster?.ParticipantAPI == null)
             return;
 
-        RuntimeParticipant Desired = ResolveDevelopmentActionParticipant();
+        RuntimeParticipant Desired = ResolveActionParticipant();
         if (Desired != null && !ReferenceEquals(Desired, Participant))
             SetDevelopmentParticipant(Desired);
     }
@@ -74,9 +89,21 @@ public sealed class HumanGameplayInput : MonoBehaviour
             _GameMaster.ParticipantAPI == null)
             return false;
 
-        if (!_GameMaster.ParticipantAPI.TryGetLocalPlayerAccess(
-                out GameParticipantAPI.ParticipantAccess Access,
-                out string ValidationMessage))
+        GameParticipantAPI.ParticipantAccess Access;
+        string ValidationMessage = string.Empty;
+
+        bool AccessResolved = IsPassAndPlay
+            ? _GameMaster.ParticipantAPI.TryGetParticipantAccess(
+                _GameMaster.ParticipantA, out Access)
+            : _GameMaster.ParticipantAPI.TryGetLocalPlayerAccess(
+                out Access, out ValidationMessage);
+
+        if (IsPassAndPlay)
+            ValidationMessage = AccessResolved
+                ? string.Empty
+                : "Participant A access is unavailable for Pass & Play.";
+
+        if (!AccessResolved)
         {
             Debug.LogError(
                 $"Human Gameplay Input could not resolve participant access: {ValidationMessage}",
@@ -87,6 +114,146 @@ public sealed class HumanGameplayInput : MonoBehaviour
         SetParticipantAccess(Access);
         _Initialized = true;
         return true;
+    }
+
+
+    private void InitializePassAndPlayHandoff()
+    {
+        if (!IsPassAndPlay || _PassAndPlayHandoff != null)
+            return;
+
+        if (_PassAndPlayHandoffPrefab == null ||
+            _PassAndPlayHandoffParent == null)
+        {
+            Debug.LogError(
+                "Pass & Play requires an authored handoff prefab and parent.",
+                this);
+            return;
+        }
+
+        _PassAndPlayHandoff = Instantiate(
+            _PassAndPlayHandoffPrefab,
+            _PassAndPlayHandoffParent,
+            false);
+        _PassAndPlayHandoff.Initialize(this, _GameMaster);
+    }
+
+
+    internal bool TryTakePassAndPlayControl(
+        RuntimeParticipant ParticipantToControl,
+        out string ValidationMessage)
+    {
+        if (!IsPassAndPlay)
+        {
+            ValidationMessage = "The active match is not Pass & Play.";
+            return false;
+        }
+
+        if (ParticipantToControl == null ||
+            (!ReferenceEquals(ParticipantToControl, _GameMaster.ParticipantA) &&
+             !ReferenceEquals(ParticipantToControl, _GameMaster.ParticipantB)) ||
+            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(
+                ParticipantToControl,
+                out GameParticipantAPI.ParticipantAccess Access))
+        {
+            ValidationMessage = "The requested local participant is unavailable.";
+            return false;
+        }
+
+        SetParticipantAccess(Access);
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
+    internal RuntimeParticipant ResolveActionParticipant()
+    {
+        RuntimeParticipant A = _GameMaster?.ParticipantA;
+        RuntimeParticipant B = _GameMaster?.ParticipantB;
+        if (A == null || B == null ||
+            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(A, out var AAccess) ||
+            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(B, out var BAccess) ||
+            !AAccess.TryGetSnapshot(out ParticipantGameSnapshot ASnapshot, out _) ||
+            !BAccess.TryGetSnapshot(out ParticipantGameSnapshot BSnapshot, out _) ||
+            ASnapshot == null || BSnapshot == null ||
+            ASnapshot.CurrentPhase != BSnapshot.CurrentPhase)
+            return null;
+
+        if (ASnapshot.Match?.MatchComplete == true ||
+            BSnapshot.Match?.MatchComplete == true)
+            return Participant;
+
+        switch (ASnapshot.CurrentPhase)
+        {
+            case GameplayPhase.Deployment:
+                if (ASnapshot.DeploymentLocked != BSnapshot.DeploymentLocked)
+                    return ASnapshot.DeploymentLocked ? B : A;
+                return Participant ?? A;
+
+            case GameplayPhase.Movement:
+                return ResolveCanActParticipant(
+                    ASnapshot.Movement?.CanAct == true,
+                    BSnapshot.Movement?.CanAct == true, A, B);
+
+            case GameplayPhase.PreBattle:
+                return ResolveCanActParticipant(
+                    ASnapshot.PreBattle?.CanAct == true,
+                    BSnapshot.PreBattle?.CanAct == true, A, B);
+
+            case GameplayPhase.Search:
+                return ResolveCanActParticipant(
+                    ASnapshot.Search?.CanAct == true,
+                    BSnapshot.Search?.CanAct == true, A, B);
+
+            case GameplayPhase.Battle:
+                RuntimeParticipant EngagementParticipant =
+                    ResolveEngagementParticipant(
+                        ASnapshot.Battle?.Engagement,
+                        BSnapshot.Battle?.Engagement, A, B);
+                return EngagementParticipant ?? ResolveCanActParticipant(
+                    ASnapshot.Battle?.CanAct == true,
+                    BSnapshot.Battle?.CanAct == true, A, B);
+
+            case GameplayPhase.End:
+                return ResolveCanActParticipant(
+                    ASnapshot.End?.CanAct == true,
+                    BSnapshot.End?.CanAct == true, A, B);
+
+            default:
+                return Participant;
+        }
+    }
+
+
+    private static RuntimeParticipant ResolveEngagementParticipant(
+        GameBattle.EngagementView AView,
+        GameBattle.EngagementView BView,
+        RuntimeParticipant A,
+        RuntimeParticipant B)
+    {
+        if (AView == null || BView == null ||
+            !AView.IsActive || !BView.IsActive)
+            return null;
+
+        RuntimeParticipant Attacker = AView.IsAttacker ? A : B;
+        RuntimeParticipant Defender = AView.IsAttacker ? B : A;
+        if (!AView.AttackerLocked)
+            return Attacker;
+        if (!AView.Resolved)
+            return Defender;
+        return Attacker;
+    }
+
+
+    private static RuntimeParticipant ResolveCanActParticipant(
+        bool ACanAct,
+        bool BCanAct,
+        RuntimeParticipant A,
+        RuntimeParticipant B)
+    {
+        if (ACanAct == BCanAct)
+            return null;
+        return ACanAct ? A : B;
     }
 
     private void SetParticipantAccess(
@@ -521,86 +688,6 @@ public sealed class HumanGameplayInput : MonoBehaviour
     }
 
 
-    private RuntimeParticipant ResolveDevelopmentActionParticipant()
-    {
-        RuntimeParticipant A = _GameMaster?.ParticipantA;
-        RuntimeParticipant B = _GameMaster?.ParticipantB;
-        if (A == null || B == null ||
-            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(A, out var AAccess) ||
-            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(B, out var BAccess) ||
-            !AAccess.TryGetSnapshot(out ParticipantGameSnapshot ASnapshot, out _) ||
-            !BAccess.TryGetSnapshot(out ParticipantGameSnapshot BSnapshot, out _) ||
-            ASnapshot == null || BSnapshot == null ||
-            ASnapshot.CurrentPhase != BSnapshot.CurrentPhase)
-            return null;
-
-        switch (ASnapshot.CurrentPhase)
-        {
-            case GameplayPhase.Deployment:
-                if (ASnapshot.DeploymentLocked != BSnapshot.DeploymentLocked)
-                    return ASnapshot.DeploymentLocked ? B : A;
-                return Participant;
-
-            case GameplayPhase.Movement:
-                return ResolveCanActParticipant(
-                    ASnapshot.Movement?.CanAct == true,
-                    BSnapshot.Movement?.CanAct == true, A, B);
-
-            case GameplayPhase.PreBattle:
-                return ResolveCanActParticipant(
-                    ASnapshot.PreBattle?.CanAct == true,
-                    BSnapshot.PreBattle?.CanAct == true, A, B);
-
-            case GameplayPhase.Search:
-                return ResolveCanActParticipant(
-                    ASnapshot.Search?.CanAct == true,
-                    BSnapshot.Search?.CanAct == true, A, B);
-
-            case GameplayPhase.Battle:
-                RuntimeParticipant EngagementParticipant =
-                    ResolveDevelopmentEngagementParticipant(
-                        ASnapshot.Battle?.Engagement,
-                        BSnapshot.Battle?.Engagement, A, B);
-                return EngagementParticipant ?? ResolveCanActParticipant(
-                    ASnapshot.Battle?.CanAct == true,
-                    BSnapshot.Battle?.CanAct == true, A, B);
-
-            case GameplayPhase.End:
-                return ResolveCanActParticipant(
-                    ASnapshot.End?.CanAct == true,
-                    BSnapshot.End?.CanAct == true, A, B);
-
-            default:
-                return Participant;
-        }
-    }
-
-
-    private static RuntimeParticipant ResolveDevelopmentEngagementParticipant(
-        GameBattle.EngagementView AView, GameBattle.EngagementView BView,
-        RuntimeParticipant A, RuntimeParticipant B)
-    {
-        if (AView == null || BView == null ||
-            !AView.IsActive || !BView.IsActive)
-            return null;
-
-        RuntimeParticipant Attacker = AView.IsAttacker ? A : B;
-        RuntimeParticipant Defender = AView.IsAttacker ? B : A;
-        if (!AView.AttackerLocked)
-            return Attacker;
-        if (!AView.Resolved)
-            return Defender;
-        return Attacker;
-    }
-
-
-    private static RuntimeParticipant ResolveCanActParticipant(
-        bool ACanAct, bool BCanAct, RuntimeParticipant A, RuntimeParticipant B)
-    {
-        if (ACanAct == BCanAct)
-            return null;
-        return ACanAct ? A : B;
-    }
 #endif
 
     private bool ValidateReferences()
