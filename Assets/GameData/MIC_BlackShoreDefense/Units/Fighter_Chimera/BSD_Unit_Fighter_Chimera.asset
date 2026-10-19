@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb47f0e9efea9b4093594840409160c, type: 3}
+  m_Name: BSD_Unit_Fighter_Chimera
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_Unit
+  _Name: '"Chimera" Naval Strike Fighter'
+  _ID: BSD_Unit_Fighter_Chimera
+  _Manufacturer: {fileID: 11400000, guid: 4a4c1895ca81e7b4380efddbf9981217, type: 2}
+  _UnitTypes:
+  - {fileID: 11400000, guid: d2180e5b489fa8a4f83e465525fbc0f3, type: 2}
+  _Tier: {fileID: 11400000, guid: 9b6435a49cfd64c4a8f3311634e014ac, type: 2}
+  _BaseDomain: 1
+  _Health: 2
+  _Stealth: 25
+  _AbsoluteVision: 1
+  _FootprintSize: {x: 1, y: 1}
+  _OriginPoint: {x: 0, y: 0}
+  _MovementPivot: {x: 0, y: 0}
+  _MovementPattern: {fileID: 11400000, guid: 05be145ed67b76048bee532c6187cb0c, type: 2}
+  _WeaponSlots:
+  - _Weapon: {fileID: 11400000, guid: 0dee57ec66d4e6a47bd0905a974a25e5, type: 2}
+    _MaxCharges: 2
+  - _Weapon: {fileID: 11400000, guid: ad065e5f98c5d9044a78b8c65d0955ba, type: 2}
+    _MaxCharges: 3
+  _SystemSlots:
+  - _SlotType: 1
+    _System: {fileID: 11400000, guid: 97bf8a621c39d1c4baa0e03d00c16bf9, type: 2}
+    _MaxCharges: 0
+    _CarriedUnits: []
+  - _SlotType: 2
+    _System: {fileID: 11400000, guid: a1221b60cb201a5498dcf0e68d886e35, type: 2}
+    _MaxCharges: 2
+    _CarriedUnits: []
+  - _SlotType: 2
+    _System: {fileID: 11400000, guid: 763bcc4f44ae2354aa4c6d9bcbff2068, type: 2}
+    _MaxCharges: 2
+    _CarriedUnits: []
+  _Abilities:
+  - {fileID: 11400000, guid: d9b692313fde91045b8e12b602af0852, type: 2}

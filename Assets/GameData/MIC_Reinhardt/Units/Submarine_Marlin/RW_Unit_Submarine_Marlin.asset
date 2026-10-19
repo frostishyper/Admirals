@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb47f0e9efea9b4093594840409160c, type: 3}
+  m_Name: RW_Unit_Submarine_Marlin
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_Unit
+  _Name: '"Marlin" Class Fast Attack Submarine'
+  _ID: RW_Unit_Submarine_Marlin
+  _Manufacturer: {fileID: 11400000, guid: dbdf1c8e6e25ca640bf4746c8b3c8e34, type: 2}
+  _UnitTypes:
+  - {fileID: 11400000, guid: a2685d227dee359499d174a8fd45711f, type: 2}
+  _Tier: {fileID: 11400000, guid: 9b6435a49cfd64c4a8f3311634e014ac, type: 2}
+  _BaseDomain: 2
+  _Health: 15
+  _Stealth: 35
+  _AbsoluteVision: 1
+  _FootprintSize: {x: 2, y: 1}
+  _OriginPoint: {x: 1, y: 0}
+  _MovementPivot: {x: 0, y: 0}
+  _MovementPattern: {fileID: 11400000, guid: 1a673b60831647d438faa9adb9595cd0, type: 2}
+  _WeaponSlots:
+  - _Weapon: {fileID: 11400000, guid: 9563a78b57c543a40a2486c0e20591dc, type: 2}
+    _MaxCharges: 6
+  _SystemSlots:
+  - _SlotType: 1
+    _System: {fileID: 11400000, guid: 0cdfc3769a072b94a9f5833df6449725, type: 2}
+    _MaxCharges: 0
+    _CarriedUnits: []
+  _Abilities:
+  - {fileID: 11400000, guid: f76c140e5afeae64c85024b2f0bb2c7e, type: 2}
+  - {fileID: 11400000, guid: 46264b464ad93ff4ca56419a8939e7f1, type: 2}
+  - {fileID: 11400000, guid: 3fbd9ffbd203dd5408acf581f46bf70e, type: 2}

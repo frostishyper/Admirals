@@ -1,0 +1,2566 @@
+fileFormatVersion: 2
+guid: 6824bb760bd7e0e43a0df540765db55e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6740124180831492908
+    second: Admirals_Tilesheet_0
+  - first:
+      213: 6448320804154067111
+    second: Admirals_Tilesheet_1
+  - first:
+      213: -3637553593315556540
+    second: Admirals_Tilesheet_2
+  - first:
+      213: -1338325500056291450
+    second: Admirals_Tilesheet_3
+  - first:
+      213: 6069785349127377281
+    second: Admirals_Tilesheet_4
+  - first:
+      213: -4548674208382665056
+    second: Admirals_Tilesheet_5
+  - first:
+      213: 8523080192072039908
+    second: Admirals_Tilesheet_6
+  - first:
+      213: 3481574092166864080
+    second: Admirals_Tilesheet_7
+  - first:
+      213: 5744473307345669716
+    second: Admirals_Tilesheet_8
+  - first:
+      213: -3052403848824917465
+    second: Admirals_Tilesheet_9
+  - first:
+      213: 1379864766316445764
+    second: Admirals_Tilesheet_10
+  - first:
+      213: -1308690608298873433
+    second: Admirals_Tilesheet_11
+  - first:
+      213: -1710888238774659822
+    second: Admirals_Tilesheet_12
+  - first:
+      213: 8417283074131198240
+    second: Admirals_Tilesheet_13
+  - first:
+      213: -5639692636242444319
+    second: Admirals_Tilesheet_14
+  - first:
+      213: -5466439986735275328
+    second: Admirals_Tilesheet_15
+  - first:
+      213: -6684356800532429828
+    second: Admirals_Tilesheet_16
+  - first:
+      213: 4132566840674954026
+    second: Admirals_Tilesheet_17
+  - first:
+      213: 5683815647512173011
+    second: Admirals_Tilesheet_18
+  - first:
+      213: 8568725872293883901
+    second: Admirals_Tilesheet_19
+  - first:
+      213: -1427012055841968750
+    second: Admirals_Tilesheet_20
+  - first:
+      213: 996752965605403974
+    second: Admirals_Tilesheet_21
+  - first:
+      213: 5247391902798120024
+    second: Admirals_Tilesheet_22
+  - first:
+      213: -6314720411530101780
+    second: Admirals_Tilesheet_23
+  - first:
+      213: -3870265580453304479
+    second: Admirals_Tilesheet_24
+  - first:
+      213: 1937616100552189736
+    second: Admirals_Tilesheet_25
+  - first:
+      213: -3994132898112731109
+    second: Admirals_Tilesheet_26
+  - first:
+      213: -2175591306385214195
+    second: Admirals_Tilesheet_27
+  - first:
+      213: -3432106389608500666
+    second: Admirals_Tilesheet_28
+  - first:
+      213: -3194116578662915126
+    second: Admirals_Tilesheet_29
+  - first:
+      213: 5224353850816794846
+    second: Admirals_Tilesheet_30
+  - first:
+      213: -6426190774138305483
+    second: Admirals_Tilesheet_31
+  - first:
+      213: 7048084328372673886
+    second: Admirals_Tilesheet_32
+  - first:
+      213: 2585241833414971367
+    second: Admirals_Tilesheet_33
+  - first:
+      213: 5678175116009425168
+    second: Admirals_Tilesheet_34
+  - first:
+      213: -55398291019299150
+    second: Admirals_Tilesheet_35
+  - first:
+      213: -4245520100208131474
+    second: Admirals_Tilesheet_36
+  - first:
+      213: 4582158615785169888
+    second: Admirals_Tilesheet_37
+  - first:
+      213: -9189929324600123236
+    second: Admirals_Tilesheet_38
+  - first:
+      213: 7816000052636485425
+    second: Admirals_Tilesheet_39
+  - first:
+      213: -8789377684706057874
+    second: Admirals_Tilesheet_40
+  - first:
+      213: -6021055811372142953
+    second: Admirals_Tilesheet_41
+  - first:
+      213: -1688312599240389619
+    second: Admirals_Tilesheet_42
+  - first:
+      213: -6379517951900836324
+    second: Admirals_Tilesheet_43
+  - first:
+      213: -8156563273620648500
+    second: Admirals_Tilesheet_44
+  - first:
+      213: 8049363881984678439
+    second: Admirals_Tilesheet_45
+  - first:
+      213: -7633246491735818232
+    second: Admirals_Tilesheet_46
+  - first:
+      213: -3795227052841068829
+    second: Admirals_Tilesheet_47
+  - first:
+      213: 6383772600407239516
+    second: Admirals_Tilesheet_48
+  - first:
+      213: -7899346577001779194
+    second: Admirals_Tilesheet_49
+  - first:
+      213: 1175743801562632968
+    second: Admirals_Tilesheet_50
+  - first:
+      213: 1466613974093595927
+    second: Admirals_Tilesheet_51
+  - first:
+      213: -2047772490574124848
+    second: Admirals_Tilesheet_52
+  - first:
+      213: -3776744374715911425
+    second: Admirals_Tilesheet_53
+  - first:
+      213: 8752044835542162910
+    second: Admirals_Tilesheet_54
+  - first:
+      213: -6735308380195244068
+    second: Admirals_Tilesheet_55
+  - first:
+      213: -8067859005153594502
+    second: Admirals_Tilesheet_56
+  - first:
+      213: -1786540837264517663
+    second: Admirals_Tilesheet_57
+  - first:
+      213: -1874514130200854659
+    second: Admirals_Tilesheet_58
+  - first:
+      213: 8909912263601149480
+    second: Admirals_Tilesheet_59
+  - first:
+      213: 7413082460697353833
+    second: Admirals_Tilesheet_60
+  - first:
+      213: 317975323269560234
+    second: Admirals_Tilesheet_61
+  - first:
+      213: -216806986368898489
+    second: Admirals_Tilesheet_62
+  - first:
+      213: 3132398344056950277
+    second: Admirals_Tilesheet_63
+  - first:
+      213: -2253355617249546625
+    second: Admirals_Tilesheet_64
+  - first:
+      213: 384278493316946423
+    second: Admirals_Tilesheet_65
+  - first:
+      213: -5042577209075179246
+    second: Admirals_Tilesheet_66
+  - first:
+      213: 8776564761236438220
+    second: Admirals_Tilesheet_67
+  - first:
+      213: 377491735150519830
+    second: Admirals_Tilesheet_68
+  - first:
+      213: 4033096214536792872
+    second: Admirals_Tilesheet_69
+  - first:
+      213: -8265611717105843017
+    second: Admirals_Tilesheet_70
+  - first:
+      213: 766705642787087702
+    second: Admirals_Tilesheet_71
+  - first:
+      213: 1529629140059050647
+    second: Admirals_Tilesheet_72
+  - first:
+      213: -1826875200883085706
+    second: Admirals_Tilesheet_73
+  - first:
+      213: 7266094269926290002
+    second: Admirals_Tilesheet_74
+  - first:
+      213: -6716196253200041062
+    second: Admirals_Tilesheet_75
+  - first:
+      213: -4366391155007015219
+    second: Admirals_Tilesheet_76
+  - first:
+      213: -3191522968234809076
+    second: Admirals_Tilesheet_77
+  - first:
+      213: 5821418145019754703
+    second: Admirals_Tilesheet_78
+  - first:
+      213: 6197112670700743801
+    second: Admirals_Tilesheet_79
+  - first:
+      213: -2992757158730916403
+    second: Admirals_Tilesheet_80
+  - first:
+      213: -8328380006807447418
+    second: Admirals_Tilesheet_81
+  - first:
+      213: -2469987837191956321
+    second: Admirals_Tilesheet_82
+  - first:
+      213: 5412966585460473057
+    second: Admirals_Tilesheet_83
+  - first:
+      213: -3639995984138112400
+    second: Admirals_Tilesheet_84
+  - first:
+      213: 5658504454433783854
+    second: Admirals_Tilesheet_85
+  - first:
+      213: 8023254986876622508
+    second: Admirals_Tilesheet_86
+  - first:
+      213: 1759781768153285048
+    second: Admirals_Tilesheet_87
+  - first:
+      213: 9182532857059129048
+    second: Admirals_Tilesheet_88
+  - first:
+      213: 7664458764414687466
+    second: Admirals_Tilesheet_89
+  - first:
+      213: -2978241682212288090
+    second: Admirals_Tilesheet_90
+  - first:
+      213: -8792172322926834894
+    second: Admirals_Tilesheet_91
+  - first:
+      213: 4580270456211017388
+    second: Admirals_Tilesheet_92
+  - first:
+      213: 2681035004061971878
+    second: Admirals_Tilesheet_93
+  - first:
+      213: -7904303742149987675
+    second: Admirals_Tilesheet_94
+  - first:
+      213: -8502672397309289167
+    second: Admirals_Tilesheet_95
+  - first:
+      213: 7163813405551849795
+    second: Admirals_Tilesheet_96
+  - first:
+      213: -1725916709416455099
+    second: Admirals_Tilesheet_97
+  - first:
+      213: 8621657350572341727
+    second: Admirals_Tilesheet_98
+  - first:
+      213: -4326786600903053500
+    second: Admirals_Tilesheet_99
+  - first:
+      213: 3293917558463743943
+    second: Admirals_Tilesheet_100
+  - first:
+      213: 3290295322653525836
+    second: Admirals_Tilesheet_101
+  - first:
+      213: -695958660198079340
+    second: Admirals_Tilesheet_102
+  - first:
+      213: -2491641817993521237
+    second: Admirals_Tilesheet_103
+  - first:
+      213: 2405461556433390574
+    second: Admirals_Tilesheet_104
+  - first:
+      213: 6926278657535280733
+    second: Admirals_Tilesheet_105
+  - first:
+      213: 6840371840516240910
+    second: Admirals_Tilesheet_106
+  - first:
+      213: -2217681714009234470
+    second: Admirals_Tilesheet_107
+  - first:
+      213: 3829495553287470986
+    second: Admirals_Tilesheet_108
+  - first:
+      213: 5713114553967699306
+    second: Admirals_Tilesheet_109
+  - first:
+      213: -2435450865003895484
+    second: Admirals_Tilesheet_110
+  - first:
+      213: 1501392676914090733
+    second: Admirals_Tilesheet_111
+  - first:
+      213: -759614935681033520
+    second: Admirals_Tilesheet_112
+  - first:
+      213: 5194378215774569898
+    second: Admirals_Tilesheet_113
+  - first:
+      213: 4816159095631584012
+    second: Admirals_Tilesheet_114
+  - first:
+      213: -7050089790389466852
+    second: Admirals_Tilesheet_115
+  - first:
+      213: -2892437890545023752
+    second: Admirals_Tilesheet_116
+  - first:
+      213: -8914403617466633592
+    second: Admirals_Tilesheet_117
+  - first:
+      213: 6017575597518974721
+    second: Admirals_Tilesheet_118
+  - first:
+      213: -6879139667592253917
+    second: Admirals_Tilesheet_119
+  - first:
+      213: -5626682896245175483
+    second: Admirals_Tilesheet_120
+  - first:
+      213: 8630568471391627513
+    second: Admirals_Tilesheet_121
+  - first:
+      213: -208536951790607807
+    second: Admirals_Tilesheet_122
+  - first:
+      213: -3201041287687843267
+    second: Admirals_Tilesheet_123
+  - first:
+      213: 8044823378623015438
+    second: Admirals_Tilesheet_124
+  - first:
+      213: 5152837922658435962
+    second: Admirals_Tilesheet_125
+  - first:
+      213: -8756000475217132730
+    second: Admirals_Tilesheet_126
+  - first:
+      213: -6962874191494541287
+    second: Admirals_Tilesheet_127
+  - first:
+      213: 1890807940083885560
+    second: Admirals_Tilesheet_128
+  - first:
+      213: 6450202929233291474
+    second: Admirals_Tilesheet_129
+  - first:
+      213: 8552405658893580610
+    second: Admirals_Tilesheet_130
+  - first:
+      213: 6005417731153797765
+    second: Admirals_Tilesheet_131
+  - first:
+      213: -5091770896863749269
+    second: Admirals_Tilesheet_132
+  - first:
+      213: -1209774573667841352
+    second: Admirals_Tilesheet_133
+  - first:
+      213: -7369221045634975203
+    second: Admirals_Tilesheet_134
+  - first:
+      213: 4883456095998217536
+    second: Admirals_Tilesheet_135
+  - first:
+      213: 6831826417138456037
+    second: Admirals_Tilesheet_136
+  - first:
+      213: -7653665044862404453
+    second: Admirals_Tilesheet_137
+  - first:
+      213: 255778535796742728
+    second: Admirals_Tilesheet_138
+  - first:
+      213: 6171924232014814231
+    second: Admirals_Tilesheet_139
+  - first:
+      213: -1593789833082422253
+    second: Admirals_Tilesheet_140
+  - first:
+      213: 703799110803155484
+    second: Admirals_Tilesheet_141
+  - first:
+      213: -8624195751736596522
+    second: Admirals_Tilesheet_142
+  - first:
+      213: 6506833019222601670
+    second: Admirals_Tilesheet_143
+  - first:
+      213: 8842030880757580261
+    second: Admirals_Tilesheet_144
+  - first:
+      213: -1684559481166565609
+    second: Admirals_Tilesheet_145
+  - first:
+      213: -8594096516829376152
+    second: Admirals_Tilesheet_146
+  - first:
+      213: -6555421323374589209
+    second: Admirals_Tilesheet_147
+  - first:
+      213: 3819632578403397003
+    second: Admirals_Tilesheet_148
+  - first:
+      213: 8176996670552836111
+    second: Admirals_Tilesheet_149
+  - first:
+      213: 4748610313122535087
+    second: Admirals_Tilesheet_150
+  - first:
+      213: 3919892775501602611
+    second: Admirals_Tilesheet_151
+  - first:
+      213: -8155807965759835828
+    second: Admirals_Tilesheet_152
+  - first:
+      213: -4873673924383428238
+    second: Admirals_Tilesheet_153
+  - first:
+      213: -5290363458057652046
+    second: Admirals_Tilesheet_154
+  - first:
+      213: -3032198199340796649
+    second: Admirals_Tilesheet_155
+  - first:
+      213: -3274097339902272927
+    second: Admirals_Tilesheet_156
+  - first:
+      213: -5305303646933690523
+    second: Admirals_Tilesheet_157
+  - first:
+      213: -6648843482899529265
+    second: Admirals_Tilesheet_158
+  - first:
+      213: -4138550313020853544
+    second: Admirals_Tilesheet_159
+  - first:
+      213: 2203475235538946047
+    second: Admirals_Tilesheet_160
+  - first:
+      213: 6780785102472313889
+    second: Admirals_Tilesheet_161
+  - first:
+      213: 3589690783625441385
+    second: Admirals_Tilesheet_162
+  - first:
+      213: -9107946373950202169
+    second: Admirals_Tilesheet_163
+  - first:
+      213: 2482941783939791857
+    second: Admirals_Tilesheet_164
+  - first:
+      213: 3782344811158340261
+    second: Admirals_Tilesheet_165
+  - first:
+      213: -7650170765247440562
+    second: Admirals_Tilesheet_166
+  - first:
+      213: -6030300941474575384
+    second: Admirals_Tilesheet_167
+  - first:
+      213: -4264492797043665086
+    second: Admirals_Tilesheet_168
+  - first:
+      213: -5780631279891508834
+    second: Admirals_Tilesheet_169
+  - first:
+      213: -5482903817439372190
+    second: Admirals_Tilesheet_170
+  - first:
+      213: 2449656402336327947
+    second: Admirals_Tilesheet_171
+  - first:
+      213: -7594768617235611802
+    second: Admirals_Tilesheet_172
+  - first:
+      213: -2701129213157828771
+    second: Admirals_Tilesheet_173
+  - first:
+      213: -6926480205088493726
+    second: Admirals_Tilesheet_174
+  - first:
+      213: 784081094261921782
+    second: Admirals_Tilesheet_175
+  - first:
+      213: -7701701425656720122
+    second: Admirals_Tilesheet_176
+  - first:
+      213: 3992298183992600733
+    second: Admirals_Tilesheet_177
+  - first:
+      213: 4233789066807141971
+    second: Admirals_Tilesheet_178
+  - first:
+      213: -2560076908053624329
+    second: Admirals_Tilesheet_179
+  - first:
+      213: 8603835087947234843
+    second: Admirals_Tilesheet_180
+  - first:
+      213: -9137690768122808928
+    second: Admirals_Tilesheet_181
+  - first:
+      213: 310388154498602200
+    second: Admirals_Tilesheet_182
+  - first:
+      213: 728241207156271918
+    second: Admirals_Tilesheet_183
+  - first:
+      213: -3761766687064168195
+    second: Admirals_Tilesheet_184
+  - first:
+      213: -1579492047158049409
+    second: Admirals_Tilesheet_185
+  - first:
+      213: -433579717910409259
+    second: Admirals_Tilesheet_186
+  - first:
+      213: 9026247019788071318
+    second: Admirals_Tilesheet_187
+  - first:
+      213: -5821400570092968711
+    second: Admirals_Tilesheet_188
+  - first:
+      213: 1180560220346129941
+    second: Admirals_Tilesheet_189
+  - first:
+      213: 324921085462555846
+    second: Admirals_Tilesheet_190
+  - first:
+      213: 7457880656802924592
+    second: Admirals_Tilesheet_191
+  - first:
+      213: 156789690875895479
+    second: Admirals_Tilesheet_192
+  - first:
+      213: 300544143216287579
+    second: Admirals_Tilesheet_193
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ocean_Northeast
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6de9325e873349a4ea47e503a17ab6de
+      internalID: -723629094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocean_North
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c7e27f849825bf438a01a2069bdc123
+      internalID: 157736658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocean_Northwest
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b998ca8b4c52774a9d99c3091e05821
+      internalID: 2011943154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocean_West
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ed0a206514b1c843a9a7f579eb953d1
+      internalID: -1380479950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocean_Southeast
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79ac369f886bb804da3f1c680ac2024a
+      internalID: 707727810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocean_East
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6baf31bf97a601540ab70d1e3d5d6071
+      internalID: 2049100076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocean_Center
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f21c6e895a35af742af3622aaf737901
+      internalID: 1853911750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocean_Southwest
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fffcd9a65de78074192fb1ef9eea2aa9
+      internalID: -1132962662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocean_South
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed396546e03254745a60cd8797a08c58
+      internalID: 919377744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ocean_Bounds
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c180dc49a10806a44bff4ae6101619c8
+      internalID: -1673232957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mine_Tile
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 098ff89109e73f94cb0c016439c4627a
+      internalID: 331172575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Southwest
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03b4214e2f3b25541bf5add498ed6ab8
+      internalID: -1974159322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Northwest_Southeast
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0cc81dd14e214e4292dee0c59d23599
+      internalID: 2096939216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Northeast
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fef14cddc105a8a4b8ac722fe461566b
+      internalID: -2131844586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Water_Shallow
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f6f3e66b43c2d14c95711b8ddaabad5
+      internalID: -668498229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_East
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be26874443d71e2438c034f7ac5101c5
+      internalID: 1261093926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Corner_Northeast
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 551d8cbb55deeed4ab4e0b6f83a725a5
+      internalID: -1255389042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_South
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 669da1b2f935e024d9e4c196b528c3a1
+      internalID: 578155835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Corner_Northwest
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4f06beeefdf32e499d8a4c5225c1336
+      internalID: 1733643109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_North
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d127070d05011f44bb22f817840eb2ad
+      internalID: 100223902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Southeast
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10081a67ad6578b4eaba8bf941f4b5ed
+      internalID: 1776005653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Center
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d48c0fc81f287c24d91e00682e729d74
+      internalID: -675226237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landc
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd05a76730eaca647bc2a6e922245d1e
+      internalID: 907347875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Northeast_Southwest
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f174024011f54bd4981cfe1cb983b6fa
+      internalID: -705509012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Corner_Southeast
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4536c9c99cd988646ac3ff604ca00b34
+      internalID: -2119230585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_West
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e0745b996b9c2f4e96691c7086cfaf5
+      internalID: -2070226782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Land_Northwest
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fd0a3209d381ad48ac02fc29c4322ef
+      internalID: -1136593996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Southwest
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 867e7b5b39e8fb141b4ae1bc86c0b5d5
+      internalID: 344178750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Northwest_Southeast
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 449b0c5d1b72a88459b4344c6cf24484
+      internalID: -277764158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Northeast
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff5000951a8547e4cacb2b2c63d4a421
+      internalID: 226539384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_East
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf9bb5485a25b0942a63e5ebd78a20e6
+      internalID: -2141751859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Corner_Northeast
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 746aeae646945bc4c81f883a9120c165
+      internalID: 1544657642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_South
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 640
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59e3b1aaf672c7f4a886f8bef19d8de5
+      internalID: 242143203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Corner_Northwest
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 550dc85cd2b22504a975495b28c94e15
+      internalID: -8657188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Center
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3acdf3142b9164f4d966a33bceec41fa
+      internalID: 1815084816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Corner_Southeast
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f81f8af2ac452e438f20d37a5c0a85c
+      internalID: 229205258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_North
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de65da8cbc51346419509d7a26085d3c
+      internalID: 2018367917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Southeast
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae587f6763cbbd742a34bb8c9340d633
+      internalID: -1124169193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_West
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a45546c3e0fedc04a9103a0f71f2454a
+      internalID: -316508391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Northwest
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 320b5f5dfe7e95d4d8d1af77bc4423fe
+      internalID: 62957322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Corner_Southwest
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 512
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7eb6e768c43af1f43a7ca78e73aaf66e
+      internalID: -1523560129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fog_Northeast_Southwest
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afc22cb94a1ea964eacf583160ee3568
+      internalID: -1470563594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indicator_Red_01
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 312
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dcac14827e508e48bb0f4e61c9b9d4b
+      internalID: -1493314126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indicator_Red_02
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 312
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bd0f35bcb81e5448bd2f735d9129eec
+      internalID: 1234998311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indicator_Green_01
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 244
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2166113b0d7533418f0fec2b31026b1
+      internalID: 362278926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indicator_Green_02
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 244
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cd1e0b1917bc9d4c8b5c406f129b0d2
+      internalID: 410218497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indicator_White_01
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 176
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90e97053f980e004fa69b3db2783502a
+      internalID: -1686767973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Indicator_White_02
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 176
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2c6965a53a631b42b6db06bd14e1030
+      internalID: -2139779540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Surface_White_01
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 311
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab7bfd37cf273b54fa6e9df625b9fe79
+      internalID: -1024257257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Surface_White_02
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 311
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc0f1b60dd492be4eb34af64c2d98aae
+      internalID: 1031684456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Sub_White_01
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 243
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8765d1dfc423614bb7452308bf2b41b
+      internalID: -2047301980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Sub_White_02
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 243
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d716eb29cf667c645a357209b586a9f0
+      internalID: -218541649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Air_White_01
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 175
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01377a850420f0149aa10498da4325f4
+      internalID: 1567488136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Air_White_02
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 175
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81c7c588ae2f36d45ad9f4294bcd0476
+      internalID: 2079656183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Surface_Red_01
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 311
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af1182baaf9c8fd4da72b95cf5f31992
+      internalID: 238776734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Surface_Red_02
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 311
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9254b1ef922143b45b9664d4cd84aa3e
+      internalID: -1192074055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Sub_Red_01
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 243
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b005e31bade9b2d4bb1d43e39554c17c
+      internalID: 548561851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Sub_Red_02
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 243
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29176747a86fe714fb966f6ffb880170
+      internalID: -570599828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Air_Red_01
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 175
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 761ab6091e6e0d74a8b88e00f15de770
+      internalID: -1438890457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Air_Red_02
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 175
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94553340ee283b940ac85598664b5c05
+      internalID: 1474379989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Surface_Green_01
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 311
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76109876a73342c4bb6618b79352c561
+      internalID: -1727868857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Surface_Green_02
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 311
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d5f81c927470e54f98a7449b5bcaa64
+      internalID: 130176802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Sub_Green_01
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 243
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac029cd9d69c406449bdbf3501c46442
+      internalID: -645377125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Sub_Green_02
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 243
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa5755709549475479e86f7f3cd83892
+      internalID: -1278976414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Air_Green_01
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 175
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5595278785da9504aaf1717da6e803f2
+      internalID: 1427568057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Contact_Air_Green_02
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 175
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1342905e73844d34d8e73c579001524b
+      internalID: -1912093942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_01
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2675e07e111cc68429f64944c7bb57d3
+      internalID: -2135085275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_02
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42b1ae4c1e03b154d8c5f3c607817a48
+      internalID: -1860790276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_03
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f7dd570ddc8a6647b7666a72d7fedaf
+      internalID: -809845455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_04
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac99dda22edcc7d478879f8d3c1a46ac
+      internalID: -583488456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_05
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6180ff4bba792f4888bc3c31d267557
+      internalID: 739722381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_06
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14d549f1156b309469102caf102a8ce9
+      internalID: 83806259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_07
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8789318fdf156ce44abab0b89505fe49
+      internalID: 9833240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_08
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1804b6fa6b0a4194b94b131b52382142
+      internalID: -2070407375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_09
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e28594513a178434e9aa91bf0e33f2d7
+      internalID: -960825149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_10
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3e215063477bd941a9152a192ee4862
+      internalID: 1497518483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_11
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bb0b3f0ec4b9894591e465c4389de54
+      internalID: -326754362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search_12
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 33
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 295039f1d1f49be43b2adb4909cffecf
+      internalID: -50296760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Target_01
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbbab9d0616683a49a8a9d79fe611271
+      internalID: -1333483952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Target_02
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21abeca98fa2a674289f5b79bd7a1c69
+      internalID: 1466229651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Target_03
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 104
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27c46e9b8c625154191c65915b4c738f
+      internalID: 217198394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 36d639dcb88766a46a9fa4c961ba9633
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":768.0,"y":704.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Contact_Air_Green_01: 1427568057
+      Contact_Air_Green_02: -1912093942
+      Contact_Air_Red_01: -1438890457
+      Contact_Air_Red_02: 1474379989
+      Contact_Air_White_01: 1567488136
+      Contact_Air_White_02: 2079656183
+      Contact_Sub_Green_01: -645377125
+      Contact_Sub_Green_02: -1278976414
+      Contact_Sub_Red_01: 548561851
+      Contact_Sub_Red_02: -570599828
+      Contact_Sub_White_01: -2047301980
+      Contact_Sub_White_02: -218541649
+      Contact_Surface_Green_01: -1727868857
+      Contact_Surface_Green_02: 130176802
+      Contact_Surface_Red_01: 238776734
+      Contact_Surface_Red_02: -1192074055
+      Contact_Surface_White_01: -1024257257
+      Contact_Surface_White_02: 1031684456
+      Fog_Center: 1815084816
+      Fog_Corner_Northeast: 1544657642
+      Fog_Corner_Northwest: -8657188
+      Fog_Corner_Southeast: 229205258
+      Fog_Corner_Southwest: -1523560129
+      Fog_East: -2141751859
+      Fog_North: 2018367917
+      Fog_Northeast: 226539384
+      Fog_Northeast_Southwest: -1470563594
+      Fog_Northwest: 62957322
+      Fog_Northwest_Southeast: -277764158
+      Fog_South: 242143203
+      Fog_Southeast: -1124169193
+      Fog_Southwest: 344178750
+      Fog_West: -316508391
+      Indicator_Green_01: 362278926
+      Indicator_Green_02: 410218497
+      Indicator_Red_01: -1493314126
+      Indicator_Red_02: 1234998311
+      Indicator_White_01: -1686767973
+      Indicator_White_02: -2139779540
+      LandCorner_Northeast: -1255389042
+      Land_Center: -675226237
+      Land_Corner_Northeast: -1255389042
+      Land_Corner_Northwest: 1733643109
+      Land_Corner_Southeast: -2119230585
+      Land_East: 1261093926
+      Land_North: 100223902
+      Land_Northeast: -2131844586
+      Land_Northeast_Southwest: -705509012
+      Land_Northwest: -1136593996
+      Land_Northwest_Southeast: 2096939216
+      Land_South: 578155835
+      Land_Southeast: 1776005653
+      Land_Southwest: -1974159322
+      Land_West: -2070226782
+      Landc: 907347875
+      Mine_Tile: 331172575
+      Ocean_Bounds: -1673232957
+      Ocean_Center: 1853911750
+      Ocean_East: 2049100076
+      Ocean_North: 157736658
+      Ocean_Northeast: -723629094
+      Ocean_Northwest: 2011943154
+      Ocean_South: 919377744
+      Ocean_Southeast: 707727810
+      Ocean_Southwest: -1132962662
+      Ocean_West: -1380479950
+      Search_01: -2135085275
+      Search_02: -1860790276
+      Search_03: -809845455
+      Search_04: -583488456
+      Search_05: 739722381
+      Search_06: 83806259
+      Search_07: 9833240
+      Search_08: -2070407375
+      Search_09: -960825149
+      Search_10: 1497518483
+      Search_11: -326754362
+      Search_12: -50296760
+      Target_01: -1333483952
+      Target_02: 1466229651
+      Target_03: 217198394
+      Water_Shallow: -668498229
+      c1: -1438890457
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

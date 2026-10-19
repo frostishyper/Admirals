@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8e4ee14cfcfc7d439dcba0e61cbbe2e, type: 3}
+  m_Name: RW_System_Radar_Osprey
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_System
+  _Name: '"Osprey" Radar Array'
+  _ID: RW_System_Radar_Osprey
+  _Manufacturer: {fileID: 11400000, guid: dbdf1c8e6e25ca640bf4746c8b3c8e34, type: 2}
+  _Type: {fileID: 11400000, guid: d8f16dfa7abf90b4dbe6c049484c3c9a, type: 2}
+  _Tier: {fileID: 11400000, guid: 9b6435a49cfd64c4a8f3311634e014ac, type: 2}
+  _Slot: 1
+  _EligibleUnitTypes:
+  - {fileID: 11400000, guid: be3073be4daeacd42ade2c74f2267f12, type: 2}
+  - {fileID: 11400000, guid: b73b3ccedebfbba4e8169f0db6d7b025, type: 2}
+  - {fileID: 11400000, guid: 5504d9b2442672b46b85dee68d15bb4a, type: 2}
+  - {fileID: 11400000, guid: f351929677bc8c045a71bfb2527e6431, type: 2}
+  - {fileID: 11400000, guid: 5e0635ac74d75e9478903eeaf19b2e84, type: 2}
+  _Domains: 3
+  _OperationalPhases: 24
+  _Pattern: {fileID: 11400000, guid: e32eabc2927ec4f4594b5c2ea4607bfa, type: 2}
+  _UsesCharges: 0
+  _ReplenishRate: 0
+  _ReplenishInterval: 0
+  _Search:
+    _Enabled: 1
+  _FireControl:
+    _Enabled: 1
+  _Passive:
+    _Enabled: 0
+    _Targets: 0
+    _Modifiers: []
+  _Defense:
+    _Enabled: 0
+    _CanDefendSelf: 0
+    _CanDefendAllies: 0
+    _DefendableWeaponTypes: []
+    _UsesD20Roll: 0
+    _DefenseOutcome:
+      _Name: 
+      _AttackRollModifier: 0
+      _DamageModifier: 0
+      _NegatesAttack: 0
+      _StripGuaranteedHit: 0
+      _StripBypassDefense: 0
+      _Actions: []
+    _D20Outcomes: []
+  _UnitDeployment:
+    _Enabled: 0
+    _CarrySlots: 0
+    _EligibleUnitTypes: []
+  _MineDeployment:
+    _Enabled: 0
+    _TriggerDomains: 6
+    _UsesD20Roll: 0
+    _MineOutcome:
+      _Name: 
+      _Damage: 0
+      _Actions: []
+    _D20Outcomes: []

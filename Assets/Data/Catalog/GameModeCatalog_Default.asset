@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameModeCatalog
   _GameModes:
   - {fileID: 11400000, guid: 65bd3dc42c71a504b94d2751e86d73f0, type: 2}
-  - {fileID: 11400000, guid: b36a065c6f2cec04981bc0e6d33f3acb, type: 2}
+  - {fileID: 11400000, guid: aa393abffec7f0c4ead6920f60b7a46f, type: 2}

@@ -1,0 +1,679 @@
+fileFormatVersion: 2
+guid: 23cc1c68a88d7294bb0686e2554c9172
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -941222759849540844
+    second: Submarine_0
+  - first:
+      213: -7444771728682132349
+    second: Submarine_1
+  - first:
+      213: 895641037975425111
+    second: Submarine_2
+  - first:
+      213: 7935637431235430210
+    second: Submarine_3
+  - first:
+      213: -5767386709015500426
+    second: Submarine_4
+  - first:
+      213: -1740886650082209242
+    second: Submarine_5
+  - first:
+      213: 5658345392934809248
+    second: Submarine_6
+  - first:
+      213: 5680573607921540426
+    second: Submarine_7
+  - first:
+      213: 4457087247208828202
+    second: Submarine_8
+  - first:
+      213: 3070535339473127475
+    second: Submarine_9
+  - first:
+      213: 5928471946245213344
+    second: Submarine_10
+  - first:
+      213: -7453628076080107409
+    second: Submarine_11
+  - first:
+      213: -7413237549926448450
+    second: Submarine_12
+  - first:
+      213: -1860385297855579461
+    second: Submarine_13
+  - first:
+      213: 542155705870344299
+    second: Submarine_14
+  - first:
+      213: -6127475070921263315
+    second: Submarine_15
+  - first:
+      213: 7233938637228972827
+    second: Submarine_16
+  - first:
+      213: -3421771880272239719
+    second: Submarine_17
+  - first:
+      213: 5853422910588729095
+    second: Submarine_18
+  - first:
+      213: 881420700846024193
+    second: Submarine_19
+  - first:
+      213: -8012840461162239670
+    second: Submarine_20
+  - first:
+      213: 9080068877250226013
+    second: Submarine_21
+  - first:
+      213: -5528290274524417971
+    second: Submarine_22
+  - first:
+      213: 7691969177464392175
+    second: Submarine_23
+  - first:
+      213: -7755574219874715816
+    second: Submarine_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Marlin_Side_01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 281
+        width: 143
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 413c7a003ea10f2f0800000000000000
+      internalID: -941222759849540844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Side_02
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 281
+        width: 143
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38cd70e8e8bdea890800000000000000
+      internalID: -7444771728682132349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Side_03
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 281
+        width: 143
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75099ca57c4fd6c00800000000000000
+      internalID: 895641037975425111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Side_0
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 281
+        width: 143
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 247c41be23c012e60800000000000000
+      internalID: 7935637431235430210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Side_05
+      rect:
+        serializedVersion: 2
+        x: 572
+        y: 281
+        width: 143
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67962d6585026ffa0800000000000000
+      internalID: -5767386709015500426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Side_06
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 281
+        width: 143
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62251abb0d027d7e0800000000000000
+      internalID: -1740886650082209242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Side_07
+      rect:
+        serializedVersion: 2
+        x: 858
+        y: 281
+        width: 143
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0aee85ad72b768e40800000000000000
+      internalID: 5658345392934809248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Down_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 133
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4d5f94799375de40800000000000000
+      internalID: 5680573607921540426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Down_02
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 133
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2d4ec69c31cadd30800000000000000
+      internalID: 4457087247208828202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Down_03
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 133
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33844937f9bbc9a20800000000000000
+      internalID: 3070535339473127475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Down_04
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 134
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f60fd5d71c46f8890800000000000000
+      internalID: -7453628076080107409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Down_05
+      rect:
+        serializedVersion: 2
+        x: 573
+        y: 133
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bba75f7ad659e26e0800000000000000
+      internalID: -1860385297855579461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Down_06
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 133
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b606a55fdbf168700800000000000000
+      internalID: 542155705870344299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Down_07
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 133
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d273da343e5d6faa0800000000000000
+      internalID: -6127475070921263315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Up_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 0
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1b910f0ddc146460800000000000000
+      internalID: 7233938637228972827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Up_02
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 993e3fdaa9c6380d0800000000000000
+      internalID: -3421771880272239719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Up_03
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 0
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70736c9df198b3150800000000000000
+      internalID: 5853422910588729095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Up_04
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 1
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1066a9b157f6b3c00800000000000000
+      internalID: 881420700846024193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Up_05
+      rect:
+        serializedVersion: 2
+        x: 573
+        y: 0
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d40b9b319419743b0800000000000000
+      internalID: -5528290274524417971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Up_06
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 0
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe9c40e863d5fba60800000000000000
+      internalID: 7691969177464392175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Marlin_Up_07
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 0
+        width: 78
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 857b03b765aae5490800000000000000
+      internalID: -7755574219874715816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: c054f004fd2a13845a5d102156a8480a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Marlin_Down_01: 5680573607921540426
+      Marlin_Down_02: 4457087247208828202
+      Marlin_Down_03: 3070535339473127475
+      Marlin_Down_04: -7453628076080107409
+      Marlin_Down_05: -1860385297855579461
+      Marlin_Down_06: 542155705870344299
+      Marlin_Down_07: -6127475070921263315
+      Marlin_Side_0: 7935637431235430210
+      Marlin_Side_01: -941222759849540844
+      Marlin_Side_02: -7444771728682132349
+      Marlin_Side_03: 895641037975425111
+      Marlin_Side_05: -5767386709015500426
+      Marlin_Side_06: -1740886650082209242
+      Marlin_Side_07: 5658345392934809248
+      Marlin_Up_01: 7233938637228972827
+      Marlin_Up_02: -3421771880272239719
+      Marlin_Up_03: 5853422910588729095
+      Marlin_Up_04: 881420700846024193
+      Marlin_Up_05: -5528290274524417971
+      Marlin_Up_06: 7691969177464392175
+      Marlin_Up_07: -7755574219874715816
+      Submarine_10: 5928471946245213344
+      Submarine_12: -7413237549926448450
+      Submarine_20: -8012840461162239670
+      Submarine_21: 9080068877250226013
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

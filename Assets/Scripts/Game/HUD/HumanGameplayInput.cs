@@ -1,0 +1,708 @@
+using System;
+using System.Collections;
+using UnityEngine;
+
+
+// Resolves participant-bound gameplay access for this local human HUD.
+[DisallowMultipleComponent]
+public sealed class HumanGameplayInput : MonoBehaviour
+{
+    [Header("Game")]
+    [SerializeField]
+    private GameMaster _GameMaster;
+
+    [Header("Pass And Play")]
+    [SerializeField]
+    private PassAndPlayHandoffUI _PassAndPlayHandoffPrefab;
+
+    [SerializeField]
+    private Transform _PassAndPlayHandoffParent;
+
+    private GameParticipantAPI.ParticipantAccess _ParticipantAccess;
+    private PassAndPlayHandoffUI _PassAndPlayHandoff;
+    private bool _Initialized;
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    [Header("Development Testing")]
+    [SerializeField]
+    private bool _AutomaticallyFollowActionParticipant = true;
+#endif
+
+    public event Action ParticipantChanged;
+
+    public GameMaster GameMaster => _GameMaster;
+    public GameParticipantAPI.ParticipantAccess ParticipantAccess =>
+        _ParticipantAccess;
+    public RuntimeParticipant Participant =>
+        _ParticipantAccess?.Participant;
+    public bool Initialized => _Initialized;
+    public bool IsPassAndPlay =>
+        _GameMaster?.MatchConfig?.IsPassAndPlay == true;
+
+    private IEnumerator Start()
+    {
+        if (!ValidateReferences())
+            yield break;
+
+        while (!_GameMaster.InitializationComplete)
+        {
+            if (!_GameMaster.enabled)
+            {
+                Debug.LogError(
+                    "Human Gameplay Input could not initialize because GameMaster initialization failed.",
+                    this);
+                yield break;
+            }
+
+            yield return null;
+        }
+
+        if (!Initialize())
+            yield break;
+
+        InitializePassAndPlayHandoff();
+    }
+
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    private void LateUpdate()
+    {
+        if (IsPassAndPlay ||
+            _GameMaster?.MatchConfig?.HasAIPlayer == true ||
+            !_AutomaticallyFollowActionParticipant || !_Initialized ||
+            _GameMaster?.ParticipantAPI == null)
+            return;
+
+        RuntimeParticipant Desired = ResolveActionParticipant();
+        if (Desired != null && !ReferenceEquals(Desired, Participant))
+            SetDevelopmentParticipant(Desired);
+    }
+#endif
+
+    public bool Initialize()
+    {
+        if (_Initialized)
+            return true;
+
+        if (!ValidateReferences() ||
+            !_GameMaster.InitializationComplete ||
+            _GameMaster.ParticipantAPI == null)
+            return false;
+
+        GameParticipantAPI.ParticipantAccess Access;
+        string ValidationMessage = string.Empty;
+
+        bool AccessResolved = IsPassAndPlay
+            ? _GameMaster.ParticipantAPI.TryGetParticipantAccess(
+                _GameMaster.ParticipantA, out Access)
+            : _GameMaster.ParticipantAPI.TryGetLocalPlayerAccess(
+                out Access, out ValidationMessage);
+
+        if (IsPassAndPlay)
+            ValidationMessage = AccessResolved
+                ? string.Empty
+                : "Participant A access is unavailable for Pass & Play.";
+
+        if (!AccessResolved)
+        {
+            Debug.LogError(
+                $"Human Gameplay Input could not resolve participant access: {ValidationMessage}",
+                this);
+            return false;
+        }
+
+        SetParticipantAccess(Access);
+        _Initialized = true;
+        return true;
+    }
+
+
+    private void InitializePassAndPlayHandoff()
+    {
+        if (!IsPassAndPlay || _PassAndPlayHandoff != null)
+            return;
+
+        if (_PassAndPlayHandoffPrefab == null ||
+            _PassAndPlayHandoffParent == null)
+        {
+            Debug.LogError(
+                "Pass & Play requires an authored handoff prefab and parent.",
+                this);
+            return;
+        }
+
+        _PassAndPlayHandoff = Instantiate(
+            _PassAndPlayHandoffPrefab,
+            _PassAndPlayHandoffParent,
+            false);
+        _PassAndPlayHandoff.Initialize(this, _GameMaster);
+    }
+
+
+    internal bool TryTakePassAndPlayControl(
+        RuntimeParticipant ParticipantToControl,
+        out string ValidationMessage)
+    {
+        if (!IsPassAndPlay)
+        {
+            ValidationMessage = "The active match is not Pass & Play.";
+            return false;
+        }
+
+        if (ParticipantToControl == null ||
+            (!ReferenceEquals(ParticipantToControl, _GameMaster.ParticipantA) &&
+             !ReferenceEquals(ParticipantToControl, _GameMaster.ParticipantB)) ||
+            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(
+                ParticipantToControl,
+                out GameParticipantAPI.ParticipantAccess Access))
+        {
+            ValidationMessage = "The requested local participant is unavailable.";
+            return false;
+        }
+
+        SetParticipantAccess(Access);
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
+    internal RuntimeParticipant ResolveActionParticipant()
+    {
+        RuntimeParticipant A = _GameMaster?.ParticipantA;
+        RuntimeParticipant B = _GameMaster?.ParticipantB;
+        if (A == null || B == null ||
+            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(A, out var AAccess) ||
+            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(B, out var BAccess) ||
+            !AAccess.TryGetSnapshot(out ParticipantGameSnapshot ASnapshot, out _) ||
+            !BAccess.TryGetSnapshot(out ParticipantGameSnapshot BSnapshot, out _) ||
+            ASnapshot == null || BSnapshot == null ||
+            ASnapshot.CurrentPhase != BSnapshot.CurrentPhase)
+            return null;
+
+        if (ASnapshot.Match?.MatchComplete == true ||
+            BSnapshot.Match?.MatchComplete == true)
+            return Participant;
+
+        switch (ASnapshot.CurrentPhase)
+        {
+            case GameplayPhase.Deployment:
+                if (ASnapshot.DeploymentLocked != BSnapshot.DeploymentLocked)
+                    return ASnapshot.DeploymentLocked ? B : A;
+                return Participant ?? A;
+
+            case GameplayPhase.Movement:
+                return ResolveCanActParticipant(
+                    ASnapshot.Movement?.CanAct == true,
+                    BSnapshot.Movement?.CanAct == true, A, B);
+
+            case GameplayPhase.PreBattle:
+                return ResolveCanActParticipant(
+                    ASnapshot.PreBattle?.CanAct == true,
+                    BSnapshot.PreBattle?.CanAct == true, A, B);
+
+            case GameplayPhase.Search:
+                return ResolveCanActParticipant(
+                    ASnapshot.Search?.CanAct == true,
+                    BSnapshot.Search?.CanAct == true, A, B);
+
+            case GameplayPhase.Battle:
+                RuntimeParticipant EngagementParticipant =
+                    ResolveEngagementParticipant(
+                        ASnapshot.Battle?.Engagement,
+                        BSnapshot.Battle?.Engagement, A, B);
+                return EngagementParticipant ?? ResolveCanActParticipant(
+                    ASnapshot.Battle?.CanAct == true,
+                    BSnapshot.Battle?.CanAct == true, A, B);
+
+            case GameplayPhase.End:
+                return ResolveCanActParticipant(
+                    ASnapshot.End?.CanAct == true,
+                    BSnapshot.End?.CanAct == true, A, B);
+
+            default:
+                return Participant;
+        }
+    }
+
+
+    private static RuntimeParticipant ResolveEngagementParticipant(
+        GameBattle.EngagementView AView,
+        GameBattle.EngagementView BView,
+        RuntimeParticipant A,
+        RuntimeParticipant B)
+    {
+        if (AView == null || BView == null ||
+            !AView.IsActive || !BView.IsActive)
+            return null;
+
+        RuntimeParticipant Attacker = AView.IsAttacker ? A : B;
+        RuntimeParticipant Defender = AView.IsAttacker ? B : A;
+        if (!AView.AttackerLocked)
+            return Attacker;
+        if (!AView.Resolved)
+            return Defender;
+        return Attacker;
+    }
+
+
+    private static RuntimeParticipant ResolveCanActParticipant(
+        bool ACanAct,
+        bool BCanAct,
+        RuntimeParticipant A,
+        RuntimeParticipant B)
+    {
+        if (ACanAct == BCanAct)
+            return null;
+        return ACanAct ? A : B;
+    }
+
+    private void SetParticipantAccess(
+        GameParticipantAPI.ParticipantAccess Access)
+    {
+        if (Access == null ||
+            ReferenceEquals(_ParticipantAccess, Access))
+            return;
+
+        _ParticipantAccess = Access;
+        ParticipantChanged?.Invoke();
+    }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    [ContextMenu("Development/Control Participant A")]
+    private void DevelopmentControlParticipantA()
+    {
+        SetDevelopmentParticipant(_GameMaster?.ParticipantA);
+    }
+
+    [ContextMenu("Development/Control Participant B")]
+    private void DevelopmentControlParticipantB()
+    {
+        SetDevelopmentParticipant(_GameMaster?.ParticipantB);
+    }
+
+
+    [ContextMenu("Development/Log Participant Snapshot")]
+    private void DevelopmentLogParticipantSnapshot()
+    {
+        string ValidationMessage =
+            "Human Gameplay Input is not initialized.";
+
+        if (!Initialize() ||
+            !_ParticipantAccess.TryGetSnapshot(
+                out ParticipantGameSnapshot Snapshot,
+                out ValidationMessage))
+        {
+            Debug.LogError(
+                $"Participant snapshot could not be read: {ValidationMessage}",
+                this);
+            return;
+        }
+
+        int Absolute = 0;
+        int Obscured = 0;
+        int Fog = 0;
+
+        for (int i = 0; i < Snapshot.Tiles.Length; i++)
+        {
+            switch (Snapshot.Tiles[i].Visibility)
+            {
+                case ParticipantTileVisibility.Absolute:
+                    Absolute++;
+                    break;
+
+                case ParticipantTileVisibility.Obscured:
+                    Obscured++;
+                    break;
+
+                default:
+                    Fog++;
+                    break;
+            }
+        }
+
+        Debug.Log(
+            $"Participant snapshot '{_ParticipantAccess.DisplayName}': " +
+            $"Phase {Snapshot.CurrentPhase}, Turn {Snapshot.TurnNumber}, " +
+            $"Own Units {Snapshot.OwnUnits.Length}, " +
+            $"Visible Enemies {Snapshot.VisibleEnemies.Length}, " +
+            $"Movement {Snapshot.Movement?.MovesCommitted ?? 0}/" +
+            $"{Snapshot.Movement?.MovementLimit ?? 0}, " +
+            $"Movement Ended {Snapshot.Movement?.MovementEnded ?? false}, " +
+            $"Can Act {Snapshot.Movement?.CanAct ?? false}, " +
+            $"Time {(Snapshot.Movement?.SecondsRemaining ?? 0f):0.0}s, " +
+            $"Tiles Absolute {Absolute}, Obscured {Obscured}, Fog {Fog}.",
+            this);
+    }
+
+
+    [ContextMenu("Development/Movement/Commit First Available Unit Furthest Forward")]
+    private void DevelopmentCommitFirstAvailableUnitFurthestForward()
+    {
+        string ValidationMessage =
+            "Human Gameplay Input is not initialized.";
+
+
+        if (!Initialize() ||
+            !_ParticipantAccess.TryGetSnapshot(
+                out ParticipantGameSnapshot Snapshot,
+                out ValidationMessage))
+        {
+            Debug.LogError(
+                $"Development Movement could not read a snapshot: {ValidationMessage}",
+                this
+            );
+
+            return;
+        }
+
+
+        if (Snapshot.Movement == null ||
+            !Snapshot.Movement.CanAct)
+        {
+            Debug.LogError(
+                "Development Movement was rejected because this participant is waiting for Movement priority.",
+                this
+            );
+
+            return;
+        }
+
+
+        for (int i = 0;
+            i < Snapshot.OwnUnits.Length;
+            i++)
+        {
+            ParticipantUnitSnapshot Unit =
+                Snapshot.OwnUnits[i];
+
+
+            if (Unit == null ||
+                Unit.LifeState != RuntimeUnitLifeState.Active ||
+                !Unit.IsOnMap ||
+                HasMoved(
+                    Snapshot.Movement,
+                    Unit.RuntimeUnitID))
+            {
+                continue;
+            }
+
+
+            Vector2Int Forward =
+                FacingDirection(
+                    Unit.Facing
+                );
+
+            Vector2Int Sideways =
+                new Vector2Int(
+                    -Forward.y,
+                    Forward.x
+                );
+
+            Vector2Int Destination =
+                default;
+
+            int BestForwardDistance =
+                0;
+
+            int BestSidewaysDistance =
+                int.MaxValue;
+
+            bool FoundDestination =
+                false;
+
+
+            for (int TileIndex = 0;
+                TileIndex < Snapshot.Tiles.Length;
+                TileIndex++)
+            {
+                Vector2Int Candidate =
+                    Snapshot.Tiles[TileIndex].Coordinate;
+
+                Vector2Int Delta =
+                    Candidate -
+                    Unit.MovementPivotCoordinate;
+
+                int ForwardDistance =
+                    Delta.x * Forward.x +
+                    Delta.y * Forward.y;
+
+
+                if (ForwardDistance <= 0)
+                {
+                    continue;
+                }
+
+
+                int SidewaysDistance =
+                    Mathf.Abs(
+                        Delta.x * Sideways.x +
+                        Delta.y * Sideways.y
+                    );
+
+
+                if ((ForwardDistance < BestForwardDistance) ||
+                    (ForwardDistance == BestForwardDistance &&
+                     SidewaysDistance >= BestSidewaysDistance) ||
+                    !_ParticipantAccess.ValidateMovement(
+                        Unit.RuntimeUnitID,
+                        Candidate,
+                        Unit.Facing,
+                        out GameMovement.MovementPlan Plan,
+                        out ValidationMessage) ||
+                    !Plan.WouldConsumeMove)
+                {
+                    continue;
+                }
+
+
+                Destination = Candidate;
+                BestForwardDistance = ForwardDistance;
+                BestSidewaysDistance = SidewaysDistance;
+                FoundDestination = true;
+            }
+
+
+            if (!FoundDestination)
+            {
+                continue;
+            }
+
+
+            if (!_ParticipantAccess.TryCommitMovement(
+                    Unit.RuntimeUnitID,
+                    Destination,
+                    Unit.Facing,
+                    out GameMovement.CommitResult Result,
+                    out ValidationMessage))
+            {
+                Debug.LogError(
+                    $"Development Movement was rejected: {ValidationMessage}",
+                    this
+                );
+
+                return;
+            }
+
+
+            Debug.Log(
+                $"Development Movement resolved '{Unit.InstanceName}' at " +
+                $"{Result.FinalMovementPivotCoordinate}, facing {Result.FinalFacing}. " +
+                $"Outcome {Result.Outcome}; consumed {Result.MoveConsumed}.",
+                this
+            );
+
+            return;
+        }
+
+
+        Debug.LogError(
+            $"No owned Unit has a known legal forward destination. Last result: {ValidationMessage}",
+            this
+        );
+    }
+
+
+    [ContextMenu("Development/Movement/End Movement")]
+    private void DevelopmentEndMovement()
+    {
+        string ValidationMessage =
+            "Human Gameplay Input is not initialized.";
+
+
+        if (!Initialize() ||
+            !_ParticipantAccess.TryEndMovement(
+                out ValidationMessage))
+        {
+            Debug.LogError(
+                $"Development End Movement was rejected: {ValidationMessage}",
+                this
+            );
+        }
+    }
+
+
+    private static bool HasMoved(
+        GameMovement.ParticipantView Movement,
+        string RuntimeUnitID
+    )
+    {
+        if (Movement?.Units == null)
+        {
+            return false;
+        }
+
+
+        for (int i = 0;
+            i < Movement.Units.Length;
+            i++)
+        {
+            GameMovement.UnitView Unit =
+                Movement.Units[i];
+
+
+            if (Unit != null &&
+                string.Equals(
+                    Unit.RuntimeUnitID,
+                    RuntimeUnitID,
+                    StringComparison.Ordinal))
+            {
+                return
+                    Unit.HasMoved;
+            }
+        }
+
+
+        return false;
+    }
+
+
+    private static Vector2Int FacingDirection(
+        UnitFacing Facing
+    )
+    {
+        switch (Facing)
+        {
+            case UnitFacing.North:
+                return Vector2Int.up;
+
+            case UnitFacing.East:
+                return Vector2Int.right;
+
+            case UnitFacing.South:
+                return Vector2Int.down;
+
+            case UnitFacing.West:
+                return Vector2Int.left;
+
+            default:
+                return Vector2Int.zero;
+        }
+    }
+
+
+    [ContextMenu("Development/Use First Available Submerge Ability")]
+    private void DevelopmentUseSubmergeAbility()
+    {
+        DevelopmentUseFirstAbility(
+            "ability_submerge"
+        );
+    }
+
+
+    [ContextMenu("Development/Use First Available Surface Ability")]
+    private void DevelopmentUseSurfaceAbility()
+    {
+        DevelopmentUseFirstAbility(
+            "ability_surface"
+        );
+    }
+
+
+    private void DevelopmentUseFirstAbility(
+        string AbilityID
+    )
+    {
+        string ValidationMessage =
+            "Human Gameplay Input is not initialized.";
+
+
+        if (!Initialize() ||
+            !_ParticipantAccess.TryGetSnapshot(
+                out ParticipantGameSnapshot Snapshot,
+                out ValidationMessage))
+        {
+            Debug.LogError(
+                $"Development Ability could not read a snapshot: {ValidationMessage}",
+                this
+            );
+
+            return;
+        }
+
+
+        for (int UnitIndex = 0;
+            UnitIndex < Snapshot.OwnUnits.Length;
+            UnitIndex++)
+        {
+            ParticipantUnitSnapshot Unit =
+                Snapshot.OwnUnits[UnitIndex];
+
+
+            for (int AbilityIndex = 0;
+                AbilityIndex < Unit.Abilities.Length;
+                AbilityIndex++)
+            {
+                ParticipantAbilitySnapshot Ability =
+                    Unit.Abilities[AbilityIndex];
+
+
+                if (!string.Equals(
+                        Ability.DefinitionID,
+                        AbilityID,
+                        StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+
+                if (!_ParticipantAccess.TryUseAbility(
+                        Unit.RuntimeUnitID,
+                        Ability.SlotIndex,
+                        out ValidationMessage))
+                {
+                    Debug.LogError(
+                        $"Development Ability '{AbilityID}' was rejected: " +
+                        ValidationMessage,
+                        this
+                    );
+                }
+
+
+                return;
+            }
+        }
+
+
+        Debug.LogError(
+            $"No owned Unit exposes Ability '{AbilityID}'.",
+            this
+        );
+    }
+
+
+    private void SetDevelopmentParticipant(
+        RuntimeParticipant Participant)
+    {
+        if (!Application.isPlaying ||
+            !Initialize() ||
+            Participant == null ||
+            !_GameMaster.ParticipantAPI.TryGetParticipantAccess(
+                Participant,
+                out GameParticipantAPI.ParticipantAccess Access))
+            return;
+
+        SetParticipantAccess(Access);
+        Debug.Log(
+            $"Development control switched to '{Access.DisplayName}'.",
+            this);
+    }
+
+
+#endif
+
+    private bool ValidateReferences()
+    {
+        if (_GameMaster != null)
+            return true;
+
+        Debug.LogError(
+            "Human Gameplay Input has no GameMaster.",
+            this);
+        return false;
+    }
+}
+
+
+
+
+

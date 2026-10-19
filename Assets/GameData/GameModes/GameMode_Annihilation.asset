@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb520ff1444df2442a12ebc804188f9b, type: 3}
+  m_Name: GameMode_Annihilation
+  m_EditorClassIdentifier: Assembly-CSharp::Definition_GameMode
+  _Name: Annihilation
+  _ID: Gamemode_Annihilation
+  _FleetSource: 1
+  _SideA:
+    _ProvidedFleet: {fileID: 11400000, guid: cc4cd890bd2289840949c904bfc154e8, type: 2}
+    _AdmiralEntryID: 
+  _SideB:
+    _ProvidedFleet: {fileID: 11400000, guid: cc4cd890bd2289840949c904bfc154e8, type: 2}
+    _AdmiralEntryID: 
+  _PhaseTimers:
+  - _Phase: 2
+    _Seconds: 60
+  - _Phase: 4
+    _Seconds: 60
+  - _Phase: 8
+    _Seconds: 60
+  - _Phase: 16
+    _Seconds: 90
+  - _Phase: 32
+    _Seconds: 30
+  _VictoryGroups: []
+  _DefeatGroups:
+  - _Name: Annihilated
+    _FleetSizeConditions:
+    - _Subject: 1
+      _Comparison: 1
+      _Value: 0
+    _DesignatedUnitConditions: []
+    _ScoreConditions: []
+    _TurnConditions: []
+    _ScoreAtTurnLimitConditions: []
+  _EnemyUnitDestroyedScoring:
+    _Enabled: 0
+    _PointsPerUnit: 1

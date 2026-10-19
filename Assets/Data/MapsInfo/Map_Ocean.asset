@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: Map_Ocean
   m_EditorClassIdentifier: Assembly-CSharp::MapInfo
   _MapName: Ocean
+<<<<<<< HEAD:Assets/Data/Maps/Map_Ocean.asset
+  _MapID: map_info_ocean
+  _MapSize: {x: 62, y: 32}
+  _MapReference: {fileID: 3056104825821859677, guid: 56518bf6e7b1a744f841ce4641632469, type: 3}
+=======
   _MapID: map_ocean
   _MapSize: {x: 63, y: 31}
   _MapReference: {fileID: 8641100474149514234, guid: 93d14842fb64f9541892195476ca695d, type: 3}
+>>>>>>> origin/dev:Assets/Data/MapsInfo/Map_Ocean.asset
