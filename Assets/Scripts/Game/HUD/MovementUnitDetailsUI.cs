@@ -192,15 +192,18 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             Fitter = Button.gameObject.AddComponent<ContentSizeFitter>();
 
         Fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-        Fitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+        Fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
         LayoutElement ButtonLayout =
             Button.GetComponent<LayoutElement>();
         if (ButtonLayout != null)
         {
             ButtonLayout.minWidth = -1f;
+            ButtonLayout.minHeight = -1f;
             ButtonLayout.preferredWidth = -1f;
+            ButtonLayout.preferredHeight = -1f;
             ButtonLayout.flexibleWidth = 0f;
+            ButtonLayout.flexibleHeight = 0f;
         }
 
         TMP_Text Label = Button.GetComponentInChildren<TMP_Text>(true);
@@ -215,8 +218,11 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         if (LabelLayout != null)
         {
             LabelLayout.minWidth = -1f;
+            LabelLayout.minHeight = -1f;
             LabelLayout.preferredWidth = -1f;
+            LabelLayout.preferredHeight = -1f;
             LabelLayout.flexibleWidth = 0f;
+            LabelLayout.flexibleHeight = 0f;
         }
     }
 
@@ -281,9 +287,7 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
         }
 
         Transform Footer = Find(Template.transform, "Footer");
-        ConfigureCardFooter(
-            Footer,
-            HasUseButton ? 34f : _BadgeHeight);
+        ConfigureCardFooter(Footer, _BadgeHeight);
 
         if (HasUseButton)
         {
@@ -382,7 +386,7 @@ public sealed class MovementUnitDetailsUI : MonoBehaviour
             Layout = Footer.gameObject.AddComponent<LayoutElement>();
 
         Layout.minHeight = Height;
-        Layout.preferredHeight = Height;
+        Layout.preferredHeight = -1f;
         Layout.flexibleHeight = 0f;
     }
 

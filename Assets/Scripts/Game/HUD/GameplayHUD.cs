@@ -203,11 +203,24 @@ public sealed class GameplayHUD :
     [SerializeField] private GameObject _BattleBottomRoot;
     [SerializeField] private MovementUnitDetailsUI _BattleUnitDetails;
 
+    [Header("End - Top")]
+    [SerializeField] private GameObject _EndTopRoot;
+    [SerializeField] private TMP_Text _EndPlayerNameText;
+    [SerializeField] private TMP_Text _EndPhaseText;
+    [SerializeField] private TMP_Text _EndActionCountText;
+    [SerializeField] private TMP_Text _EndTimerText;
+    [SerializeField] private Button _FinishEndButton;
+
+    [Header("End - Bottom")]
+    [SerializeField] private GameObject _EndBottomRoot;
+    [SerializeField] private MovementUnitDetailsUI _EndUnitDetails;
+
 
     private bool _ShowingMovement;
     private bool _ShowingPreBattle;
     private bool _ShowingSearch;
     private bool _ShowingBattle;
+    private bool _ShowingEnd;
     private bool _MovementSelectionVisible;
     private bool _PreBattleTargetingVisible;
 
@@ -283,6 +296,7 @@ public sealed class GameplayHUD :
     public Button BattleDeselectButton => _BattleDeselectButton;
     public Button EngageButton => _EngageButton;
     public Button EndBattleButton => _EndBattleButton;
+    public Button FinishEndButton => _FinishEndButton;
 
 
     public void BindMovementUnitDetails(
@@ -300,6 +314,7 @@ public sealed class GameplayHUD :
             Phase == GameplayPhase.PreBattle ? _PreBattleUnitDetails :
             Phase == GameplayPhase.Search ? _SearchUnitDetails :
             Phase == GameplayPhase.Battle ? _BattleUnitDetails :
+            Phase == GameplayPhase.End ? _EndUnitDetails :
             _MovementUnitDetails;
 
         if (Details != null)
@@ -336,6 +351,9 @@ public sealed class GameplayHUD :
 
         if (_BattleUnitDetails != null)
             _BattleUnitDetails.Clear();
+
+        if (_EndUnitDetails != null)
+            _EndUnitDetails.Clear();
     }
 
 
@@ -373,6 +391,9 @@ public sealed class GameplayHUD :
 
         if (_BattlePlayerNameText != null)
             _BattlePlayerNameText.text = DisplayName;
+
+        if (_EndPlayerNameText != null)
+            _EndPlayerNameText.text = DisplayName;
     }
 
 
@@ -386,6 +407,7 @@ public sealed class GameplayHUD :
 
         _ShowingSearch = false;
         _ShowingBattle = false;
+        _ShowingEnd = false;
 
         _MovementSelectionVisible =
             false;
@@ -401,6 +423,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_PreBattleBottomRoot, false);
         HideSearchRoots();
         HideBattleRoots();
+        HideEndRoots();
         SetObjectVisible(_BottomBarRoot, true);
 
         SetDeploymentObjectsVisible(
@@ -418,6 +441,7 @@ public sealed class GameplayHUD :
 
     public void ShowMovementPhase()
     {
+        bool EnteringPhase = !_ShowingMovement;
         _ShowingMovement =
             true;
 
@@ -426,6 +450,13 @@ public sealed class GameplayHUD :
 
         _ShowingSearch = false;
         _ShowingBattle = false;
+        _ShowingEnd = false;
+
+        if (EnteringPhase)
+        {
+            _MovementSelectionVisible = false;
+            _PreBattleTargetingVisible = false;
+        }
 
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
@@ -436,6 +467,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_PreBattleBottomRoot, false);
         HideSearchRoots();
         HideBattleRoots();
+        HideEndRoots();
         ApplyMovementSelectionVisibility();
 
         SetDeploymentObjectsVisible(
@@ -481,10 +513,18 @@ public sealed class GameplayHUD :
 
     public void ShowPreBattlePhase()
     {
+        bool EnteringPhase = !_ShowingPreBattle;
         _ShowingMovement = false;
         _ShowingPreBattle = true;
         _ShowingSearch = false;
         _ShowingBattle = false;
+        _ShowingEnd = false;
+
+        if (EnteringPhase)
+        {
+            _MovementSelectionVisible = false;
+            _PreBattleTargetingVisible = false;
+        }
 
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
@@ -495,6 +535,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_PreBattleTopRoot, true);
         HideSearchRoots();
         HideBattleRoots();
+        HideEndRoots();
         SetDeploymentObjectsVisible(false);
         ApplyMovementSelectionVisibility();
 
@@ -520,6 +561,7 @@ public sealed class GameplayHUD :
         _ShowingPreBattle = false;
         _ShowingSearch = true;
         _ShowingBattle = false;
+        _ShowingEnd = false;
 
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
@@ -535,12 +577,14 @@ public sealed class GameplayHUD :
         SetObjectVisible(_SearchBottomRoot, false);
         SetObjectVisible(_BottomBarRoot, false);
         HideBattleRoots();
+        HideEndRoots();
         SetDeploymentObjectsVisible(false);
 
         if (_SearchPhaseText != null)
             _SearchPhaseText.text = "3 Search";
         SetButtonLabel(_EndSearchButton, "END SEARCH");
         SetButtonLabel(_CommitSearchButton, "SEARCH");
+        ConfigureSearchOverlayLayout();
         ConfigureSingleLineTopText(_SearchPhaseText);
         ConfigureSingleLineTopText(_SearchCountText);
         ConfigureSingleLineTopText(_SearchTimerText);
@@ -600,6 +644,7 @@ public sealed class GameplayHUD :
         _ShowingPreBattle = false;
         _ShowingSearch = false;
         _ShowingBattle = true;
+        _ShowingEnd = false;
 
         SetObjectVisible(_DeploymentTopRoot, false);
         SetObjectVisible(_DeploymentOverlayRoot, false);
@@ -616,6 +661,7 @@ public sealed class GameplayHUD :
         SetObjectVisible(_BattleBottomRoot, false);
         SetObjectVisible(_BottomBarRoot, false);
         SetDeploymentObjectsVisible(false);
+        HideEndRoots();
 
         if (_BattlePhaseText != null)
             _BattlePhaseText.text = "4 Battle";
@@ -699,6 +745,123 @@ public sealed class GameplayHUD :
         SetObjectVisible(_BattleTopRoot, false);
         SetObjectVisible(_BattleOverlayRoot, false);
         SetObjectVisible(_BattleBottomRoot, false);
+    }
+
+
+    public void ShowEndPhase()
+    {
+        _ShowingMovement = false;
+        _ShowingPreBattle = false;
+        _ShowingSearch = false;
+        _ShowingBattle = false;
+        _ShowingEnd = true;
+
+        SetObjectVisible(_DeploymentTopRoot, false);
+        SetObjectVisible(_DeploymentOverlayRoot, false);
+        SetObjectVisible(_DeploymentBottomRoot, false);
+        SetObjectVisible(_MovementTopRoot, false);
+        SetObjectVisible(_MovementOverlayRoot, false);
+        SetObjectVisible(_MovementBottomRoot, false);
+        SetObjectVisible(_PreBattleTopRoot, false);
+        SetObjectVisible(_PreBattleOverlayRoot, false);
+        SetObjectVisible(_PreBattleBottomRoot, false);
+        HideSearchRoots();
+        HideBattleRoots();
+        SetObjectVisible(_EndTopRoot, true);
+        SetObjectVisible(_EndBottomRoot, false);
+        SetObjectVisible(_BottomBarRoot, false);
+        SetDeploymentObjectsVisible(false);
+
+        if (_EndPhaseText != null)
+            _EndPhaseText.text = "5 End";
+        SetButtonLabel(_FinishEndButton, "END TURN");
+        ConfigureSingleLineTopText(_EndPhaseText);
+        ConfigureSingleLineTopText(_EndActionCountText);
+        ConfigureSingleLineTopText(_EndTimerText);
+        ConfigureTopBarRightSpacing(_EndActionCountText);
+        ConfigureContentWidthButton(_FinishEndButton);
+    }
+
+
+    public void SetEndStatus(int ActionsCommitted, float SecondsRemaining,
+        bool CanAct)
+    {
+        if (_EndActionCountText != null)
+        {
+            _EndActionCountText.text =
+                $"Actions {Mathf.Max(0, ActionsCommitted)}";
+            ConfigureSingleLineTopText(_EndActionCountText);
+        }
+        if (_EndTimerText != null)
+        {
+            int TotalSeconds = Mathf.Max(0,
+                Mathf.CeilToInt(SecondsRemaining));
+            _EndTimerText.text =
+                $"{TotalSeconds / 60:00}:{TotalSeconds % 60:00}";
+            ConfigureSingleLineTopText(_EndTimerText);
+        }
+        SetButtonInteractable(_FinishEndButton, CanAct);
+    }
+
+
+    public void SetMatchConclusion(ParticipantMatchStateSnapshot Match)
+    {
+        if (Match == null || !Match.MatchComplete)
+            return;
+
+        if (_EndPhaseText != null)
+        {
+            switch (Match.Outcome)
+            {
+                case ParticipantMatchOutcome.Victory:
+                    _EndPhaseText.text = "VICTORY";
+                    break;
+                case ParticipantMatchOutcome.Defeat:
+                    _EndPhaseText.text = "DEFEAT";
+                    break;
+                case ParticipantMatchOutcome.Draw:
+                    _EndPhaseText.text = "DRAW";
+                    break;
+                default:
+                    _EndPhaseText.text = "MATCH COMPLETE";
+                    break;
+            }
+            ConfigureSingleLineTopText(_EndPhaseText);
+        }
+
+        if (_EndActionCountText != null)
+        {
+            _EndActionCountText.text =
+                $"Score {Match.OwnScore} / {Match.OpponentScore}";
+            ConfigureSingleLineTopText(_EndActionCountText);
+        }
+
+        if (_EndTimerText != null)
+        {
+            _EndTimerText.text =
+                $"Turn {Mathf.Max(0, Match.CompletedTurnNumber)}";
+            ConfigureSingleLineTopText(_EndTimerText);
+        }
+
+        SetButtonLabel(_FinishEndButton, "RETURN TO LOBBY");
+        ConfigureContentWidthButton(_FinishEndButton);
+        SetButtonInteractable(_FinishEndButton, true);
+    }
+
+
+    public void SetEndSelectionVisible(bool UnitSelected)
+    {
+        if (!_ShowingEnd)
+            return;
+        SetObjectVisible(_EndBottomRoot, UnitSelected);
+        SetObjectVisible(_BottomBarRoot, UnitSelected);
+    }
+
+
+    private void HideEndRoots()
+    {
+        SetObjectVisible(_EndTopRoot, false);
+        SetObjectVisible(_EndBottomRoot, false);
     }
 
 
@@ -901,6 +1064,103 @@ public sealed class GameplayHUD :
         RectTransform Parent = Button.transform.parent as RectTransform;
         if (LayoutChanged && Parent != null)
             LayoutRebuilder.MarkLayoutForRebuild(Parent);
+    }
+
+
+    private void ConfigureSearchOverlayLayout()
+    {
+        if (_SearchOverlayRoot == null)
+            return;
+
+        RectTransform Root = _SearchOverlayRoot.transform as RectTransform;
+        if (Root != null)
+        {
+            Root.anchorMin = new Vector2(1f, 0f);
+            Root.anchorMax = new Vector2(1f, 0f);
+            Root.pivot = new Vector2(1f, 0f);
+            Root.anchoredPosition = Vector2.zero;
+            Root.sizeDelta = Vector2.zero;
+        }
+
+        VerticalLayoutGroup RootLayout =
+            _SearchOverlayRoot.GetComponent<VerticalLayoutGroup>();
+        if (RootLayout != null)
+        {
+            RootLayout.padding = new RectOffset(10, 10, 10, 10);
+            RootLayout.spacing = 8f;
+            RootLayout.childAlignment = TextAnchor.MiddleCenter;
+            RootLayout.childForceExpandWidth = false;
+            RootLayout.childForceExpandHeight = false;
+        }
+
+        Transform ControlsRow = FindDescendant(
+            _SearchOverlayRoot.transform, "ControlsRow");
+        LayoutElement ControlsLayout = ControlsRow != null
+            ? ControlsRow.GetComponent<LayoutElement>() : null;
+        if (ControlsLayout != null)
+        {
+            ControlsLayout.minWidth = -1f;
+            ControlsLayout.minHeight = -1f;
+            ControlsLayout.preferredWidth = -1f;
+            ControlsLayout.preferredHeight = -1f;
+            ControlsLayout.flexibleWidth = 0f;
+            ControlsLayout.flexibleHeight = 0f;
+        }
+
+        ConfigurePaddedContentButton(_CommitSearchButton, 10);
+        if (Root != null)
+            LayoutRebuilder.ForceRebuildLayoutImmediate(Root);
+    }
+
+
+    private static void ConfigurePaddedContentButton(Button Button, int Padding)
+    {
+        if (Button == null)
+            return;
+
+        HorizontalLayoutGroup Group =
+            Button.GetComponent<HorizontalLayoutGroup>();
+        if (Group == null)
+            Group = Button.gameObject.AddComponent<HorizontalLayoutGroup>();
+        Group.padding = new RectOffset(Padding, Padding, Padding, Padding);
+        Group.childAlignment = TextAnchor.MiddleCenter;
+        Group.childControlWidth = true;
+        Group.childControlHeight = true;
+        Group.childForceExpandWidth = false;
+        Group.childForceExpandHeight = false;
+
+        ContentSizeFitter Fitter = Button.GetComponent<ContentSizeFitter>();
+        if (Fitter == null)
+            Fitter = Button.gameObject.AddComponent<ContentSizeFitter>();
+        Fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        Fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        LayoutElement Layout = Button.GetComponent<LayoutElement>();
+        if (Layout == null)
+            Layout = Button.gameObject.AddComponent<LayoutElement>();
+        Layout.minWidth = -1f;
+        Layout.minHeight = -1f;
+        Layout.preferredWidth = -1f;
+        Layout.preferredHeight = -1f;
+        Layout.flexibleWidth = 0f;
+        Layout.flexibleHeight = 0f;
+
+        TMP_Text Label = Button.GetComponentInChildren<TMP_Text>(true);
+        if (Label == null)
+            return;
+        Label.textWrappingMode = TextWrappingModes.NoWrap;
+        Label.overflowMode = TextOverflowModes.Overflow;
+        Label.alignment = TextAlignmentOptions.Center;
+        LayoutElement LabelLayout = Label.GetComponent<LayoutElement>();
+        if (LabelLayout != null)
+        {
+            LabelLayout.minWidth = -1f;
+            LabelLayout.minHeight = -1f;
+            LabelLayout.preferredWidth = -1f;
+            LabelLayout.preferredHeight = -1f;
+            LabelLayout.flexibleWidth = 0f;
+            LabelLayout.flexibleHeight = 0f;
+        }
     }
 
 

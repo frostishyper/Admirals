@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 18008987}
   - component: {fileID: 18008988}
   - component: {fileID: 18008989}
+  - component: {fileID: 18008990}
   m_Layer: 0
   m_Name: HumanGameplayInput
   m_TagString: Untagged
@@ -211,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanGameplayInput
   _GameMaster: {fileID: 1706890883}
+  _AutomaticallyFollowActionParticipant: 1
 --- !u!114 &18008984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +255,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParticipantUnitPresenter
   _UnitPresentationCatalog: {fileID: 11400000, guid: d1f92b22d07a8d94facb7f63e339f3b9, type: 2}
+  _EnemyFootprintTile: {fileID: 11400000, guid: 6b268ab92bae77c4cb9e23608dec1f07, type: 2}
+  _EnemyFootprintSortingOrder: 45
   _PositionInterpolationSeconds: 0.15
   _TranslationStepSeconds: 0.18
   _TurnStepSeconds: 0.12
@@ -339,9 +343,6 @@ MonoBehaviour:
   _AttackerRollText: {fileID: 825740023}
   _DefenderRollText: {fileID: 825740021}
   _ContinueButton: {fileID: 825740018}
-  _HandoffRoot: {fileID: 825740011}
-  _HandoffText: {fileID: 825740010}
-  _HandoffButton: {fileID: 825740009}
   _AirDomainBadge: {fileID: -6713955398357139781, guid: 311328d4affd1f5478583f9b225240ba, type: 3}
   _SurfaceDomainBadge: {fileID: 7869926609406975850, guid: 311328d4affd1f5478583f9b225240ba, type: 3}
   _SubsurfaceDomainBadge: {fileID: 8721532142104538885, guid: 311328d4affd1f5478583f9b225240ba, type: 3}
@@ -369,6 +370,23 @@ MonoBehaviour:
   _AirContactTile: {fileID: 11400000, guid: a0e7560f8b33c2e4dad0068d60332047, type: 2}
   _SurfaceContactTile: {fileID: 11400000, guid: e5c4fc8a1d003dc4ca3dcc60c05ed438, type: 2}
   _SubsurfaceContactTile: {fileID: 11400000, guid: 81319faef942a3c46844f9788272c9bc, type: 2}
+--- !u!114 &18008990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18008979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24adf1ca4f1b4854a4bb0f3167bf0461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EndMapInteraction
+  _GameMaster: {fileID: 1706890883}
+  _HumanGameplayInput: {fileID: 18008983}
+  _UnitPresentationCatalog: {fileID: 11400000, guid: d1f92b22d07a8d94facb7f63e339f3b9, type: 2}
+  _GameplayCamera: {fileID: 1121756988}
+  _GameplayHUD: {fileID: 116287887}
 --- !u!1 &116287883 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8838907008211768191, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
@@ -464,6 +482,14 @@ MonoBehaviour:
   _BattleTargetText: {fileID: 187683797}
   _BattleBottomRoot: {fileID: 187683794}
   _BattleUnitDetails: {fileID: 187683795}
+  _EndTopRoot: {fileID: 1218056163}
+  _EndPlayerNameText: {fileID: 1218056162}
+  _EndPhaseText: {fileID: 1218056161}
+  _EndActionCountText: {fileID: 1218056160}
+  _EndTimerText: {fileID: 1218056159}
+  _FinishEndButton: {fileID: 1218056158}
+  _EndBottomRoot: {fileID: 1218056156}
+  _EndUnitDetails: {fileID: 1218056157}
 --- !u!1 &187683794 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2428674036310009628, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
@@ -915,33 +941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 102de213b5eaae644bda1b40de3ddac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementUnitDetailsUI
---- !u!114 &825740009 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2851870503269257620, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
-  m_PrefabInstance: {fileID: 8108232747181557515}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
---- !u!114 &825740010 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4728523159197845434, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
-  m_PrefabInstance: {fileID: 8108232747181557515}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &825740011 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4058396747914058209, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
-  m_PrefabInstance: {fileID: 8108232747181557515}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &825740013 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2084122387763444611, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
@@ -1465,6 +1464,82 @@ MonoBehaviour:
   _ZoomSensitivity: 1.5
   _ZoomSmoothTime: 0.1
   _MapPadding: 3
+--- !u!1 &1218056156 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5559358801478584149, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+  m_PrefabInstance: {fileID: 8108232747181557515}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1218056157 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2725104192634326054, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+  m_PrefabInstance: {fileID: 8108232747181557515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218056156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102de213b5eaae644bda1b40de3ddac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementUnitDetailsUI
+--- !u!114 &1218056158 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6904181134220728365, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+  m_PrefabInstance: {fileID: 8108232747181557515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &1218056159 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4440077207044722556, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+  m_PrefabInstance: {fileID: 8108232747181557515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &1218056160 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5129415593821111387, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+  m_PrefabInstance: {fileID: 8108232747181557515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &1218056161 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7852805985289995195, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+  m_PrefabInstance: {fileID: 8108232747181557515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &1218056162 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6347199272816386060, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+  m_PrefabInstance: {fileID: 8108232747181557515}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &1218056163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1540753590040844709, guid: c8db8157aad75c749b045c3595da2c18, type: 3}
+  m_PrefabInstance: {fileID: 8108232747181557515}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1252368073 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 201820771286553241, guid: c8db8157aad75c749b045c3595da2c18, type: 3}

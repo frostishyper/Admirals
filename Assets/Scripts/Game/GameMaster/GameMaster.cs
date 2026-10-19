@@ -17,6 +17,13 @@ using UnityEngine;
 public class GameMaster :
     MonoBehaviour
 {
+    private enum ConditionEvaluationMoment
+    {
+        Immediate = 0,
+        EndPhase = 1
+    }
+
+
     private MatchConfig _MatchConfig;
 
     private Definition_GameMode _GameMode;
@@ -50,6 +57,8 @@ public class GameMaster :
 
     private GameBattle _GameBattle;
 
+    private GameEnd _GameEnd;
+
     private GameParticipantAPI _ParticipantAPI;
 
 
@@ -64,6 +73,16 @@ public class GameMaster :
     private RuntimeParticipant _FirstPlayer;
 
     private int _TurnNumber;
+    private int _CompletedTurnNumber;
+
+    private int _ParticipantAInitialFleetSize;
+    private int _ParticipantBInitialFleetSize;
+    private int _ParticipantAScore;
+    private int _ParticipantBScore;
+    private bool _MatchComplete;
+    private RuntimeParticipant _WinningParticipant;
+    private bool _MatchDraw;
+    private string _MatchResolutionReason = string.Empty;
 
 
     public MatchConfig MatchConfig =>
@@ -122,6 +141,10 @@ public class GameMaster :
         _GameBattle;
 
 
+    public GameEnd GameEnd =>
+        _GameEnd;
+
+
     public GameParticipantAPI ParticipantAPI =>
         _ParticipantAPI;
 
@@ -144,6 +167,18 @@ public class GameMaster :
 
     public int TurnNumber =>
         _TurnNumber;
+
+
+    public bool MatchComplete =>
+        _MatchComplete;
+
+
+    public RuntimeParticipant WinningParticipant =>
+        _WinningParticipant;
+
+
+    public bool MatchDraw =>
+        _MatchDraw;
 
 
     private void Start()
@@ -213,6 +248,7 @@ public class GameMaster :
             !InitializePreBattleState() ||
             !InitializeSearchState() ||
             !InitializeBattleState() ||
+            !InitializeEndState() ||
             !InitializeParticipantAPI())
         {
             return false;
@@ -645,6 +681,15 @@ public class GameMaster :
         }
 
 
+        if (_CurrentPhase == GameplayPhase.End &&
+            _GameEnd == null)
+        {
+            ValidationMessage =
+                "End state is unavailable.";
+            return false;
+        }
+
+
         if (_CurrentPhase == GameplayPhase.PreBattle &&
             !_GamePreBattle.CanUseAbility(
                 Participant,
@@ -658,6 +703,17 @@ public class GameMaster :
 
         if (_CurrentPhase == GameplayPhase.Search &&
             !_GameSearch.CanUseAbility(
+                Participant,
+                RuntimeUnitID,
+                AbilitySlotIndex,
+                out ValidationMessage))
+        {
+            return false;
+        }
+
+
+        if (_CurrentPhase == GameplayPhase.End &&
+            !_GameEnd.CanUseAbility(
                 Participant,
                 RuntimeUnitID,
                 AbilitySlotIndex,
@@ -772,9 +828,10 @@ public class GameMaster :
         }
 
 
-        if (!_GameUnitEffects.TryApplyTagActions(
+        if (!_GameUnitEffects.TryApplyActions(
                 Unit,
                 Ability.AbilityOutcome.Actions,
+                out _,
                 out ValidationMessage))
         {
             return false;
@@ -801,6 +858,16 @@ public class GameMaster :
         }
 
 
+        if (_CurrentPhase == GameplayPhase.End)
+        {
+            _GameEnd.CommitAbilityUse(
+                Participant,
+                RuntimeUnitID,
+                AbilitySlotIndex
+            );
+        }
+
+
         if (!_GameKnowledge.Refresh(
                 _CurrentPhase,
                 out string KnowledgeMessage))
@@ -811,6 +878,11 @@ public class GameMaster :
                 this
             );
         }
+
+        EvaluateImmediateMatchConclusion(false);
+
+        if (_MatchComplete && _CurrentPhase == GameplayPhase.End)
+            _GameEnd?.TerminatePhase();
 
 
         Debug.Log(
@@ -939,6 +1011,8 @@ public class GameMaster :
             $"Facing: {Result.FinalFacing}; Move consumed: {Result.MoveConsumed}.",
             this
         );
+
+        EvaluateImmediateMatchConclusion(false);
 
 
         return true;
@@ -1142,6 +1216,8 @@ public class GameMaster :
 
         _GameKnowledge.Refresh(_CurrentPhase, out _);
 
+        EvaluateImmediateMatchConclusion(false);
+
         Debug.Log(
             $"'{Participant.Participant.DisplayName}' deployed '{DeployedUnit.InstanceName}' at {MovementPivotCoordinate}.",
             this
@@ -1314,7 +1390,8 @@ public class GameMaster :
         out string ValidationMessage)
     {
         ValidationMessage = "The Match is not accepting engagement cancellation.";
-        if (_CurrentPhase != GameplayPhase.Battle || _GameBattle == null ||
+        if (_MatchComplete || _CurrentPhase != GameplayPhase.Battle ||
+            _GameBattle == null ||
             !_GameBattle.TryCancelEngagement(Participant, out ValidationMessage))
             return false;
         return true;
@@ -1326,7 +1403,8 @@ public class GameMaster :
         out string ValidationMessage)
     {
         ValidationMessage = "Battle is not accepting an attack lock-in.";
-        return _CurrentPhase == GameplayPhase.Battle && _GameBattle != null &&
+        return !_MatchComplete &&
+            _CurrentPhase == GameplayPhase.Battle && _GameBattle != null &&
             _GameBattle.TryLockAttack(Participant, Kind, SlotIndex,
                 out ValidationMessage);
     }
@@ -1340,11 +1418,13 @@ public class GameMaster :
     {
         Resolution = null;
         ValidationMessage = "Battle is not accepting a defense lock-in.";
-        if (_CurrentPhase != GameplayPhase.Battle || _GameBattle == null ||
+        if (_MatchComplete || _CurrentPhase != GameplayPhase.Battle ||
+            _GameBattle == null ||
             !_GameBattle.TryLockDefense(Participant, DefenseKind,
                 DefenseSlotIndex, SupportRuntimeUnitID, SupportKind,
                 SupportSlotIndex, out Resolution, out ValidationMessage))
             return false;
+        EvaluateImmediateMatchConclusion(true);
         if (!_GameKnowledge.Refresh(_CurrentPhase, out string KnowledgeMessage))
             Debug.LogError($"Knowledge refresh failed after combat: {KnowledgeMessage}", this);
         return true;
@@ -1355,8 +1435,24 @@ public class GameMaster :
         out string ValidationMessage)
     {
         ValidationMessage = "The engagement is not ready to continue.";
-        return _CurrentPhase == GameplayPhase.Battle && _GameBattle != null &&
-            _GameBattle.TryContinueEngagement(Participant, out ValidationMessage);
+        if (_CurrentPhase != GameplayPhase.Battle || _GameBattle == null ||
+            !_GameBattle.TryContinueEngagement(Participant, out ValidationMessage))
+            return false;
+
+        if (_MatchComplete)
+        {
+            _CurrentPhase = GameplayPhase.End;
+            if (!_GameKnowledge.Refresh(_CurrentPhase,
+                    out string KnowledgeMessage))
+            {
+                Debug.LogError(
+                    $"GameKnowledge refresh failed after the final engagement: " +
+                    KnowledgeMessage,
+                    this);
+            }
+        }
+
+        return true;
     }
 
 
@@ -1369,6 +1465,36 @@ public class GameMaster :
             return false;
         if (AllParticipantsEnded)
             CompleteBattlePhase();
+        return true;
+    }
+
+
+    internal bool TryGetEndView(RuntimeParticipant Participant,
+        out GameEnd.ParticipantView View)
+    {
+        View = null;
+        return _GameEnd != null &&
+            _GameEnd.TryGetView(Participant, out View);
+    }
+
+
+    internal bool TryFinishEndPhase(RuntimeParticipant Participant,
+        out string ValidationMessage)
+    {
+        if (!CanAcceptEndInput(Participant, out ValidationMessage) ||
+            !_GameEnd.TryFinishParticipant(Participant,
+                out bool AllParticipantsFinished,
+                out ValidationMessage))
+            return false;
+
+        Debug.Log(
+            $"'{Participant.Participant.DisplayName}' finished End for Turn {_TurnNumber}.",
+            this);
+
+        if (AllParticipantsFinished)
+            CompleteEndPhase();
+
+        ValidationMessage = string.Empty;
         return true;
     }
 
@@ -1439,6 +1565,25 @@ public class GameMaster :
 
             if (AllParticipantsEnded)
                 CompleteBattlePhase();
+
+            _ParticipantAPI?.NotifySnapshotsChanged();
+            return;
+        }
+
+
+        if (_CurrentPhase == GameplayPhase.End &&
+            _GameEnd != null &&
+            _GameEnd.Tick(
+                Time.deltaTime,
+                out TimedOutParticipant,
+                out AllParticipantsEnded))
+        {
+            Debug.Log(
+                $"'{TimedOutParticipant.Participant.DisplayName}' ran out of End time on Turn {_TurnNumber}.",
+                this);
+
+            if (AllParticipantsEnded)
+                CompleteEndPhase();
 
             _ParticipantAPI?.NotifySnapshotsChanged();
             return;
@@ -1599,13 +1744,612 @@ public class GameMaster :
     private void CompleteBattlePhase()
     {
         _CurrentPhase = GameplayPhase.End;
+
+        if (!_GameUnitEffects.TryResolveEndPhase(
+                out GameUnitEffects.EndPhaseReport Report,
+                out string UpkeepMessage))
+        {
+            Debug.LogError(
+                $"End-phase upkeep failed: {UpkeepMessage}",
+                this);
+        }
+
+        RefreshScores();
+        EvaluateImmediateMatchConclusion(false);
+
+        if (!_MatchComplete)
+        {
+            float EndSeconds = 60f;
+            if (_GameMode.TryGetPhaseTimeLimit(
+                    GameplayPhase.End,
+                    out float AuthoredEndSeconds))
+                EndSeconds = AuthoredEndSeconds;
+
+            if (!_GameEnd.BeginPhase(
+                    _FirstPlayer,
+                    EndSeconds,
+                    out string EndMessage))
+            {
+                Debug.LogError(
+                    $"End phase initialization failed: {EndMessage}",
+                    this);
+            }
+        }
+
         if (!_GameKnowledge.Refresh(_CurrentPhase, out string KnowledgeMessage))
             Debug.LogError(
                 $"GameKnowledge refresh failed after Battle: {KnowledgeMessage}",
                 this);
+
+        if (_MatchComplete)
+        {
+            Debug.Log(
+                $"Match concluded during End upkeep on Turn {_TurnNumber}: " +
+                _MatchResolutionReason,
+                this);
+        }
+        else
+        {
+            Debug.Log(
+                $"Both participants ended Battle. Turn {_TurnNumber} entered End. " +
+                $"Upkeep: {Report?.UnitsProcessed ?? 0} Units, " +
+                $"{Report?.UnitsDestroyed ?? 0} destroyed, " +
+                $"{Report?.WeaponChargesRestored ?? 0} Weapon charges and " +
+                $"{Report?.SystemChargesRestored ?? 0} System charges restored.",
+                this);
+        }
+    }
+
+
+    private void CompleteEndPhase()
+    {
+        _CompletedTurnNumber = _TurnNumber;
+        RefreshScores();
+
+        bool EvaluationSucceeded = TryEvaluateMatchConclusion(
+            ConditionEvaluationMoment.EndPhase,
+            out bool MatchConcluded,
+            out string EvaluationMessage);
+
+        if (!EvaluationSucceeded)
+        {
+            Debug.LogError(
+                $"GameMode condition evaluation failed: {EvaluationMessage}",
+                this);
+            return;
+        }
+
+        if (MatchConcluded)
+        {
+            if (!_GameKnowledge.Refresh(_CurrentPhase,
+                    out string KnowledgeMessage))
+            {
+                Debug.LogError(
+                    $"GameKnowledge refresh failed after End: {KnowledgeMessage}",
+                    this);
+            }
+
+            Debug.Log(
+                $"Match concluded at the end of Turn {_TurnNumber}: " +
+                _MatchResolutionReason,
+                this);
+            return;
+        }
+
+        BeginNextTurn();
+    }
+
+
+    private void BeginNextTurn()
+    {
+        RuntimeParticipant NextFirstPlayer = ReferenceEquals(
+                _FirstPlayer, _ParticipantA)
+            ? _ParticipantB
+            : _ParticipantA;
+        int NextTurnNumber = _TurnNumber + 1;
+
+        float MovementSeconds = 60f;
+        if (_GameMode.TryGetPhaseTimeLimit(
+                GameplayPhase.Movement,
+                out float AuthoredMovementSeconds))
+        {
+            MovementSeconds = AuthoredMovementSeconds;
+        }
+
+        if (!_GameMovement.BeginPhase(
+                NextFirstPlayer,
+                MovementSeconds,
+                out string MovementMessage))
+        {
+            Debug.LogError(
+                $"Turn {NextTurnNumber} Movement initialization failed: " +
+                MovementMessage,
+                this);
+            return;
+        }
+
+        _FirstPlayer = NextFirstPlayer;
+        _TurnNumber = NextTurnNumber;
+        _CurrentPhase = GameplayPhase.Movement;
+
+        // Search contacts and searched-tile visibility last through the full
+        // turn, including End, then expire before the next Movement begins.
+        _GameKnowledge.ClearTurnSearchKnowledge();
+
+        if (!_GameKnowledge.Refresh(_CurrentPhase,
+                out string KnowledgeMessage))
+        {
+            Debug.LogError(
+                $"GameKnowledge refresh failed for Turn {_TurnNumber}: " +
+                KnowledgeMessage,
+                this);
+        }
+
         Debug.Log(
-            $"Both participants ended Battle. Turn {_TurnNumber} entered End.",
+            $"Turn {_CompletedTurnNumber} completed. Turn {_TurnNumber} " +
+            $"entered Movement with " +
+            $"'{_FirstPlayer.Participant.DisplayName}' holding first-player priority.",
             this);
+    }
+
+
+    private void RefreshScores()
+    {
+        _ParticipantAScore = 0;
+        _ParticipantBScore = 0;
+
+        EnemyUnitDestroyedScoringRule Rule =
+            _GameMode?.EnemyUnitDestroyedScoring;
+        if (Rule == null || !Rule.Enabled || _GameUnits == null)
+            return;
+
+        int ParticipantALosses = Mathf.Max(0,
+            _ParticipantAInitialFleetSize -
+            _GameUnits.ParticipantA.RemainingFleetSize);
+        int ParticipantBLosses = Mathf.Max(0,
+            _ParticipantBInitialFleetSize -
+            _GameUnits.ParticipantB.RemainingFleetSize);
+
+        _ParticipantAScore = ParticipantBLosses * Rule.PointsPerUnit;
+        _ParticipantBScore = ParticipantALosses * Rule.PointsPerUnit;
+    }
+
+
+    private ParticipantMatchStateSnapshot CreateParticipantMatchState(
+        RuntimeParticipant Participant)
+    {
+        bool IsParticipantA = ReferenceEquals(Participant, _ParticipantA);
+        int OwnScore = IsParticipantA
+            ? _ParticipantAScore
+            : _ParticipantBScore;
+        int OpponentScore = IsParticipantA
+            ? _ParticipantBScore
+            : _ParticipantAScore;
+
+        ParticipantMatchOutcome Outcome = ParticipantMatchOutcome.Ongoing;
+        if (_MatchComplete)
+        {
+            if (_MatchDraw)
+                Outcome = ParticipantMatchOutcome.Draw;
+            else if (ReferenceEquals(Participant, _WinningParticipant))
+                Outcome = ParticipantMatchOutcome.Victory;
+            else
+                Outcome = ParticipantMatchOutcome.Defeat;
+        }
+
+        return new ParticipantMatchStateSnapshot(
+            _MatchComplete,
+            Outcome,
+            OwnScore,
+            OpponentScore,
+            _CompletedTurnNumber,
+            _MatchResolutionReason);
+    }
+
+
+    private bool TryEvaluateMatchConclusion(
+        ConditionEvaluationMoment EvaluationMoment,
+        out bool MatchConcluded,
+        out string ValidationMessage)
+    {
+        MatchConcluded = _MatchComplete;
+        if (_MatchComplete)
+        {
+            ValidationMessage = string.Empty;
+            return true;
+        }
+
+        if (_GameMode == null || _GameUnits == null ||
+            _ParticipantA == null || _ParticipantB == null)
+        {
+            ValidationMessage =
+                "GameMode, Unit state, and both participants are required.";
+            return false;
+        }
+
+        if (!TryEvaluateAnyConditionGroup(_ParticipantA,
+                EvaluationMoment,
+                _GameMode.VictoryGroups, out bool AVictory,
+                out string AVictoryGroup, out ValidationMessage) ||
+            !TryEvaluateAnyConditionGroup(_ParticipantA,
+                EvaluationMoment,
+                _GameMode.DefeatGroups, out bool ADefeat,
+                out string ADefeatGroup, out ValidationMessage) ||
+            !TryEvaluateAnyConditionGroup(_ParticipantB,
+                EvaluationMoment,
+                _GameMode.VictoryGroups, out bool BVictory,
+                out string BVictoryGroup, out ValidationMessage) ||
+            !TryEvaluateAnyConditionGroup(_ParticipantB,
+                EvaluationMoment,
+                _GameMode.DefeatGroups, out bool BDefeat,
+                out string BDefeatGroup, out ValidationMessage))
+        {
+            return false;
+        }
+
+        bool ParticipantAWins = AVictory || BDefeat;
+        bool ParticipantBWins = BVictory || ADefeat;
+        if (!ParticipantAWins && !ParticipantBWins)
+        {
+            ValidationMessage = string.Empty;
+            return true;
+        }
+
+        _MatchComplete = true;
+        MatchConcluded = true;
+
+        string AReason = AVictory
+            ? $"Victory group '{AVictoryGroup}'"
+            : $"opponent Defeat group '{BDefeatGroup}'";
+        string BReason = BVictory
+            ? $"Victory group '{BVictoryGroup}'"
+            : $"opponent Defeat group '{ADefeatGroup}'";
+
+        if (ParticipantAWins && ParticipantBWins)
+        {
+            _MatchDraw = true;
+            _WinningParticipant = null;
+            _MatchResolutionReason =
+                $"Draw: both participants produced a winning result " +
+                $"({AReason}; {BReason}).";
+        }
+        else
+        {
+            _MatchDraw = false;
+            _WinningParticipant = ParticipantAWins
+                ? _ParticipantA
+                : _ParticipantB;
+            string Reason = ParticipantAWins ? AReason : BReason;
+            _MatchResolutionReason =
+                $"'{_WinningParticipant.Participant.DisplayName}' won via {Reason}.";
+        }
+
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
+    private bool TryEvaluateAnyConditionGroup(
+        RuntimeParticipant Perspective,
+        ConditionEvaluationMoment EvaluationMoment,
+        GameModeConditionGroup[] Groups,
+        out bool Satisfied,
+        out string SatisfiedGroupName,
+        out string ValidationMessage)
+    {
+        Satisfied = false;
+        SatisfiedGroupName = string.Empty;
+        ValidationMessage = string.Empty;
+
+        if (Groups == null || Groups.Length == 0)
+            return true;
+
+        for (int i = 0; i < Groups.Length; i++)
+        {
+            GameModeConditionGroup Group = Groups[i];
+            if (Group == null)
+            {
+                ValidationMessage = $"Condition Group {i} is missing.";
+                return false;
+            }
+
+            bool IsEndPhaseGroup =
+                HasEntries(Group.TurnConditions) ||
+                HasEntries(Group.ScoreAtTurnLimitConditions);
+            if (IsEndPhaseGroup !=
+                (EvaluationMoment == ConditionEvaluationMoment.EndPhase))
+            {
+                continue;
+            }
+
+            if (!TryEvaluateConditionGroup(Perspective, Group,
+                    out bool GroupSatisfied, out ValidationMessage))
+                return false;
+
+            if (!GroupSatisfied)
+                continue;
+
+            Satisfied = true;
+            SatisfiedGroupName = string.IsNullOrWhiteSpace(Group.Name)
+                ? $"Group {i}"
+                : Group.Name;
+            return true;
+        }
+
+        return true;
+    }
+
+
+    private bool TryEvaluateConditionGroup(
+        RuntimeParticipant Perspective,
+        GameModeConditionGroup Group,
+        out bool Satisfied,
+        out string ValidationMessage)
+    {
+        Satisfied = false;
+
+        FleetSizeCondition[] FleetConditions =
+            Group.FleetSizeConditions ?? Array.Empty<FleetSizeCondition>();
+        for (int i = 0; i < FleetConditions.Length; i++)
+        {
+            FleetSizeCondition Condition = FleetConditions[i];
+            if (Condition == null ||
+                !TryResolveConditionSubject(Perspective, Condition.Subject,
+                    out RuntimeParticipant Subject) ||
+                !_GameUnits.TryGetRoster(Subject,
+                    out ParticipantUnitRoster Roster))
+            {
+                ValidationMessage =
+                    $"Fleet Size Condition {i} could not resolve its Subject.";
+                return false;
+            }
+
+            if (!CompareNumeric(Roster.RemainingFleetSize,
+                    Condition.Comparison, Condition.Value))
+            {
+                ValidationMessage = string.Empty;
+                return true;
+            }
+        }
+
+        DesignatedUnitCondition[] DesignatedConditions =
+            Group.DesignatedUnitConditions ??
+            Array.Empty<DesignatedUnitCondition>();
+        for (int i = 0; i < DesignatedConditions.Length; i++)
+        {
+            if (!TryEvaluateDesignatedUnitCondition(Perspective,
+                    DesignatedConditions[i], out bool ConditionSatisfied,
+                    out ValidationMessage))
+                return false;
+            if (!ConditionSatisfied)
+                return true;
+        }
+
+        ScoreCondition[] ScoreConditions =
+            Group.ScoreConditions ?? Array.Empty<ScoreCondition>();
+        for (int i = 0; i < ScoreConditions.Length; i++)
+        {
+            ScoreCondition Condition = ScoreConditions[i];
+            if (Condition == null ||
+                !TryResolveConditionSubject(Perspective, Condition.Subject,
+                    out RuntimeParticipant Subject))
+            {
+                ValidationMessage =
+                    $"Score Condition {i} could not resolve its Subject.";
+                return false;
+            }
+
+            if (!CompareNumeric(GetParticipantScore(Subject),
+                    Condition.Comparison, Condition.Value))
+            {
+                ValidationMessage = string.Empty;
+                return true;
+            }
+        }
+
+        TurnCondition[] TurnConditions =
+            Group.TurnConditions ?? Array.Empty<TurnCondition>();
+        for (int i = 0; i < TurnConditions.Length; i++)
+        {
+            TurnCondition Condition = TurnConditions[i];
+            if (Condition == null)
+            {
+                ValidationMessage = $"Turn Condition {i} is missing.";
+                return false;
+            }
+
+            if (!CompareNumeric(_TurnNumber,
+                    Condition.Comparison, Condition.Turn))
+            {
+                ValidationMessage = string.Empty;
+                return true;
+            }
+        }
+
+        ScoreAtTurnLimitCondition[] LimitConditions =
+            Group.ScoreAtTurnLimitConditions ??
+            Array.Empty<ScoreAtTurnLimitCondition>();
+        for (int i = 0; i < LimitConditions.Length; i++)
+        {
+            ScoreAtTurnLimitCondition Condition = LimitConditions[i];
+            if (Condition == null)
+            {
+                ValidationMessage =
+                    $"Score At Turn Limit Condition {i} is missing.";
+                return false;
+            }
+
+            int TurnsPastInitial = _TurnNumber - Condition.InitialTurnLimit;
+            bool IsCheckpoint = TurnsPastInitial >= 0 &&
+                TurnsPastInitial % Condition.TieExtensionTurns == 0;
+            if (!IsCheckpoint)
+            {
+                ValidationMessage = string.Empty;
+                return true;
+            }
+
+            int OwnScore = GetParticipantScore(Perspective);
+            RuntimeParticipant Opponent = ReferenceEquals(
+                Perspective, _ParticipantA) ? _ParticipantB : _ParticipantA;
+            int OpponentScore = GetParticipantScore(Opponent);
+            bool RelationshipSatisfied = Condition.Relationship ==
+                    ScoreRelationship.HigherThanOpponent
+                ? OwnScore > OpponentScore
+                : OwnScore < OpponentScore;
+            if (!RelationshipSatisfied)
+            {
+                ValidationMessage = string.Empty;
+                return true;
+            }
+        }
+
+        Satisfied = true;
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
+    private bool TryEvaluateDesignatedUnitCondition(
+        RuntimeParticipant Perspective,
+        DesignatedUnitCondition Condition,
+        out bool Satisfied,
+        out string ValidationMessage)
+    {
+        Satisfied = false;
+        if (Condition == null ||
+            !TryResolveConditionSubject(Perspective, Condition.Subject,
+                out RuntimeParticipant Subject) ||
+            !_GameUnits.TryGetRoster(Subject,
+                out ParticipantUnitRoster Roster))
+        {
+            ValidationMessage =
+                "Designated Unit Condition could not resolve its Subject.";
+            return false;
+        }
+
+        GameModeSideFleet Side = ReferenceEquals(Subject, _ParticipantA)
+            ? _GameMode.SideA
+            : _GameMode.SideB;
+        string EntryID = Side?.AdmiralEntryID;
+        if (string.IsNullOrWhiteSpace(EntryID))
+        {
+            ValidationMessage =
+                "A Designated Unit Condition requires an authored designated Fleet Entry.";
+            return false;
+        }
+
+        RuntimeUnit DesignatedUnit = null;
+        for (int i = 0; i < Roster.RuntimeUnits.Count; i++)
+        {
+            RuntimeUnit Candidate = Roster.RuntimeUnits[i];
+            if (Candidate != null && string.Equals(
+                    Candidate.SourceFleetEntryID, EntryID,
+                    StringComparison.Ordinal))
+            {
+                DesignatedUnit = Candidate;
+                break;
+            }
+        }
+
+        if (DesignatedUnit == null)
+        {
+            ValidationMessage =
+                $"Designated Fleet Entry '{EntryID}' has no Runtime Unit.";
+            return false;
+        }
+
+        Satisfied = Condition.RequiredState == DesignatedUnitState.Alive
+            ? DesignatedUnit.IsActive
+            : DesignatedUnit.LifeState == RuntimeUnitLifeState.Destroyed;
+        ValidationMessage = string.Empty;
+        return true;
+    }
+
+
+    private bool TryResolveConditionSubject(
+        RuntimeParticipant Perspective,
+        ConditionSubject Subject,
+        out RuntimeParticipant Resolved)
+    {
+        Resolved = null;
+        if (Perspective == null || Subject == ConditionSubject.None)
+            return false;
+
+        if (Subject == ConditionSubject.Self)
+            Resolved = Perspective;
+        else if (Subject == ConditionSubject.Opponent)
+            Resolved = ReferenceEquals(Perspective, _ParticipantA)
+                ? _ParticipantB
+                : _ParticipantA;
+
+        return Resolved != null;
+    }
+
+
+    private int GetParticipantScore(RuntimeParticipant Participant)
+    {
+        return ReferenceEquals(Participant, _ParticipantA)
+            ? _ParticipantAScore
+            : _ParticipantBScore;
+    }
+
+
+    private static bool CompareNumeric(int Actual,
+        NumericComparison Comparison, int Expected)
+    {
+        if (Comparison == NumericComparison.AtOrBelow)
+            return Actual <= Expected;
+        if (Comparison == NumericComparison.AtOrAbove)
+            return Actual >= Expected;
+        return false;
+    }
+
+
+    private void EvaluateImmediateMatchConclusion(
+        bool KeepResolvedEngagementVisible)
+    {
+        if (_MatchComplete)
+            return;
+
+        GameplayPhase TriggerPhase = _CurrentPhase;
+        RefreshScores();
+        if (!TryEvaluateMatchConclusion(
+                ConditionEvaluationMoment.Immediate,
+                out bool MatchConcluded,
+                out string EvaluationMessage))
+        {
+            Debug.LogError(
+                $"Immediate GameMode condition evaluation failed: " +
+                EvaluationMessage,
+                this);
+            return;
+        }
+
+        if (!MatchConcluded)
+            return;
+
+        if (!KeepResolvedEngagementVisible)
+            _CurrentPhase = GameplayPhase.End;
+
+        if (!_GameKnowledge.Refresh(_CurrentPhase,
+                out string KnowledgeMessage))
+        {
+            Debug.LogError(
+                $"GameKnowledge refresh failed after immediate match conclusion: " +
+                KnowledgeMessage,
+                this);
+        }
+
+        Debug.Log(
+            $"Match concluded immediately during {TriggerPhase} on Turn " +
+            $"{_TurnNumber}: {_MatchResolutionReason}",
+            this);
+    }
+
+
+    private static bool HasEntries<T>(T[] Entries)
+    {
+        return Entries != null && Entries.Length > 0;
     }
 
 
@@ -1733,13 +2477,28 @@ public class GameMaster :
     private bool CanAcceptBattleInput(RuntimeParticipant Participant,
         out string ValidationMessage)
     {
-        if (!_InitializationComplete || !_MatchStarted ||
+        if (!_InitializationComplete || !_MatchStarted || _MatchComplete ||
             _CurrentPhase != GameplayPhase.Battle || _GameBattle == null)
         {
             ValidationMessage = "The Match is not accepting Battle input.";
             return false;
         }
         return _GameBattle.CanAcceptParticipantAction(
+            Participant, out ValidationMessage);
+    }
+
+
+    private bool CanAcceptEndInput(RuntimeParticipant Participant,
+        out string ValidationMessage)
+    {
+        if (!_InitializationComplete || !_MatchStarted || _MatchComplete ||
+            _CurrentPhase != GameplayPhase.End || _GameEnd == null)
+        {
+            ValidationMessage = "The Match is not accepting End input.";
+            return false;
+        }
+
+        return _GameEnd.CanAcceptParticipantAction(
             Participant, out ValidationMessage);
     }
 
@@ -1926,6 +2685,13 @@ public class GameMaster :
             return false;
         }
 
+        _ParticipantAInitialFleetSize =
+            _GameUnits.ParticipantA.RemainingFleetSize;
+        _ParticipantBInitialFleetSize =
+            _GameUnits.ParticipantB.RemainingFleetSize;
+        _ParticipantAScore = 0;
+        _ParticipantBScore = 0;
+
 
         return true;
     }
@@ -2104,6 +2870,23 @@ public class GameMaster :
     }
 
 
+    private bool InitializeEndState()
+    {
+        _GameEnd = new GameEnd();
+        if (!_GameEnd.Initialize(
+                _ParticipantA,
+                _ParticipantB,
+                out string ValidationMessage))
+        {
+            _GameEnd = null;
+            FailInitialization(
+                $"End State initialization failed: {ValidationMessage}");
+            return false;
+        }
+        return true;
+    }
+
+
     internal bool TryGetParticipantSnapshot(
         RuntimeParticipant Participant,
         out ParticipantGameSnapshot Snapshot,
@@ -2130,6 +2913,9 @@ public class GameMaster :
         GameBattle.ParticipantView BattleView =
             null;
 
+        GameEnd.ParticipantView EndView =
+            null;
+
 
         _GameMovement?.TryGetView(
             Participant,
@@ -2152,6 +2938,16 @@ public class GameMaster :
             out BattleView
         );
 
+        _GameEnd?.TryGetView(
+            Participant,
+            out EndView
+        );
+
+        RefreshScores();
+
+        ParticipantMatchStateSnapshot MatchState =
+            CreateParticipantMatchState(Participant);
+
 
         return _GameKnowledge.TryCreateSnapshot(
             Participant,
@@ -2159,10 +2955,12 @@ public class GameMaster :
             _TurnNumber,
             _MatchStarted,
             _FirstPlayer,
+            MatchState,
             MovementView,
             PreBattleView,
             SearchView,
             BattleView,
+            EndView,
             out Snapshot,
             out ValidationMessage);
     }
@@ -2233,6 +3031,16 @@ public class GameMaster :
 
         _TurnNumber =
             0;
+
+        _CompletedTurnNumber =
+            0;
+
+        _MatchComplete = false;
+        _WinningParticipant = null;
+        _MatchDraw = false;
+        _MatchResolutionReason = string.Empty;
+        _ParticipantAScore = 0;
+        _ParticipantBScore = 0;
     }
 
 
@@ -2290,6 +3098,8 @@ public class GameMaster :
                 this);
         }
 
+        EvaluateImmediateMatchConclusion(false);
+
 
         Debug.Log(
             $"Deployment complete. '{_FirstPlayer.Participant.DisplayName}' has first-player priority for Turn {_TurnNumber}.",
@@ -2329,6 +3139,9 @@ public class GameMaster :
         _GameBattle =
             null;
 
+        _GameEnd =
+            null;
+
         _ParticipantAPI =
             null;
 
@@ -2344,8 +3157,20 @@ public class GameMaster :
         _TurnNumber =
             0;
 
+        _CompletedTurnNumber =
+            0;
+
         _CurrentPhase =
             GameplayPhase.None;
+
+        _MatchComplete = false;
+        _WinningParticipant = null;
+        _MatchDraw = false;
+        _MatchResolutionReason = string.Empty;
+        _ParticipantAInitialFleetSize = 0;
+        _ParticipantBInitialFleetSize = 0;
+        _ParticipantAScore = 0;
+        _ParticipantBScore = 0;
 
         enabled =
             false;

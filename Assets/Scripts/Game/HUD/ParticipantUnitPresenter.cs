@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 
 // Synchronizes world Unit views from one participant-filtered snapshot.
@@ -23,6 +24,13 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
 
     [SerializeField]
     private UnitPresentationCatalog _UnitPresentationCatalog;
+
+    [Header("Enemy Identification")]
+    [SerializeField]
+    private TileBase _EnemyFootprintTile;
+
+    [SerializeField]
+    private int _EnemyFootprintSortingOrder = 45;
 
     [Min(0f)]
     [SerializeField]
@@ -58,6 +66,7 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
     private GameParticipantAPI.ParticipantAccess _ParticipantAccess;
     private GameMaster _GameMaster;
     private Transform _UnitsRoot;
+    private Tilemap _EnemyFootprintTilemap;
     private bool _Initialized;
     private Coroutine _MovementPlayback;
     private UnitView _DeploymentPreview;
@@ -121,6 +130,8 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
 
         _UnitsRoot =
             _GameMaster.MapAuthoring.Units;
+
+        CreateEnemyFootprintLayer();
 
         _Initialized = true;
         BindParticipantAccess();
@@ -407,7 +418,54 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
         }
 
 
+        PaintEnemyFootprints(Snapshot.VisibleEnemies);
+
+
         RemoveUnexpectedUnits();
+    }
+
+
+    private void CreateEnemyFootprintLayer()
+    {
+        Grid Grid = _GameMaster.MapAuthoring?.GridReference;
+        if (Grid == null || _EnemyFootprintTilemap != null)
+            return;
+
+        GameObject Layer = new GameObject(
+            "Visible_Enemy_Footprints",
+            typeof(Tilemap),
+            typeof(TilemapRenderer));
+        Layer.transform.SetParent(Grid.transform, false);
+        _EnemyFootprintTilemap = Layer.GetComponent<Tilemap>();
+        TilemapRenderer Renderer = Layer.GetComponent<TilemapRenderer>();
+        Renderer.sortingOrder = _EnemyFootprintSortingOrder;
+    }
+
+
+    private void PaintEnemyFootprints(
+        IReadOnlyList<VisibleEnemyUnitSnapshot> VisibleEnemies)
+    {
+        if (_EnemyFootprintTilemap == null)
+            return;
+
+        _EnemyFootprintTilemap.ClearAllTiles();
+        if (_EnemyFootprintTile == null || VisibleEnemies == null)
+            return;
+
+        for (int i = 0; i < VisibleEnemies.Count; i++)
+        {
+            Vector2Int[] Coordinates =
+                VisibleEnemies[i]?.OccupiedCoordinates;
+            if (Coordinates == null)
+                continue;
+            for (int c = 0; c < Coordinates.Length; c++)
+                _EnemyFootprintTilemap.SetTile(
+                    new Vector3Int(
+                        Coordinates[c].x,
+                        Coordinates[c].y,
+                        0),
+                    _EnemyFootprintTile);
+        }
     }
 
 
@@ -910,6 +968,9 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
     {
         ClearDeploymentPreview();
 
+        if (_EnemyFootprintTilemap != null)
+            _EnemyFootprintTilemap.ClearAllTiles();
+
         foreach (PresentedUnit Presented
             in _PresentedUnits.Values)
         {
@@ -999,6 +1060,10 @@ public sealed class ParticipantUnitPresenter : MonoBehaviour
         if (_HumanGameplayInput != null &&
             _UnitPresentationCatalog != null)
         {
+            if (_EnemyFootprintTile == null)
+                Debug.LogWarning(
+                    "Participant Unit Presenter has no enemy footprint Tile; Unit presentation will continue without enemy footprint markers.",
+                    this);
             return true;
         }
 

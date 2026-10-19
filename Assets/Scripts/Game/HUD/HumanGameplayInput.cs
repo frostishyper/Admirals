@@ -565,6 +565,11 @@ public sealed class HumanGameplayInput : MonoBehaviour
                     ASnapshot.Battle?.CanAct == true,
                     BSnapshot.Battle?.CanAct == true, A, B);
 
+            case GameplayPhase.End:
+                return ResolveCanActParticipant(
+                    ASnapshot.End?.CanAct == true,
+                    BSnapshot.End?.CanAct == true, A, B);
+
             default:
                 return Participant;
         }

@@ -57,7 +57,22 @@ public static class BattleEngagementPrefabMakerEditor
                HasFlexibleHeight(FindDescendant(Root, "Text_Instruction")) ||
                HasFlexibleHeight(FindDescendant(Root, "IdentityRow")) ||
                HasFlexibleHeight(FindDescendant(Root, "CombatSummary")) ||
+               NeedsDynamicChoiceCard(FindDescendant(Root, "ChoiceTemplate")) ||
                NeedsCompactSummary(FindDescendant(Root, "CombatSummary"));
+    }
+
+
+    private static bool NeedsDynamicChoiceCard(Transform Target)
+    {
+        if (Target == null)
+            return true;
+
+        LayoutElement Card = Target.GetComponent<LayoutElement>();
+        Transform Name = FindDescendant(Target, "Text_ChoiceName");
+        LayoutElement NameLayout = Name != null
+            ? Name.GetComponent<LayoutElement>() : null;
+        return Card == null || Card.preferredHeight >= 0f ||
+               NameLayout == null || NameLayout.preferredHeight >= 0f;
     }
 
 
@@ -447,12 +462,16 @@ public static class BattleEngagementPrefabMakerEditor
         if (Element == null)
             Element = Object.AddComponent<LayoutElement>();
         Element.minHeight = 100f;
-        Element.preferredHeight = 100f;
+        // The vertical layout group supplies the preferred height. This keeps
+        // short cards compact while allowing wrapped names (notably allied
+        // support's "unit - action" label) to grow without crushing metadata.
+        Element.preferredHeight = -1f;
         Element.flexibleWidth = 1f;
         Element.flexibleHeight = 0f;
 
-        AddText(Object.transform, "Text_ChoiceName", "ACTION", 19f,
+        TMP_Text Name = AddText(Object.transform, "Text_ChoiceName", "ACTION", 19f,
             TextAlignmentOptions.Left, 30f);
+        Name.GetComponent<LayoutElement>().preferredHeight = -1f;
         GameObject Meta = AddRow(Object.transform, "ChoiceMetaRow", 24f, 8f);
         TMP_Text Charges = AddText(Meta.transform, "Text_ChoiceCharges",
             "CHARGES", 15f, TextAlignmentOptions.Left, 24f);

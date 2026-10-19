@@ -11,6 +11,38 @@ public enum ParticipantTileVisibility
 }
 
 
+public enum ParticipantMatchOutcome
+{
+    Ongoing = 0,
+    Victory = 1,
+    Defeat = 2,
+    Draw = 3
+}
+
+
+public sealed class ParticipantMatchStateSnapshot
+{
+    public bool MatchComplete { get; }
+    public ParticipantMatchOutcome Outcome { get; }
+    public int OwnScore { get; }
+    public int OpponentScore { get; }
+    public int CompletedTurnNumber { get; }
+    public string ResolutionReason { get; }
+
+    internal ParticipantMatchStateSnapshot(bool MatchComplete,
+        ParticipantMatchOutcome Outcome, int OwnScore, int OpponentScore,
+        int CompletedTurnNumber, string ResolutionReason)
+    {
+        this.MatchComplete = MatchComplete;
+        this.Outcome = Outcome;
+        this.OwnScore = OwnScore;
+        this.OpponentScore = OpponentScore;
+        this.CompletedTurnNumber = CompletedTurnNumber;
+        this.ResolutionReason = ResolutionReason ?? string.Empty;
+    }
+}
+
+
 public sealed class ParticipantTileSnapshot
 {
     public Vector2Int Coordinate { get; }
@@ -402,10 +434,12 @@ public sealed class ParticipantGameSnapshot
     public bool MatchStarted { get; }
     public bool HasFirstPlayerPriority { get; }
     public bool DeploymentLocked { get; }
+    public ParticipantMatchStateSnapshot Match { get; }
     public GameMovement.ParticipantView Movement { get; }
     public GamePreBattle.ParticipantView PreBattle { get; }
     public GameSearch.ParticipantView Search { get; }
     public GameBattle.ParticipantView Battle { get; }
+    public GameEnd.ParticipantView End { get; }
     public ParticipantTileSnapshot[] Tiles { get; }
     public ParticipantUnitSnapshot[] OwnUnits { get; }
     public VisibleEnemyUnitSnapshot[] VisibleEnemies { get; }
@@ -418,10 +452,12 @@ public sealed class ParticipantGameSnapshot
         bool MatchStarted,
         bool HasFirstPlayerPriority,
         bool DeploymentLocked,
+        ParticipantMatchStateSnapshot Match,
         GameMovement.ParticipantView Movement,
         GamePreBattle.ParticipantView PreBattle,
         GameSearch.ParticipantView Search,
         GameBattle.ParticipantView Battle,
+        GameEnd.ParticipantView End,
         ParticipantTileSnapshot[] Tiles,
         ParticipantUnitSnapshot[] OwnUnits,
         VisibleEnemyUnitSnapshot[] VisibleEnemies,
@@ -433,10 +469,12 @@ public sealed class ParticipantGameSnapshot
         this.MatchStarted = MatchStarted;
         this.HasFirstPlayerPriority = HasFirstPlayerPriority;
         this.DeploymentLocked = DeploymentLocked;
+        this.Match = Match;
         this.Movement = Movement;
         this.PreBattle = PreBattle;
         this.Search = Search;
         this.Battle = Battle;
+        this.End = End;
         this.Tiles = Tiles ?? Array.Empty<ParticipantTileSnapshot>();
         this.OwnUnits = OwnUnits ?? Array.Empty<ParticipantUnitSnapshot>();
         this.VisibleEnemies = VisibleEnemies ?? Array.Empty<VisibleEnemyUnitSnapshot>();
@@ -562,10 +600,12 @@ internal sealed class GameKnowledge
         int TurnNumber,
         bool MatchStarted,
         RuntimeParticipant FirstPlayer,
+        ParticipantMatchStateSnapshot Match,
         GameMovement.ParticipantView Movement,
         GamePreBattle.ParticipantView PreBattle,
         GameSearch.ParticipantView Search,
         GameBattle.ParticipantView Battle,
+        GameEnd.ParticipantView End,
         out ParticipantGameSnapshot Snapshot,
         out string ValidationMessage)
     {
@@ -592,10 +632,12 @@ internal sealed class GameKnowledge
             MatchStarted,
             ReferenceEquals(Participant, FirstPlayer),
             Participant.DeploymentLocked,
+            Match,
             Movement,
             PreBattle,
             Search,
             Battle,
+            End,
             BuildTileSnapshots(Visibility),
             BuildOwnUnitSnapshots(OwnRoster),
             BuildVisibleEnemySnapshots(EnemyRoster, Visibility),

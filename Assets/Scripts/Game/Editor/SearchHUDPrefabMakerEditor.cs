@@ -168,6 +168,7 @@ public static class SearchHUDPrefabMakerEditor
         try
         {
             ConfigureSearchOverlayRect(Root.GetComponent<RectTransform>());
+            ConfigureSearchOverlayLayout(Root.transform);
             PrefabUtility.SaveAsPrefabAsset(Root, Path);
         }
         finally
@@ -204,10 +205,104 @@ public static class SearchHUDPrefabMakerEditor
 
         Rect.anchorMin = new Vector2(1f, 0f);
         Rect.anchorMax = new Vector2(1f, 0f);
-        Rect.pivot = new Vector2(0.5f, 0.5f);
+        // Pin the content-fitted panel by its lower-right corner so shrinking
+        // or growing its content does not move it away from the play-area edge.
+        Rect.pivot = new Vector2(1f, 0f);
         Rect.sizeDelta = Vector2.zero;
-        Rect.anchoredPosition = new Vector2(-165f, 101f);
+        Rect.anchoredPosition = Vector2.zero;
         EditorUtility.SetDirty(Rect);
+    }
+
+
+    private static void ConfigureSearchOverlayLayout(Transform Root)
+    {
+        if (Root == null)
+            return;
+
+        VerticalLayoutGroup RootLayout = Root.GetComponent<VerticalLayoutGroup>();
+        if (RootLayout != null)
+        {
+            RootLayout.padding = new RectOffset(10, 10, 10, 10);
+            RootLayout.spacing = 8f;
+            RootLayout.childForceExpandWidth = false;
+            RootLayout.childForceExpandHeight = false;
+            RootLayout.childAlignment = TextAnchor.MiddleCenter;
+            EditorUtility.SetDirty(RootLayout);
+        }
+
+        Transform ControlsRow = FindDescendant(Root, "ControlsRow");
+        LayoutElement ControlsLayout = ControlsRow != null
+            ? ControlsRow.GetComponent<LayoutElement>() : null;
+        if (ControlsLayout != null)
+        {
+            ControlsLayout.minWidth = -1f;
+            ControlsLayout.minHeight = -1f;
+            ControlsLayout.preferredWidth = -1f;
+            ControlsLayout.preferredHeight = -1f;
+            ControlsLayout.flexibleWidth = 0f;
+            ControlsLayout.flexibleHeight = 0f;
+            EditorUtility.SetDirty(ControlsLayout);
+        }
+
+        ConfigurePaddedContentButton(
+            FindDescendant(Root, "Button_ConfirmMove"), 10);
+    }
+
+
+    private static void ConfigurePaddedContentButton(
+        Transform ButtonTransform, int Padding)
+    {
+        if (ButtonTransform == null)
+            return;
+
+        HorizontalLayoutGroup Group =
+            ButtonTransform.GetComponent<HorizontalLayoutGroup>();
+        if (Group == null)
+            Group = ButtonTransform.gameObject.AddComponent<HorizontalLayoutGroup>();
+        Group.padding = new RectOffset(Padding, Padding, Padding, Padding);
+        Group.childAlignment = TextAnchor.MiddleCenter;
+        Group.childControlWidth = true;
+        Group.childControlHeight = true;
+        Group.childForceExpandWidth = false;
+        Group.childForceExpandHeight = false;
+
+        ContentSizeFitter Fitter =
+            ButtonTransform.GetComponent<ContentSizeFitter>();
+        if (Fitter == null)
+            Fitter = ButtonTransform.gameObject.AddComponent<ContentSizeFitter>();
+        Fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        Fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        LayoutElement ButtonLayout =
+            ButtonTransform.GetComponent<LayoutElement>();
+        if (ButtonLayout != null)
+        {
+            ButtonLayout.minWidth = -1f;
+            ButtonLayout.minHeight = -1f;
+            ButtonLayout.preferredWidth = -1f;
+            ButtonLayout.preferredHeight = -1f;
+            ButtonLayout.flexibleWidth = 0f;
+            ButtonLayout.flexibleHeight = 0f;
+        }
+
+        TMP_Text Label = ButtonTransform.GetComponentInChildren<TMP_Text>(true);
+        if (Label == null)
+            return;
+        Label.textWrappingMode = TextWrappingModes.NoWrap;
+        Label.overflowMode = TextOverflowModes.Overflow;
+        Label.alignment = TextAlignmentOptions.Center;
+        LayoutElement LabelLayout = Label.GetComponent<LayoutElement>();
+        if (LabelLayout != null)
+        {
+            LabelLayout.minWidth = -1f;
+            LabelLayout.minHeight = -1f;
+            LabelLayout.preferredWidth = -1f;
+            LabelLayout.preferredHeight = -1f;
+            LabelLayout.flexibleWidth = 0f;
+            LabelLayout.flexibleHeight = 0f;
+        }
+
+        EditorUtility.SetDirty(ButtonTransform.gameObject);
     }
 
 

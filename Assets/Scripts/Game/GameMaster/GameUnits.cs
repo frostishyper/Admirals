@@ -625,8 +625,6 @@ public sealed class RuntimeAbilityState
 
 // Applied Status runtime state.
 //
-// Status application/ticking is not implemented in this pass;
-// this simply gives RuntimeUnit the correct place to own it later.
 public sealed class RuntimeStatusState
 {
     public Definition_Status Status
@@ -1211,6 +1209,13 @@ public sealed class RuntimeUnit
             return;
         _ActiveModifiers.Add(new RuntimeModifierState(Modifier, DurationMode,
             DurationMode == DurationMode.Turns ? Mathf.Max(1, DurationTurns) : 0));
+    }
+
+
+    internal void RemoveModifier(RuntimeModifierState Modifier)
+    {
+        if (Modifier != null)
+            _ActiveModifiers.Remove(Modifier);
     }
 
 

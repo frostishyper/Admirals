@@ -251,6 +251,7 @@ public sealed class BattleEngagementUI : MonoBehaviour
     {
         Button Button = Instantiate(_ChoiceTemplate, Parent);
         Button.gameObject.SetActive(true);
+        MakeChoiceCardContentDriven(Button);
         SetCardText(Button, "Text_ChoiceName",
             (Support ? $"{SupportUnitName} - " : string.Empty) + Option.Name);
         SetCardText(Button, "Text_ChoiceCharges", Option.MaxCharges > 0
@@ -275,6 +276,20 @@ public sealed class BattleEngagementUI : MonoBehaviour
             SetCurrentLockInteractable(true);
         });
         _GeneratedChoices.Add(Button.gameObject);
+    }
+
+
+    private static void MakeChoiceCardContentDriven(Button Button)
+    {
+        LayoutElement Card = Button.GetComponent<LayoutElement>();
+        if (Card != null)
+            Card.preferredHeight = -1f;
+
+        Transform NameTransform = Find(Button.transform, "Text_ChoiceName");
+        LayoutElement Name = NameTransform != null
+            ? NameTransform.GetComponent<LayoutElement>() : null;
+        if (Name != null)
+            Name.preferredHeight = -1f;
     }
 
 

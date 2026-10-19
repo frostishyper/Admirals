@@ -4304,6 +4304,7 @@ MonoBehaviour:
   _ChargeCountFontSize: 18
   _AbilityButtonFontSize: 18
   _BadgeSpacing: 6
+  _MinimumCardWidth: 240
 --- !u!1 &5305316170351221876
 GameObject:
   m_ObjectHideFlags: 0

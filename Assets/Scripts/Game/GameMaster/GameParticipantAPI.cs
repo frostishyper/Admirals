@@ -26,7 +26,8 @@ public sealed class GameParticipantAPI
         LockBattleAttack = 14,
         LockBattleDefense = 15,
         ContinueEngagement = 16,
-        EndBattle = 17
+        EndBattle = 17,
+        FinishEndPhase = 18
     }
 
 
@@ -186,6 +187,11 @@ public sealed class GameParticipantAPI
         public static ParticipantCommand EndBattle(
             ParticipantGameSnapshot Observation) =>
             new ParticipantCommand(ParticipantCommandKind.EndBattle,
+                Observation);
+
+        public static ParticipantCommand FinishEndPhase(
+            ParticipantGameSnapshot Observation) =>
+            new ParticipantCommand(ParticipantCommandKind.FinishEndPhase,
                 Observation);
     }
 
@@ -478,6 +484,10 @@ public sealed class GameParticipantAPI
 
                 case ParticipantCommandKind.EndBattle:
                     Accepted = TryEndBattle(out Message);
+                    break;
+
+                case ParticipantCommandKind.FinishEndPhase:
+                    Accepted = TryFinishEndPhase(out Message);
                     break;
 
                 default:
@@ -1308,6 +1318,31 @@ public sealed class GameParticipantAPI
             if (Ended)
                 _API.NotifySnapshotsChanged();
             return Ended;
+        }
+
+
+        public bool TryGetEndView(out GameEnd.ParticipantView View)
+        {
+            View = null;
+            return _API.IsInitialized &&
+                _API._GameMaster.TryGetEndView(Participant, out View);
+        }
+
+
+        public bool TryFinishEndPhase(out string ValidationMessage)
+        {
+            if (!_API.IsInitialized)
+            {
+                ValidationMessage =
+                    "Participant gameplay access is not initialized.";
+                return false;
+            }
+
+            bool Finished = _API._GameMaster.TryFinishEndPhase(
+                Participant, out ValidationMessage);
+            if (Finished)
+                _API.NotifySnapshotsChanged();
+            return Finished;
         }
 
     }
