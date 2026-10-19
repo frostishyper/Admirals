@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcaf9b4706a932048aab40d3c4dca3b1, type: 3}
-  m_Name: GameMode_Annihilation1
+  m_Name: GameMode_ProtectTheAdmiral
   m_EditorClassIdentifier: Assembly-CSharp::GameModeInfo
-  _GameModeName: Annihilation 1
-  _GameModeID: gamemode_info_annihilation1
-  _GameModeReference: {fileID: 11400000, guid: e2593c3c2b0fec94da028286560b2b60, type: 2}
+  _GameModeName: Protect The Admiral
+  _GameModeID: Gamemode_Info_ProtectTheAdmiral
+  _GameModeReference: {fileID: 11400000, guid: ee55ceb415305104eaa764310b33bcc6, type: 2}

@@ -10,18 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 427bafd4a40cd9e4ab86803f392caa04, type: 3}
-  m_Name: Fleet_Core
+  m_Name: Fleet_CarrierStrikeGroup
   m_EditorClassIdentifier: Assembly-CSharp::Definition_Fleet
-  _Name: Core Fleet
-  _ID: fleet_core
+  _Name: Carrier Strike Group
+  _ID: Fleet_CarrierStrikeGroup
   _Entries:
-  - _ID: Carrier_Sentinel_1
+  - _ID: Flagship
     _Unit: {fileID: 11400000, guid: f70e2be59309c4c48a95b2eed04808c6, type: 2}
-  - _ID: Cruiser_Megalodon_1
+  - _ID: Battle_Cruiser
     _Unit: {fileID: 11400000, guid: aa8e78f50a6d42f428d32d9f269c10bf, type: 2}
-  - _ID: Submarine_Marlin_1
-    _Unit: {fileID: 11400000, guid: 05fcbe67afd17df478e59314a21f84b2, type: 2}
-  - _ID: Destroyer_Rover_1
+  - _ID: Destroyer_Escort_1
     _Unit: {fileID: 11400000, guid: 4a82b7680e749bb47ab3b7ae7d5481cb, type: 2}
-  - _ID: Corvette_Stonefish_1
+  - _ID: Destroyer_Escort_2
+    _Unit: {fileID: 11400000, guid: 4a82b7680e749bb47ab3b7ae7d5481cb, type: 2}
+  - _ID: Corvette_Escort_1
     _Unit: {fileID: 11400000, guid: 2d0243aae6f9e3d4a97247b93ea32d6f, type: 2}
+  - _ID: Corvette_Escort_2
+    _Unit: {fileID: 11400000, guid: 2d0243aae6f9e3d4a97247b93ea32d6f, type: 2}
+  - _ID: Submarine_Escort_1
+    _Unit: {fileID: 11400000, guid: 05fcbe67afd17df478e59314a21f84b2, type: 2}

@@ -10,32 +10,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb520ff1444df2442a12ebc804188f9b, type: 3}
-  m_Name: GameMode_Annihilation1
+  m_Name: GameMode_ProtectTheAdmiral
   m_EditorClassIdentifier: Assembly-CSharp::Definition_GameMode
-  _Name: Annihilation 1
-  _ID: gamemode_annihilation
+  _Name: Protect The Admiral
+  _ID: Gamemode_ProtectTheAdmiral
   _FleetSource: 1
   _SideA:
-    _ProvidedFleet: {fileID: 11400000, guid: a4497be65841a3945a868a4afc2331a5, type: 2}
-    _AdmiralEntryID: 
+    _ProvidedFleet: {fileID: 11400000, guid: cc4cd890bd2289840949c904bfc154e8, type: 2}
+    _AdmiralEntryID: Flagship
   _SideB:
-    _ProvidedFleet: {fileID: 11400000, guid: a4497be65841a3945a868a4afc2331a5, type: 2}
-    _AdmiralEntryID: 
+    _ProvidedFleet: {fileID: 11400000, guid: cc4cd890bd2289840949c904bfc154e8, type: 2}
+    _AdmiralEntryID: Flagship
   _PhaseTimers:
   - _Phase: 2
     _Seconds: 60
   - _Phase: 4
     _Seconds: 60
   - _Phase: 8
+    _Seconds: 60
+  - _Phase: 16
     _Seconds: 90
+  - _Phase: 32
+    _Seconds: 30
   _VictoryGroups: []
   _DefeatGroups:
-  - _Name: Annihilated
-    _FleetSizeConditions:
+  - _Name: Admiral Is Dead
+    _FleetSizeConditions: []
+    _DesignatedUnitConditions:
     - _Subject: 1
-      _Comparison: 1
-      _Value: 0
-    _DesignatedUnitConditions: []
+      _RequiredState: 2
     _ScoreConditions: []
     _TurnConditions: []
     _ScoreAtTurnLimitConditions: []
