@@ -10,28 +10,45 @@ public static class SearchPlanner
 {
     /// <summary>
     /// Executes search phase for the AI participant.
-    /// Selects the best unit with search capability and triggers its scan ability.
+    /// Selects the best unit with search capability, chooses optimal facing, and executes scan.
     /// </summary>
-    /// <param name="context">Current turn context with units and fog state.</param>
-    /// <param name="gameMaster">GameMaster for ability execution.</param>
     public static void ExecuteSearch(AITurnContext context, GameMaster gameMaster)
     {
-        if (context == null || gameMaster == null)
+        if (context == null || gameMaster == null || gameMaster.GameSearch == null)
         {
             Debug.LogError("[AI][Search] Null parameter in ExecuteSearch");
             return;
         }
 
-        // Find units with search capability
+        // Get search view to check quota
+        if (!gameMaster.GameSearch.TryGetView(context.OwnParticipant, out GameSearch.ParticipantView searchView))
+        {
+            Debug.LogError("[AI][Search] Failed to get search view");
+            return;
+        }
+
+        if (!searchView.CanAct)
+        {
+            Debug.Log("[AI][Search] Cannot act in search phase");
+            return;
+        }
+
+        if (searchView.SearchesCommitted >= searchView.SearchLimit)
+        {
+            Debug.Log($"[AI][Search] Search limit reached ({searchView.SearchesCommitted}/{searchView.SearchLimit})");
+            return;
+        }
+
+        // Find units with sensor systems
         List<RuntimeUnit> scanners = FindScanCapableUnits(context.OwnAliveUnits);
 
         if (scanners.Count == 0)
         {
-            Debug.Log("[AI][Search] No units with search capability available");
+            Debug.Log("[AI][Search] No units with sensor systems available");
             return;
         }
 
-        // Select best scanner (Scout priority + fog coverage)
+        // Select best scanner
         RuntimeUnit bestScanner = SelectBestScanner(scanners, context);
 
         if (bestScanner == null)
@@ -40,35 +57,40 @@ public static class SearchPlanner
             return;
         }
 
-        // Find scan ability slot
-        int scanAbilitySlot = FindScanAbilitySlot(bestScanner);
+        // Find sensor system slot
+        int sensorSlot = FindSensorSlot(bestScanner);
 
-        if (scanAbilitySlot < 0)
+        if (sensorSlot < 0)
         {
-            Debug.LogWarning($"[AI][Search] Unit {bestScanner.RuntimeID} has no scan ability");
+            Debug.LogWarning($"[AI][Search] Unit {bestScanner.RuntimeID} has no sensor system");
             return;
         }
 
-        // Execute scan via ability system
-        bool success = gameMaster.TryUseAbility(
+        // Choose best facing direction
+        UnitFacing facing = ChooseBestFacing(bestScanner, context);
+
+        // Execute search via GameSearch
+        bool success = gameMaster.GameSearch.TryCommitSearch(
             context.OwnParticipant,
             bestScanner.RuntimeID,
-            scanAbilitySlot,
+            sensorSlot,
+            facing,
+            out GameSearch.CommitResult result,
             out string validationMessage
         );
 
         if (!success)
         {
-            Debug.LogWarning($"[AI][Search] Scan failed for {bestScanner.RuntimeID}: {validationMessage}");
+            Debug.LogWarning($"[AI][Search] Search failed for {bestScanner.RuntimeID}: {validationMessage}");
         }
         else
         {
-            Debug.Log($"[AI][Search] {bestScanner.InstanceName} executed scan");
+            Debug.Log($"[AI][Search] {bestScanner.InstanceName} scanned facing {facing}, revealed {result.Contacts.Length} contacts");
         }
     }
 
     /// <summary>
-    /// Finds all units that have search capability enabled.
+    /// Finds all units that have sensor system slots.
     /// </summary>
     private static List<RuntimeUnit> FindScanCapableUnits(List<RuntimeUnit> units)
     {
@@ -76,10 +98,7 @@ public static class SearchPlanner
 
         foreach (RuntimeUnit unit in units)
         {
-            if (unit.Definition != null &&
-                unit.Definition.System != null &&
-                unit.Definition.System.Search != null &&
-                unit.Definition.System.Search.Enabled)
+            if (FindSensorSlot(unit) >= 0)
             {
                 scanners.Add(unit);
             }
@@ -90,7 +109,7 @@ public static class SearchPlanner
 
     /// <summary>
     /// Selects the best scanner from available units.
-    /// Prioritizes Scout role units, then considers predicted enemy positions.
+    /// Prioritizes Scout role units.
     /// </summary>
     private static RuntimeUnit SelectBestScanner(List<RuntimeUnit> scanners, AITurnContext context)
     {
@@ -99,11 +118,9 @@ public static class SearchPlanner
 
         foreach (RuntimeUnit unit in scanners)
         {
-            // Classify role
             UnitRole role = ClassifyUnitRole(unit);
             bool isScout = (role == UnitRole.Scout);
 
-            // Scout priority: Scouts always beat non-Scouts
             if (bestScanner == null)
             {
                 bestScanner = unit;
@@ -114,10 +131,84 @@ public static class SearchPlanner
                 bestScanner = unit;
                 bestIsScout = true;
             }
-            // Within same role tier, prefer first found (could add fog coverage scoring here)
         }
 
         return bestScanner;
+    }
+
+    /// <summary>
+    /// Chooses the best facing direction for a scan.
+    /// Prioritizes directions toward predicted enemy positions from EnemyMemory.
+    /// </summary>
+    private static UnitFacing ChooseBestFacing(RuntimeUnit scanner, AITurnContext context)
+    {
+        // Get scanner position
+        if (!context.GameMap.TryGetUnitCoordinates(scanner, out Vector2Int[] coords) || coords.Length == 0)
+        {
+            return UnitFacing.North; // Default
+        }
+
+        Vector2Int scannerPos = coords[0];
+
+        // Get predicted enemy positions from EnemyMemory
+        List<Vector2Int> predictions = EnemyMemory.GetPredictedPositions(
+            context.OwnParticipant,
+            context.TurnNumber
+        );
+
+        // If we have predictions, face toward nearest one
+        if (predictions.Count > 0)
+        {
+            Vector2Int nearest = predictions[0];
+            float minDist = Vector2Int.Distance(scannerPos, predictions[0]);
+
+            for (int i = 1; i < predictions.Count; i++)
+            {
+                float dist = Vector2Int.Distance(scannerPos, predictions[i]);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    nearest = predictions[i];
+                }
+            }
+
+            // Convert direction to facing
+            Vector2Int direction = nearest - scannerPos;
+            return DirectionToFacing(direction);
+        }
+
+        // No predictions - face toward map center
+        Vector2Int mapCenter = new Vector2Int(
+            context.GridManager.width / 2,
+            context.GridManager.height / 2
+        );
+
+        Vector2Int toCenter = mapCenter - scannerPos;
+        return DirectionToFacing(toCenter);
+    }
+
+    /// <summary>
+    /// Converts a direction vector to the nearest cardinal UnitFacing.
+    /// </summary>
+    private static UnitFacing DirectionToFacing(Vector2Int direction)
+    {
+        if (direction == Vector2Int.zero)
+        {
+            return UnitFacing.North;
+        }
+
+        // Use absolute values to find dominant axis
+        int absX = Mathf.Abs(direction.x);
+        int absY = Mathf.Abs(direction.y);
+
+        if (absX > absY)
+        {
+            return direction.x > 0 ? UnitFacing.East : UnitFacing.West;
+        }
+        else
+        {
+            return direction.y > 0 ? UnitFacing.North : UnitFacing.South;
+        }
     }
 
     /// <summary>
@@ -133,19 +224,16 @@ public static class SearchPlanner
         int speed = unit.Definition.System.MovementSpeed;
         int detectionRange = unit.Definition.System.DetectionRange;
 
-        // Scout: Fast (speed >= 6) with good detection (range >= 4)
         if (speed >= 6 && detectionRange >= 4)
         {
             return UnitRole.Scout;
         }
 
-        // Anchor: Tough (HP >= 80) with multiple weapons
         if (unit.MaxHealth >= 80 && HasMultipleWeapons(unit))
         {
             return UnitRole.Anchor;
         }
 
-        // Default: Striker
         return UnitRole.Striker;
     }
 
@@ -175,23 +263,24 @@ public static class SearchPlanner
     }
 
     /// <summary>
-    /// Finds the ability slot index for the scan ability.
-    /// Searches unit abilities for one usable during Search phase.
+    /// Finds the sensor system slot index on a unit.
+    /// Searches for a Sensor-type system slot.
     /// </summary>
-    private static int FindScanAbilitySlot(RuntimeUnit unit)
+    private static int FindSensorSlot(RuntimeUnit unit)
     {
-        if (unit.Abilities == null || unit.Abilities.Length == 0)
+        if (unit.SystemSlots == null || unit.SystemSlots.Length == 0)
         {
             return -1;
         }
 
-        for (int i = 0; i < unit.Abilities.Length; i++)
+        for (int i = 0; i < unit.SystemSlots.Length; i++)
         {
-            RuntimeAbilityState abilityState = unit.Abilities[i];
+            RuntimeSystemSlotState slot = unit.SystemSlots[i];
 
-            if (abilityState != null &&
-                abilityState.Ability != null &&
-                (abilityState.Ability.UsablePhases & GameplayPhase.Search) != 0)
+            if (slot != null &&
+                slot.System != null &&
+                slot.System.SlotType == SystemSlotType.Sensor &&
+                slot.System.Pattern != null)
             {
                 return i;
             }
