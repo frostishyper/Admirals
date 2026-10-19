@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcaf9b4706a932048aab40d3c4dca3b1, type: 3}
+  m_Name: GameMode_Annihilation
+  m_EditorClassIdentifier: Assembly-CSharp::GameModeInfo
+  _GameModeName: Annihilation
+<<<<<<< HEAD:Assets/Data/GameModes/GameMode_Annihilation.asset
+  _GameModeID: Gamemode_Info_Annihilation
+  _GameModeReference: {fileID: 11400000, guid: e2593c3c2b0fec94da028286560b2b60, type: 2}
+=======
+  _GameModeID: 1
+  _GameModeReference: {fileID: 3210081164699104963, guid: 491ec71d877977e499e7f274f721ea26, type: 3}
+>>>>>>> origin/dev:Assets/Data/GameModesInfo/GameMode_Annihilation.asset

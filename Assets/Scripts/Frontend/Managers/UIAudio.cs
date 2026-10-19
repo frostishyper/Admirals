@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Attach To Controller_UIAudio GameObject
-public class UIAudio : MonoBehaviour
+public class UIAudioManager : MonoBehaviour
 {
     // References To The Audio Sources (Child GameObjects)
     [SerializeField] private AudioSource _MasterSource; // Master

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1605c1a4bc53cb94cb056306bae6b270, type: 3}
+  m_Name: Domain_Surface
+  m_EditorClassIdentifier: Assembly-CSharp::Domains
+  _DomainName: Surface
+  _DomainID: surface
+  _DomainSprite: {fileID: 7869926609406975850, guid: 311328d4affd1f5478583f9b225240ba, type: 3}

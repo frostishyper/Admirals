@@ -3539,12 +3539,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 613311335}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: edeea334cd221a542b1c54b5dc033da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MatchLaunchBridge
   _LobbyController: {fileID: 613311339}
   _CountdownText: {fileID: 1607352726}
   _CountdownDuration: 5
+=======
+  m_Script: {fileID: 11500000, guid: 07d95dae62092de4784a88ef62c1bf10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MatchLaunchBridge
+  _LobbyController: {fileID: 613311339}
+>>>>>>> origin/dev
   _GameSceneName: Game
 --- !u!1 &619394800
 GameObject:
@@ -11404,7 +11411,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1622327489}
   m_CullTransparentMesh: 1
+<<<<<<< HEAD
 --- !u!1 &1637750290
+=======
+--- !u!1 &1625253755
+>>>>>>> origin/dev
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11412,27 +11423,57 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD
   - component: {fileID: 1637750291}
   - component: {fileID: 1637750293}
   - component: {fileID: 1637750292}
   m_Layer: 5
   m_Name: Row_Participants
+=======
+  - component: {fileID: 1625253757}
+  - component: {fileID: 1625253756}
+  m_Layer: 0
+  m_Name: Session_Match
+>>>>>>> origin/dev
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 --- !u!224 &1637750291
 RectTransform:
+=======
+--- !u!114 &1625253756
+MonoBehaviour:
+>>>>>>> origin/dev
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 1637750290}
+=======
+  m_GameObject: {fileID: 1625253755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73878ab25ede6f04dacc92d20e792de5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MatchSession
+--- !u!4 &1625253757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625253755}
+  serializedVersion: 2
+>>>>>>> origin/dev
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
+<<<<<<< HEAD
   m_Children:
   - {fileID: 1482618323}
   - {fileID: 1321306750}
@@ -11484,6 +11525,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+=======
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> origin/dev
 --- !u!1 &1647109842
 GameObject:
   m_ObjectHideFlags: 0
@@ -16377,6 +16423,7 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1364446967}
   - {fileID: 619394802}
+  - {fileID: 1625253757}
   - {fileID: 1231253044}
   - {fileID: 1037997267}
   - {fileID: 5548722389257009047}

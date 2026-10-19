@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioSliderFeedback : MonoBehaviour
 {
     // Reference To The UIAudio Manager
-    [SerializeField] private UIAudio _UIAudio;
+    [SerializeField] private UIAudioManager _UIAudio;
 
     // Which Mixer-Routed Channel The Audio Should Play Through
     [SerializeField] private AudioChannel _Channel;

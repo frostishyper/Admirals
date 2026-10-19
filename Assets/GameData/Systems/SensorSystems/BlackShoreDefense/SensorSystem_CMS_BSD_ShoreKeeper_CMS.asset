@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6ca1b85b8a57f45828769494fad085, type: 3}
+  m_Name: SensorSystem_CMS_BSD_ShoreKeeper_CMS
+  m_EditorClassIdentifier: Assembly-CSharp::SensorSystemDefinition
+  _SystemName: 'ShoreKeeper Combat System '
+  _SystemID: sys_sensor_bsd_shorekeeper
+  _Manufacturer: {fileID: 11400000, guid: 9d3aa3fa4f3de5442affb4090b0dac19, type: 2}
+  _Tier: {fileID: 11400000, guid: 05e2378974f69db4dbf5aaf39f508aec, type: 2}
+  _SystemType: {fileID: 11400000, guid: ae2d0f3245fb9c74dab12ed86e68f38c, type: 2}
+  _UsableDomains:
+  - {fileID: 11400000, guid: 4676c118c4826ad479942a3d214569d5, type: 2}
+  _RequiredTags: 
+  _BlockedTags: 
+  _Pattern: {fileID: 11400000, guid: 0a2eb7568922f0446a56bcc67d689a77, type: 2}
+  _CanSearch: 1
+  _CanFireControl: 1
+  _DetectableDomains:
+  - {fileID: 11400000, guid: 3bb39945bce1a6b458e639fb6a07169e, type: 2}
+  - {fileID: 11400000, guid: 4676c118c4826ad479942a3d214569d5, type: 2}

@@ -24,6 +24,9 @@ mono_crash.*
 ehthumbs.db
 Thumbs.db
 
+# UI Toolkit generated schemas
+*.xsd
+
 # Temp Art Backups
 *~
 *.bak

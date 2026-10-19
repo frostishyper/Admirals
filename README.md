@@ -61,31 +61,52 @@ combat with fresh new mechanics and deeper tactical decision‑making. 🌊
 -   Vscode (recommended) or preferred C# IDE
 -   Git
 -   Git LFS
+-   MackySoft SerializeReferenceExtensions 1.7.0
 
 
 ## 🧭 Roadmap
 
 # ⚓ Admirals — Development Roadmap
 
+<<<<<<< HEAD
 
         
+=======
+>>>>>>> origin/dev
 ## 📁 Project Structure
 
     ~/
+    ├── Assets
+    │   ├── Animations
+    │   ├── Art
+    │   ├── Audio
+    │   ├── Data
+    │   ├── Fonts
+    │   ├── GameData
+    │   ├── Prefabs
+    │   ├── Scenes
+    │   ├── Scripts
+    │   ├── Settings
+    │   └── TextMesh Pro
     │
-    ├── Assets          
-    ├── Packages        
-    ├── Project Settings 
+    ├── Packages
+    │   ├── manifest.json
+    │   └── packages-lock.json
+    │
+    ├── ProjectSettings
+    │
+    ├── .github
+    │   └── pull_request_template.md
+    │
+    ├── .gitattributes
     ├── .gitignore
-    └── README.md         
-
+    └── README.md
 
 
 ## 🖼️ Screenshots
 
 <img width="1100" height="600" alt="Admirals_TitleScreen" src="https://github.com/user-attachments/assets/cb9ba809-0a49-441b-b5d6-0ae9a1f7c615" />
 <img width="1100" height="600" alt="Admirals_MainMenu" src="https://github.com/user-attachments/assets/61b30fed-599a-49fe-8c32-971e17bc681a" />
-
 
 
 ## 👥 Credits
