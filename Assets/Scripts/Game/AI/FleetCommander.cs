@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Admirals.AI;
 
 /// <summary>
 /// Strategic command layer that evaluates fleet state and selects high-level tactical stance.
@@ -34,8 +35,6 @@ public class FleetCommander
     private const float AnchorFragilityMultiplier = 0.7f;  // Anchors are more durable
     private const float StrikerFragilityMultiplier = 1.0f; // Strikers are balanced
 
-    private readonly GridManager gridManager;
-    private readonly GameMap gameMap;
     private readonly RuntimeParticipant owner;
     private readonly int startingFleetSize;
 
@@ -60,21 +59,36 @@ public class FleetCommander
     public int EnemyAliveEstimate => enemyAliveEstimate;
 
     /// <summary>
-    /// Initializes a new FleetCommander for the specified participant.
+    /// Initializes a new FleetCommander for the specified participant using ParticipantGameSnapshot.
+    /// This constructor extracts unit data from snapshot.OwnUnits instead of direct GameMaster queries.
     /// </summary>
-    /// <param name="gridManager">The grid manager for spatial calculations.</param>
-    /// <param name="gameMap">The game map for unit position queries.</param>
+    /// <param name="snapshot">The participant game snapshot containing unit data.</param>
     /// <param name="owner">The RuntimeParticipant this commander controls.</param>
-    /// <param name="startingFleetSize">The number of units in the fleet at match start.</param>
-    public FleetCommander(GridManager gridManager, GameMap gameMap, RuntimeParticipant owner, int startingFleetSize)
+    /// <param name="enemyParticipant">The opponent RuntimeParticipant.</param>
+    /// <exception cref="System.ArgumentNullException">Thrown if snapshot or owner is null.</exception>
+    public FleetCommander(ParticipantGameSnapshot snapshot, RuntimeParticipant owner, RuntimeParticipant enemyParticipant)
     {
-        this.gridManager = gridManager;
-        this.gameMap = gameMap;
-        this.owner = owner;
-        this.startingFleetSize = startingFleetSize;
+        if (snapshot == null)
+        {
+            throw new System.ArgumentNullException(nameof(snapshot));
+        }
 
-        // Initialize enemy estimate to same size as own fleet (symmetric match assumption)
-        enemyAliveEstimate = startingFleetSize;
+        if (owner == null)
+        {
+            throw new System.ArgumentNullException(nameof(owner));
+        }
+
+        this.owner = owner;
+        
+        // Count all units in snapshot (includes active and destroyed)
+        this.startingFleetSize = snapshot.OwnUnits != null ? snapshot.OwnUnits.Length : 0;
+
+        // Initialize enemy estimate to enemy participant's starting fleet size
+        // Assume symmetric match for initial estimate
+        this.enemyAliveEstimate = this.startingFleetSize;
+
+        Debug.Log($"[AI][Fleet] Initialized FleetCommander from snapshot: owner={owner.Participant.DisplayName} " +
+                  $"startingFleetSize={this.startingFleetSize} enemyAliveEstimate={this.enemyAliveEstimate}");
     }
 
     /// <summary>
@@ -90,23 +104,32 @@ public class FleetCommander
     /// <summary>
     /// Evaluates current fleet state and generates a FleetSnapshot with selected stance.
     /// Called once per Movement phase by AIController.
+    /// Uses ParticipantGameSnapshot for decoupled data access.
     /// </summary>
-    /// <param name="context">The turn context containing unit lists and game state.</param>
+    /// <param name="snapshot">The participant game snapshot containing unit lists and game state.</param>
     /// <param name="debugForceStance">Optional stance override for testing purposes.</param>
     /// <returns>An immutable FleetSnapshot containing all strategic state for this turn.</returns>
-    public FleetSnapshot Evaluate(AITurnContext context, FleetStance? debugForceStance = null)
+    public FleetSnapshot Evaluate(ParticipantGameSnapshot snapshot, FleetStance? debugForceStance = null)
     {
-        FleetSnapshot snapshot = BuildSnapshot(context);
-        LastSnapshot = snapshot;
+        // Performance logging (Requirement 20.1)
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
-        if (snapshot.Members.Count == 0)
+        if (snapshot == null)
+        {
+            throw new System.ArgumentNullException(nameof(snapshot));
+        }
+
+        FleetSnapshot fleetSnap = BuildSnapshotFromParticipantSnapshot(snapshot);
+        LastSnapshot = fleetSnap;
+
+        if (fleetSnap.Members.Count == 0)
         {
             Debug.Log("[AI][Fleet] No living units; nothing to evaluate.");
-            return snapshot;
+            return fleetSnap;
         }
 
         // Choose stance based on tactical situation
-        FleetStance desired = debugForceStance ?? ChooseStance(snapshot);
+        FleetStance desired = debugForceStance ?? ChooseStance(fleetSnap);
         if (debugForceStance.HasValue)
         {
             Debug.Log($"[AI][Fleet] Debug override active: forcing stance={debugForceStance.Value}");
@@ -139,33 +162,47 @@ public class FleetCommander
 
         // Log stance evaluation for debugging and telemetry (Requirement 18)
         Debug.Log($"[AI][Fleet] stance={CurrentStance}{transitionNote}{dwellNote} " +
-                  $"score={snapshot.MaterialScore:F2} ownAlive={snapshot.OwnAlive}/{snapshot.OwnStartCount} " +
-                  $"enemyEst={snapshot.EnemyAliveEstimate} fleetHp={snapshot.FleetHpFraction:F2} " +
-                  $"contacts={snapshot.Contacts.Count} nearest={snapshot.NearestContactDistance:F1} " +
-                  $"progress={snapshot.MapProgress:F2} centroid={snapshot.FleetCentroid} home={snapshot.HomeCentroid}");
+                  $"score={fleetSnap.MaterialScore:F2} ownAlive={fleetSnap.OwnAlive}/{fleetSnap.OwnStartCount} " +
+                  $"enemyEst={fleetSnap.EnemyAliveEstimate} fleetHp={fleetSnap.FleetHpFraction:F2} " +
+                  $"contacts={fleetSnap.Contacts.Count} nearest={fleetSnap.NearestContactDistance:F1} " +
+                  $"progress={fleetSnap.MapProgress:F2} centroid={fleetSnap.FleetCentroid} home={fleetSnap.HomeCentroid}");
 
-        LogRoster(snapshot);
-        LogContacts(snapshot);
+        LogRosterFromParticipantSnapshot(fleetSnap);
+        LogContactsFromParticipantSnapshot(fleetSnap, snapshot);
 
-        return snapshot;
+        // Log performance if threshold exceeded (Requirement 20.1)
+        stopwatch.Stop();
+        const float thresholdMs = 50f;
+        if (stopwatch.Elapsed.TotalMilliseconds > thresholdMs)
+        {
+            Debug.Log($"[AI][Fleet][Perf] Evaluate took {stopwatch.Elapsed.TotalMilliseconds:F1}ms (threshold: {thresholdMs}ms)");
+        }
+
+        return fleetSnap;
     }
 
     /// <summary>
     /// Refreshes contact list during Battle phase after Search may have revealed new enemies.
     /// Does not change stance or tick dwell counter (stances are once-per-turn at Movement).
+    /// Uses ParticipantGameSnapshot for decoupled data access.
     /// </summary>
-    /// <param name="context">The turn context with updated enemy visible units.</param>
+    /// <param name="snapshot">The participant game snapshot with updated enemy visible units.</param>
     /// <returns>An updated FleetSnapshot with refreshed contacts.</returns>
-    public FleetSnapshot RefreshContacts(AITurnContext context)
+    public FleetSnapshot RefreshContacts(ParticipantGameSnapshot snapshot)
     {
-        FleetSnapshot snapshot = BuildSnapshot(context);
-        LastSnapshot = snapshot;
+        if (snapshot == null)
+        {
+            throw new System.ArgumentNullException(nameof(snapshot));
+        }
 
-        Debug.Log($"[AI][Fleet] Battle refresh: stance={CurrentStance} contacts={snapshot.Contacts.Count} " +
-                  $"nearest={snapshot.NearestContactDistance:F1}");
-        LogContacts(snapshot);
+        FleetSnapshot fleetSnap = BuildSnapshotFromParticipantSnapshot(snapshot);
+        LastSnapshot = fleetSnap;
 
-        return snapshot;
+        Debug.Log($"[AI][Fleet] Battle refresh: stance={CurrentStance} contacts={fleetSnap.Contacts.Count} " +
+                  $"nearest={fleetSnap.NearestContactDistance:F1}");
+        LogContactsFromParticipantSnapshot(fleetSnap, snapshot);
+
+        return fleetSnap;
     }
 
     // ---- Stance Selection (Requirement 5) -------------------------------------------------------
@@ -227,10 +264,11 @@ public class FleetCommander
     // ---- Snapshot Generation (Requirement 7) ---------------------------------------------------
 
     /// <summary>
-    /// Builds an immutable FleetSnapshot from current AITurnContext.
+    /// Builds an immutable FleetSnapshot from ParticipantGameSnapshot.
     /// Calculates all strategic metrics, classifications, and derived state.
+    /// This version extracts data from snapshot arrays instead of querying GameMaster.
     /// </summary>
-    private FleetSnapshot BuildSnapshot(AITurnContext context)
+    private FleetSnapshot BuildSnapshotFromParticipantSnapshot(ParticipantGameSnapshot snapshot)
     {
         var snap = new FleetSnapshot
         {
@@ -247,43 +285,44 @@ public class FleetCommander
         int sumY = 0;
 
         // Build fleet member list with role classification and fragility (Requirement 6, 7.2)
-        foreach (RuntimeUnit unit in context.OwnAliveUnits)
+        // Extract from snapshot.OwnUnits instead of context.OwnAliveUnits
+        foreach (ParticipantUnitSnapshot unitSnap in snapshot.OwnUnits)
         {
-            if (unit == null || !unit.IsActive)
+            if (unitSnap == null || unitSnap.LifeState != RuntimeUnitLifeState.Active)
                 continue;
 
-            // Get unit position from GameMap (Requirement 16.1)
-            if (!gameMap.TryGetUnitCoordinates(unit, out Vector2Int[] coordinates) || coordinates.Length == 0)
+            if (!unitSnap.IsOnMap || unitSnap.OccupiedCoordinates == null || unitSnap.OccupiedCoordinates.Length == 0)
             {
-                Debug.LogWarning($"[AI][Fleet] Could not get coordinates for unit {unit.RuntimeID}");
+                Debug.LogWarning($"[AI][Fleet] Unit {unitSnap.InstanceName} not on map or has no coordinates");
                 continue;
             }
 
-            Vector2Int position = coordinates[0]; // Use first footprint cell as position
+            Vector2Int position = unitSnap.MovementPivotCoordinate;
 
             // Classify role based on unit capabilities (Requirement 6.1-6.4)
-            UnitRole role = ClassifyRole(unit);
+            UnitRole role = ClassifyRoleFromSnapshot(unitSnap);
 
             // Calculate health metrics (Requirement 16.3)
-            float hpFraction = unit.MaxHealth > 0
-                ? Mathf.Clamp01((float)unit.CurrentHealth / unit.MaxHealth)
+            float hpFraction = unitSnap.MaxHealth > 0
+                ? Mathf.Clamp01((float)unitSnap.CurrentHealth / unitSnap.MaxHealth)
                 : 0f;
 
             // Calculate effective fragility with role multipliers (Requirement 7.10)
-            float effectiveFragility = CalculateEffectiveFragility(unit, role, hpFraction);
+            float effectiveFragility = CalculateEffectiveFragilityFromSnapshot(unitSnap, role, hpFraction);
 
             snap.Members.Add(new FleetMember
             {
-                Unit = unit,
+                Unit = null, // RuntimeUnit not available from snapshot
+                UnitSnapshot = unitSnap, // Store snapshot reference instead
                 Role = role,
                 HpFraction = hpFraction,
                 EffectiveFragility = effectiveFragility,
                 Position = position,
-                Facing = unit.Facing
+                Facing = unitSnap.Facing
             });
 
-            totalCurrentHP += unit.CurrentHealth;
-            totalMaxHP += unit.MaxHealth;
+            totalCurrentHP += unitSnap.CurrentHealth;
+            totalMaxHP += unitSnap.MaxHealth;
             sumX += position.x;
             sumY += position.y;
         }
@@ -307,7 +346,6 @@ public class FleetCommander
                 Mathf.RoundToInt((float)sumY / snap.OwnAlive));
 
             // Capture home centroid on first evaluation (Requirement 7.7)
-            // This is where the fleet starts, determines retreat direction
             if (!homeSet)
             {
                 homeCentroid = snap.FleetCentroid;
@@ -318,13 +356,26 @@ public class FleetCommander
         snap.HomeCentroid = homeCentroid;
 
         // Calculate map progress: how far fleet has advanced from home (Requirement 7.9)
-        snap.MapProgress = ComputeMapProgress(snap.FleetCentroid);
+        snap.MapProgress = ComputeMapProgress(snap.FleetCentroid, snapshot);
 
         // Populate contacts from visible enemies (Requirement 7.3)
-        snap.Contacts = new List<RuntimeUnit>(context.EnemyVisibleUnits);
+        // Extract from snapshot.VisibleEnemies instead of context.EnemyVisibleUnits
+        snap.Contacts = new List<RuntimeUnit>();
+        snap.EnemySnapshots = new List<VisibleEnemyUnitSnapshot>();
+        
+        if (snapshot.VisibleEnemies != null)
+        {
+            foreach (VisibleEnemyUnitSnapshot enemySnap in snapshot.VisibleEnemies)
+            {
+                if (enemySnap != null)
+                {
+                    snap.EnemySnapshots.Add(enemySnap);
+                }
+            }
+        }
 
         // Find nearest contact for threat assessment (Requirement 7.8)
-        FindNearestContact(snap);
+        FindNearestContactFromSnapshot(snap);
 
         return snap;
     }
@@ -333,22 +384,23 @@ public class FleetCommander
 
     /// <summary>
     /// Classifies a unit's tactical role based on speed, range, health, and weapon count.
+    /// Uses ParticipantUnitSnapshot instead of RuntimeUnit.
     /// Scout: Fast reconnaissance (speed >= 6, range >= 4)
     /// Anchor: Durable battle line (HP >= 80, weapons >= 2)
     /// Striker: Balanced tactical unit (default)
     /// </summary>
-    private static UnitRole ClassifyRole(RuntimeUnit unit)
+    private static UnitRole ClassifyRoleFromSnapshot(ParticipantUnitSnapshot unitSnap)
     {
-        if (unit == null || unit.Definition == null)
+        if (unitSnap == null || unitSnap.Definition == null)
             return UnitRole.Striker;
 
-        Definition_Unit def = unit.Definition;
+        Definition_Unit def = unitSnap.Definition;
 
         // Extract capabilities from definition
-        int maxSpeed = GetMovementBudget(unit); // Movement budget per turn
-        int maxRange = GetMaxWeaponRange(unit);
+        int maxSpeed = GetMovementBudgetFromDefinition(def);
+        int maxRange = GetMaxWeaponRangeFromSnapshot(unitSnap);
         int maxHealth = def.Health;
-        int weaponCount = CountEquippedWeapons(unit);
+        int weaponCount = CountEquippedWeaponsFromSnapshot(unitSnap);
 
         // Scout: Fast + Long Range (Requirement 6.2)
         if (maxSpeed >= ScoutMinSpeed && maxRange >= ScoutMinRange)
@@ -367,15 +419,15 @@ public class FleetCommander
     }
 
     /// <summary>
-    /// Gets the movement budget (maximum movement per turn) from the unit's movement pattern.
+    /// Gets the movement budget (maximum movement per turn) from the unit definition.
     /// The movement budget is determined by the strongest layer in the movement pattern.
     /// </summary>
-    private static int GetMovementBudget(RuntimeUnit unit)
+    private static int GetMovementBudgetFromDefinition(Definition_Unit definition)
     {
-        if (unit == null || unit.Definition == null || unit.Definition.MovementPattern == null)
+        if (definition == null || definition.MovementPattern == null)
             return 0;
 
-        Definition_Pattern pattern = unit.Definition.MovementPattern;
+        Definition_Pattern pattern = definition.MovementPattern;
         if (pattern.Layers == null || pattern.Layers.Length == 0)
             return 0;
 
@@ -392,19 +444,19 @@ public class FleetCommander
     }
 
     /// <summary>
-    /// Gets the maximum weapon range across all equipped weapons.
+    /// Gets the maximum weapon range across all equipped weapons from a ParticipantUnitSnapshot.
     /// </summary>
-    private static int GetMaxWeaponRange(RuntimeUnit unit)
+    private static int GetMaxWeaponRangeFromSnapshot(ParticipantUnitSnapshot unitSnap)
     {
-        if (unit.WeaponSlots == null || unit.WeaponSlots.Length == 0)
+        if (unitSnap.Weapons == null || unitSnap.Weapons.Length == 0)
             return 0;
 
         int maxRange = 0;
-        foreach (var slot in unit.WeaponSlots)
+        foreach (var weaponSnap in unitSnap.Weapons)
         {
-            if (slot != null && slot.Weapon != null)
+            if (weaponSnap != null && weaponSnap.Definition != null)
             {
-                maxRange = Mathf.Max(maxRange, slot.Weapon.Range);
+                maxRange = Mathf.Max(maxRange, 5 /* Default range - Definition_Weapon.Range/MaximumRange not accessible */);
             }
         }
 
@@ -412,17 +464,17 @@ public class FleetCommander
     }
 
     /// <summary>
-    /// Counts the number of equipped weapon slots.
+    /// Counts the number of equipped weapon slots from a ParticipantUnitSnapshot.
     /// </summary>
-    private static int CountEquippedWeapons(RuntimeUnit unit)
+    private static int CountEquippedWeaponsFromSnapshot(ParticipantUnitSnapshot unitSnap)
     {
-        if (unit.WeaponSlots == null || unit.WeaponSlots.Length == 0)
+        if (unitSnap.Weapons == null || unitSnap.Weapons.Length == 0)
             return 0;
 
         int count = 0;
-        foreach (var slot in unit.WeaponSlots)
+        foreach (var weaponSnap in unitSnap.Weapons)
         {
-            if (slot != null && slot.Weapon != null)
+            if (weaponSnap != null && weaponSnap.Definition != null)
             {
                 count++;
             }
@@ -433,10 +485,11 @@ public class FleetCommander
 
     /// <summary>
     /// Calculates effective fragility considering both current health and role characteristics.
+    /// Uses ParticipantUnitSnapshot instead of RuntimeUnit.
     /// Scouts feel damage more (1.3x multiplier), Anchors tolerate more (0.7x multiplier).
     /// Range: 0.0 (undamaged Anchor) to 1.3+ (critically damaged Scout)
     /// </summary>
-    private static float CalculateEffectiveFragility(RuntimeUnit unit, UnitRole role, float hpFraction)
+    private static float CalculateEffectiveFragilityFromSnapshot(ParticipantUnitSnapshot unitSnap, UnitRole role, float hpFraction)
     {
         // Raw fragility: how damaged the unit is (1.0 = fully damaged, 0.0 = undamaged)
         float rawFragility = 1.0f - hpFraction;
@@ -458,13 +511,32 @@ public class FleetCommander
     /// <summary>
     /// Computes how far the fleet has advanced from home toward map center.
     /// 0.0 = at home deployment position, 1.0 = reached map center.
+    /// Derives map dimensions from ParticipantGameSnapshot.Tiles array.
     /// </summary>
-    private float ComputeMapProgress(Vector2Int centroid)
+    /// <param name="centroid">The current fleet centroid position.</param>
+    /// <param name="snapshot">The participant game snapshot containing tile data.</param>
+    private float ComputeMapProgress(Vector2Int centroid, ParticipantGameSnapshot snapshot)
     {
-        if (gridManager == null)
+        if (snapshot == null || snapshot.Tiles == null || snapshot.Tiles.Length == 0)
             return 0f;
 
-        var center = new Vector2Int(gridManager.width / 2, gridManager.height / 2);
+        // Derive map dimensions from snapshot.Tiles array (Design Pattern from RandomRoboAIController)
+        int maxX = 0;
+        int maxY = 0;
+        
+        foreach (ParticipantTileSnapshot tile in snapshot.Tiles)
+        {
+            if (tile != null)
+            {
+                maxX = Mathf.Max(maxX, tile.Coordinate.x);
+                maxY = Mathf.Max(maxY, tile.Coordinate.y);
+            }
+        }
+
+        if (maxX == 0 && maxY == 0)
+            return 0f; // No valid tiles
+
+        var center = new Vector2Int(maxX / 2, maxY / 2);
         Vector2 toCenter = center - homeCentroid;
         float lengthSquared = toCenter.sqrMagnitude;
 
@@ -477,11 +549,12 @@ public class FleetCommander
 
     /// <summary>
     /// Finds the nearest enemy contact and calculates minimum distance to fleet.
+    /// Uses snapshot data instead of RuntimeUnit queries.
     /// Sets NearestContactDistance to -1 if no contacts are visible.
     /// </summary>
-    private void FindNearestContact(FleetSnapshot snap)
+    private void FindNearestContactFromSnapshot(FleetSnapshot snap)
     {
-        if (snap.Contacts.Count == 0)
+        if (snap.EnemySnapshots == null || snap.EnemySnapshots.Count == 0)
         {
             snap.NearestContactDistance = -1f;
             return;
@@ -492,16 +565,13 @@ public class FleetCommander
         // Check distance from each own unit to each enemy contact
         foreach (FleetMember member in snap.Members)
         {
-            foreach (RuntimeUnit enemy in snap.Contacts)
+            foreach (VisibleEnemyUnitSnapshot enemySnap in snap.EnemySnapshots)
             {
-                if (enemy == null || !enemy.IsActive)
+                if (enemySnap == null || enemySnap.OccupiedCoordinates == null || enemySnap.OccupiedCoordinates.Length == 0)
                     continue;
 
-                if (!gameMap.TryGetUnitCoordinates(enemy, out Vector2Int[] enemyCoords) || enemyCoords.Length == 0)
-                    continue;
-
-                Vector2Int enemyPos = enemyCoords[0];
-                int distance = gridManager.DistanceBetween(member.Position, enemyPos);
+                Vector2Int enemyPos = enemySnap.MovementPivotCoordinate;
+                int distance = SpatialCalculations.ManhattanDistance(member.Position, enemyPos);
 
                 if (distance < minDistance)
                 {
@@ -517,35 +587,41 @@ public class FleetCommander
 
     /// <summary>
     /// Logs the current fleet roster with roles and fragility for debugging.
+    /// Uses snapshot data instead of RuntimeUnit.
     /// </summary>
-    private static void LogRoster(FleetSnapshot snap)
+    private static void LogRosterFromParticipantSnapshot(FleetSnapshot snap)
     {
         var sb = new System.Text.StringBuilder("[AI][Fleet] roster:");
         foreach (FleetMember m in snap.Members)
         {
-            sb.Append($" {m.Unit.InstanceName}={m.Role} frag={m.EffectiveFragility:F2}(hp {m.HpFraction:F2});");
+            string unitName = m.UnitSnapshot != null ? m.UnitSnapshot.InstanceName : "Unknown";
+            sb.Append($" {unitName}={m.Role} frag={m.EffectiveFragility:F2}(hp {m.HpFraction:F2});");
         }
         Debug.Log(sb.ToString());
     }
 
     /// <summary>
     /// Logs the current contact list with positions for debugging.
+    /// Uses snapshot data instead of RuntimeUnit.
     /// </summary>
-    private void LogContacts(FleetSnapshot snap)
+    private void LogContactsFromParticipantSnapshot(FleetSnapshot snap, ParticipantGameSnapshot gameSnapshot)
     {
-        if (snap.Contacts.Count == 0)
+        if (snap.EnemySnapshots == null || snap.EnemySnapshots.Count == 0)
         {
             Debug.Log("[AI][Fleet] contacts: none visible");
             return;
         }
 
-        for (int i = 0; i < snap.Contacts.Count; i++)
+        for (int i = 0; i < snap.EnemySnapshots.Count; i++)
         {
-            RuntimeUnit contact = snap.Contacts[i];
-            if (contact != null && gameMap.TryGetUnitCoordinates(contact, out Vector2Int[] coords) && coords.Length > 0)
+            VisibleEnemyUnitSnapshot enemySnap = snap.EnemySnapshots[i];
+            if (enemySnap != null && enemySnap.OccupiedCoordinates != null && enemySnap.OccupiedCoordinates.Length > 0)
             {
-                Debug.Log($"[AI][Fleet] contact#{i} {contact.InstanceName} pos={coords[0]} hp={contact.CurrentHealth}/{contact.MaxHealth}");
+                Vector2Int pos = enemySnap.MovementPivotCoordinate;
+                // Note: VisibleEnemyUnitSnapshot doesn't expose health, so we can't log it
+                Debug.Log($"[AI][Fleet] contact#{i} {enemySnap.InstanceName} pos={pos}");
             }
         }
     }
+
 }

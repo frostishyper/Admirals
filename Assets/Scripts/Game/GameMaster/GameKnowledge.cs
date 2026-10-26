@@ -248,6 +248,7 @@ public sealed class ParticipantUnitSnapshot
     public ParticipantStatusSnapshot[] Statuses { get; }
     public ParticipantModifierSnapshot[] Modifiers { get; }
     public ParticipantUnitTagSnapshot[] Tags { get; }
+    public int RemainingMovementBudget { get; }
 
     internal ParticipantUnitSnapshot(
         RuntimeUnit Unit,
@@ -271,6 +272,7 @@ public sealed class ParticipantUnitSnapshot
         this.IsOnMap = IsOnMap;
         this.MovementPivotCoordinate = MovementPivotCoordinate;
         OccupiedCoordinates = Coordinates ?? Array.Empty<Vector2Int>();
+        RemainingMovementBudget = Unit.RemainingMovementBudget;
 
         Weapons = new ParticipantWeaponSnapshot[Unit.WeaponSlots.Length];
         for (int i = 0; i < Weapons.Length; i++)

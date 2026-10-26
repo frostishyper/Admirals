@@ -608,7 +608,8 @@ public sealed class GameDeployment
 
 
         internal ParticipantView(
-            ParticipantPlan Plan
+            ParticipantPlan Plan,
+            GameDeployment GameDeployment
         )
         {
             _Plan =
@@ -854,18 +855,19 @@ public sealed class GameDeployment
         ParticipantB =
             NewParticipantB;
 
-        _ParticipantAView =
+         _ParticipantAView =
             new ParticipantView(
-                ParticipantA
-            );
+                ParticipantA,
                 this
+            );
 
         _ParticipantBView =
             new ParticipantView(
-                ParticipantB
-            );
+                ParticipantB,
                 this
+            );
 
+                
         IsInitialized =
             true;
 

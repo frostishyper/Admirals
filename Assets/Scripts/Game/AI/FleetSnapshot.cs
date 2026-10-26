@@ -6,6 +6,7 @@ using UnityEngine;
 /// Contains all information needed by tactical subsystems to make decisions
 /// without requiring repeated GameMaster queries. Shared across all AI subsystems
 /// for consistent reasoning.
+/// Supports both legacy RuntimeUnit-based and new snapshot-based architectures.
 /// </summary>
 public class FleetSnapshot
 {
@@ -73,13 +74,24 @@ public class FleetSnapshot
     /// 0.0 = at home deployment position, 1.0 = reached map center.
     /// Used to assess forward progress during Hunt and Advance stances.
     /// </summary>
-    public float MapProgress { get; set; }
+    public float MapProgress { get; set; }    /// <summary>
+    /// AI formation mode for this match determining ship cohesion behavior.
+    /// </summary>
+    public FormationMode FormationMode { get; set; }
 
     /// <summary>
-    /// List of currently visible enemy units (contacts).
+    /// List of currently visible enemy RuntimeUnits (contacts) - legacy architecture.
     /// Empty during Hunt stance or when fog-of-war conceals all enemies.
+    /// Null when using snapshot-based architecture.
     /// </summary>
     public List<RuntimeUnit> Contacts { get; set; }
+
+    /// <summary>
+    /// List of currently visible enemy unit snapshots (contacts) - snapshot-based architecture.
+    /// Empty during Hunt stance or when fog-of-war conceals all enemies.
+    /// Null when using legacy RuntimeUnit-based architecture.
+    /// </summary>
+    public List<VisibleEnemyUnitSnapshot> EnemySnapshots { get; set; }
 
     /// <summary>
     /// Minimum distance from any own unit to any visible contact.
@@ -100,6 +112,7 @@ public class FleetSnapshot
     public FleetSnapshot()
     {
         Contacts = new List<RuntimeUnit>();
+        EnemySnapshots = new List<VisibleEnemyUnitSnapshot>();
         Members = new List<FleetMember>();
         NearestContactDistance = -1f;
     }

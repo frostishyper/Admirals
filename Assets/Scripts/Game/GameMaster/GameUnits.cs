@@ -807,6 +807,13 @@ public sealed class RuntimeUnit
     }
 
 
+    public int RemainingMovementBudget
+    {
+        get;
+        internal set;
+    }
+
+
     public RuntimeWeaponSlotState[] WeaponSlots
     {
         get;
@@ -901,6 +908,12 @@ public sealed class RuntimeUnit
             Definition != null
                 ? Definition.BaseDomain
                 : Domain.None;
+
+
+        RemainingMovementBudget =
+            Definition != null
+                ? Definition.MovementPattern?.Layers?[0]?.Strength ?? 0
+                : 0;
 
 
         InitializeWeaponSlots();

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// Per-turn snapshot of game state built by querying GameMaster APIs.
+/// Per-turn snapshot of game state built from ParticipantGameSnapshot.
 /// Provides a consistent view of the participant's units, visible enemies,
 /// and movement phase state. Built once at phase start and shared across
 /// all AI subsystems to avoid redundant queries.
@@ -26,27 +27,17 @@ public class AITurnContext
 
     /// <summary>
     /// Alive units belonging to the AI participant (LifeState == Active).
+    /// Uses ParticipantUnitSnapshot instead of RuntimeUnit for snapshot-based architecture.
     /// Filtered subset of OwnUnits used for tactical decision-making.
     /// </summary>
-    public List<RuntimeUnit> OwnAliveUnits { get; set; }
+    public List<ParticipantUnitSnapshot> OwnAliveUnits { get; set; }
 
     /// <summary>
     /// Enemy units currently visible to the AI participant through fog-of-war.
-    /// Queried via GameKnowledge.IsUnitVisibleToParticipant for each enemy unit.
+    /// Uses ParticipantUnitSnapshot instead of RuntimeUnit for snapshot-based architecture.
     /// Empty list during Hunt stance or when all enemies are concealed.
     /// </summary>
-    public List<RuntimeUnit> EnemyVisibleUnits { get; set; }
-
-    /// <summary>
-    /// Reference to the authoritative game map instance.
-    /// Used for terrain queries, tile validation, and spatial calculations.
-    /// </summary>
-    public GameMap GameMap { get; set; }
-
-    /// <summary>
-    /// Reference to the grid manager for coordinate system and map dimensions.
-    /// </summary>
-    public GridManager GridManager { get; set; }
+    public List<VisibleEnemyUnitSnapshot> EnemyVisibleUnits { get; set; }
 
     /// <summary>
     /// Current gameplay phase (Deployment, Move, Search, Battle, etc.).
@@ -81,29 +72,31 @@ public class AITurnContext
 
     /// <summary>
     /// Initializes a new turn context with empty collections.
-    /// Use the static Build factory method to construct a complete context from GameMaster.
+    /// Use the static Build factory methods to construct a complete context.
     /// </summary>
     public AITurnContext()
     {
         OwnUnits = new List<RuntimeUnit>();
-        OwnAliveUnits = new List<RuntimeUnit>();
-        EnemyVisibleUnits = new List<RuntimeUnit>();
+        OwnAliveUnits = new List<ParticipantUnitSnapshot>();
+        EnemyVisibleUnits = new List<VisibleEnemyUnitSnapshot>();
     }
 
     /// <summary>
-    /// Factory method to build a complete turn context by querying GameMaster APIs.
-    /// Performs all necessary participant-filtered queries to construct a consistent
-    /// view of game state for the specified participant.
+    /// Factory method to build turn context from ParticipantGameSnapshot (snapshot-based architecture).
+    /// This is the preferred constructor for ParticipantAIController implementations.
     /// </summary>
-    /// <param name="gameMaster">The authoritative GameMaster orchestrator instance.</param>
-    /// <param name="ownParticipant">The participant this context represents (the AI player).</param>
-    /// <returns>A fully populated AITurnContext instance.</returns>
-    /// <exception cref="System.ArgumentNullException">Thrown if gameMaster or ownParticipant is null.</exception>
-    public static AITurnContext Build(GameMaster gameMaster, RuntimeParticipant ownParticipant)
+    /// <param name="snapshot">The participant's game snapshot from ParticipantAccess.</param>
+    /// <param name="ownParticipant">The participant this context represents.</param>
+    /// <param name="enemyParticipant">The opposing participant.</param>
+    /// <returns>A fully populated AITurnContext using snapshot data.</returns>
+    public static AITurnContext BuildFromSnapshot(
+        ParticipantGameSnapshot snapshot,
+        RuntimeParticipant ownParticipant,
+        RuntimeParticipant enemyParticipant)
     {
-        if (gameMaster == null)
+        if (snapshot == null)
         {
-            throw new System.ArgumentNullException(nameof(gameMaster));
+            throw new System.ArgumentNullException(nameof(snapshot));
         }
 
         if (ownParticipant == null)
@@ -113,74 +106,43 @@ public class AITurnContext
 
         AITurnContext context = new AITurnContext();
         context.OwnParticipant = ownParticipant;
-        context.CurrentPhase = gameMaster.CurrentPhase;
-        context.TurnNumber = gameMaster.TurnNumber;
-        context.GameMap = gameMaster.GameMap;
+        context.EnemyParticipant = enemyParticipant;
+        context.CurrentPhase = snapshot.CurrentPhase;
+        context.TurnNumber = snapshot.TurnNumber;
 
-        // Determine enemy participant
-        if (ReferenceEquals(ownParticipant, gameMaster.ParticipantA))
-        {
-            context.EnemyParticipant = gameMaster.ParticipantB;
-        }
-        else if (ReferenceEquals(ownParticipant, gameMaster.ParticipantB))
-        {
-            context.EnemyParticipant = gameMaster.ParticipantA;
-        }
-        else
-        {
-            Debug.LogError("[AI][TurnContext] OwnParticipant does not match either Match participant");
-            context.EnemyParticipant = null;
-        }
+        // Extract alive own units from snapshot
+        context.OwnAliveUnits = snapshot.OwnUnits
+            .Where(u => u.LifeState == RuntimeUnitLifeState.Active)
+            .ToList();
 
-        // Query own participant's unit roster
-        if (gameMaster.GameUnits.TryGetRoster(ownParticipant, out ParticipantUnitRoster ownRoster))
-        {
-            foreach (RuntimeUnit unit in ownRoster.RuntimeUnits)
-            {
-                if (unit != null)
-                {
-                    context.OwnUnits.Add(unit);
+        // Extract visible enemy units from snapshot
+        context.EnemyVisibleUnits = snapshot.VisibleEnemies != null ? snapshot.VisibleEnemies.ToList() : new List<VisibleEnemyUnitSnapshot>();
 
-                    if (unit.LifeState == RuntimeUnitLifeState.Active)
-                    {
-                        context.OwnAliveUnits.Add(unit);
-                    }
-                }
-            }
-        }
-
-        // Query enemy participant's unit roster and filter by visibility
-        if (context.EnemyParticipant != null &&
-            gameMaster.GameUnits.TryGetRoster(context.EnemyParticipant, out ParticipantUnitRoster enemyRoster))
+        // Movement phase state (if applicable)
+        if (snapshot.CurrentPhase == GameplayPhase.Movement && snapshot.Movement != null)
         {
-            foreach (RuntimeUnit enemyUnit in enemyRoster.RuntimeUnits)
-            {
-                if (enemyUnit != null &&
-                    enemyUnit.LifeState == RuntimeUnitLifeState.Active &&
-                    gameMaster.GameKnowledge.IsUnitVisibleToParticipant(ownParticipant, enemyUnit))
-                {
-                    context.EnemyVisibleUnits.Add(enemyUnit);
-                }
-            }
-        }
-
-        // Query movement phase state if applicable
-        if (context.CurrentPhase == GameplayPhase.Movement &&
-            gameMaster.GameMovement != null &&
-            gameMaster.GameMovement.TryGetView(ownParticipant, out GameMovement.ParticipantView movementView))
-        {
-            context.MovementLimit = movementView.MovementLimit;
-            context.MovesCommitted = movementView.MovesCommitted;
-            context.CanAct = movementView.CanAct;
-        }
-
-        // Find GridManager in scene (required for spatial calculations)
-        context.GridManager = Object.FindObjectOfType<GridManager>();
-        if (context.GridManager == null)
-        {
-            Debug.LogWarning("[AI][TurnContext] GridManager not found in scene");
+            context.MovementLimit = snapshot.Movement.MovementLimit;
+            context.MovesCommitted = snapshot.Movement.MovesCommitted;
+            context.CanAct = snapshot.Movement.CanAct;
         }
 
         return context;
     }
+
+    /// <summary>
+    /// Legacy factory method to build turn context from GameMaster (direct query architecture).
+    /// Retained for compatibility with existing AI controllers that haven't migrated to snapshot-based architecture.
+    /// New implementations should use BuildFromSnapshot instead.
+    /// </summary>
+    /// <param name="gameMaster">The authoritative GameMaster orchestrator instance.</param>
+    /// <param name="ownParticipant">The participant this context represents (the AI player).</param>
+    /// <returns>A fully populated AITurnContext instance.</returns>
+    /// <exception cref="System.ArgumentNullException">Thrown if gameMaster or ownParticipant is null.</exception>
+
+    /// <summary>
+    /// Helper method to create a ParticipantUnitSnapshot from a RuntimeUnit.
+    /// Used by the legacy Build method to convert RuntimeUnit references to snapshots.
+    /// </summary>
 }
+
+

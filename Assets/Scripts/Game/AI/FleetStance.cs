@@ -38,4 +38,28 @@ public enum FleetStance
     /// Selected when: MaterialScore < 0.35 OR FleetHpFraction < 0.30
     /// </summary>
     Retreat
+}/// <summary>
+/// AI formation mode determining ship cohesion behavior.
+/// Selected randomly at match start to provide gameplay variety.
+/// </summary>
+public enum FormationMode
+{
+    /// <summary>
+    /// Ships operate independently with minimal cohesion.
+    /// Spread across the map, explore separately.
+    /// 50% more aggressive forward push.
+    /// </summary>
+    Dispersed,
+    /// <summary>
+    /// Ships maintain moderate spacing (~6 tiles from fleet center).
+    /// Balanced approach between independence and coordination.
+    /// Normal forward aggression, 2.0x cohesion weight.
+    /// </summary>
+    Loose,
+    /// <summary>
+    /// Ships stay tightly grouped (~4 tiles from fleet center).
+    /// Coordinated movement as a unified formation.
+    /// Reduced forward aggression, 4.0x cohesion weight.
+    /// </summary>
+    Tight
 }

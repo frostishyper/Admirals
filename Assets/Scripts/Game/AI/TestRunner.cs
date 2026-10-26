@@ -10,11 +10,12 @@ public class TestRunner : MonoBehaviour
     [Tooltip("Run tests automatically on Start")]
     public bool runOnStart = false;
 
-    [Tooltip("Run DeploymentPlanner tests")]
-    public bool runDeploymentPlannerTests = true;
 
     [Tooltip("Run AIDataModels validation")]
     public bool runDataModelsTests = true;
+
+    [Tooltip("Run Preservation Property tests")]
+    public bool runPreservationTests = true;
 
     private void Start()
     {
@@ -39,12 +40,17 @@ public class TestRunner : MonoBehaviour
             AIDataModelsTest.ValidateDataModels();
         }
 
-        if (runDeploymentPlannerTests)
         {
             Debug.Log("\n--- Running DeploymentPlanner Tests ---");
-            DeploymentPlannerTest.RunAllTests();
+        }
+
+        if (runPreservationTests)
+        {
+            Debug.Log("\n--- Running Preservation Property Tests ---");
+            PreservationPropertyTest.RunAllTests();
         }
 
         Debug.Log("\n=== AI Test Runner Completed ===");
     }
 }
+

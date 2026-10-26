@@ -3,14 +3,23 @@ using UnityEngine;
 /// <summary>
 /// Metadata snapshot for a single unit within the AI's fleet.
 /// Contains tactical classification, health status, and position information
-/// extracted from RuntimeUnit at snapshot generation time.
+/// extracted from RuntimeUnit or ParticipantUnitSnapshot at snapshot generation time.
+/// Supports both legacy RuntimeUnit-based and new snapshot-based architectures.
 /// </summary>
 public class FleetMember
 {
     /// <summary>
-    /// Reference to the authoritative runtime unit instance.
+    /// Reference to the RuntimeUnit instance (legacy architecture).
+    /// Null when using snapshot-based architecture.
     /// </summary>
     public RuntimeUnit Unit { get; set; }
+
+    /// <summary>
+    /// Snapshot of the unit's state at the time of fleet snapshot generation.
+    /// Uses ParticipantUnitSnapshot for snapshot-based architecture compatibility.
+    /// Null when using legacy RuntimeUnit-based architecture.
+    /// </summary>
+    public ParticipantUnitSnapshot UnitSnapshot { get; set; }
 
     /// <summary>
     /// Tactical role classification based on unit capabilities.
@@ -35,13 +44,13 @@ public class FleetMember
 
     /// <summary>
     /// Current movement pivot coordinate on the game map.
-    /// Cached from RuntimeUnit for efficient access during scoring.
+    /// Cached from RuntimeUnit or ParticipantUnitSnapshot for efficient access during scoring.
     /// </summary>
     public Vector2Int Position { get; set; }
 
     /// <summary>
     /// Current unit facing direction (North, East, South, West).
-    /// Cached from RuntimeUnit for efficient access during scoring.
+    /// Cached from RuntimeUnit or ParticipantUnitSnapshot for efficient access during scoring.
     /// </summary>
     public UnitFacing Facing { get; set; }
 }

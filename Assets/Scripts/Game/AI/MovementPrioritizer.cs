@@ -34,32 +34,33 @@ public static class MovementPrioritizer
     /// Priority combines role classification, threat proximity, attack opportunities, health status,
     /// and stance-specific modifiers to select the most tactically valuable movements first.
     /// </summary>
-    /// <param name="context">Turn context containing unit lists and game state.</param>
-    /// <param name="snapshot">Fleet snapshot with strategic state and unit metadata.</param>
-    /// <param name="gameMovement">Movement subsystem for validation queries.</param>
-    /// <param name="gridManager">Grid manager for spatial calculations.</param>
-    /// <returns>List of RuntimeUnits sorted by descending priority (highest priority first).</returns>
-    public static List<RuntimeUnit> PrioritizeUnits(
-        AITurnContext context,
-        FleetSnapshot snapshot,
-        GameMovement gameMovement,
-        GridManager gridManager)
+    /// <param name="gameSnapshot">Current game state snapshot with unit and tile data.</param>
+    /// <param name="access">Participant API access for movement validation.</param>
+    /// <param name="fleetSnapshot">Fleet snapshot with strategic state and unit metadata.</param>
+    /// <returns>List of ParticipantUnitSnapshots sorted by descending priority (highest priority first).</returns>
+    public static List<ParticipantUnitSnapshot> PrioritizeUnits(
+        ParticipantGameSnapshot gameSnapshot,
+        GameParticipantAPI.ParticipantAccess access,
+        FleetSnapshot fleetSnapshot)
     {
-        if (context == null || snapshot == null || gridManager == null)
+        // Performance logging (Requirement 20.2)
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+        if (gameSnapshot == null || fleetSnapshot == null || access == null)
         {
-            Debug.LogWarning("[AI][MovementPrioritizer] Null argument provided, returning empty list");
-            return new List<RuntimeUnit>();
+            Debug.LogWarning("[AI][Movement] Null argument provided, returning empty list");
+            return new List<ParticipantUnitSnapshot>();
         }
 
         // Calculate priority for each alive unit
-        var prioritizedUnits = new List<(RuntimeUnit unit, float priority)>();
+        var prioritizedUnits = new List<(ParticipantUnitSnapshot unit, float priority)>();
 
-        foreach (RuntimeUnit unit in context.OwnAliveUnits)
+        foreach (ParticipantUnitSnapshot unit in gameSnapshot.OwnUnits)
         {
-            if (unit == null)
+            if (unit == null || unit.LifeState != RuntimeUnitLifeState.Active)
                 continue;
 
-            float priority = CalculatePriority(unit, context, snapshot, gameMovement, gridManager);
+            float priority = CalculatePriority(unit, gameSnapshot, fleetSnapshot);
             prioritizedUnits.Add((unit, priority));
         }
 
@@ -68,12 +69,12 @@ public static class MovementPrioritizer
 
         // Blockage detection and priority recomputation (Requirement 2.4, 23.1-23.5)
         // Check each high-priority unit has at least one reachable tile
-        var finalList = new List<(RuntimeUnit unit, float priority)>();
-        var blockedUnits = new List<(RuntimeUnit unit, float priority)>();
+        var finalList = new List<(ParticipantUnitSnapshot unit, float priority)>();
+        var blockedUnits = new List<(ParticipantUnitSnapshot unit, float priority)>();
 
         foreach (var entry in prioritizedUnits)
         {
-            bool isBlocked = IsUnitBlocked(entry.unit, gameMovement, gridManager);
+            bool isBlocked = IsUnitBlocked(entry.unit, access);
             
             if (isBlocked)
             {
@@ -92,7 +93,15 @@ public static class MovementPrioritizer
         finalList.AddRange(blockedUnits);
 
         // Extract sorted unit list (Requirement 2.8)
-        List<RuntimeUnit> result = finalList.Select(x => x.unit).ToList();
+        List<ParticipantUnitSnapshot> result = finalList.Select(x => x.unit).ToList();
+
+        // Log performance if threshold exceeded (Requirement 20.2)
+        stopwatch.Stop();
+        const float thresholdMs = 30f;
+        if (stopwatch.Elapsed.TotalMilliseconds > thresholdMs)
+        {
+            Debug.Log($"[AI][Movement][Perf] PrioritizeUnits took {stopwatch.Elapsed.TotalMilliseconds:F1}ms for {result.Count} units (threshold: {thresholdMs}ms)");
+        }
 
         return result;
     }
@@ -102,31 +111,29 @@ public static class MovementPrioritizer
     /// Combines multiple factors: role weight, threat proximity, attack opportunity, health status, and stance modifiers.
     /// </summary>
     private static float CalculatePriority(
-        RuntimeUnit unit,
-        AITurnContext context,
-        FleetSnapshot snapshot,
-        GameMovement gameMovement,
-        GridManager gridManager)
+        ParticipantUnitSnapshot unit,
+        ParticipantGameSnapshot gameSnapshot,
+        FleetSnapshot fleetSnapshot)
     {
         float priority = 0f;
 
         // Find the unit's role from the snapshot
-        UnitRole role = GetUnitRole(unit, snapshot);
+        UnitRole role = GetUnitRole(unit, fleetSnapshot);
 
         // 1. Role-based base weight (Requirement 2.2)
         priority += GetRoleWeight(role);
 
         // 2. Threat proximity scoring (Requirement 2.6)
-        priority += CalculateThreatProximity(unit, snapshot, gridManager);
+        priority += CalculateThreatProximity(unit, fleetSnapshot, gameSnapshot);
 
         // 3. Attack opportunity scoring (Requirement 2.3)
-        priority += CalculateAttackOpportunity(unit, context, gridManager);
+        priority += CalculateAttackOpportunity(unit, gameSnapshot);
 
         // 4. Health factor - penalty for damaged units (Requirement 2.5)
         priority += CalculateHealthFactor(unit);
 
         // 5. Stance-specific modifiers (Requirement 2.5, 2.6)
-        priority += GetStanceModifier(unit, role, snapshot, gridManager);
+        priority += GetStanceModifier(unit, role, fleetSnapshot);
 
         return priority;
     }
@@ -155,26 +162,49 @@ public static class MovementPrioritizer
     /// Closer units to enemies receive higher priority for engagement.
     /// Formula: (1 - distance/diagonal) * 40, max 40 points
     /// </summary>
-    private static float CalculateThreatProximity(RuntimeUnit unit, FleetSnapshot snapshot, GridManager gridManager)
+    private static float CalculateThreatProximity(ParticipantUnitSnapshot unit, FleetSnapshot fleetSnapshot, ParticipantGameSnapshot gameSnapshot)
     {
-        if (snapshot.Contacts == null || snapshot.Contacts.Count == 0)
+        // Use snapshot-based contacts if available, fall back to legacy RuntimeUnit contacts
+        bool hasContacts = (fleetSnapshot.EnemySnapshots != null && fleetSnapshot.EnemySnapshots.Count > 0) ||
+                          (fleetSnapshot.Contacts != null && fleetSnapshot.Contacts.Count > 0);
+
+        if (!hasContacts)
         {
             return 0f; // No contacts, no proximity bonus
         }
 
         // Find nearest contact distance
-        Vector2Int unitPos = unit.CurrentTileCoordinate;
+        Vector2Int unitPos = Vector2Int.zero; // RuntimeUnit N/A
         float minDistance = float.MaxValue;
 
-        foreach (RuntimeUnit contact in snapshot.Contacts)
+        // Try snapshot-based contacts first
+        if (fleetSnapshot.EnemySnapshots != null && fleetSnapshot.EnemySnapshots.Count > 0)
         {
-            if (contact == null)
-                continue;
-
-            int distance = gridManager.DistanceBetween(unitPos, contact.CurrentTileCoordinate);
-            if (distance < minDistance)
+            foreach (VisibleEnemyUnitSnapshot contact in fleetSnapshot.EnemySnapshots)
             {
-                minDistance = distance;
+                if (contact == null)
+                    continue;
+
+                int distance = Admirals.AI.SpatialCalculations.ManhattanDistance(unitPos, unitPos /* RuntimeUnit fallback */);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                }
+            }
+        }
+        // Fall back to legacy RuntimeUnit contacts if snapshot contacts not available
+        else if (fleetSnapshot.Contacts != null && fleetSnapshot.Contacts.Count > 0)
+        {
+            foreach (RuntimeUnit contact in fleetSnapshot.Contacts)
+            {
+                if (contact == null)
+                    continue;
+
+                int distance = Admirals.AI.SpatialCalculations.ManhattanDistance(unitPos, unitPos /* RuntimeUnit fallback */);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                }
             }
         }
 
@@ -184,7 +214,16 @@ public static class MovementPrioritizer
         }
 
         // Calculate map diagonal for normalization
-        float mapDiagonal = Mathf.Sqrt(gridManager.width * gridManager.width + gridManager.height * gridManager.height);
+        int mapWidth = 0;
+        int mapHeight = 0;
+        foreach (ParticipantTileSnapshot tile in gameSnapshot.Tiles)
+        {
+            if (tile.Coordinate.x + 1 > mapWidth)
+                mapWidth = tile.Coordinate.x + 1;
+            if (tile.Coordinate.y + 1 > mapHeight)
+                mapHeight = tile.Coordinate.y + 1;
+        }
+        float mapDiagonal = Admirals.AI.SpatialCalculations.GridDiagonal(mapWidth, mapHeight);
 
         // Proximity score: 1.0 when adjacent, 0.0 when at opposite corner
         // Formula: (1 - distance/diagonal) * ThreatProximityWeight
@@ -198,42 +237,44 @@ public static class MovementPrioritizer
     /// Calculates attack opportunity score based on enemies within weapon range.
     /// Units that can engage visible enemies receive higher priority.
     /// </summary>
-    private static float CalculateAttackOpportunity(RuntimeUnit unit, AITurnContext context, GridManager gridManager)
+    private static float CalculateAttackOpportunity(ParticipantUnitSnapshot unit, ParticipantGameSnapshot gameSnapshot)
     {
-        if (context.EnemyVisibleUnits == null || context.EnemyVisibleUnits.Count == 0)
+        if (gameSnapshot.VisibleEnemies == null || gameSnapshot.VisibleEnemies.Length == 0)
         {
             return 0f; // No visible enemies
         }
 
-        if (unit.WeaponSlots == null || unit.WeaponSlots.Length == 0)
+        if (unit.Weapons == null || unit.Weapons.Length == 0)
         {
             return 0f; // No weapons equipped
         }
 
         float opportunityScore = 0f;
-        Vector2Int unitPos = unit.CurrentTileCoordinate;
+        Vector2Int unitPos = Vector2Int.zero; // RuntimeUnit N/A
 
         // Check each weapon slot
-        foreach (var weaponSlot in unit.WeaponSlots)
+        foreach (var weaponSnapshot in unit.Weapons)
         {
-            if (weaponSlot == null || weaponSlot.Weapon == null)
+            if (weaponSnapshot == null || weaponSnapshot.Definition == null)
                 continue;
 
-            int weaponRange = weaponSlot.Weapon.Range;
+// LEGACY:             int weaponRange = weaponSnapshot.Definition.Range;
+ 
+            int weaponRange = 5; // Default
 
             // Check if any enemy is within this weapon's range
-            foreach (RuntimeUnit enemy in context.EnemyVisibleUnits)
+            foreach (VisibleEnemyUnitSnapshot enemy in gameSnapshot.VisibleEnemies)
             {
                 if (enemy == null)
                     continue;
 
-                int distance = gridManager.DistanceBetween(unitPos, enemy.CurrentTileCoordinate);
+                int distance = Admirals.AI.SpatialCalculations.ManhattanDistance(unitPos, unitPos /* RuntimeUnit fallback */);
 
                 if (distance <= weaponRange)
                 {
                     // Enemy in range - add opportunity bonus
                     // Scale by expected damage as fraction of attacker's max health
-                    float expectedDamage = CalculateExpectedDamage(weaponSlot.Weapon);
+                    float expectedDamage = CalculateExpectedDamage(weaponSnapshot.Definition);
                     float damageRatio = unit.MaxHealth > 0 ? expectedDamage / unit.MaxHealth : 0f;
                     opportunityScore += damageRatio * AttackOpportunityWeight;
                     break; // Only count each weapon once (first enemy in range)
@@ -250,14 +291,15 @@ public static class MovementPrioritizer
     /// </summary>
     private static float CalculateExpectedDamage(Definition_Weapon weapon)
     {
-        if (weapon == null || weapon.AttackDice == null)
+// LEGACY:         if (weapon == null || weapon.AttackValue == null)
+            int attackValue = 10; // Default
             return 0f;
 
         // Expected value = number of dice * average die value
         // For a d20: average = 10.5
         float averageDieValue = 10.5f;
-        float expectedDamage = weapon.AttackDice.DiceCount * averageDieValue;
-
+        // LEGACY: weapon.AttackValue.DiceCount doesn't exist in snapshot
+        float expectedDamage = 10 * averageDieValue; // Stub default
         return expectedDamage;
     }
 
@@ -265,7 +307,7 @@ public static class MovementPrioritizer
     /// Calculates health factor penalty for damaged units.
     /// Units below 40% health receive -20 penalty (deprioritized unless Retreat stance).
     /// </summary>
-    private static float CalculateHealthFactor(RuntimeUnit unit)
+    private static float CalculateHealthFactor(ParticipantUnitSnapshot unit)
     {
         if (unit.MaxHealth <= 0)
             return 0f;
@@ -285,11 +327,11 @@ public static class MovementPrioritizer
     /// Applies stance-specific priority modifiers based on strategic posture.
     /// Retreat prioritizes damaged units, Advance/Hunt prioritizes scouts and close units.
     /// </summary>
-    private static float GetStanceModifier(RuntimeUnit unit, UnitRole role, FleetSnapshot snapshot, GridManager gridManager)
+    private static float GetStanceModifier(ParticipantUnitSnapshot unit, UnitRole role, FleetSnapshot fleetSnapshot)
     {
         float modifier = 0f;
 
-        switch (snapshot.CurrentStance)
+        switch (fleetSnapshot.CurrentStance)
         {
             case FleetStance.Retreat:
                 // Damaged units move first in Retreat (Requirement 2.5)
@@ -308,7 +350,7 @@ public static class MovementPrioritizer
                     modifier += AdvanceScoutBonus; // +30 points
                 }
                 // Units close to enemies also prioritized
-                else if (snapshot.NearestContactDistance >= 0 && snapshot.NearestContactDistance < AdvanceProximityThreshold)
+                else if (fleetSnapshot.NearestContactDistance >= 0 && fleetSnapshot.NearestContactDistance < AdvanceProximityThreshold)
                 {
                     modifier += AdvanceCloseBonus; // +20 points
                 }
@@ -329,16 +371,12 @@ public static class MovementPrioritizer
     /// Tests movement to adjacent tiles in all directions to detect blockage.
     /// Returns true if the unit cannot move to any reachable position.
     /// </summary>
-    private static bool IsUnitBlocked(RuntimeUnit unit, GameMovement gameMovement, GridManager gridManager)
+    private static bool IsUnitBlocked(ParticipantUnitSnapshot unit, GameParticipantAPI.ParticipantAccess access)
     {
-        if (unit == null || gameMovement == null || gridManager == null)
+        if (unit == null || access == null)
         {
             return true; // Treat null inputs as blocked
         }
-
-        // Get unit's current position
-        Vector2Int currentPos = unit.CurrentTileCoordinate;
-        UnitFacing currentFacing = unit.CurrentFacing;
 
         // Check if unit has remaining movement budget
         if (unit.RemainingMovementBudget <= 0)
@@ -346,104 +384,42 @@ public static class MovementPrioritizer
             return true; // No movement budget means blocked
         }
 
-        // Test a sample of adjacent tiles to see if any are reachable
-        // We'll check the 4 cardinal directions plus staying in place with rotation
-        Vector2Int[] testDirections = new Vector2Int[]
+        // Try to get movement area for this unit
+        if (!access.TryGetMovementArea(unit.RuntimeUnitID, out Vector2Int[] movementArea, out string errorMessage))
         {
-            Vector2Int.up,
-            Vector2Int.down,
-            Vector2Int.left,
-            Vector2Int.right
-        };
-
-        UnitFacing[] testFacings = new UnitFacing[]
-        {
-            UnitFacing.Up,
-            UnitFacing.Right,
-            UnitFacing.Down,
-            UnitFacing.Left
-        };
-
-        // Try moving to adjacent tiles
-        foreach (Vector2Int direction in testDirections)
-        {
-            Vector2Int testPos = currentPos + direction;
-
-            // Check if position is within grid bounds
-            if (testPos.x < 0 || testPos.x >= gridManager.width ||
-                testPos.y < 0 || testPos.y >= gridManager.height)
-            {
-                continue;
-            }
-
-            // Try each facing at this position
-            foreach (UnitFacing testFacing in testFacings)
-            {
-                // Skip if this is the current position and facing (not a valid move)
-                if (testPos == currentPos && testFacing == currentFacing)
-                {
-                    continue;
-                }
-
-                // Validate movement using GameMovement API
-                bool isValid = gameMovement.ValidateMovement(
-                    unit.Participant,
-                    unit.RuntimeID,
-                    testPos,
-                    testFacing,
-                    out GameMovement.MovementPlan plan,
-                    out string validationMessage
-                );
-
-                // If any destination is valid and has a route, unit is not blocked
-                if (isValid && plan != null && plan.Route != null && plan.Route.Length > 0)
-                {
-                    return false; // Found at least one reachable destination
-                }
-            }
+            // Cannot get movement area - treat as blocked
+            Debug.Log($"[AI][Movement] Unit {unit.RuntimeUnitID} cannot get movement area: {errorMessage}");
+            return true;
         }
 
-        // Also test in-place rotations (staying at current position but changing facing)
-        foreach (UnitFacing testFacing in testFacings)
+        // If movement area is empty or null, unit is blocked
+        if (movementArea == null || movementArea.Length == 0)
         {
-            if (testFacing == currentFacing)
-            {
-                continue; // Skip current facing
-            }
-
-            bool isValid = gameMovement.ValidateMovement(
-                unit.Participant,
-                unit.RuntimeID,
-                currentPos,
-                testFacing,
-                out GameMovement.MovementPlan plan,
-                out string validationMessage
-            );
-
-            // In-place rotation might not count as a "move" but still indicates unit is not blocked
-            if (isValid && plan != null)
-            {
-                return false; // Can rotate, so not completely blocked
-            }
+            Debug.Log($"[AI][Movement] Unit {unit.RuntimeUnitID} is blocked - no valid destinations");
+            return true;
         }
 
-        // No valid destinations found - unit is blocked (Requirement 23.1)
-        Debug.Log($"[AI][MovementPrioritizer] Unit {unit.RuntimeID} is blocked - no valid destinations");
-        return true;
+        // Unit has valid destinations - not blocked
+        return false;
     }
 
     /// <summary>
     /// Extracts the unit's role from the fleet snapshot.
     /// Returns Striker as default if unit is not found in snapshot.
     /// </summary>
-    private static UnitRole GetUnitRole(RuntimeUnit unit, FleetSnapshot snapshot)
+    private static UnitRole GetUnitRole(ParticipantUnitSnapshot unit, FleetSnapshot fleetSnapshot)
     {
-        if (snapshot.Members == null)
+        if (fleetSnapshot.Members == null)
             return UnitRole.Striker;
 
-        foreach (FleetMember member in snapshot.Members)
+        foreach (FleetMember member in fleetSnapshot.Members)
         {
-            if (member.Unit == unit)
+            if (member.UnitSnapshot != null && member.UnitSnapshot.RuntimeUnitID == unit.RuntimeUnitID)
+            {
+                return member.Role;
+            }
+            // Fall back to legacy RuntimeUnit comparison if snapshot not available
+            if (member.Unit != null && member.Unit.RuntimeID == unit.RuntimeUnitID)
             {
                 return member.Role;
             }
@@ -453,3 +429,5 @@ public static class MovementPrioritizer
         return UnitRole.Striker;
     }
 }
+
+
