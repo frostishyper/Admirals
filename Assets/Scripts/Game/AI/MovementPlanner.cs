@@ -11,11 +11,11 @@ using Admirals.AI;
 /// This is the core tactical decision-maker that translates FleetStance into concrete movements.
 /// </summary>
 public static class MovementPlanner
+{
     // Configuration for movement variance - makes AI less predictable
     private const int TopMovesCount = 5;  // Consider top 5 scored moves
     private const float SelectionTemperature = 1.5f;  // Higher = more random, lower = more deterministic
 
-{
     /// <summary>
     /// Movement decision containing destination, target information, and flee status.
     /// </summary>
