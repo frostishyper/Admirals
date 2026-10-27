@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Admirals.AI;
 
@@ -11,6 +11,10 @@ using Admirals.AI;
 /// This is the core tactical decision-maker that translates FleetStance into concrete movements.
 /// </summary>
 public static class MovementPlanner
+    // Configuration for movement variance - makes AI less predictable
+    private const int TopMovesCount = 5;  // Consider top 5 scored moves
+    private const float SelectionTemperature = 1.5f;  // Higher = more random, lower = more deterministic
+
 {
     /// <summary>
     /// Movement decision containing destination, target information, and flee status.
@@ -98,43 +102,53 @@ public static class MovementPlanner
         // Task 8.4: Sort by score descending and validate
         scoredDestinations.Sort((a, b) => b.Score.CompareTo(a.Score));
 
-        foreach (var scored in scoredDestinations)
+        // VARIANCE: Validate top-N moves for weighted selection
+        List<ScoredDestination> validatedMoves = new List<ScoredDestination>();
+        
+        // Check enough moves to get TopN valid ones (check 4x to account for invalid moves)
+        int movesToCheck = Mathf.Min(TopMovesCount * 4, scoredDestinations.Count);
+        for (int i = 0; i < movesToCheck && validatedMoves.Count < TopMovesCount; i++)
         {
-            // Validate the movement
-            if (access.ValidateMovement(unit.RuntimeUnitID, scored.Destination, scored.Facing, out GameMovement.MovementPlan plan, out string validationError))
+            var scored = scoredDestinations[i];
+            
+            if (access.ValidateMovement(unit.RuntimeUnitID, scored.Destination, scored.Facing, 
+                out GameMovement.MovementPlan plan, out string validationError))
             {
-                // Valid movement found - construct and return command
-                var command = GameParticipantAPI.ParticipantCommand.CommitMovement(snapshot, unit.RuntimeUnitID, scored.Destination, scored.Facing);
-
-                // Log performance if threshold exceeded (Requirement 20.3)
-                stopwatch.Stop();
-                const float thresholdMs = 20f;
-                if (stopwatch.Elapsed.TotalMilliseconds > thresholdMs)
-                {
-                    Debug.Log($"[AI][Movement][Perf] PlanMovement for {unit.InstanceName} took {stopwatch.Elapsed.TotalMilliseconds:F1}ms (threshold: {thresholdMs}ms)");
-                }
-
-                return command;
+                validatedMoves.Add(scored);
             }
             else
             {
-                // Log validation failure at Info level
                 Debug.Log($"[AI][Movement] Validation failed for {unit.InstanceName} to {scored.Destination} facing {scored.Facing}: {validationError}");
             }
         }
 
-        // No valid destinations found
-        Debug.Log($"[AI][Movement] No valid movements found for unit {unit.InstanceName} after validation");
+        // If no valid moves found, return null
+        if (validatedMoves.Count == 0)
+        {
+            Debug.Log($"[AI][Movement] No valid movements found for unit {unit.InstanceName} after validation");
+            stopwatch.Stop();
+            return null;
+        }
+
+        // VARIANCE: Use weighted random selection from valid moves
+        ScoredDestination selectedMove = SelectWeightedRandom(validatedMoves);
+
+        // Construct and return command
+        var command = GameParticipantAPI.ParticipantCommand.CommitMovement(
+            snapshot, unit.RuntimeUnitID, selectedMove.Destination, selectedMove.Facing);
+
+        Debug.Log($"[AI][Movement] {unit.InstanceName} selected move #{validatedMoves.IndexOf(selectedMove) + 1}/{validatedMoves.Count} " +
+                  $"(score: {selectedMove.Score:F1}) to {selectedMove.Destination} facing {selectedMove.Facing}");
 
         // Log performance if threshold exceeded (Requirement 20.3)
         stopwatch.Stop();
-        const float thresholdMs2 = 20f;
-        if (stopwatch.Elapsed.TotalMilliseconds > thresholdMs2)
+        const float thresholdMs = 20f;
+        if (stopwatch.Elapsed.TotalMilliseconds > thresholdMs)
         {
-            Debug.Log($"[AI][Movement][Perf] PlanMovement for {unit.InstanceName} took {stopwatch.Elapsed.TotalMilliseconds:F1}ms (no valid movement, threshold: {thresholdMs2}ms)");
+            Debug.Log($"[AI][Movement][Perf] PlanMovement for {unit.InstanceName} took {stopwatch.Elapsed.TotalMilliseconds:F1}ms (threshold: {thresholdMs}ms)");
         }
 
-        return null;
+        return command;
     }
 
     /// <summary>
@@ -394,6 +408,59 @@ private static Vector2Int CalculateMapCenter(ParticipantGameSnapshot snapshot)
 
     return new Vector2Int(maxX / 2, maxY / 2);
 }
+
+    /// <summary>
+    /// Selects a move from the list using weighted random selection.
+    /// Higher-scored moves are more likely to be selected, but not guaranteed.
+    /// Uses softmax with temperature for smooth probability distribution.
+    /// </summary>
+    private static ScoredDestination SelectWeightedRandom(List<ScoredDestination> moves)
+    {
+        if (moves.Count == 1)
+            return moves[0];
+
+        // Normalize scores to avoid overflow in exp()
+        float maxScore = moves[0].Score;
+        float minScore = moves[moves.Count - 1].Score;
+        float scoreRange = maxScore - minScore;
+
+        // If all scores are identical, pick randomly
+        if (scoreRange < 0.01f)
+        {
+            return moves[Random.Range(0, moves.Count)];
+        }
+
+        // Calculate weights using softmax with temperature
+        float[] weights = new float[moves.Count];
+        float sumWeights = 0f;
+
+        for (int i = 0; i < moves.Count; i++)
+        {
+            // Normalize score to [0, 1] range
+            float normalizedScore = (moves[i].Score - minScore) / scoreRange;
+            
+            // Apply temperature and exponential
+            float weight = Mathf.Exp(normalizedScore / SelectionTemperature);
+            weights[i] = weight;
+            sumWeights += weight;
+        }
+
+        // Weighted random selection
+        float randomValue = Random.Range(0f, sumWeights);
+        float cumulative = 0f;
+
+        for (int i = 0; i < moves.Count; i++)
+        {
+            cumulative += weights[i];
+            if (randomValue <= cumulative)
+            {
+                return moves[i];
+            }
+        }
+
+        // Fallback (should never reach here)
+        return moves[0];
+    }
 
 }
 
