@@ -215,6 +215,7 @@ MonoBehaviour:
   _GameMaster: {fileID: 1706890883}
   _PassAndPlayHandoffPrefab: {fileID: 8314427334542738952, guid: aa3783bb094a8f244a21f3f380986178, type: 3}
   _PassAndPlayHandoffParent: {fileID: 890816549}
+  _PassAndPlayCamera: {fileID: 1121756991}
   _AutomaticallyFollowActionParticipant: 1
 --- !u!114 &18008984
 MonoBehaviour:
