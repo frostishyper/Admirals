@@ -28,6 +28,7 @@ public sealed class PassAndPlayHandoffUI : MonoBehaviour
 
     private HumanGameplayInput _Input;
     private GameMaster _GameMaster;
+    private GameplayCamera _GameplayCamera;
     private RuntimeParticipant _PendingParticipant;
     private GameplayPhase _ReleasedPhase;
     private bool _HasReleasedGate;
@@ -46,10 +47,12 @@ public sealed class PassAndPlayHandoffUI : MonoBehaviour
 
     internal void Initialize(
         HumanGameplayInput Input,
-        GameMaster GameMaster)
+        GameMaster GameMaster,
+        GameplayCamera GameplayCamera)
     {
         _Input = Input;
         _GameMaster = GameMaster;
+        _GameplayCamera = GameplayCamera;
         _Initialized = _Input != null && _GameMaster != null;
 
         if (!_Initialized || !_Input.IsPassAndPlay)
@@ -160,6 +163,9 @@ public sealed class PassAndPlayHandoffUI : MonoBehaviour
 
         _ContinueButton.interactable = false;
 
+        bool FocusIncomingPlayer = !_HasReleasedGate ||
+            !ReferenceEquals(_PendingParticipant, _Input.Participant);
+
         if (!_Input.TryTakePassAndPlayControl(
                 _PendingParticipant,
                 out string ValidationMessage))
@@ -178,6 +184,9 @@ public sealed class PassAndPlayHandoffUI : MonoBehaviour
             _ReleasedPhase = Snapshot.CurrentPhase;
             _HasReleasedGate = true;
         }
+
+        if (FocusIncomingPlayer && _GameplayCamera != null)
+            _GameplayCamera.RequestPassAndPlayFocus(_Input.ParticipantAccess);
 
         _PendingParticipant = null;
         _Showing = false;

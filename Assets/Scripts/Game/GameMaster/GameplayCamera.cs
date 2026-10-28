@@ -85,6 +85,8 @@ public sealed class GameplayCamera :
 
     private bool _Initialized;
 
+    private GameParticipantAPI.ParticipantAccess _PendingFocusAccess;
+
 
     private readonly Vector3[] _PlayAreaCorners =
         new Vector3[4];
@@ -165,9 +167,107 @@ public sealed class GameplayCamera :
         }
 
 
+        if (_PendingFocusAccess != null)
+        {
+            // ParticipantChanged refreshes the HUD before this point. Resolve
+            // its new play area before centering, including bottom-bar changes.
+            Canvas.ForceUpdateCanvases();
+            FocusParticipant(_PendingFocusAccess);
+            _PendingFocusAccess = null;
+        }
+
         // Clamp after movement, zoom and UI layout have had
         // an opportunity to update for the current frame.
         ClampCameraToMap();
+    }
+
+    internal void RequestPassAndPlayFocus(
+        GameParticipantAPI.ParticipantAccess Access)
+    {
+        if (_GameMaster?.MatchConfig?.IsPassAndPlay == true)
+            _PendingFocusAccess = Access;
+    }
+
+
+    private void FocusParticipant(GameParticipantAPI.ParticipantAccess Access)
+    {
+        if (!Access.TryGetSnapshot(out ParticipantGameSnapshot Snapshot, out _) ||
+            Snapshot == null)
+            return;
+
+        ParticipantUnitSnapshot FocusUnit = null;
+        GameBattle.EngagementView Engagement = Snapshot.Battle?.Engagement;
+        string EngagementUnitID = Engagement?.IsActive == true
+            ? (Engagement.IsAttacker
+                ? Engagement.AttackerRuntimeUnitID : Engagement.DefenderRuntimeUnitID)
+            : null;
+
+        // Only use the receiving side's filtered data. Destroyed and embarked
+        // records remain in the roster but are not camera targets.
+        foreach (ParticipantUnitSnapshot Unit in Snapshot.OwnUnits)
+        {
+            if (Unit == null || !Unit.IsOnMap ||
+                Unit.LifeState != RuntimeUnitLifeState.Active)
+                continue;
+            if (FocusUnit == null)
+                FocusUnit = Unit;
+            if (Unit.RuntimeUnitID == EngagementUnitID)
+            {
+                FocusUnit = Unit;
+                break;
+            }
+        }
+
+        if (FocusUnit != null)
+        {
+            Vector2Int[] Footprint = FocusUnit.OccupiedCoordinates;
+            CenterCoordinatesInsidePlayArea(Footprint.Length > 0
+                ? Footprint : new[] { FocusUnit.MovementPivotCoordinate });
+            return;
+        }
+
+        if (Snapshot.CurrentPhase == GameplayPhase.Deployment &&
+            Access.TryGetDeploymentView(out GameDeployment.ParticipantView Deployment))
+        {
+            foreach (GameDeployment.PlacementView Placement in Deployment.Placements)
+            {
+                if (!Placement.IsPlaced)
+                    continue;
+                CenterCoordinatesInsidePlayArea(new[] { Placement.MovementPivotCoordinate });
+                return;
+            }
+        }
+
+        if (Access.TryGetDeploymentZoneCoordinates(out Vector2Int[] Zone) &&
+            Zone.Length > 0)
+        {
+            CenterCoordinatesInsidePlayArea(Zone);
+            return;
+        }
+
+        CenterMapInsidePlayArea();
+    }
+
+
+    private void CenterCoordinatesInsidePlayArea(Vector2Int[] Coordinates)
+    {
+        Grid GridReference = _GameMaster.MapAuthoring.GridReference;
+        Vector3 Center = Vector3.zero;
+        foreach (Vector2Int Coordinate in Coordinates)
+            Center += GridReference.GetCellCenterWorld(
+                new Vector3Int(Coordinate.x, Coordinate.y, 0));
+        Center /= Coordinates.Length;
+
+        // Keep the player's current zoom, but stop an old zoom interpolation
+        // from shifting the newly centered view after the handoff.
+        _TargetOrthographicSize = _Camera.orthographicSize;
+        _ZoomVelocity = 0f;
+        GetSafeViewOffsets(out float Left, out float Right,
+            out float Bottom, out float Top);
+        transform.position = new Vector3(
+            Center.x - (Left + Right) * 0.5f,
+            Center.y - (Bottom + Top) * 0.5f,
+            transform.position.z);
     }
 
 

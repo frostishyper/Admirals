@@ -53,6 +53,14 @@ public static class PassAndPlayHandoffPrefabMakerEditor
             Saved.GetComponent<PassAndPlayHandoffUI>();
         SerializedInput.FindProperty("_PassAndPlayHandoffParent").objectReferenceValue =
             ParentCanvas.transform;
+        foreach (GameObject SceneRoot in Input.gameObject.scene.GetRootGameObjects())
+        {
+            GameplayCamera Camera = SceneRoot.GetComponentInChildren<GameplayCamera>(true);
+            if (Camera == null)
+                continue;
+            SerializedInput.FindProperty("_PassAndPlayCamera").objectReferenceValue = Camera;
+            break;
+        }
         SerializedInput.ApplyModifiedPropertiesWithoutUndo();
 
         EditorUtility.SetDirty(Input);

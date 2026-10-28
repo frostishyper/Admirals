@@ -18,6 +18,9 @@ public sealed class HumanGameplayInput : MonoBehaviour
     [SerializeField]
     private Transform _PassAndPlayHandoffParent;
 
+    [SerializeField]
+    private GameplayCamera _PassAndPlayCamera;
+
     private GameParticipantAPI.ParticipantAccess _ParticipantAccess;
     private PassAndPlayHandoffUI _PassAndPlayHandoff;
     private bool _Initialized;
@@ -135,7 +138,7 @@ public sealed class HumanGameplayInput : MonoBehaviour
             _PassAndPlayHandoffPrefab,
             _PassAndPlayHandoffParent,
             false);
-        _PassAndPlayHandoff.Initialize(this, _GameMaster);
+        _PassAndPlayHandoff.Initialize(this, _GameMaster, _PassAndPlayCamera);
     }
 
 
