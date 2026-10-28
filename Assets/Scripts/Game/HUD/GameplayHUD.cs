@@ -224,6 +224,54 @@ public sealed class GameplayHUD :
     private bool _MovementSelectionVisible;
     private bool _PreBattleTargetingVisible;
 
+    private void Awake()
+    {
+        ConfigurePhaseTopLayout(_DeploymentTopRoot, _PlayerNameText, _PhaseText);
+        ConfigurePhaseTopLayout(_MovementTopRoot, _MovementPlayerNameText, _MovementPhaseText);
+        ConfigurePhaseTopLayout(_PreBattleTopRoot, _PreBattlePlayerNameText, _PreBattlePhaseText);
+        ConfigurePhaseTopLayout(_SearchTopRoot, _SearchPlayerNameText, _SearchPhaseText);
+        ConfigurePhaseTopLayout(_BattleTopRoot, _BattlePlayerNameText, _BattlePhaseText);
+        ConfigurePhaseTopLayout(_EndTopRoot, _EndPlayerNameText, _EndPhaseText);
+    }
+
+
+    private static void ConfigurePhaseTopLayout(GameObject Root,
+        TMP_Text Player, TMP_Text Phase)
+    {
+        if (Root == null)
+            return;
+
+        // Reserve intrinsic widths for phase/action controls. Only the player
+        // name absorbs surplus space and truncates when a long name won't fit.
+        HorizontalLayoutGroup Row = Root.GetComponent<HorizontalLayoutGroup>();
+        if (Row != null)
+            Row.childForceExpandWidth = false;
+        foreach (string Name in new[] { "Center", "Right" })
+        {
+            Transform Column = Root.transform.Find(Name);
+            LayoutElement Layout = Column != null ? Column.GetComponent<LayoutElement>() : null;
+            if (Layout == null)
+                continue;
+            Layout.minWidth = -1f;
+            Layout.preferredWidth = -1f;
+            Layout.flexibleWidth = 0f;
+        }
+
+        if (Phase != null)
+            Phase.textWrappingMode = TextWrappingModes.NoWrap;
+        if (Player == null)
+            return;
+
+        Player.textWrappingMode = TextWrappingModes.NoWrap;
+        Player.overflowMode = TextOverflowModes.Ellipsis;
+        LayoutElement PlayerLayout = Player.GetComponent<LayoutElement>();
+        if (PlayerLayout == null)
+            PlayerLayout = Player.gameObject.AddComponent<LayoutElement>();
+        PlayerLayout.minWidth = 0f;
+        PlayerLayout.preferredWidth = 0f;
+        PlayerLayout.flexibleWidth = 1f;
+    }
+
 
     public Button ResetButton
     {
@@ -483,6 +531,8 @@ public sealed class GameplayHUD :
 
 
         SetEndButtonLabel("END MOVEMENT");
+        ConfigureContentWidthButton(_EndMovementButton);
+        ConfigureTopBarRightSpacing(_MovementCountText);
         SetButtonLabel(_ConfirmMovementButton, "Move");
         SetMovementOverlayColumnsVisible(true);
 
@@ -930,6 +980,7 @@ public sealed class GameplayHUD :
         {
             _MovementCountText.text =
                 $"Moved {Mathf.Max(0, MovesCommitted)} / {Mathf.Max(0, MovementLimit)}";
+            ConfigureSingleLineTopText(_MovementCountText);
         }
 
 
@@ -945,6 +996,7 @@ public sealed class GameplayHUD :
 
             _MovementTimerText.text =
                 $"{TotalSeconds / 60:00}:{TotalSeconds % 60:00}";
+            ConfigureSingleLineTopText(_MovementTimerText);
         }
 
 

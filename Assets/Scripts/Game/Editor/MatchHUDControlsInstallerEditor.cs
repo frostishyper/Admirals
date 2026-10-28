@@ -66,8 +66,22 @@ public static class MatchHUDControlsInstallerEditor
             DestroyChild(Root.transform, "MatchControlsRow");
             DestroyChild(Root.transform, "ExitConfirmation");
 
+            // The active phase and shared controls must participate in the
+            // same layout. An anchored overlay cannot reserve phase space.
+            HorizontalLayoutGroup TopLayout =
+                TopBar.GetComponent<HorizontalLayoutGroup>();
+            if (TopLayout == null)
+                TopLayout = TopBar.gameObject.AddComponent<HorizontalLayoutGroup>();
+            TopLayout.padding = new RectOffset(0, 10, 0, 0);
+            TopLayout.spacing = 12f;
+            TopLayout.childAlignment = TextAnchor.MiddleLeft;
+            TopLayout.childControlWidth = true;
+            TopLayout.childControlHeight = true;
+            TopLayout.childForceExpandWidth = false;
+            TopLayout.childForceExpandHeight = false;
+
             BuildMatchControlsRow(
-                Root.transform,
+                TopBar,
                 TextTemplate,
                 ButtonTemplate,
                 PanelTemplate);
@@ -94,13 +108,8 @@ public static class MatchHUDControlsInstallerEditor
     {
         GameObject RowObject = CreateUIObject(
             "MatchControlsRow", Parent);
-        SetIgnoreLayout(RowObject);
+        ConfigureLayout(RowObject, -1f, 52f, -1f, 52f, 0f, 0f);
         RectTransform Row = RowObject.GetComponent<RectTransform>();
-        Row.anchorMin = new Vector2(0f, 1f);
-        Row.anchorMax = new Vector2(0f, 1f);
-        Row.pivot = new Vector2(0.5f, 0.5f);
-        Row.anchoredPosition = new Vector2(290f, -42.5f);
-        Row.sizeDelta = new Vector2(260f, 52f);
 
         Image Background = RowObject.AddComponent<Image>();
         CopyImageStyle(PanelTemplate, Background);
@@ -120,7 +129,7 @@ public static class MatchHUDControlsInstallerEditor
         TMP_Text Turn = CreateText(
             "Text_TurnNumber", Row, TextTemplate,
             "TURN --", 20f, TextAlignmentOptions.Center);
-        ConfigureLayout(Turn.gameObject, 90f, 40f, 90f, 40f, 0f, 0f);
+        ConfigureLayout(Turn.gameObject, 90f, 40f, -1f, 40f, 0f, 0f);
 
         Button Exit = CreateButton(
             "Button_ExitMatch", Row, ButtonTemplate,
